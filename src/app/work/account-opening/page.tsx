@@ -2,12 +2,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { cases } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
-import { HScroll } from "@/components/HScroll";
 import { RollButton } from "@/components/RollButton";
+import { FlowVideo, LoopVideo } from "@/components/ao/FlowVideo";
 
 // Account Opening 3.0, revised. Structure follows the user's storytelling
 // blueprint (problem → investigation → reframe → redesign → outcome → next
-// step → reflection). Screens live in /public/work/ao3.
+// step → reflection). Screens live in /public/work/ao3; the videos are
+// recordings of the AO 3.0 prototype (see "Case study/proto-video").
 
 export const metadata: Metadata = { title: "Account Opening 3.0 — Salaath Shaikh" };
 
@@ -69,14 +70,6 @@ function Lede({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Body({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <p data-fade className={`mt-6 max-w-2xl leading-relaxed text-muted ${className}`}>
-      {children}
-    </p>
-  );
-}
-
 function Stat({ value, label, bad, delay = 0 }: { value: string; label: string; bad?: boolean; delay?: number }) {
   return (
     <div data-fade data-delay={delay} className="flex flex-col gap-3 border-t border-ink/15 pt-5">
@@ -108,26 +101,31 @@ function Chip({ children, tone = "line" }: { children: React.ReactNode; tone?: "
 /* ---------- content ----------------------------------------------------------- */
 
 const JOURNEY = [
-  ["Mobile & email", 0.3, "Two OTPs: one for the phone, one for email"],
-  ["Verify PAN", 60, "A “KYC needed” screen and onboarding steps before anything else, then PAN and DigiLocker"],
-  ["Signature", 0.7, "Draw, confirm, then continue"],
+  ["Mobile & email", 0.3, "Two OTPs, one for the phone and one for email"],
+  ["Verify PAN", 60, "A “KYC needed” screen, onboarding steps, then PAN and DigiLocker"],
+  ["Signature", 0.7, "Draw, confirm, continue"],
   ["Bank verification", 3.25, "Verify, confirm the fetched details, continue"],
-  ["Segments & income proof", 3.5, "Two more OTPs to fetch and approve bank statements"],
+  ["Segments & income proof", 3.5, "Two more OTPs to fetch bank statements"],
   ["Personal details", 0.7, "Five questions, one per screen"],
   ["Nominee", 0.8, "A choice that opens a long form"],
   ["Selfie", 1.2, "A tutorial, a photo, then confirm"],
-  ["eSign", 2.3, "A Plus plan upsell, then nine taps through Aadhaar eSign"],
+  ["eSign", 2.3, "A Plus upsell, then nine taps through Aadhaar eSign"],
 ] as const;
 
-const FLOW = [
-  ["n04", "~6s", "Mobile + OTP", "OTP fills and submits itself"],
-  ["n05", "~10s", "Email", "Email with Continue with Google"],
-  ["n08", "~10s", "Confirm details", "Confirm PAN with fetched details"],
-  ["n13", "~10s", "Signature", "Draw your signature on screen"],
-  ["n16", "~10s", "Selfie", "Selfie with green success ring"],
-  ["n24", "~10s", "eSign", "Aadhaar eSign in the app"],
-  ["n26", "after submitting", "F&O activation", "Unlock F&O with risk disclosure"],
-] as const;
+// seconds into ao3-flow.mp4 where each part of the journey starts
+const CHAPTERS = [
+  { at: 0, label: "Welcome", note: "Who we are and what it costs, before we ask for anything." },
+  { at: 2.9, label: "Mobile and OTP", note: "The OTP is read from messages and fills itself in." },
+  { at: 8.6, label: "Email", note: "One tap with Google instead of typing an address." },
+  { at: 11.8, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
+  { at: 28.9, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
+  { at: 35.9, label: "Selfie", note: "A quick tip, the camera, done." },
+  { at: 44.0, label: "Two questions", note: "Trading experience and segments, on a single screen." },
+  { at: 48.5, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
+  { at: 58.2, label: "Activation", note: "F&O is offered after submitting, not in the way of it." },
+  { at: 63.8, label: "First watchlist", note: "Something useful to do while the account activates." },
+  { at: 72.5, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
+];
 
 // [name, start column (minutes), length (minutes), steps]
 const BENCH = [
@@ -146,71 +144,57 @@ const BENCH = [
 const CHANGES = [
   {
     title: "Give people a reason to start",
-    problem: "The first screen was a bare sign-up form with our licences in the footer. We were asking people to begin KYC before telling them anything about us.",
-    change: "A welcome screen that answers the first questions people have: is this regulated, what does it cost, do other people use it. SEBI registration, ₹0 account opening and the app rating all sit above the first ask.",
+    problem: "The first screen was a bare sign-up form, asking for KYC before saying anything about us.",
+    change: "A welcome that answers the first doubts: SEBI registered, ₹0 to open, rated 4.3.",
     before: [["o03", "Old sign up or log in screen"]],
-    beforeCap: "A sign-up form, licences in the footer.",
     after: [["n00", "New welcome screen with trust signals"]],
-    afterCap: "SEBI registered, ₹0 account opening fee, a 4.3 rating, before anything is asked.",
   },
   {
     title: "Turn PAN entry into a confirmation",
-    problem: "This is where 60% of the drop-off happened. People went through a primer, logged in to DigiLocker, and then checked their PAN details line by line. If any of that failed, they typed it in themselves.",
-    change: "We fetch PAN details from the mobile number through a vendor, show what's being fetched while it happens, and present the result as a PAN card to confirm. Anyone whose details are wrong can still edit them.",
-    result: "PAN auto-fetch: 16% fewer drop-offs at this step",
+    problem: "60% of the drop-off. A primer, a DigiLocker login, then PAN details checked line by line.",
+    change: "PAN is fetched from the mobile number and shown as a card to confirm. Edit stays one tap away.",
+    result: ["−16%", "drop-offs at PAN"],
     before: [["o10", "DigiLocker login"], ["o14", "Confirm PAN details form"], ["o15", "PAN details with consent"]],
-    beforeCap: "A primer, a DigiLocker login, then PAN details to check line by line.",
     after: [["n07", "Securely fetching details sheet"], ["n08", "Confirm PAN shown as a PAN card"]],
-    afterCap: "A checklist while details are fetched, then the PAN as a card.",
   },
   {
     title: "Remove the ₹1 bank payment",
-    problem: "To verify a bank account, people left the app, paid ₹1 over UPI, entered their PIN and waited for the refund. It was a payment in the middle of a sign-up.",
-    change: "Bank details are fetched from the mobile number and shown as a card under the confirmed PAN. Nobody has to leave the app.",
-    result: "Bank auto-fetch: 50% fewer drop-offs at this step",
+    problem: "Leave the app, pay ₹1 over UPI, enter a PIN, wait for the refund.",
+    change: "Bank details are fetched and shown as a card under the PAN. Nobody leaves the app.",
+    result: ["−50%", "drop-offs at bank verification"],
     before: [["o22", "Pick a UPI app to pay ₹1"], ["o24", "Enter UPI PIN"]],
-    beforeCap: "Pick a UPI app, enter the PIN, wait for the refund.",
     after: [["n09", "Confirm bank details card"]],
-    afterCap: "The bank account appears as a card under the PAN.",
   },
   {
     title: "Bring personal details onto one screen",
-    problem: "AO 2.0 asked one question per screen to keep each one simple: a primer, then occupation, income, trading experience, marital status and settlement preference. Six screens for answers we mostly already had.",
-    change: "The details we can fetch arrive pre-filled on a single card, grouped by section. People review them, change what's wrong, and each section folds into a tick once it's confirmed.",
+    problem: "A primer and five single-question screens, for answers we mostly already had.",
+    change: "Fetched details arrive pre-filled on one card. Each section folds into a tick once confirmed.",
     before: [],
     beforeWide: ["ao2_personal", "AO 2.0 personal details: a primer followed by five single-question screens"],
-    beforeCap: "A primer, then five questions, one at a time.",
     after: [["n10", "Personal details pre-filled on one card"], ["n11", "All details confirmed"]],
-    afterCap: "Fetched details on one card. Each section collapses once confirmed.",
   },
   {
     title: "Let people add a nominee later",
-    problem: "Most people skip the nominee. But choosing yes opened a form of up to 22 screens, one field each, and the question sat between people and their account.",
-    change: "It's now a single question with “I'll do it later” as an equal option. The nominee can be added from the profile at any time, so the decision no longer holds up account opening.",
+    problem: "Most people skip it, but saying yes opened up to 22 screens before the account.",
+    change: "One question, with “I'll do it later” as an equal choice. The nominee can be added from the profile.",
     before: [["o38", "Nominee name field"], ["o42", "Nominee relation"], ["o46", "Nominee address"]],
-    beforeCap: "Name, relation, date of birth, address, phone, email, ID and more.",
     after: [["n21", "Would you like to add a nominee? with No, I'll do it later"]],
-    afterCap: "One question. Details can be added from the profile.",
   },
   {
     title: "Make the end of KYC a starting point",
-    problem: "Submitting ended on a congratulations screen, followed by a Plus trial upsell, at a point where people couldn't even trade yet.",
-    change: "People now land in the app with a live tracker for their account activation and a nudge to build a watchlist while they wait. When the account is ready, they already have something to act on.",
+    problem: "A congratulations screen, then a Plus trial upsell, at a point where nobody could trade yet.",
+    change: "A live activation tracker, and a nudge to build a watchlist while the account gets ready.",
     before: [["o67", "Congratulations, application submitted"], ["p1", "15-day Plus free trial interstitial"]],
-    beforeCap: "A wait screen, then an upsell.",
     after: [["n28", "Account activation in progress"], ["n29", "Explore with an activation tracker"]],
-    afterCap: "Explore with an activation tracker, then a watchlist nudge.",
   },
 ] as {
   title: string;
   problem: string;
   change: string;
-  result?: string;
+  result?: [string, string];
   before: string[][];
   beforeWide?: string[];
-  beforeCap: string;
   after: string[][];
-  afterCap: string;
 }[];
 
 const MOMENTS = [
@@ -224,6 +208,13 @@ const MOMENTS = [
   ["m8_done", "Momentum", "A finish that leads somewhere"],
 ] as const;
 
+// measured auto-fetch results: [what, drop-off change, note, conversion with fetch, without]
+const FETCHED = [
+  ["Bank auto-fetch · Decentro", "−50%", "drop-offs at bank verification", 60, 4],
+  ["PAN auto-fetch · Equifax", "−16%", "drop-offs at PAN", 35, 10],
+  ["KRA 2.0", "−7%", "DigiLocker and PAN drop-offs", 54, 8],
+] as const;
+
 /* ---------- page ----------------------------------------------------------- */
 
 export default function AccountOpening() {
@@ -231,25 +222,31 @@ export default function AccountOpening() {
 
   return (
     <Choreo>
-      {/* ---------- hero ---------- */}
+      {/* ---------- hero: a statement, a few screens, one number ---------- */}
       <header className="relative flex min-h-svh flex-col justify-between overflow-hidden bg-ink px-4 pb-10 pt-28 text-bg sm:px-10">
         <div className="flex items-start justify-between">
           <p data-label data-load className="label !text-bg/60">[ Selected work — 01 / Upstox ]</p>
           <p data-label data-load data-delay="0.2" className="label hidden !text-bg/60 md:block">Account Opening 3.0 · 2026</p>
         </div>
 
-        {/* the four screens, stepping up like a staircase */}
+        {/* the four screens, stepping up like a staircase; the second one plays */}
         <div className="pointer-events-none absolute right-4 top-[14svh] hidden w-[50vw] grid-cols-4 items-end gap-[1.6vw] sm:right-10 md:grid">
           {[
             ["n00", "Welcome screen with SEBI badge, ₹0 account opening fee and 4.3 rating"],
-            ["n08", "Confirm PAN: fetched details shown as a PAN card"],
+            ["video", "Recording: PAN, bank and personal details fetched and confirmed card by card"],
             ["m6_wins", "Signature captured successfully"],
             ["n29", "Explore home with an activation tracker"],
           ].map(([src, alt], i) => (
             <div key={src} style={{ marginBottom: `${i * 5}vw` }}>
               <div data-parallax={(0.08 + i * 0.07).toFixed(2)}>
                 <div data-fade data-load data-delay={(0.5 + i * 0.12).toFixed(2)}>
-                  <Phone src={src} alt={alt} />
+                  {src === "video" ? (
+                    <div className="relative aspect-[375/812] overflow-hidden rounded-[22px] bg-white shadow-[0_30px_60px_-20px_rgba(150,90,255,0.55)] ring-1 ring-white/20">
+                      <LoopVideo src={`${IMG}/ao3-hero.mp4`} poster={`${IMG}/ao3-hero-poster.jpg`} label={alt} className="absolute inset-0 h-full w-full scale-[1.03] object-cover" />
+                    </div>
+                  ) : (
+                    <Phone src={src} alt={alt} />
+                  )}
                 </div>
               </div>
             </div>
@@ -265,42 +262,45 @@ export default function AccountOpening() {
           >
             Making it easier to start investing.
           </h1>
-          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-xl text-lg text-bg/70">
-            Redesigning Upstox account opening to cut the work people had to do, and to give them a clear path from sign-up to their first investment.
+          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-lg text-lg text-bg/70">
+            Account opening on Upstox, redesigned around the work people had to do, and what they came to do next.
           </p>
-          <dl className="mt-12 grid gap-x-6 sm:grid-cols-2 md:max-w-[44vw]">
+
+          <div data-fade data-load data-delay="0.8" className="mt-12 flex items-end gap-6 md:max-w-[44vw]">
+            <b className="text-[18vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: "#ff6b5b" }}>
+              8–12
+            </b>
+            <span className="max-w-[13rem] pb-1 text-sm leading-snug text-bg/60">
+              minutes to open an account when we started, after two redesigns.
+            </span>
+          </div>
+
+          <dl className="mt-10 grid grid-cols-2 gap-x-6 md:max-w-[44vw] md:grid-cols-4">
             {[
-              ["My role", "Lead product designer. I owned the design direction and the end-to-end flow."],
-              ["Worked with", "Product managers, engineering, KYC vendors"],
-              ["Scope", "Funnel diagnosis, benchmarking, journey and interaction design, handoff"],
-              ["Constraints", "SEBI KYC rules, what vendors could fetch, engineering feasibility"],
+              ["Role", "Lead product designer"],
+              ["With", "PMs, engineering, KYC vendors"],
+              ["Scope", "Diagnosis to handoff"],
+              ["Platform", "Upstox mobile app"],
             ].map(([k, v], i) => (
               <div key={k} className="relative py-4">
-                <span data-grow data-load data-delay={(0.7 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-bg/25" />
-                <dt data-fade data-load data-delay={(0.8 + i * 0.08).toFixed(2)} className="label !text-bg/50">{k}</dt>
-                <dd data-fade data-load data-delay={(0.85 + i * 0.08).toFixed(2)} className="mt-1 font-medium">{v}</dd>
+                <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-bg/25" />
+                <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-bg/50">{k}</dt>
+                <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className="mt-1 text-sm font-medium">{v}</dd>
               </div>
             ))}
           </dl>
-          <p data-fade data-load data-delay="1.1" className="mt-6 flex items-center gap-3 text-sm text-bg/60">
-            <Chip tone="red">Starting point</Chip>
-            Opening an account on Upstox took 8 to 12 minutes.
-          </p>
         </div>
       </header>
 
       {/* ---------- 01 the problem ---------- */}
       <Chapter n="01" label="The problem" title="We had redesigned account opening twice. People were still dropping off.">
         <Lede>
-          Before anyone can buy a share on Upstox, they have to finish KYC: PAN, bank, personal details, signature, selfie and an Aadhaar eSign. Getting through it took 8 to 12 minutes, and most people who started never finished.
+          Before anyone can buy a share, they finish KYC: PAN, bank, personal details, signature, selfie and an Aadhaar eSign. Each earlier version fixed the thing it thought was wrong.
         </Lede>
-        <Body>
-          This wasn’t the first attempt at fixing it. Each earlier version had a clear idea of what was wrong, and each fixed that one thing.
-        </Body>
         <div className="mt-16 flex flex-col gap-16">
           {[
-            ["AO 1.0", "Too much on every screen", "The first version put a lot in front of people at once: dense forms, several questions per screen and long declaration lists. It ran to 24 steps, and every screen looked like work.", "ao1_flow", "AO 1.0: 24 numbered screens from email entry to application submitted"],
-            ["AO 2.0 · released Sept 2025", "Less on each screen, more screens", "For 2.0 we went after cognitive load. Every step was broken into smaller screens with one question each, a primer before each section and plenty of visual help to prevent mistakes. Each screen got easier to read. The journey got longer: 16 steps on paper, many more screens and taps in practice.", "ao2_flow", "AO 2.0: 16 numbered steps with primers and branched flows"],
+            ["AO 1.0", "Too much on every screen", "Dense forms, several questions at once, long declarations. 24 steps, and every one looked like work.", "ao1_flow", "AO 1.0: 24 numbered screens from email entry to application submitted"],
+            ["AO 2.0 · Sept 2025", "Less on each screen, more screens", "We went after cognitive load: one question per screen, a primer before each section, lots of visual help. Every screen got easier. The journey got longer.", "ao2_flow", "AO 2.0: 16 numbered steps with primers and branched flows"],
           ].map(([chip, h, p, img, alt]) => (
             <div key={chip}>
               <div className="grid gap-4 md:grid-cols-2">
@@ -318,11 +318,8 @@ export default function AccountOpening() {
           ))}
         </div>
 
-        <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em]">What happened after 2.0 launched</h3>
-        <Lede>
-          Each screen asked less of people, but there were far more of them. At launch almost a third of taps went nowhere, onboarding took longer than before, and conversion dropped before slowly recovering.
-        </Lede>
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
+        <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em]">After 2.0 launched</h3>
+        <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
           <Stat value="31%" label="dead clicks at launch (10.4% after fixes)" bad />
           <Stat value="18 min" label="to onboard at launch (12 min after fixes)" bad delay={0.06} />
           <Stat value="17.7%" label="conversion in Oct 2025, against ~30% for 1.0" bad delay={0.12} />
@@ -338,52 +335,68 @@ export default function AccountOpening() {
         </p>
       </section>
 
-      {/* ---------- 02 the investigation ---------- */}
+      {/* ---------- 02 the investigation: evidence first ---------- */}
       <Chapter n="02" label="The investigation" title="The biggest drop wasn’t at the end. It was at PAN verification.">
-        <Lede>
-          “Account opening takes too long” was too broad to design for. I mapped the whole funnel, stage by stage: where people left, and what each stage was asking them to do at that moment.
-        </Lede>
-        <div className="mt-14">
-          <div className="label grid grid-cols-[1fr_5rem] gap-4 pb-3 md:grid-cols-[14rem_9rem_1fr]">
-            <span>Stage in AO 2.0</span>
-            <span>Drop-off</span>
-            <span className="hidden md:block">What it asked for</span>
-          </div>
-          {JOURNEY.map(([stage, drop, ask], i) => {
-            const cliff = drop >= 50;
-            return (
-              <div
-                key={stage}
-                data-fade
-                data-delay={(i * 0.04).toFixed(2)}
-                className={`relative grid grid-cols-[1fr_5rem] items-baseline gap-4 py-4 md:grid-cols-[14rem_9rem_1fr] ${cliff ? "-mx-4 px-4" : ""}`}
-                style={cliff ? { background: "rgba(217,58,43,0.07)" } : undefined}
-              >
-                <span data-grow className="absolute inset-x-0 top-0 h-px bg-line" />
-                <span className={cliff ? "font-semibold" : ""}>{stage}</span>
-                <span className="flex items-center gap-3">
-                  <b className="tabular-nums" style={cliff ? { color: RED, fontSize: "1.4rem" } : undefined}>{drop}%</b>
-                  <span className="hidden h-1.5 flex-1 overflow-hidden rounded-full bg-line md:block">
-                    <span data-grow className="block h-full rounded-full" style={{ width: `${Math.max(3, drop * 1.6)}%`, background: cliff ? RED : "var(--ink)" }} />
-                  </span>
-                </span>
-                <span className="col-span-2 text-sm text-muted md:col-span-1 md:text-base">{ask}</span>
-              </div>
-            );
-          })}
-        </div>
-        <Body className="mt-10">
-          One number stood out. Around 60% of the drop-off happened at PAN verification, so that’s where I started. When details couldn’t be pulled from DigiLocker, people fell back to typing them in, one field per screen.
-        </Body>
-        <Body>
-          It wasn’t the only problem. Across the journey, people were typing in information we could have fetched, repeating things they had already done, and moving through screens without knowing what came next. Many of the steps were asking people to do work that didn’t get them any closer to an account.
-        </Body>
+        <Lede>I mapped the funnel stage by stage: where people left, and what each stage asked of them.</Lede>
 
-        <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em]">How other apps handled it</h3>
-        <Body>
-          I recorded the full sign-up on eight other broking apps alongside ours. Upstox was the slowest. The fastest ones fetched PAN and most of the profile from the phone number, so people only had to check their details and confirm.
-        </Body>
-        <div className="mt-14" role="figure" aria-label="Minutes to open an account across nine apps">
+        <div className="mt-16 grid gap-12 lg:grid-cols-[minmax(0,15rem)_1fr] lg:gap-14">
+          <div data-fade className="lg:pt-6">
+            <b data-count className="block text-[28vw] font-semibold leading-[0.8] tracking-[-0.07em] lg:text-[9vw]" style={{ color: RED }}>
+              60%
+            </b>
+            <p className="mt-5 max-w-[15rem] text-muted">of all drop-off happened at one step. No other stage lost more than 4%.</p>
+          </div>
+          <div>
+            <div className="label grid grid-cols-[1fr_5rem] gap-4 pb-3 md:grid-cols-[12rem_8rem_1fr]">
+              <span>Stage in AO 2.0</span>
+              <span>Drop-off</span>
+              <span className="hidden md:block">What it asked for</span>
+            </div>
+            {JOURNEY.map(([stage, drop, ask], i) => {
+              const cliff = drop >= 50;
+              return (
+                <div
+                  key={stage}
+                  data-fade
+                  data-delay={(i * 0.04).toFixed(2)}
+                  className={`relative grid grid-cols-[1fr_5rem] items-baseline gap-4 py-3.5 md:grid-cols-[12rem_8rem_1fr] ${cliff ? "-mx-4 px-4" : ""}`}
+                  style={cliff ? { background: "rgba(217,58,43,0.07)" } : undefined}
+                >
+                  <span data-grow className="absolute inset-x-0 top-0 h-px bg-line" />
+                  <span className={cliff ? "font-semibold" : ""}>{stage}</span>
+                  <span className="flex items-center gap-3">
+                    <b className="tabular-nums" style={cliff ? { color: RED, fontSize: "1.4rem" } : undefined}>{drop}%</b>
+                    <span className="hidden h-1.5 flex-1 overflow-hidden rounded-full bg-line md:block">
+                      <span data-grow className="block h-full rounded-full" style={{ width: `${Math.max(3, drop * 1.6)}%`, background: cliff ? RED : "var(--ink)" }} />
+                    </span>
+                  </span>
+                  <span className="col-span-2 text-sm text-muted md:col-span-1">{ask}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em]">The same three things kept coming up</h3>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {[
+            ["Typing what we could fetch", "PAN, bank and personal details, entered by hand when vendors could supply them."],
+            ["Doing things twice", "Two OTPs to sign up, two more for bank statements, confirm after every capture."],
+            ["Not knowing what’s next", "Primers, upsells and a “KYC needed” screen between people and the next real step."],
+          ].map(([h, p], i) => (
+            <div key={h} data-fade data-delay={i * 0.08} className="group rounded-2xl bg-card p-7 transition-colors duration-500 hover:bg-ink hover:text-bg">
+              <span className="font-mono text-xs text-muted group-hover:text-bg/50">{String(i + 1).padStart(2, "0")}</span>
+              <b className="mt-12 block text-xl font-semibold tracking-[-0.02em]">{h}</b>
+              <p className="mt-2 text-sm text-muted transition-colors duration-500 group-hover:text-bg/65">{p}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em]">Eight other apps, recorded end to end</h3>
+        <p data-fade className="mt-4 max-w-2xl text-muted">
+          Upstox was the slowest. The fastest fetched PAN and most of the profile from the phone number, so people only confirmed.
+        </p>
+        <div className="mt-12" role="figure" aria-label="Minutes to open an account across nine apps">
           {BENCH.map(([name, start, len, steps, kind], i) => (
             <div
               key={name}
@@ -430,13 +443,13 @@ export default function AccountOpening() {
               Fewer screens didn’t mean less effort.
             </h2>
             <p data-fade className="mt-8 max-w-2xl text-lg leading-relaxed text-bg/70 md:text-xl">
-              Both earlier versions judged progress by the screens. 1.0 put too much on each one, 2.0 had too many of them. In both, people were still typing, checking and waiting. So I stopped asking how to make the journey shorter and started asking how much work each step needed from the person doing it.
+              1.0 put too much on each screen. 2.0 had too many of them. In both, people were still typing, checking and waiting. So the question changed from how many screens to how much work each step asks for.
             </p>
             <div className="mt-14 grid gap-4 md:grid-cols-3">
               {[
-                ["01", "Fetch, don’t ask", "If a vendor or integration can give us the data, we use it instead of asking people to type it."],
-                ["02", "Confirm, don’t repeat", "When we already have the information, the step becomes a quick review and a confirm."],
-                ["03", "Keep the momentum", "People can always see how far they’ve come and what’s next. No dead ends, no decisions that can wait."],
+                ["01", "Fetch, don’t ask", "If a vendor can give us the data, we don’t ask people to type it."],
+                ["02", "Confirm, don’t repeat", "When we already know something, the step is a quick review."],
+                ["03", "Keep the momentum", "Always show what’s next. Nothing that can wait sits in the way."],
               ].map(([n, b, s], i) => (
                 <div key={b} data-fade data-delay={i * 0.1} className="rounded-2xl border border-bg/15 p-7 transition-colors duration-500 hover:bg-bg hover:text-ink">
                   <span className="font-mono text-xs opacity-60">{n}</span>
@@ -449,7 +462,7 @@ export default function AccountOpening() {
         </div>
       </section>
 
-      {/* ---------- 04 the redesign ---------- */}
+      {/* ---------- 04 the redesign: before / after ---------- */}
       <Chapter n="04" label="The redesign" title="Six changes, each aimed at a specific kind of effort.">
         <div className="mt-10">
           {CHANGES.map((b, i) => (
@@ -458,83 +471,70 @@ export default function AccountOpening() {
                 <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
                 <h3 data-split="lines" className="text-3xl font-semibold tracking-[-0.035em]">{b.title}</h3>
               </div>
-              <div className="mt-6 grid max-w-4xl gap-6 md:grid-cols-2">
-                <div data-fade className="flex flex-col gap-2">
-                  <span className="label" style={{ color: RED }}>The problem</span>
-                  <p className="text-muted">{b.problem}</p>
-                </div>
-                <div data-fade data-delay="0.08" className="flex flex-col gap-2">
-                  <span className="label !text-ink">What we did</span>
-                  <p className="text-muted">{b.change}</p>
-                </div>
-              </div>
-              <div className="mt-10 grid gap-4 md:grid-cols-2">
+              <div className="mt-8 grid gap-4 md:grid-cols-2">
                 <div data-fade className="flex flex-col gap-5 rounded-2xl bg-card p-5">
-                  <span className="label">Before</span>
+                  <div>
+                    <span className="label">Before</span>
+                    <p className="mt-2 min-h-[3rem] text-sm text-muted">{b.problem}</p>
+                  </div>
                   {b.beforeWide ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={`${IMG}/${b.beforeWide[0]}.webp`} alt={b.beforeWide[1]} loading="lazy" width={2402} height={1364} className="h-auto w-full rounded-xl ring-1 ring-black/10 grayscale-[30%]" />
+                    <img src={`${IMG}/${b.beforeWide[0]}.webp`} alt={b.beforeWide[1]} loading="lazy" width={2402} height={1364} className="mt-auto h-auto w-full rounded-xl ring-1 ring-black/10 grayscale-[30%]" />
                   ) : (
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="mt-auto grid grid-cols-3 gap-3">
                       {b.before.map(([src, alt]) => (
                         <Phone key={src} src={src} alt={alt} className="grayscale-[30%]" />
                       ))}
                     </div>
                   )}
-                  <p className="text-sm text-muted">{b.beforeCap}</p>
                 </div>
-                <div data-fade data-delay="0.12" className="flex flex-col gap-5 rounded-2xl p-5 ring-1 ring-ink/15">
-                  <span className="label !text-ink">After</span>
-                  <div className="grid grid-cols-3 gap-3">
+                <div data-fade data-delay="0.12" className="relative flex flex-col gap-5 rounded-2xl p-5 ring-1 ring-ink/15">
+                  <div className="flex items-start justify-between gap-6">
+                    <div>
+                      <span className="label !text-ink">After</span>
+                      <p className="mt-2 min-h-[3rem] text-sm text-muted">{b.change}</p>
+                    </div>
+                    {b.result ? (
+                      <div className="shrink-0 text-right">
+                        <b data-count className="block text-4xl font-semibold tabular-nums tracking-[-0.05em] md:text-5xl">{b.result[0]}</b>
+                        <span className="mt-1 block max-w-[8rem] text-[11px] leading-tight text-muted">{b.result[1]}, measured</span>
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="mt-auto grid grid-cols-3 gap-3">
                     {b.after.map(([src, alt]) => (
                       <Phone key={src} src={src} alt={alt} />
                     ))}
                   </div>
-                  <p className="text-sm text-muted">{b.afterCap}</p>
                 </div>
               </div>
-              {b.result ? (
-                <p data-fade className="mt-8 flex items-center gap-3 font-medium">
-                  <Chip tone="ink">Measured</Chip>
-                  {b.result}
-                </p>
-              ) : null}
             </div>
           ))}
         </div>
       </Chapter>
 
-      {/* the new journey, sideways */}
-      <HScroll
-        className="bg-card"
-        intro={
-          <>
-            <p data-label className="label mb-6">[ 04b — Put together ]</p>
-            <h3 data-split="lines" className="text-4xl font-semibold leading-[0.98] tracking-[-0.04em] md:text-[3.4vw]">
-              The new journey, mostly confirming
-            </h3>
-            <p data-fade className="mt-6 max-w-sm text-muted">
-              Seven steps on the happy path, most of them around ten seconds. F&amp;O activation and income proof move to after the account is submitted.
+      {/* ---------- the whole journey, recorded from the prototype ---------- */}
+      <section className="bg-ink px-4 py-28 text-bg sm:px-10 md:py-40">
+        <div className="grid gap-10 md:grid-cols-6 md:gap-0">
+          <p data-label className="label !text-bg/60 md:col-span-2">[ 04b — The whole journey ]</p>
+          <div className="md:col-span-4 md:pl-3">
+            <h2 data-split="lines" className="max-w-3xl text-4xl font-semibold leading-[1] tracking-[-0.045em] md:text-[3.5vw]">
+              Sign-up to a first watchlist, in one take.
+            </h2>
+            <p data-fade className="mt-6 max-w-xl text-bg/65">
+              Recorded straight from the prototype, at real speed. Most of the motion is there to show progress, so tap a step to jump to it.
             </p>
-          </>
-        }
-      >
-        {FLOW.map(([src, time, name, alt], i) => (
-          <figure key={src} className="w-[58vw] shrink-0 sm:w-[34vw] md:w-[15vw]">
-            <div className="mb-4 flex items-center justify-between">
-              <span className="grid size-9 place-items-center rounded-full bg-ink font-mono text-xs text-bg">{i + 1}</span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">{time}</span>
-            </div>
-            <Phone src={src} alt={alt} />
-            <figcaption className="mt-4 text-lg font-semibold tracking-[-0.02em]">{name}</figcaption>
-          </figure>
-        ))}
-      </HScroll>
+          </div>
+        </div>
+        <div className="mt-16 md:mt-20 md:pl-[calc(33.333%+0.75rem)]">
+          <FlowVideo src={`${IMG}/ao3-flow.mp4`} poster={`${IMG}/ao3-flow-poster.jpg`} chapters={CHAPTERS} />
+        </div>
+      </section>
 
       {/* ---------- visual direction ---------- */}
       <Chapter n="04c" label="Visual direction" title="Choosing how it should feel.">
         <Lede>
-          Leadership asked for a guided setup that felt light rather than like a form. We explored two directions, then tested one expressive idea against something we could sustain across every step.
+          Leadership asked for a guided setup that felt light, not like a form. We tried two directions, then one expressive idea against something we could keep up across every step.
         </Lede>
         <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
           {[
@@ -564,7 +564,7 @@ export default function AccountOpening() {
 
       {/* ---------- small moments: columns drift at different speeds ---------- */}
       <Chapter n="04d" label="Small moments" title="The details that keep people going.">
-        <Lede>Most of these exist to answer a doubt before it turns into a reason to leave.</Lede>
+        <Lede>Most of these answer a doubt before it turns into a reason to leave.</Lede>
         <div className="mt-16 grid grid-cols-2 gap-x-4 md:grid-cols-4">
           {[0, 1, 2, 3].map((col) => (
             <div key={col} data-parallax={col % 2 ? "-0.08" : "0.06"} className="flex flex-col gap-10">
@@ -584,87 +584,85 @@ export default function AccountOpening() {
         </div>
       </Chapter>
 
-      {/* ---------- 05 the outcome ---------- */}
-      <Chapter n="05" label="The outcome" title="A shorter flow, less manual work, and a clearer path to investing.">
-        <Lede>
-          Some of this is live and measured. The rest is what we expect from 3.0 as a whole, and it’s labelled that way.
-        </Lede>
-
-        <h3 data-split="lines" className="mt-16 text-2xl font-semibold tracking-[-0.03em]">Measured: fetching instead of asking</h3>
-        <Body>
-          I worked with PMs to bring in vendor auto-fetch wherever a vendor could do the work. These are live, and they removed most of the manual entry from the journey.
-        </Body>
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
-          {[
-            ["Bank auto-fetch · Decentro", "−50%", "drop-offs. Bank details fetched from the mobile number.", "60% conversion vs 4%"],
-            ["PAN auto-fetch · Equifax", "−16%", "drop-offs. PAN details fetched from the mobile number.", "35% conversion vs 10%"],
-            ["KRA 2.0", "−7%", "DigiLocker and PAN drop-offs. Verified KRA users skip DigiLocker.", "54% conversion vs 8%"],
-          ].map(([top, big, p, foot], i) => (
-            <div key={top} data-fade data-delay={i * 0.08} className="flex min-h-[19rem] flex-col justify-between rounded-2xl bg-ink p-7 text-bg">
+      {/* ---------- 05 the outcome: improved / expected / still open ---------- */}
+      <Chapter n="05" label="The outcome" title="Less manual work, measured. The rest, still being proven.">
+        <div className="mt-14 flex items-center gap-3">
+          <Chip tone="ink">Measured</Chip>
+          <span className="text-sm text-muted">Live auto-fetch, conversion with and without it</span>
+        </div>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {FETCHED.map(([top, big, note, withF, without], i) => (
+            <div key={top} data-fade data-delay={i * 0.08} className="flex flex-col rounded-2xl bg-ink p-7 text-bg">
               <span className="label !text-bg/55">{top}</span>
-              <div>
-                <b data-count className="block text-6xl font-semibold tabular-nums tracking-[-0.05em]">{big}</b>
-                <p className="mt-3 text-sm text-bg/70">{p}</p>
-                <p className="mt-6 border-t border-bg/15 pt-4 font-mono text-xs text-bg/60">{foot}</p>
+              <b data-count className="mt-10 block text-6xl font-semibold tabular-nums tracking-[-0.05em]">{big}</b>
+              <p className="mt-2 text-sm text-bg/65">{note}</p>
+              <div className="mt-8 flex flex-col gap-3 border-t border-bg/15 pt-5 font-mono text-[11px] text-bg/60">
+                {[
+                  ["Fetched", withF, "var(--bg)"],
+                  ["Manual", without, "rgba(255,255,255,0.3)"],
+                ].map(([k, v, c]) => (
+                  <div key={k as string} className="grid grid-cols-[4rem_1fr_2.5rem] items-center gap-3">
+                    <span>{k}</span>
+                    <span className="h-2 overflow-hidden rounded-full bg-bg/10">
+                      <span data-grow className="block h-full rounded-full" style={{ width: `${v}%`, background: c as string }} />
+                    </span>
+                    <span className="text-right tabular-nums">{v}%</span>
+                  </div>
+                ))}
               </div>
             </div>
           ))}
         </div>
 
-        <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em]">Projected: the full 3.0 journey</h3>
-        <Body>These come from the research phase and will be measured once 3.0 ships.</Body>
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
+        <div className="mt-20 flex items-center gap-3">
+          <Chip tone="red">Projected</Chip>
+          <span className="text-sm text-muted">From the research phase, to be measured once 3.0 ships</span>
+        </div>
+        <div className="mt-8 grid grid-cols-1 border-y border-line md:grid-cols-3 md:divide-x md:divide-line">
           {[
-            ["~1–2 min", "to submit on the happy path, down from 8–12"],
-            ["11 → 7", "steps on the happy path, most of them confirmations"],
-            ["~35%", "completion, up about 7 points from ~28%"],
-          ].map(([big, s], i) => (
-            <div key={big} data-fade data-delay={i * 0.08} className="flex min-h-[17rem] flex-col justify-between rounded-2xl bg-card p-7">
-              <Chip tone="red">Projected</Chip>
-              <div>
-                <b data-count className="block whitespace-nowrap text-5xl font-semibold tabular-nums tracking-[-0.05em] lg:text-[3.4vw]">{big}</b>
-                <p className="mt-3 text-sm text-muted">{s}</p>
+            ["8–12", "~2", "minutes to submit on the happy path"],
+            ["11", "7", "steps on the happy path, most of them confirmations"],
+            ["28%", "~35%", "of people who start, finishing"],
+          ].map(([from, to, s], i) => (
+            <div key={s} data-fade data-delay={i * 0.08} className="py-8 md:px-6 md:first:pl-0">
+              <div className="flex items-baseline gap-3 font-semibold tracking-[-0.05em]">
+                <span className="text-2xl text-muted line-through decoration-1">{from}</span>
+                <span className="text-muted">→</span>
+                <b className="text-6xl tabular-nums">{to}</b>
               </div>
+              <p className="mt-3 text-sm text-muted">{s}</p>
             </div>
           ))}
         </div>
 
-        <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em]">How we’ll know it worked</h3>
-        <div className="mt-8 grid gap-x-6 md:grid-cols-3">
+        <div className="mt-20 flex items-center gap-3">
+          <Chip>Still open</Chip>
+          <span className="text-sm text-muted">What we’re watching next</span>
+        </div>
+        <ul className="mt-6 grid gap-x-6 md:grid-cols-3">
           {[
-            ["Effort", "Time to submit, taps, and how many fields people still type by hand."],
-            ["Completion", "From starting KYC to an account that’s opened, with drop-off at PAN watched closely."],
-            ["Activation", "From an opened account to a first investment, and whether moving F&O activation after eSign costs us F&O users."],
+            ["Effort", "Does manual typing keep falling as vendor coverage grows?"],
+            ["Completion", "Does drop-off at PAN stay down once 3.0 is live for everyone?"],
+            ["Activation", "Do more new accounts make a first investment, and does moving F&O after eSign cost us F&O users?"],
           ].map(([h, p], i) => (
-            <div key={h} data-fade data-delay={i * 0.08} className="relative py-6">
+            <li key={h} data-fade data-delay={i * 0.08} className="relative py-6">
               <span data-grow className="absolute inset-x-0 top-0 h-px bg-line" />
-              <h4 className="text-xl font-semibold tracking-[-0.02em]">{h}</h4>
-              <p className="mt-2 text-muted">{p}</p>
-            </div>
+              <h4 className="text-lg font-semibold tracking-[-0.02em]">{h}</h4>
+              <p className="mt-2 text-sm text-muted">{p}</p>
+            </li>
           ))}
-        </div>
+        </ul>
       </Chapter>
 
       {/* ---------- 06 the next step ---------- */}
       <Chapter n="06" label="The next step" title="Getting people through KYC was only half the job.">
         <div className="mt-8 grid gap-6 text-muted md:grid-cols-2">
           <p data-fade>
-            Opening an account and making a first investment are two different things. Finishing KYC doesn’t mean someone knows what to do next, so 3.0 doesn’t stop at the last KYC step.
+            An open account and a first investment are two different things. Finishing KYC doesn’t mean someone knows what to do next, so 3.0 carries on past the last KYC step.
           </p>
           <p data-fade data-delay="0.1">
-            While the account activates, people are nudged to build a watchlist, which is the one useful thing they can do before they’re able to trade. Once the account is ready, alerts on those stocks give them a reason to make a first trade. The same nudge setup can carry other prompts across the app.
+            While the account activates, people build a watchlist. Once it’s ready, alerts on those stocks give them a reason to make a first trade. The same nudge setup can carry other prompts across the app.
           </p>
-        </div>
-        <div className="mt-16 grid items-center gap-10 md:grid-cols-[1fr_15rem]">
-          <div>
-            <p data-fade className="text-xl leading-relaxed">
-              The prototype covers the whole journey: welcome, mobile and OTP, Google sign-in for email, fetched PAN, bank and personal details, signature, selfie, eSign, then Explore with the activation tracker.
-            </p>
-            <p data-fade data-delay="0.1" className="mt-4 text-muted">Prototype available on request.</p>
-          </div>
-          <div data-fade data-delay="0.15">
-            <Phone src="n00" alt="The welcome screen, where the prototype journey starts" />
-          </div>
         </div>
       </Chapter>
 
@@ -672,13 +670,13 @@ export default function AccountOpening() {
       <Chapter n="07" label="Reflection" title="I stopped counting screens and started looking at effort.">
         <div className="mt-10 max-w-2xl text-lg leading-relaxed text-muted">
           <p data-fade>
-            This project changed how I look at onboarding. A flow can have fewer screens and still be tiring. Sometimes a confirmation does more than a better form, and sometimes the best thing to do with a screen is to remove the reason it exists.
+            A flow can have fewer screens and still be tiring. Sometimes a confirmation does more than a better form, and sometimes the best thing to do with a screen is remove the reason it exists.
           </p>
           <p data-fade className="mt-6">
-            Not every fix here was a design fix. Auto-fetch did more for speed than any layout change, and getting it in meant working closely with PMs and vendors rather than staying in the screens.
+            Not every fix here was a design fix. Auto-fetch did more for speed than any layout change, and getting it in meant working with PMs and vendors, not just in Figma.
           </p>
           <p data-fade className="mt-6">
-            And for an investing app, an open account isn’t the goal. It’s where investing starts, so that’s what the journey should lead to.
+            For an investing app, an open account isn’t the goal. It’s where investing starts.
           </p>
         </div>
       </Chapter>
