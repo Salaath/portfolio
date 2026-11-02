@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Upstox Loans</title>
+<meta name="description" content="Interactive prototype of the Upstox Loans app: launch, log in, check your pre-approved offer, apply, and track the disbursal. Happy path only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Shell copied from the NPS prototype so the two read as one family.
+   Every screen is rendered straight from the shipped Figma file (UP_Loans). */
+:root{
+  --pri:#5A298B; --brand-subtle:#975bd4; --green:#148564;
+  --std:cubic-bezier(.2,0,0,1); --out:cubic-bezier(.16,1,.3,1);
+  --stage-bg:#efedf3; --panel-bg:#fff; --panel-ink:#1c1a21; --panel-2:#6d6875; --panel-line:#e6e2ec;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --stage-bg:#121116; --panel-bg:#1b1a21; --panel-ink:#f1eff5; --panel-2:#a19cab; --panel-line:#2c2a33; }
+}
+:root[data-theme="dark"]{ --stage-bg:#121116; --panel-bg:#1b1a21; --panel-ink:#f1eff5; --panel-2:#a19cab; --panel-line:#2c2a33; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:var(--stage-bg);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:inherit}
+img{display:block;user-select:none;-webkit-user-drag:none}
+
+.stage{height:100%;display:flex;align-items:center;justify-content:center;gap:56px;padding:24px}
+.panel{width:320px;background:var(--panel-bg);color:var(--panel-ink);border:1px solid var(--panel-line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:22px;max-height:calc(100vh - 48px);overflow:auto}
+.eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-subtle);font-weight:600}
+.panel h1{font-size:24px;letter-spacing:-.6px;font-weight:600;margin:6px 0 8px}
+.lede{font-size:13px;line-height:19px;color:var(--panel-2)}
+.block-title{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--panel-2);font-weight:600;margin-bottom:10px}
+.clock{border:1px solid var(--panel-line);border-radius:16px;padding:16px;position:relative;overflow:hidden}
+.clock .big{font-size:40px;font-weight:600;letter-spacing:-1.6px;font-variant-numeric:tabular-nums;line-height:1}
+.clock .sub{font-size:12px;color:var(--panel-2);margin-top:6px;line-height:17px}
+.clock.running .big{color:var(--brand-subtle)}
+.clock.done{border-color:var(--green)}
+.clock.done .big{color:var(--green)}
+.clock .bar{position:absolute;left:0;bottom:0;height:3px;background:var(--brand-subtle);width:0;transition:width .6s var(--out)}
+.clock.done .bar{background:var(--green)}
+.ff{display:none;margin-top:12px;width:100%;font-size:13px;font-weight:500;padding:10px 12px;border-radius:10px;background:var(--pri);color:#fff;text-align:center}
+.ff.show{display:block;animation:pop .5s var(--out)}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+.jumps{display:flex;flex-wrap:wrap;gap:6px}
+.jumps button{font-size:12px;padding:6px 10px;border-radius:99px;border:1px solid var(--panel-line);color:var(--panel-ink);transition:all .2s}
+.jumps button:hover{border-color:var(--brand-subtle)}
+.jumps button.on{border-color:var(--brand-subtle);color:var(--brand-subtle)}
+.panel-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;gap:10px}
+.restart{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:9px 14px;border-radius:10px;background:var(--panel-ink);color:var(--panel-bg)}
+.hint{font-size:11px;color:var(--panel-2);text-align:right;line-height:15px}
+
+.device-wrap{flex:none;display:flex;align-items:center;justify-content:center}
+.device{width:380px;height:820px;border-radius:44px;padding:10px;background:#0b0b0d;box-shadow:0 0 0 1.5px #3a3a3e inset,0 0 0 3px #1b1b1e,0 40px 80px -20px rgba(40,20,70,.35),0 20px 40px -20px rgba(0,0,0,.4);position:relative;transform-origin:center}
+.screen{width:360px;height:800px;border-radius:34px;overflow:hidden;position:relative;background:#000;isolation:isolate}
+/* the device is scaled to fit by fitDevice() below; the wrap keeps its scaled footprint */
+.device-wrap{transition:none}
+@media (max-width:820px){
+  body{overflow:auto}
+  .stage{flex-direction:column-reverse;gap:24px;padding:16px;height:auto}
+  .panel{width:100%;max-width:420px;max-height:none}
+}
+
+/* views */
+.view{position:absolute;inset:0;background:#fff;overflow:hidden}
+.view img.full{position:absolute;left:0;top:0;width:360px}
+.scroll{position:absolute;left:0;right:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain}
+.scroll::-webkit-scrollbar{display:none}
+.scroll .inner{position:relative;width:360px}
+.scroll .inner img{width:360px}
+.layer{position:absolute;left:0;width:360px;pointer-events:none}
+.bganim{position:absolute;inset:0;width:360px;height:800px;object-fit:cover}
+
+.enter-push{animation:pushIn .42s var(--std) both}
+.leave-push{animation:pushOut .42s var(--std) both}
+.enter-back{animation:pushOut .42s var(--std) reverse both}
+.leave-back{animation:pushIn .42s var(--std) reverse both}
+@keyframes pushIn{from{transform:translateX(100%)}}
+@keyframes pushOut{to{transform:translateX(-28%);filter:brightness(.85)}}
+.enter-fade{animation:fadeIn .5s ease both}
+@keyframes fadeIn{from{opacity:0}}
+.enter-zoom{animation:zoomIn .55s var(--out) both}
+@keyframes zoomIn{from{opacity:0;transform:scale(.6);border-radius:40px}}
+.enter-rise{animation:rise .5s var(--out) both}
+@keyframes rise{from{transform:translateY(40px);opacity:0}}
+
+/* bottom sheets */
+.sheet{position:absolute;inset:0;z-index:5}
+.sheet .scrim{position:absolute;inset:0;background:rgba(18,12,28,.55);animation:fadeIn .3s ease both}
+.sheet .body{position:absolute;left:0;right:0;bottom:0;animation:up .45s var(--out) both}
+.sheet img{width:360px;display:block}
+.sheet .body{background:#fff;border-radius:16px 16px 0 0;overflow:hidden}
+.sheet.closing .scrim{animation:fadeIn .25s ease reverse both}
+.sheet.closing .body{animation:up .3s var(--std) reverse both}
+@keyframes up{from{transform:translateY(100%)}}
+
+/* nav */
+.tabs{position:absolute;left:0;top:696px;width:360px;height:56px}
+.tabs .bg{position:absolute;inset:0}
+.tabs button{position:absolute;top:0;width:120px;height:56px}
+.tabs button img{width:120px;height:56px}
+
+/* hotspots */
+.hot{position:absolute;z-index:4;border-radius:14px}
+.sysnav{position:absolute;left:0;right:0;bottom:0;height:48px;z-index:8;display:flex;justify-content:space-between;padding:0 48px}
+.sysnav button{width:72px;height:48px}
+
+/* PIN dots */
+.pin-dots{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
+.pin-dots i{position:absolute;width:10px;height:10px;border-radius:50%;background:#262626;transform:scale(0);transition:transform .25s var(--out)}
+.pin-dots i.on{transform:scale(1)}
+
+/* toast for the time skip */
+.skip{position:absolute;inset:0;z-index:9;display:grid;place-items:center;background:rgba(90,41,139,.0);pointer-events:none}
+.skip.show{animation:skipBg 1.8s ease both}
+.skip b{font-size:15px;font-weight:600;color:#fff;background:rgba(28,20,40,.86);padding:12px 18px;border-radius:99px;opacity:0;letter-spacing:-.2px}
+.skip.show b{animation:skipTxt 1.8s ease both}
+@keyframes skipBg{0%,100%{background:rgba(90,41,139,0)}30%,70%{background:rgba(90,41,139,.55)}}
+@keyframes skipTxt{0%{opacity:0;transform:translateY(8px)}25%,75%{opacity:1;transform:none}100%{opacity:0}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <aside class="panel">
+    <div>
+      <div class="eyebrow">Interactive prototype · happy path</div>
+      <h1>Upstox Loans</h1>
+      <p class="lede">The shipped app, rendered from the final Figma file. Tap the app icon to start: log in, check your pre-approved offer, apply, and watch the money land.</p>
+    </div>
+    <div>
+      <div class="block-title">Time to apply</div>
+      <div class="clock" id="clock">
+        <div class="big" id="clockBig">0:00</div>
+        <div class="sub" id="clockSub">Starts when you tap “Apply now”.</div>
+        <div class="bar" id="clockBar"></div>
+      </div>
+      <button class="ff" id="ff">⏩ Skip ahead to the disbursal</button>
+    </div>
+    <div>
+      <div class="block-title">Jump to</div>
+      <div class="jumps" id="jumps"></div>
+    </div>
+    <div class="panel-foot">
+      <button class="restart" id="restart"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Restart</button>
+      <span class="hint">→ / Enter: next<br>← / Esc: back</span>
+    </div>
+  </aside>
+
+  <div class="device-wrap">
+    <div class="device" id="device">
+      <div class="screen" id="screen">
+        <div class="sysnav" id="sysnav"><button data-nav="back" aria-label="Back"></button><button data-nav="home" aria-label="Home"></button><button aria-label="Recents"></button></div>
+        <div class="skip" id="skip"><b>⏱ 1 hr 48 min later…</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const IMG = '/work/loans/';
+const CTA = [16, 686, 328, 52];   // the fixed bottom button most screens share
+const $ = (s, el = document) => el.querySelector(s);
+const h = (tag, cls, attrs = {}) => { const e = document.createElement(tag); if (cls) e.className = cls; Object.assign(e, attrs); return e; };
+const img = (name, cls = 'full') => h('img', cls, { src: IMG + name + '.webp', alt: '', draggable: false });
+
+/* ---------- screens ----------
+   kind: img (one frame, scrolls if taller than 800) · login (animated bg + brand + sheet)
+         shell (new-app IA: top nav, scrolling content, bottom tabs) · sheet (over the current view)
+   hot: [x, y, w, h, next] in the frame's own coordinates.
+   auto: [ms, next] advances on its own. tx: push | fade | zoom | rise */
+const S = {
+  home:      { ch: 'Launch', kind: 'img', src: 'oshome', hot: [[146, 486, 66, 76, 'splash']] },
+  splash:    { ch: 'Launch', kind: 'img', src: 'splash', tx: 'zoom', auto: [1500, 'login'] },
+  login:     { ch: 'Log in', kind: 'login', src: 'lg-manual', tx: 'fade', hot: [[16, 560, 328, 130, 'loginLoad']] },
+  loginLoad: { ch: 'Log in', kind: 'login', src: 'lg-loading', tx: 'none', auto: [900, 'otp'] },
+  otp:       { ch: 'Log in', kind: 'login', src: 'otp-default', tx: 'none', auto: [1300, 'otpFilled'] },
+  otpFilled: { ch: 'Log in', kind: 'login', src: 'otp-filled', tx: 'none', hot: [[16, 684, 328, 56, 'otpLoad']] },
+  otpLoad:   { ch: 'Log in', kind: 'login', src: 'otp-loading', tx: 'none', auto: [900, 'pin'] },
+  pin:       { ch: 'Log in', kind: 'img', src: 'pin', tx: 'push', pin: true, hot: [[16, 420, 328, 320, 'consent']] },
+  consent:   { ch: 'Explore', kind: 'shell', tab: 'explore', content: 'explore', overlay: 'consent', tx: 'fade', hot: [[16, 686, 328, 52, 'explore']] },
+  explore:   { ch: 'Explore', kind: 'shell', tab: 'explore', content: 'explore', tx: 'none', hotC: [[16, 302, 328, 52, 'personal']], tabs: { loans: 'loansEmpty' } },
+  personal:  { ch: 'Eligibility', kind: 'img', src: 'personal', tx: 'push', startClock: true, hot: [[16, 884, 328, 52, 'checking']] },
+  checking:  { ch: 'Eligibility', kind: 'sheet', src: 'checking', addNav: true, auto: [2400, 'eligible'] },
+  eligible:  { ch: 'Eligibility', kind: 'sheet', src: 'eligible', swap: true, hot: [[16, 278, 328, 52, 'bank']] },
+  bank:      { ch: 'Eligibility', kind: 'img', src: 'bank-pick', tx: 'push', hot: [[190, 300, 150, 62, 'income']] },
+  income:    { ch: 'Eligibility', kind: 'img', src: 'income', tx: 'push', hot: [[16, 676, 328, 54, 'offer']] },
+  offer:     { ch: 'Eligibility', kind: 'img', src: 'offer', tx: 'rise', hot: [[16, 690, 328, 48, 'emi']] },
+  emi:       { ch: 'Amount & EMI', kind: 'img', src: 'emi', tx: 'push', hot: [[16, 388, 328, 64, 'emiPicked']] },
+  emiPicked: { ch: 'Amount & EMI', kind: 'img', src: 'emi-picked', tx: 'none', hot: [[16, 690, 328, 48, 'selfie']] },
+  selfie:    { ch: 'KYC', kind: 'img', src: 'selfie', tx: 'push', hot: [[16, 726, 328, 50, 'selfieCam']] },
+  selfieCam: { ch: 'KYC', kind: 'img', src: 'selfie-cam', tx: 'fade', hot: [[130, 680, 100, 100, 'selfieOk']] },
+  selfieOk:  { ch: 'KYC', kind: 'img', src: 'selfie-ok', tx: 'fade', hot: [[186, 714, 142, 54, 'kyc']] },
+  kyc:       { ch: 'KYC', kind: 'img', src: 'kyc', tx: 'push', hot: [[16, 734, 328, 50, 'digilocker']] },
+  digilocker:{ ch: 'KYC', kind: 'img', src: 'digilocker', tx: 'push', hot: [[36, 420, 290, 50, 'aadhaar']] },
+  aadhaar:   { ch: 'KYC', kind: 'img', src: 'aadhaar-ok', tx: 'rise', hot: [[16, 486, 328, 56, 'penny']] },
+  penny:     { ch: 'Bank & mandate', kind: 'img', src: 'penny', tx: 'push', hot: [[16, 240, 328, 300, 'pennyFilled']] },
+  pennyFilled:{ ch: 'Bank & mandate', kind: 'img', src: 'penny-filled', tx: 'none', hot: [[16, 795, 328, 48, 'bankOk']] },
+  bankOk:    { ch: 'Bank & mandate', kind: 'sheet', src: 'bank-ok', hot: [[16, 240, 328, 52, 'autopay']] },
+  autopay:   { ch: 'Bank & mandate', kind: 'img', src: 'autopay', tx: 'push', hot: [[16, 690, 328, 48, 'mandate']] },
+  mandate:   { ch: 'Bank & mandate', kind: 'img', src: 'mandate', tx: 'push', hot: [[0, 104, 360, 640, 'npci']] },
+  npci:      { ch: 'Bank & mandate', kind: 'img', src: 'mandate-npci', tx: 'push', hot: [[0, 104, 360, 640, 'mandateWait']] },
+  mandateWait:{ ch: 'Bank & mandate', kind: 'img', src: 'mandate-wait', tx: 'fade', auto: [1400, 'mandateOk'] },
+  mandateOk: { ch: 'Review', kind: 'img', src: 'mandate-ok', tx: 'fade', hot: [[16, 738, 328, 48, 'review']] },
+  review:    { ch: 'Review', kind: 'img', src: 'review', tx: 'fade', hot: [[16, 690, 328, 48, 'success']] },
+  success:   { ch: 'Disbursal', kind: 'img', src: 'success', tx: 'zoom', stopClock: true, auto: [1900, 'tracking'] },
+  tracking:  { ch: 'Disbursal', kind: 'img', src: 'tracking', tx: 'fade', hot: [[16, 686, 328, 52, 'loansPending']] },
+  loansPending:{ ch: 'My loans', kind: 'shell', tab: 'loans', alert: 'myloans-alert', content: 'myloans-pending', tx: 'push', hotC: [[16, 16, 328, 200, 'loanPending']], tabs: { explore: 'explorePending' } },
+  explorePending:{ ch: 'My loans', kind: 'shell', tab: 'explore', content: 'explore-pending', tx: 'none', tabs: { loans: 'loansPending' } },
+  loanPending:{ ch: 'My loans', kind: 'img', src: 'loan-pending', tx: 'push', hot: [] },
+  loansActive:{ ch: 'My loans', kind: 'shell', tab: 'loans', content: 'myloans-active', tx: 'fade', hotC: [[16, 16, 328, 200, 'loanActive']], tabs: { explore: 'explorePending' } },
+  loanActive:{ ch: 'My loans', kind: 'img', src: 'loan-active', tx: 'push', hot: [[16, 1420, 328, 80, 'emiSchedule']] },
+  emiSchedule:{ ch: 'My loans', kind: 'img', src: 'emi-schedule', tx: 'push', hot: [] },
+  loansEmpty:{ ch: 'Explore', kind: 'shell', tab: 'loans', content: 'myloans-pending', ghost: true, tx: 'none', tabs: { explore: 'explore' } },
+};
+const CHAPTERS = [['Launch', 'home'], ['Log in', 'login'], ['Explore', 'consent'], ['Eligibility', 'personal'], ['Amount & EMI', 'emi'], ['KYC', 'selfie'], ['Bank & mandate', 'penny'], ['Review', 'mandateOk'], ['Disbursal', 'success'], ['My loans', 'loansPending']];
+
+const screen = $('#screen');
+let cur = null, view = null, sheet = null, timer = null, hist = [];
+
+function hotspots(parent, list, offsetY = 0) {
+  list.forEach(([x, y, w, hh, next], i) => {
+    const b = h('button', 'hot', { 'aria-label': 'Continue' });
+    Object.assign(b.style, { left: x + 'px', top: y + offsetY + 'px', width: w + 'px', height: hh + 'px' });
+    b.onclick = e => { e.stopPropagation(); go(next); };
+    if (i === 0) b.dataset.primary = 1;
+    parent.append(b);
+  });
+}
+
+function buildView(key) {
+  const s = S[key], v = h('div', 'view');
+  if (s.kind === 'img') {
+    const [w, hh] = SIZES[s.src] || [360, 800];
+    if (hh > 800) {
+      const sc = h('div', 'scroll'); sc.style.top = 0; sc.style.bottom = '0';
+      const inner = h('div', 'inner'); inner.append(img(s.src, '')); hotspots(inner, s.hot || []);
+      sc.append(inner); v.append(sc);
+    } else { v.append(img(s.src)); hotspots(v, s.hot || []); }
+    if (s.pin) {
+      const d = h('div', 'pin-dots');
+      for (let i = 0; i < 6; i++) { const dot = h('i'); dot.style.left = 16 + i * 56 + 19 + 'px'; dot.style.top = 199 + 'px'; d.append(dot); }
+      v.append(d);
+      const b = v.querySelector('.hot'); b.onclick = e => {
+        e.stopPropagation(); b.onclick = null;
+        [...d.children].forEach((dot, i) => setTimeout(() => dot.classList.add('on'), 90 * i));
+        setTimeout(() => go('consent'), 900);
+      };
+    }
+  }
+  if (s.kind === 'login') {
+    v.style.background = '#4b0f96';
+    v.append(h('img', 'bganim', { src: IMG + 'bg-anim.webp', alt: '' }), img('lg-brand'), img(s.src));
+    hotspots(v, s.hot || []);
+  }
+  if (s.kind === 'shell') {
+    const top = s.alert ? 148 : 100;
+    const sc = h('div', 'scroll'); sc.style.top = top + 'px'; sc.style.height = 696 - top + 'px';
+    const inner = h('div', 'inner'); inner.append(img(s.content, '')); hotspots(inner, s.hotC || []);
+    if (s.ghost) { inner.style.filter = 'grayscale(1)'; inner.style.opacity = '.35'; }
+    sc.append(inner); v.append(sc);
+    const tn = img('topnav', 'layer'); tn.style.top = 0; v.append(tn);
+    if (s.alert) { const al = img(s.alert, 'layer'); al.style.top = '100px'; v.append(al); }
+    const tabs = h('div', 'tabs'); tabs.append(img('navbg', 'bg'));
+    [['explore', 0], ['loans', 120], ['profile', 240]].forEach(([t, x]) => {
+      const b = h('button'); b.style.left = x + 'px';
+      b.append(img(t === 'profile' ? 'nav-profile' : `nav-${t}${s.tab === t ? '-on' : ''}`, ''));
+      b.onclick = () => s.tabs?.[t] && go(s.tabs[t], 'none');
+      tabs.append(b);
+    });
+    v.append(tabs);
+    const nb = img('navbar', 'layer'); nb.style.top = '752px'; v.append(nb);
+    if (s.overlay) { const o = h('div', 'sheet'); o.append(img(s.overlay)); o.firstChild.style.animation = 'fadeIn .45s ease both'; hotspots(o, s.hot || []); v.append(o); }
+  }
+  return v;
+}
+
+function openSheet(key) {
+  const s = S[key], [w, hh] = SIZES[s.src];
+  if (sheet && s.swap) { sheet.querySelector('.body').replaceChildren(); }
+  else { closeSheet(true); sheet = h('div', 'sheet'); sheet.append(h('div', 'scrim'), h('div', 'body')); screen.append(sheet); }
+  const body = sheet.querySelector('.body');
+  const im = img(s.src); im.style.position = 'relative'; body.append(im);
+  if (s.addNav) body.append(img('navbar', ''));
+  if (s.swap) im.classList.add('enter-rise');
+  hotspots(body, s.hot || []);
+}
+function closeSheet(now) {
+  if (!sheet) return; const el = sheet; sheet = null;
+  if (now) return el.remove();
+  el.classList.add('closing'); setTimeout(() => el.remove(), 320);
+}
+
+function go(key, txOverride, isBack) {
+  const s = S[key]; if (!s) return;
+  clearTimeout(timer);
+  if (cur && !isBack && S[cur].kind !== 'sheet') hist.push(cur);
+  if (s.kind === 'sheet') { openSheet(key); }
+  else {
+    closeSheet();
+    const nv = buildView(key), tx = txOverride || (isBack ? 'back' : s.tx || 'push');
+    screen.insertBefore(nv, $('#sysnav'));
+    if (view) {
+      const old = view;
+      if (tx === 'push' || tx === 'back') { nv.classList.add(tx === 'back' ? 'enter-back' : 'enter-push'); old.classList.add(tx === 'back' ? 'leave-back' : 'leave-push'); if (tx === 'back') { old.style.zIndex = 2; } setTimeout(() => old.remove(), 440); }
+      else { if (tx !== 'none') nv.classList.add('enter-' + tx); setTimeout(() => old.remove(), tx === 'none' ? 0 : 560); }
+    }
+    view = nv;
+  }
+  cur = key;
+  if (s.startClock) clock.start();
+  if (s.stopClock) clock.stop();
+  if (s.auto) timer = setTimeout(() => go(s.auto[1]), s.auto[0]);
+  document.querySelectorAll('#jumps button').forEach(b => b.classList.toggle('on', b.textContent === s.ch));
+  $('#ff').classList.toggle('show', ['tracking', 'loansPending', 'loanPending', 'explorePending'].includes(key) && !clock.skipped);
+}
+
+function back() {
+  if (sheet) { closeSheet(); cur = hist[hist.length - 1] || cur; return; }
+  const prev = hist.pop(); if (prev) go(prev, 'back', true);
+}
+
+/* ---------- the stopwatch: speed is the whole point ---------- */
+const clock = {
+  t0: 0, raf: 0, skipped: false,
+  fmt(ms) { const s = Math.floor(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; },
+  start() {
+    if (this.t0) return; this.t0 = performance.now();
+    $('#clock').className = 'clock running'; $('#clockSub').textContent = 'Personal details, eligibility, EMI, KYC, bank, mandate, review.';
+    const tick = () => { const ms = performance.now() - this.t0; $('#clockBig').textContent = this.fmt(ms); $('#clockBar').style.width = Math.min(100, ms / 1800) + '%'; this.raf = requestAnimationFrame(tick); };
+    tick();
+  },
+  stop() {
+    if (!this.t0) return; cancelAnimationFrame(this.raf);
+    $('#clock').className = 'clock done'; $('#clockBar').style.width = '100%';
+    $('#clockSub').textContent = 'Applied, no paperwork. The lender now disburses, usually within 2 hours.';
+  },
+  reset() { cancelAnimationFrame(this.raf); this.t0 = 0; this.skipped = false; $('#clock').className = 'clock'; $('#clockBig').textContent = '0:00'; $('#clockBar').style.width = 0; $('#clockSub').textContent = 'Starts when you tap “Apply now”.'; },
+};
+$('#ff').onclick = () => {
+  clock.skipped = true; $('#ff').classList.remove('show');
+  const sk = $('#skip'); sk.classList.remove('show'); void sk.offsetWidth; sk.classList.add('show');
+  setTimeout(() => { hist = ['explorePending']; go('loansActive', 'fade'); $('#clockSub').textContent = 'Money credited to the bank account. Loan is active.'; }, 800);
+};
+
+/* ---------- fit the phone to whatever height we're given (the case study embeds this in an iframe) ---------- */
+function fitDevice() {
+  const d = $('#device'), wrap = d.parentElement;
+  const stacked = innerWidth <= 820;
+  const s = Math.min(1, (innerHeight - 32) / 820, stacked ? (innerWidth - 32) / 380 : 1);
+  d.style.transform = `scale(${s})`;
+  wrap.style.width = 380 * s + 'px';
+  wrap.style.height = 820 * s + 'px';
+  d.style.transformOrigin = 'top left';
+  wrap.style.display = 'block';
+}
+addEventListener('resize', fitDevice);
+fitDevice();
+
+/* ---------- chrome ---------- */
+let SIZES = {};
+const jumps = $('#jumps');
+CHAPTERS.forEach(([name, key]) => { const b = h('button', '', { textContent: name }); b.onclick = () => { hist = []; if (CHAPTERS.findIndex(c => c[1] === key) < 3) clock.reset(); go(key, 'fade'); }; jumps.append(b); });
+$('#restart').onclick = () => { hist = []; clock.reset(); go('home', 'fade'); };
+$('#sysnav').addEventListener('click', e => { const n = e.target.dataset.nav; if (n === 'back') back(); if (n === 'home') { hist = []; go('home', 'fade'); } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'Enter') { const p = (sheet || view)?.querySelector('[data-primary]'); p?.click(); }
+  if (e.key === 'ArrowLeft' || e.key === 'Escape') back();
+});
+// preload everything so taps feel instant
+fetch(IMG + 'sizes.json').then(r => r.json()).then(z => {
+  SIZES = z;
+  Object.keys(z).forEach(n => { const i = new Image(); i.src = IMG + n + '.webp'; });
+  const start = new URLSearchParams(location.search).get('s');
+  go(S[start] ? start : 'home', 'none');
+});
+</script>
+</body>
+</html>

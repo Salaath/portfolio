@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Invest in NPS</title>
+<meta name="description" content="Interactive prototype of the Upstox NPS flow — discover from More, set a contribution, pick a plan, explore funds, invest and track it in Portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="css/more.css">
+<link rel="stylesheet" href="css/explore.css">
+<link rel="stylesheet" href="css/fund.css">
+<link rel="stylesheet" href="css/buy.css">
+<link rel="stylesheet" href="css/portfolio.css">
+</head>
+<body>
+<div class="stage">
+  <aside class="panel" id="panel">
+    <div class="panel-head">
+      <div class="eyebrow">Interactive prototype</div>
+      <h1>Invest in NPS</h1>
+      <p class="lede">More → NPS stories → contribution → plan → Explore → fund details → invest → order status → Portfolio. Flip the switches to try other branches.</p>
+    </div>
+
+    <div class="panel-block">
+      <div class="block-title">Scenario</div>
+      <label class="switch-row"><span><b>Has NPS investments</b><i>Off: Portfolio shows the zero-holdings state</i></span><input type="checkbox" data-scn="holdings"><em></em></label>
+      <label class="switch-row"><span><b>Nominee already added</b><i>Off: the buy flow asks for nominee details</i></span><input type="checkbox" data-scn="nominee" checked><em></em></label>
+      <label class="switch-row"><span><b>Married</b><i>On: asks for spouse details before review</i></span><input type="checkbox" data-scn="married"><em></em></label>
+      <div class="block-title" style="margin:16px 0 0">Payment outcome</div>
+      <div class="presets">
+        <button data-pay="success" class="on">Success</button>
+        <button data-pay="processing">Processing</button>
+        <button data-pay="failed">Failed</button>
+      </div>
+      <div class="block-title" style="margin:16px 0 0">Page load</div>
+      <div class="presets">
+        <button data-load="ok" class="on">Loaded</button>
+        <button data-load="loading">Loading</button>
+        <button data-load="fail">Load failed</button>
+      </div>
+    </div>
+
+    <div class="panel-block">
+      <div class="block-title">Jump to</div>
+      <div class="jumps" id="jumps"></div>
+    </div>
+
+    <div class="panel-foot">
+      <button class="restart" id="restart"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Restart</button>
+      <span class="hint">Tip: you can type on your keyboard too</span>
+    </div>
+  </aside>
+
+  <div class="device-wrap">
+    <div class="device" id="device">
+      <div class="screen" id="screen">
+        <div class="views" id="views"></div>
+        <div class="statusbar" id="statusbar">
+          <span class="sb-l"><i class="punch"></i><span class="sb-time">12:34</span></span>
+          <span class="sb-icons">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 20.5 1.2 9.2a15.5 15.5 0 0 1 21.6 0Z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M2 22 22 2v20Z" opacity=".3"/><path d="M2 22 16 8v14Z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="2.5" rx=".6"/><rect x="5.5" y="4" width="13" height="18" rx="1.5"/></svg>
+          </span>
+        </div>
+        <div class="sheet-layer" id="sheetLayer"></div>
+        <div class="kb-layer" id="kbLayer"></div>
+        <div class="toast" id="toast"></div>
+        <div class="navbar" id="navbar">
+          <button data-nav="back" aria-label="Back"><svg width="16" height="17" viewBox="0 0 16 17"><path d="M14 2.2v12.6L3.2 8.5Z" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button data-nav="home" aria-label="Home"><svg width="17" height="17" viewBox="0 0 17 17"><circle cx="8.5" cy="8.5" r="7.2" fill="none" stroke="#fff" stroke-width="1.7"/></svg></button>
+          <button data-nav="recents" aria-label="Recents"><svg width="16" height="16" viewBox="0 0 16 16"><rect x="1.5" y="1.5" width="13" height="13" rx="1" fill="none" stroke="#fff" stroke-width="1.7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="keyboard.js"></script>
+<script src="core.js"></script>
+<script src="screens/more.js"></script>
+<script src="screens/explore.js"></script>
+<script src="screens/fund.js"></script>
+<script src="screens/buy.js"></script>
+<script src="screens/portfolio.js"></script>
+<script src="boot.js"></script>
+</body>
+</html>
