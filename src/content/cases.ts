@@ -24,8 +24,8 @@ export const cases: CaseStudy[] = [
     // Has its own page: src/app/work/account-opening/page.tsx
     slug: "account-opening",
     image: "/work/account-opening.jpg",
-    title: "Turning a 12-minute KYC into a two-minute welcome",
-    tagline: "How we rebuilt account opening for India’s first-time investors, after two redesigns that didn’t move conversion.",
+    title: "Making it easier to start investing",
+    tagline: "Redesigning Upstox account opening to cut the work people had to do, and to give them a clear path from sign-up to their first investment.",
     year: "2026",
     role: "Lead product designer",
     team: "Product managers, engineering, KYC vendors",
