@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { cases } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
 import { RollButton } from "@/components/RollButton";
-import { FlowVideo, LoopVideo } from "@/components/ao/FlowVideo";
+import { FlowVideo } from "@/components/ao/FlowVideo";
+import { HeroPhone } from "@/components/ao/HeroPhone";
 
 // Account Opening 3.0, revised. Structure follows the user's storytelling
 // blueprint (problem → investigation → reframe → redesign → outcome → next
@@ -222,73 +223,62 @@ export default function AccountOpening() {
 
   return (
     <Choreo>
-      {/* ---------- hero: a statement, a few screens, one number ---------- */}
-      <header className="relative flex min-h-svh flex-col justify-between overflow-hidden bg-ink px-4 pb-10 pt-28 text-bg sm:px-10">
+      {/* ---------- hero: a statement, one phone, one number ---------- */}
+      <header
+        className="relative flex min-h-svh flex-col overflow-hidden px-4 pb-10 pt-28 text-[#141217] sm:px-10"
+        style={{ background: "radial-gradient(80% 90% at 72% 45%, #f8f7fb 0%, #ebe8f1 55%, #dedae7 100%)" }}
+      >
         <div className="flex items-start justify-between">
-          <p data-label data-load className="label !text-bg/60">[ Selected work — 01 / Upstox ]</p>
-          <p data-label data-load data-delay="0.2" className="label hidden !text-bg/60 md:block">Account Opening 3.0 · 2026</p>
+          <p data-label data-load className="label !text-[#141217]/55">[ Selected work — 01 / Upstox ]</p>
+          <p data-label data-load data-delay="0.2" className="label hidden !text-[#141217]/55 md:block">Account Opening 3.0 · 2026</p>
         </div>
 
-        {/* the four screens, stepping up like a staircase; the second one plays */}
-        <div className="pointer-events-none absolute right-4 top-[14svh] hidden w-[50vw] grid-cols-4 items-end gap-[1.6vw] sm:right-10 md:grid">
-          {[
-            ["n00", "Welcome screen with SEBI badge, ₹0 account opening fee and 4.3 rating"],
-            ["video", "Recording: PAN, bank and personal details fetched and confirmed card by card"],
-            ["m6_wins", "Signature captured successfully"],
-            ["n29", "Explore home with an activation tracker"],
-          ].map(([src, alt], i) => (
-            <div key={src} style={{ marginBottom: `${i * 5}vw` }}>
-              <div data-parallax={(0.08 + i * 0.07).toFixed(2)}>
-                <div data-fade data-load data-delay={(0.5 + i * 0.12).toFixed(2)}>
-                  {src === "video" ? (
-                    <div className="relative aspect-[375/812] overflow-hidden rounded-[22px] bg-white shadow-[0_30px_60px_-20px_rgba(150,90,255,0.55)] ring-1 ring-white/20">
-                      <LoopVideo src={`${IMG}/ao3-hero.mp4`} poster={`${IMG}/ao3-hero-poster.jpg`} label={alt} className="absolute inset-0 h-full w-full scale-[1.03] object-cover" />
-                    </div>
-                  ) : (
-                    <Phone src={src} alt={alt} />
-                  )}
-                </div>
-              </div>
+        <div className="grid flex-1 items-center gap-12 py-10 md:grid-cols-[1.05fr_1fr] md:gap-6 md:py-0">
+          <div className="relative">
+            <h1
+              data-split="words"
+              data-load
+              data-delay="0.15"
+              className="max-w-[16ch] text-[12vw] font-semibold leading-[0.95] tracking-[-0.05em] md:text-[5.2vw]"
+            >
+              Making it easier to start investing.
+            </h1>
+            <p data-fade data-load data-delay="0.6" className="mt-6 max-w-md text-lg text-[#141217]/65">
+              Account opening on Upstox, redesigned around the work people had to do, and what they came to do next.
+            </p>
+
+            <div data-fade data-load data-delay="0.8" className="mt-12 flex items-end gap-6">
+              <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: RED }}>
+                8–12
+              </b>
+              <span className="max-w-[13rem] pb-1 text-sm leading-snug text-[#141217]/60">
+                minutes to open an account when we started, after two redesigns.
+              </span>
             </div>
-          ))}
-        </div>
 
-        <div className="relative mt-16 md:mt-0">
-          <h1
-            data-split="words"
-            data-load
-            data-delay="0.15"
-            className="max-w-[16ch] text-[12vw] font-semibold leading-[0.95] tracking-[-0.05em] md:max-w-[44vw] md:text-[5.2vw]"
-          >
-            Making it easier to start investing.
-          </h1>
-          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-lg text-lg text-bg/70">
-            Account opening on Upstox, redesigned around the work people had to do, and what they came to do next.
-          </p>
-
-          <div data-fade data-load data-delay="0.8" className="mt-12 flex items-end gap-6 md:max-w-[44vw]">
-            <b className="text-[18vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: "#ff6b5b" }}>
-              8–12
-            </b>
-            <span className="max-w-[13rem] pb-1 text-sm leading-snug text-bg/60">
-              minutes to open an account when we started, after two redesigns.
-            </span>
+            <dl className="mt-10 grid max-w-xl grid-cols-2 gap-x-6 md:grid-cols-4">
+              {[
+                ["Role", "Lead product designer"],
+                ["With", "PMs, engineering, KYC vendors"],
+                ["Scope", "Diagnosis to handoff"],
+                ["Platform", "Upstox mobile app"],
+              ].map(([k, v], i) => (
+                <div key={k} className="relative py-4">
+                  <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-[#141217]/15" />
+                  <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-[#141217]/45">{k}</dt>
+                  <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className="mt-1 text-sm font-medium">{v}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
-          <dl className="mt-10 grid grid-cols-2 gap-x-6 md:max-w-[44vw] md:grid-cols-4">
-            {[
-              ["Role", "Lead product designer"],
-              ["With", "PMs, engineering, KYC vendors"],
-              ["Scope", "Diagnosis to handoff"],
-              ["Platform", "Upstox mobile app"],
-            ].map(([k, v], i) => (
-              <div key={k} className="relative py-4">
-                <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-bg/25" />
-                <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-bg/50">{k}</dt>
-                <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className="mt-1 text-sm font-medium">{v}</dd>
-              </div>
-            ))}
-          </dl>
+          <div data-fade data-load data-delay="0.4">
+            <HeroPhone
+              src={`${IMG}/ao3-hero.mp4`}
+              poster={`${IMG}/ao3-hero-poster.jpg`}
+              label="Recording from the AO 3.0 prototype: details are fetched securely, then the PAN appears as a card to confirm"
+            />
+          </div>
         </div>
       </header>
 
