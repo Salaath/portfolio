@@ -32,9 +32,9 @@ export const cases: CaseStudy[] = [
     tags: ["Onboarding", "KYC", "Activation"],
     cover: ["#3b2bb8", "#8f7bff"],
     metrics: [
-      { value: "~35%", label: "Projected completion" },
-      { value: "~1–2 min", label: "Projected time to submit" },
-      { value: "11 → 7", label: "Happy-path steps" },
+      { value: "~65%", label: "Completion rate" },
+      { value: "~1–2 min", label: "Time on the happy path" },
+      { value: "~38%", label: "Fewer onboarding steps" },
     ],
     sections: [],
   },

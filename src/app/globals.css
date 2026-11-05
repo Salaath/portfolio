@@ -149,8 +149,26 @@ html.is-loading body {
   mask-image: radial-gradient(closest-side, #000 55%, transparent);
 }
 
-/* AO hero phone: a slow float */
-@keyframes heroFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+/* AO dead-click spotlight: heat that breathes, a rage trail that draws itself */
+@keyframes heatPulse {
+  0%, 100% { opacity: 0.75; scale: 0.92; }
+  50% { opacity: 1; scale: 1.08; }
+}
+.heat-spot {
+  animation: heatPulse 3s ease-in-out infinite;
+}
+@keyframes heatTrail {
+  from { stroke-dashoffset: 300; }
+  to { stroke-dashoffset: 0; }
+}
+.heat-trail {
+  stroke-dasharray: 300;
+  animation: heatTrail 3.5s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .heat-spot,
+  .heat-trail {
+    animation: none;
+  }
 }

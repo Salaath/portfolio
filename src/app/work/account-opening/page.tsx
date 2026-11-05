@@ -3,97 +3,86 @@ import type { Metadata } from "next";
 import { cases } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
 import { RollButton } from "@/components/RollButton";
-import { FlowVideo } from "@/components/ao/FlowVideo";
-import { HeroPhone } from "@/components/ao/HeroPhone";
+import { FlowVideo, LoopVideo } from "@/components/ao/FlowVideo";
+import { HeroMock } from "@/components/ao/HeroMock";
+import { IPhone } from "@/components/ao/IPhone";
+import { Zoomable } from "@/components/ao/Zoomable";
+import { DropCircles, DropDots, DropRiver } from "@/components/ao/DropOff";
+import { BenchBoard, BenchClocks, BenchRace } from "@/components/ao/Benchmark";
+import { HeatScreen, OptionTabs, ProtoEmbed } from "@/components/ao/Bits";
 
-// Account Opening 3.0, revised. Structure follows the user's storytelling
-// blueprint (problem → investigation → reframe → redesign → outcome → next
-// step → reflection). Screens live in /public/work/ao3; the videos are
-// recordings of the AO 3.0 prototype (see "Case study/proto-video").
+// Account Opening, revised. Every Version 3.0 screen and clip here is captured
+// from the final prototype (see "Case study/proto-video"); screens starting with
+// "o" are Version 2.0, from the older case study assets.
 
-export const metadata: Metadata = { title: "Account Opening 3.0 — Salaath Shaikh" };
+export const metadata: Metadata = { title: "Account Opening — Salaath Shaikh" };
 
 const IMG = "/work/ao3";
 const RED = "#D93A2B";
+const PROTO = "https://ao3-prototype.vercel.app/";
 
 /* ---------- building blocks ---------------------------------------------- */
 
-function Phone({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
+const Label = ({ children, light }: { children: React.ReactNode; light?: boolean }) => (
+  <p data-label className={`font-mono text-sm uppercase tracking-[0.12em] md:col-span-2 md:text-base ${light ? "text-bg/75" : "text-ink/70"}`}>[ {children} ]</p>
+);
+
+/** A real screen in an iPhone. "p/…" is final Version 3.0; anything else is older. */
+function Shot({ src, alt, old }: { src: string; alt: string; old?: boolean }) {
+  const final = src.startsWith("p/");
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={`${IMG}/${src}.webp`}
-      alt={alt}
-      loading="lazy"
-      className={`block aspect-[9/19.5] w-full rounded-[22px] bg-white object-cover object-top shadow-[0_24px_50px_-20px_rgba(0,0,0,0.35)] ring-1 ring-black/10 ${className}`}
-    />
+    <IPhone aspect={final ? "375/812" : "360/800"}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={`${IMG}/${src}.${final ? "jpg" : "webp"}`} alt={alt} loading="lazy" className={`absolute inset-0 h-full w-full object-cover ${old ? "grayscale-[30%]" : ""}`} />
+    </IPhone>
   );
 }
 
-/** Neiden-style chapter: label column on the left (pinned on desktop), story on the right. */
-function Chapter({
-  n,
-  label,
-  title,
-  children,
-  id,
-  className = "",
-}: {
-  n: string;
-  label: string;
-  title: React.ReactNode;
-  children?: React.ReactNode;
-  id?: string;
-  className?: string;
-}) {
+function Clip({ src, label }: { src: string; label: string }) {
   return (
-    <section id={id} className={`grid gap-10 border-t border-line px-4 py-24 sm:px-10 md:grid-cols-6 md:gap-0 md:py-36 ${className}`}>
+    <IPhone>
+      <LoopVideo src={`${IMG}/${src}.mp4`} poster={`${IMG}/${src}-poster.jpg`} label={label} className="absolute inset-0 h-full w-full object-cover" />
+    </IPhone>
+  );
+}
+
+/** Chapter: label column on the left (pinned on desktop), story on the right. */
+function Chapter({ n, label, title, children, className = "" }: { n: string; label: string; title: React.ReactNode; children?: React.ReactNode; className?: string }) {
+  return (
+    <section className={`grid gap-10 border-t border-line px-4 py-24 sm:px-10 md:grid-cols-6 md:gap-0 md:py-36 ${className}`}>
       <div className="md:col-span-2">
         <div data-pin className="md:pr-10">
-          <p data-label className="label">[ {n} — {label} ]</p>
+          <Label>{n} — {label}</Label>
         </div>
       </div>
       <div className="min-w-0 md:col-span-4 md:pl-3">
-        <h2 data-split="lines" className="max-w-4xl text-4xl font-semibold leading-[1] tracking-[-0.04em] md:text-[3.5vw]">
-          {title}
-        </h2>
+        <h2 data-split="lines" className="max-w-4xl text-4xl font-semibold leading-[1] tracking-[-0.04em] md:text-[3.5vw]">{title}</h2>
         {children}
       </div>
     </section>
   );
 }
 
-function Lede({ children }: { children: React.ReactNode }) {
-  return (
-    <p data-fade className="mt-8 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
-      {children}
-    </p>
-  );
-}
+const Lede = ({ children }: { children: React.ReactNode }) => (
+  <p data-fade className="mt-8 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">{children}</p>
+);
+const H3 = ({ children }: { children: React.ReactNode }) => (
+  <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em] md:text-3xl">{children}</h3>
+);
 
 function Stat({ value, label, bad, delay = 0 }: { value: string; label: string; bad?: boolean; delay?: number }) {
   return (
     <div data-fade data-delay={delay} className="flex flex-col gap-3 border-t border-ink/15 pt-5">
-      <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
-        <span className="size-1.5 rounded-full" style={{ background: bad ? RED : "currentColor" }} />
-        {bad ? "Problem" : "Baseline"}
-      </span>
-      <b data-count className="text-5xl font-semibold tabular-nums tracking-[-0.05em]" style={bad ? { color: RED } : undefined}>
-        {value}
-      </b>
+      <b data-count className="text-5xl font-semibold tabular-nums tracking-[-0.05em]" style={bad ? { color: RED } : undefined}>{value}</b>
       <span className="text-sm leading-snug text-muted">{label}</span>
     </div>
   );
 }
 
 function Chip({ children, tone = "line" }: { children: React.ReactNode; tone?: "line" | "ink" | "red" }) {
-  const cls =
-    tone === "ink" ? "bg-ink text-bg border-ink" : tone === "red" ? "border-transparent text-white" : "border-ink/20 text-ink";
+  const cls = tone === "ink" ? "bg-ink text-bg border-ink" : tone === "red" ? "border-transparent text-white" : "border-ink/20 text-ink";
   return (
-    <span
-      className={`inline-flex w-fit items-center rounded-full border px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] ${cls}`}
-      style={tone === "red" ? { background: RED } : undefined}
-    >
+    <span className={`inline-flex w-fit items-center rounded-full border px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] ${cls}`} style={tone === "red" ? { background: RED } : undefined}>
       {children}
     </span>
   );
@@ -101,64 +90,38 @@ function Chip({ children, tone = "line" }: { children: React.ReactNode; tone?: "
 
 /* ---------- content ----------------------------------------------------------- */
 
-const JOURNEY = [
-  ["Mobile & email", 0.3, "Two OTPs, one for the phone and one for email"],
-  ["Verify PAN", 60, "A “KYC needed” screen, onboarding steps, then PAN and DigiLocker"],
-  ["Signature", 0.7, "Draw, confirm, continue"],
-  ["Bank verification", 3.25, "Verify, confirm the fetched details, continue"],
-  ["Segments & income proof", 3.5, "Two more OTPs to fetch bank statements"],
-  ["Personal details", 0.7, "Five questions, one per screen"],
-  ["Nominee", 0.8, "A choice that opens a long form"],
-  ["Selfie", 1.2, "A tutorial, a photo, then confirm"],
-  ["eSign", 2.3, "A Plus upsell, then nine taps through Aadhaar eSign"],
-] as const;
-
 // seconds into ao3-flow.mp4 where each part of the journey starts
 const CHAPTERS = [
   { at: 0, label: "Welcome", note: "Who we are and what it costs, before we ask for anything." },
-  { at: 3.1, label: "Mobile and OTP", note: "The OTP is read from messages and fills itself in." },
-  { at: 9.0, label: "Email", note: "One tap with Google instead of typing an address." },
-  { at: 13.4, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
-  { at: 30.4, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
-  { at: 37.5, label: "Selfie", note: "A quick tip, the camera, done." },
-  { at: 45.5, label: "Two questions", note: "Trading experience and segments, on a single screen." },
-  { at: 50.8, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
-  { at: 60.9, label: "F&O activation", note: "Offered after submitting, not in the way of it." },
-  { at: 63.2, label: "Link a bank for income proof", note: "Two OTPs filled in for you, one account to pick, and the statement is shared." },
-  { at: 73.7, label: "Activation tracker", note: "Where the application stands, and when you can trade." },
-  { at: 77.2, label: "First watchlist", note: "Something useful to do while the account activates." },
-  { at: 88.4, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
+  { at: 5.3, label: "Mobile and OTP", note: "The OTP is read from messages and fills itself in." },
+  { at: 14.7, label: "Email", note: "One tap with Google instead of typing an address." },
+  { at: 19.6, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
+  { at: 42.5, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
+  { at: 53.8, label: "Selfie", note: "A quick tip, the camera, done." },
+  { at: 66, label: "Two questions", note: "Trading experience and segments, on a single screen." },
+  { at: 74.2, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
+  { at: 89.2, label: "F&O activation", note: "Offered after submitting, not in the way of it." },
+  { at: 93.2, label: "Link a bank for income proof", note: "Two OTPs filled in for you, one account to pick, and the statement is shared." },
+  { at: 107.5, label: "Activation tracker", note: "Where the application stands, and when you can trade." },
+  { at: 114.2, label: "First watchlist", note: "Something useful to do while the account activates." },
+  { at: 130.8, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
 ];
-
-// [name, start column (minutes), length (minutes), steps]
-const BENCH = [
-  ["Upstox 2.0", 8, 4, 11, "me"],
-  ["Angel One", 6, 2, 11, ""],
-  ["Groww", 6, 2, 10, ""],
-  ["RIISE", 6, 1, 12, ""],
-  ["Lemonn", 5, 1, 12, ""],
-  ["SAHI", 4, 1, 9, ""],
-  ["Dhan", 4, 1, 10, ""],
-  ["mStock", 3, 1, 10, ""],
-  ["Grip", 3, 1, 8, ""],
-  ["Upstox 3.0*", 1, 1, 7, "next"],
-] as const;
 
 const CHANGES = [
   {
     title: "Give people a reason to start",
     problem: "The first screen was a bare sign-up form, asking for KYC before saying anything about us.",
     change: "A welcome that answers the first doubts: SEBI registered, ₹0 to open, rated 4.3.",
-    before: [["o03", "Old sign up or log in screen"]],
-    after: [["n00", "New welcome screen with trust signals"]],
+    before: [["o03", "Version 2.0 sign up or log in screen"]],
+    after: [["p/welcome", "Version 3.0 welcome screen with trust signals"]],
   },
   {
     title: "Turn PAN entry into a confirmation",
-    problem: "60% of the drop-off. A primer, a DigiLocker login, then PAN details checked line by line.",
+    problem: "59% of people left here. A primer, a DigiLocker login, then PAN details checked line by line.",
     change: "PAN is fetched from the mobile number and shown as a card to confirm. Edit stays one tap away.",
     result: ["−16%", "drop-offs at PAN"],
     before: [["o10", "DigiLocker login"], ["o14", "Confirm PAN details form"], ["o15", "PAN details with consent"]],
-    after: [["n07", "Securely fetching details sheet"], ["n08", "Confirm PAN shown as a PAN card"]],
+    after: [["p/fetch", "Securely fetching details sheet"], ["p/pan", "Confirm PAN shown as a PAN card"]],
   },
   {
     title: "Remove the ₹1 bank payment",
@@ -166,57 +129,50 @@ const CHANGES = [
     change: "Bank details are fetched and shown as a card under the PAN. Nobody leaves the app.",
     result: ["−50%", "drop-offs at bank verification"],
     before: [["o22", "Pick a UPI app to pay ₹1"], ["o24", "Enter UPI PIN"]],
-    after: [["n09", "Confirm bank details card"]],
+    after: [["p/bank", "Confirm bank details card"]],
   },
   {
     title: "Bring personal details onto one screen",
     problem: "A primer and five single-question screens, for answers we mostly already had.",
-    change: "Fetched details arrive pre-filled on one card. Each section folds into a tick once confirmed.",
+    change: "Fetched details arrive pre-filled on one card, and confirmed sections stack up above it.",
     before: [],
-    beforeWide: ["ao2_personal", "AO 2.0 personal details: a primer followed by five single-question screens"],
-    after: [["n10", "Personal details pre-filled on one card"], ["n11", "All details confirmed"]],
+    beforeWide: ["ao2_personal", "Version 2.0 personal details: a primer followed by five single-question screens"],
+    after: [["p/personal", "Personal details pre-filled on one card"]],
   },
   {
-    title: "Let people add a nominee later",
+    title: "Take the nominee form out of the journey",
     problem: "Most people skip it, but saying yes opened up to 22 screens before the account.",
-    change: "One question, with “I'll do it later” as an equal choice. The nominee can be added from the profile.",
+    change: "The form is gone from the flow, and consent sits inline. What's left is two quick questions on one screen.",
     before: [["o38", "Nominee name field"], ["o42", "Nominee relation"], ["o46", "Nominee address"]],
-    after: [["n21", "Would you like to add a nominee? with No, I'll do it later"]],
+    after: [["p/questions", "Two quick questions on one screen"]],
   },
   {
     title: "Make the end of KYC a starting point",
     problem: "A congratulations screen, then a Plus trial upsell, at a point where nobody could trade yet.",
-    change: "A live activation tracker, and a nudge to build a watchlist while the account gets ready.",
+    change: "A live activation tracker, then a first watchlist to build while the account gets ready.",
     before: [["o67", "Congratulations, application submitted"], ["p1", "15-day Plus free trial interstitial"]],
-    after: [["n28", "Account activation in progress"], ["n29", "Explore with an activation tracker"]],
+    after: [["p/waiting", "Account activation in progress"], ["p/home", "Home with an activation tracker"]],
   },
-] as {
-  title: string;
-  problem: string;
-  change: string;
-  result?: [string, string];
-  before: string[][];
-  beforeWide?: string[];
-  after: string[][];
-}[];
+] as { title: string; problem: string; change: string; result?: [string, string]; before: string[][]; beforeWide?: string[]; after: string[][] }[];
 
 const MOMENTS = [
-  ["m0_first", "Trust", "Who we are, before we ask"],
-  ["m1_contact", "Effort", "The OTP fills itself in"],
-  ["m2_fetch", "Trust", "You can see what we're fetching"],
-  ["m3_visual", "Clarity", "Your PAN looks like your PAN"],
-  ["m4_cta", "Clarity", "Clear buttons on every confirm"],
-  ["m6_wins", "Momentum", "A small win after each step"],
-  ["m7_invite", "Clarity", "Segments offered, not demanded"],
-  ["m8_done", "Momentum", "A finish that leads somewhere"],
+  ["coin", "Trust", "The coin settles before anything is asked of you"],
+  ["otp", "Effort", "The OTP arrives and fills itself in"],
+  ["fetch", "Trust", "You can see what's being fetched"],
+  ["cards", "Clarity", "Your details stack up as you confirm them"],
+  ["sign", "Momentum", "A small win when the signature is saved"],
+  ["selfie", "Momentum", "The same win after the selfie"],
+  ["clock", "Clarity", "A clock that makes the wait feel like progress"],
+  ["alerts", "Momentum", "Alerts draw themselves, then you're all set"],
 ] as const;
 
-// measured auto-fetch results: [what, drop-off change, note, conversion with fetch, without]
-const FETCHED = [
-  ["Bank auto-fetch · Decentro", "−50%", "drop-offs at bank verification", 60, 4],
-  ["PAN auto-fetch · Equifax", "−16%", "drop-offs at PAN", 35, 10],
-  ["KRA 2.0", "−7%", "DigiLocker and PAN drop-offs", 54, 8],
-] as const;
+// heat spots are in % of the screen, placed from the Version 2.0 click-map slide
+const HEAT = [
+  { src: `${IMG}/ao2-going.jpg`, alt: "Version 2.0: Get going in 3 steps", note: "Tapping steps that look clickable but aren't", spots: [{ x: 80, y: 42, r: 26, hot: true }, { x: 64, y: 49, r: 20 }, { x: 72, y: 52, r: 16 }, { x: 86, y: 92, r: 20 }, { x: 10, y: 92, r: 12 }], trail: [[60, 52], [68, 50], [74, 47], [82, 42], [70, 50], [64, 53]] },
+  { src: `${IMG}/ao2-sign.jpg`, alt: "Version 2.0: Draw your signature", note: "Pressing Next around the signature", spots: [{ x: 60, y: 93, r: 18 }, { x: 72, y: 95, r: 22, hot: true }, { x: 84, y: 92, r: 18, hot: true }] },
+  { src: `${IMG}/ao2-photo.jpg`, alt: "Version 2.0: Click a photo", note: "Tapping the illustration", spots: [{ x: 72, y: 32, r: 24, hot: true }, { x: 46, y: 50, r: 14 }, { x: 80, y: 92, r: 18 }], trail: [[72, 32], [75, 55], [77, 90]] },
+  { src: `${IMG}/o22.webp`, alt: "Version 2.0: Verify bank with UPI", note: "Repeated taps on the payment options", spots: [{ x: 88, y: 26, r: 22, hot: true }, { x: 46, y: 38, r: 14 }, { x: 80, y: 92, r: 18 }] },
+];
 
 /* ---------- page ----------------------------------------------------------- */
 
@@ -226,61 +182,48 @@ export default function AccountOpening() {
   return (
     <Choreo>
       {/* ---------- hero: a statement, one phone, one number ---------- */}
-      <header
-        className="relative flex min-h-svh flex-col overflow-hidden px-4 pb-10 pt-28 text-[#141217] sm:px-10"
-        style={{ background: "radial-gradient(80% 90% at 72% 45%, #f8f7fb 0%, #ebe8f1 55%, #dedae7 100%)" }}
-      >
-        <div className="flex items-start justify-between">
-          <p data-label data-load className="label !text-[#141217]/55">[ Selected work — 01 / Upstox ]</p>
-          <p data-label data-load data-delay="0.2" className="label hidden !text-[#141217]/55 md:block">Account Opening 3.0 · 2026</p>
+      <header className="relative flex min-h-svh flex-col overflow-hidden px-4 pb-10 pt-28 text-[#141217] sm:px-10" style={{ background: "#e4e4e6" }}>
+        <HeroMock
+          image={`${IMG}/hero-mock.jpg`}
+          src={`${IMG}/ao3-hero.mp4`}
+          poster={`${IMG}/ao3-hero-poster.jpg`}
+          label="Recording from the Version 3.0 prototype: details are fetched securely, then the PAN appears as a card to confirm"
+          className="pointer-events-none absolute -right-[16vw] bottom-0 hidden h-[112%] [mask-image:linear-gradient(90deg,transparent_0,#000_24%)] md:block"
+        />
+
+        <div className="relative z-10 flex items-start justify-between">
+          <p data-label data-load className="label !text-[#141217]/60">[ Selected work — 01 / Upstox ]</p>
         </div>
 
-        <div className="grid flex-1 items-center gap-12 py-10 md:grid-cols-[1.05fr_1fr] md:gap-6 md:py-0">
-          <div className="relative">
-            <h1
-              data-split="words"
-              data-load
-              data-delay="0.15"
-              className="max-w-[16ch] text-[12vw] font-semibold leading-[0.95] tracking-[-0.05em] md:text-[5.2vw]"
-            >
-              Making it easier to start investing.
-            </h1>
-            <p data-fade data-load data-delay="0.6" className="mt-6 max-w-md text-lg text-[#141217]/65">
-              Account opening on Upstox, redesigned around the work people had to do, and what they came to do next.
-            </p>
-
-            <div data-fade data-load data-delay="0.8" className="mt-12 flex items-end gap-6">
-              <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: RED }}>
-                8–12
-              </b>
-              <span className="max-w-[13rem] pb-1 text-sm leading-snug text-[#141217]/60">
-                minutes to open an account when we started, after two redesigns.
-              </span>
-            </div>
-
-            <dl className="mt-10 grid max-w-xl grid-cols-2 gap-x-6 md:grid-cols-4">
-              {[
-                ["Role", "Lead product designer"],
-                ["With", "PMs, engineering, KYC vendors"],
-                ["Scope", "Diagnosis to handoff"],
-                ["Platform", "Upstox mobile app"],
-              ].map(([k, v], i) => (
-                <div key={k} className="relative py-4">
-                  <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-[#141217]/15" />
-                  <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-[#141217]/45">{k}</dt>
-                  <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className="mt-1 text-sm font-medium">{v}</dd>
-                </div>
-              ))}
-            </dl>
+        <div className="relative z-10 flex flex-1 flex-col justify-center py-10 md:max-w-[52vw]">
+          <h1 data-split="words" data-load data-delay="0.15" className="max-w-[16ch] text-[12vw] font-semibold leading-[0.95] tracking-[-0.05em] md:text-[5.2vw]">
+            Making it easier to start investing.
+          </h1>
+          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-md text-lg text-[#141217]/65">
+            Account opening on Upstox, redesigned around the work people had to do, and what they came to do next.
+          </p>
+          <div data-fade data-load data-delay="0.8" className="mt-10 flex items-end gap-6">
+            <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: RED }}>8–12</b>
+            <span className="max-w-[13rem] pb-1 text-sm leading-snug text-[#141217]/60">minutes to open an account when we started, after two redesigns.</span>
           </div>
+          <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-x-6 md:grid-cols-4">
+            {[
+              ["Role", "Lead product designer"],
+              ["Timeline", "April to May, 45 days"],
+              ["With", "PMs, engineering, Ignosis, Equifax, Decentro"],
+              ["Released", "October 2026"],
+            ].map(([k, v], i) => (
+              <div key={k} className="relative py-4">
+                <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-[#141217]/15" />
+                <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-[#141217]/50">{k}</dt>
+                <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className="mt-1 text-sm font-medium">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
 
-          <div data-fade data-load data-delay="0.4">
-            <HeroPhone
-              src={`${IMG}/ao3-hero.mp4`}
-              poster={`${IMG}/ao3-hero-poster.jpg`}
-              label="Recording from the AO 3.0 prototype: details are fetched securely, then the PAN appears as a card to confirm"
-            />
-          </div>
+        <div className="relative -mx-4 sm:-mx-10 md:hidden">
+          <HeroMock image={`${IMG}/hero-mock.jpg`} src={`${IMG}/ao3-hero.mp4`} poster={`${IMG}/ao3-hero-poster.jpg`} label="Recording from the Version 3.0 prototype" className="relative w-full" />
         </div>
       </header>
 
@@ -290,10 +233,10 @@ export default function AccountOpening() {
           Before anyone can buy a share, they finish KYC: PAN, bank, personal details, signature, selfie and an Aadhaar eSign. Each earlier version fixed the thing it thought was wrong.
         </Lede>
         <div className="mt-16 flex flex-col gap-16">
-          {[
-            ["AO 1.0", "Too much on every screen", "Dense forms, several questions at once, long declarations. 24 steps, and every one looked like work.", "ao1_flow", "AO 1.0: 24 numbered screens from email entry to application submitted"],
-            ["AO 2.0 · Sept 2025", "Less on each screen, more screens", "We went after cognitive load: one question per screen, a primer before each section, lots of visual help. Every screen got easier. The journey got longer.", "ao2_flow", "AO 2.0: 16 numbered steps with primers and branched flows"],
-          ].map(([chip, h, p, img, alt]) => (
+          {([
+            ["Version 1.0", "Too much on every screen", "Dense forms, several questions at once, long declarations. 24 steps, and every one looked like work.", "ao1_flow", "Version 1.0: 24 numbered screens from email entry to application submitted", 2298, 1288],
+            ["Version 2.0 · Sept 2025", "Less on each screen, more screens", "We went after cognitive load: one question per screen, a primer before each section, lots of visual help. Every screen got easier. The journey got longer.", "ao2_flow", "Version 2.0: 16 numbered steps with primers and branched flows", 2342, 1304],
+          ] as const).map(([chip, h, p, img, alt, w, hh]) => (
             <div key={chip}>
               <div className="grid gap-4 md:grid-cols-2">
                 <div data-fade className="flex flex-col gap-3">
@@ -303,150 +246,162 @@ export default function AccountOpening() {
                 <p data-fade data-delay="0.1" className="text-muted">{p}</p>
               </div>
               <figure data-wipe className="mt-8 overflow-hidden rounded-2xl bg-card ring-1 ring-black/5">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img data-wipe-inner src={`${IMG}/${img}.webp`} alt={alt} loading="lazy" width={2300} height={1290} className="block h-auto w-full" />
+                <Zoomable src={`${IMG}/${img}.webp`} alt={alt} width={w} height={hh}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img data-wipe-inner src={`${IMG}/${img}.webp`} alt={alt} loading="lazy" width={w} height={hh} className="block h-auto w-full" />
+                </Zoomable>
               </figure>
             </div>
           ))}
         </div>
 
-        <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em]">After 2.0 launched</h3>
+        <H3>After Version 2.0 launched</H3>
         <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
           <Stat value="31%" label="dead clicks at launch (10.4% after fixes)" bad />
           <Stat value="18 min" label="to onboard at launch (12 min after fixes)" bad delay={0.06} />
-          <Stat value="17.7%" label="conversion in Oct 2025, against ~30% for 1.0" bad delay={0.12} />
-          <Stat value="~28%" label="by Feb 2026, roughly back where 1.0 had been" delay={0.18} />
+          <Stat value="17.7%" label="conversion in Oct 2025, against ~30% for Version 1.0" bad delay={0.12} />
+          <Stat value="~28%" label="by Feb 2026, roughly back where Version 1.0 had been" delay={0.18} />
         </div>
       </Chapter>
 
       {/* the takeaway, read word by word */}
       <section className="px-4 py-32 sm:px-10 md:py-48">
-        <p data-label className="label mb-10 text-center">[ Where that left us ]</p>
+        <p data-label className="label mb-10 text-center !text-sm">[ Where that left us ]</p>
         <p data-scrub-words className="mx-auto max-w-5xl text-center text-4xl font-medium leading-[1.05] tracking-[-0.035em] md:text-[4.4vw]">
           Every screen was easier to get through. The whole thing still felt long.
         </p>
       </section>
 
-      {/* ---------- 02 the investigation: evidence first ---------- */}
+      {/* ---------- 02 the investigation ---------- */}
       <Chapter n="02" label="The investigation" title="The biggest drop wasn’t at the end. It was at PAN verification.">
-        <Lede>I mapped the funnel stage by stage: where people left, and what each stage asked of them.</Lede>
+        <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
+          <Stat value="~28%" label="of people complete the full Version 2.0 flow" />
+          <Stat value="8–12 min" label="average time to complete" delay={0.06} />
+          <Stat value="11" label="steps" delay={0.12} />
+          <Stat value="30" label="screens" delay={0.18} />
+        </div>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-[minmax(0,15rem)_1fr] lg:gap-14">
-          <div data-fade className="lg:pt-6">
-            <b data-count className="block text-[28vw] font-semibold leading-[0.8] tracking-[-0.07em] lg:text-[9vw]" style={{ color: RED }}>
-              60%
-            </b>
-            <p className="mt-5 max-w-[15rem] text-muted">of all drop-off happened at one step. No other stage lost more than 4%.</p>
-          </div>
-          <div>
-            <div className="label grid grid-cols-[1fr_5rem] gap-4 pb-3 md:grid-cols-[12rem_8rem_1fr]">
-              <span>Stage in AO 2.0</span>
-              <span>Drop-off</span>
-              <span className="hidden md:block">What it asked for</span>
-            </div>
-            {JOURNEY.map(([stage, drop, ask], i) => {
-              const cliff = drop >= 50;
-              return (
-                <div
-                  key={stage}
-                  data-fade
-                  data-delay={(i * 0.04).toFixed(2)}
-                  className={`relative grid grid-cols-[1fr_5rem] items-baseline gap-4 py-3.5 md:grid-cols-[12rem_8rem_1fr] ${cliff ? "-mx-4 px-4" : ""}`}
-                  style={cliff ? { background: "rgba(217,58,43,0.07)" } : undefined}
-                >
-                  <span data-grow className="absolute inset-x-0 top-0 h-px bg-line" />
-                  <span className={cliff ? "font-semibold" : ""}>{stage}</span>
-                  <span className="flex items-center gap-3">
-                    <b className="tabular-nums" style={cliff ? { color: RED, fontSize: "1.4rem" } : undefined}>{drop}%</b>
-                    <span className="hidden h-1.5 flex-1 overflow-hidden rounded-full bg-line md:block">
-                      <span data-grow className="block h-full rounded-full" style={{ width: `${Math.max(3, drop * 1.6)}%`, background: cliff ? RED : "var(--ink)" }} />
-                    </span>
-                  </span>
-                  <span className="col-span-2 text-sm text-muted md:col-span-1">{ask}</span>
-                </div>
-              );
-            })}
+        <H3>Where people left</H3>
+        <OptionTabs labels={["The river", "Field of circles", "100 people"]}>
+          <DropRiver />
+          <DropCircles />
+          <DropDots />
+        </OptionTabs>
+
+        <div className="mt-20 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-end">
+          <p data-fade className="text-3xl font-medium leading-[1.1] tracking-[-0.03em] md:text-[2.6vw]">
+            The 59% drop at PAN is an intent problem. When people sign up, they don’t expect to enter PAN details or do KYC.
+          </p>
+          <div className="flex flex-col">
+            {[
+              ["60%", "are gone in the first three steps, so most starters never see bank verification. It rises to 72% for non-KRA users."],
+              ["Nudges", "on and off the app weren’t recovering PAN drop-offs. It could be low trust, or no intent to continue."],
+              ["2.3%", "at eSign is reasonable. People who get there are committed. The leak is much earlier."],
+            ].map(([n, p], i) => (
+              <div key={n} data-fade data-delay={i * 0.08} className="grid grid-cols-[6rem_1fr] items-baseline gap-4 border-t border-line py-4">
+                <b className="text-2xl font-semibold tabular-nums tracking-[-0.04em]">{n}</b>
+                <p className="text-sm text-muted">{p}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em]">The same three things kept coming up</h3>
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {[
-            ["Typing what we could fetch", "PAN, bank and personal details, entered by hand when vendors could supply them."],
-            ["Doing things twice", "Two OTPs to sign up, two more for bank statements, confirm after every capture."],
-            ["Not knowing what’s next", "Primers, upsells and a “KYC needed” screen between people and the next real step."],
-          ].map(([h, p], i) => (
-            <div key={h} data-fade data-delay={i * 0.08} className="group rounded-2xl bg-card p-7 transition-colors duration-500 hover:bg-ink hover:text-bg">
-              <span className="font-mono text-xs text-muted group-hover:text-bg/50">{String(i + 1).padStart(2, "0")}</span>
-              <b className="mt-12 block text-xl font-semibold tracking-[-0.02em]">{h}</b>
-              <p className="mt-2 text-sm text-muted transition-colors duration-500 group-hover:text-bg/65">{p}</p>
-            </div>
+        <H3>The clicks that went nowhere</H3>
+        <p data-fade className="mt-4 max-w-2xl text-muted">
+          Session recordings told the same story. Dead clicks and rage clicks were 50% higher in Version 2.0. Hover a screen to see it clearly.
+        </p>
+        <div className="mt-12 grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
+          {HEAT.map((h, i) => (
+            <figure key={h.src} data-fade data-delay={i * 0.08}>
+              <IPhone aspect="360/800">
+                <HeatScreen src={h.src} alt={h.alt} spots={h.spots} trail={h.trail} aspect="360/800" />
+              </IPhone>
+              <figcaption className="mt-4 text-sm leading-snug text-muted">{h.note}</figcaption>
+            </figure>
           ))}
         </div>
+        <div data-fade className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
+          <span className="flex items-center gap-2"><i className="size-3 rounded-full bg-[radial-gradient(circle,#d9fbff,#39c6ff_40%,#3a6bff)]" /> Dead clicks</span>
+          <span className="flex items-center gap-2"><i className="size-3 rounded-full bg-[radial-gradient(circle,#fff6c2,#ffb02e_40%,#ff4d2e)]" /> Rage clicks</span>
+        </div>
 
-        <h3 data-split="lines" className="mt-24 text-2xl font-semibold tracking-[-0.03em]">Eight other apps, recorded end to end</h3>
+        <H3>Eight other apps, timed end to end</H3>
         <p data-fade className="mt-4 max-w-2xl text-muted">
           Upstox was the slowest. The fastest fetched PAN and most of the profile from the phone number, so people only confirmed.
         </p>
-        <div className="mt-12" role="figure" aria-label="Minutes to open an account across nine apps">
-          {BENCH.map(([name, start, len, steps, kind], i) => (
-            <div
-              key={name}
-              data-fade
-              data-delay={(i * 0.04).toFixed(2)}
-              className="grid grid-cols-[6.5rem_1fr_2.5rem] items-center gap-4 border-t border-line py-3 text-sm md:grid-cols-[9rem_1fr_3rem]"
-            >
-              <span className={kind ? "font-semibold" : ""}>{name}</span>
-              <span className="relative h-3">
-                <span className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent_0_calc(16.666%-1px),var(--line)_calc(16.666%-1px)_16.666%)]" />
-                <span
-                  data-grow
-                  data-delay={(0.1 + i * 0.05).toFixed(2)}
-                  className="absolute top-0 h-3 rounded-full"
-                  style={{
-                    left: `${(start / 12) * 100}%`,
-                    width: `${(len / 12) * 100}%`,
-                    background: kind === "me" ? RED : kind === "next" ? "var(--ink)" : "#cfcfca",
-                  }}
-                />
-              </span>
-              <span className="text-right font-mono tabular-nums text-muted">{steps}</span>
-            </div>
-          ))}
-          <div className="grid grid-cols-[6.5rem_1fr_2.5rem] gap-4 border-t border-line pt-3 font-mono text-[11px] text-muted md:grid-cols-[9rem_1fr_3rem]">
-            <span>App</span>
-            <span className="flex justify-between">
-              {[0, 2, 4, 6, 8, 10, "12 min"].map((t) => (
-                <span key={t}>{t}</span>
-              ))}
-            </span>
-            <span className="text-right">Steps</span>
-          </div>
-          <p className="mt-4 text-sm text-muted">Happy-path steps and timings recorded on each app. *3.0 is projected.</p>
-        </div>
+        <OptionTabs labels={["The race", "Leaderboard", "Clock faces"]}>
+          <BenchRace />
+          <BenchBoard />
+          <BenchClocks />
+        </OptionTabs>
       </Chapter>
 
-      {/* ---------- 03 the reframe (inverted) ---------- */}
+      {/* ---------- 03 our approach (inverted) ---------- */}
       <section className="bg-ink px-4 py-28 text-bg sm:px-10 md:py-40">
         <div className="grid gap-10 md:grid-cols-6 md:gap-0">
-          <p data-label className="label !text-bg/60 md:col-span-2">[ 03 — The reframe ]</p>
+          <Label light>03 — Approach</Label>
           <div className="md:col-span-4 md:pl-3">
-            <h2 data-split="lines" className="text-4xl font-semibold leading-[1] tracking-[-0.045em] md:text-[4.6vw]">
-              Fewer screens didn’t mean less effort.
-            </h2>
+            <h2 data-split="lines" className="text-4xl font-semibold leading-[1] tracking-[-0.045em] md:text-[4.6vw]">Our approach</h2>
             <p data-fade className="mt-8 max-w-2xl text-lg leading-relaxed text-bg/70 md:text-xl">
-              1.0 put too much on each screen. 2.0 had too many of them. In both, people were still typing, checking and waiting. So the question changed from how many screens to how much work each step asks for.
+              Fewer screens hadn’t meant less effort. So we ran two tracks: design fixes we could ship straight away, and a vendor unlock that changed what the product could do.
             </p>
-            <div className="mt-14 grid gap-4 md:grid-cols-3">
-              {[
-                ["01", "Fetch, don’t ask", "If a vendor can give us the data, we don’t ask people to type it."],
-                ["02", "Confirm, don’t repeat", "When we already know something, the step is a quick review."],
-                ["03", "Keep the momentum", "Always show what’s next. Nothing that can wait sits in the way."],
-              ].map(([n, b, s], i) => (
-                <div key={b} data-fade data-delay={i * 0.1} className="rounded-2xl border border-bg/15 p-7 transition-colors duration-500 hover:bg-bg hover:text-ink">
-                  <span className="font-mono text-xs opacity-60">{n}</span>
-                  <b className="mt-10 block text-2xl font-semibold tracking-[-0.03em]">{b}</b>
-                  <span className="mt-2 block opacity-70">{s}</span>
+            <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-10">
+              <div data-fade>
+                <h3 className="text-2xl font-semibold tracking-[-0.03em]">Design fixes</h3>
+                <p className="mt-1 text-sm text-bg/55">Immediate changes with no external dependency</p>
+                <ul className="mt-6">
+                  {[
+                    "OTP read and submitted automatically",
+                    "Multi-screen bank, personal and nominee forms merged into one",
+                    "Redundant priming screens removed",
+                    "Stepper screens replaced with a slim progress bar on top",
+                    "Nominee consent inline, not a full screen",
+                    "All declarations on a single page",
+                    "Segment activation and email verification moved after eSign, to reduce decision fatigue",
+                  ].map((t) => (
+                    <li key={t} className="border-t border-bg/15 py-3 text-bg/85">{t}</li>
+                  ))}
+                </ul>
+              </div>
+              <div data-fade data-delay="0.1">
+                <h3 className="text-2xl font-semibold tracking-[-0.03em]">Vendor unlock</h3>
+                <p className="mt-1 text-sm text-bg/55">With Ignosis, Equifax and Decentro, fetching from the mobile number</p>
+                <ul className="mt-6">
+                  {[
+                    "The phone number alone can fetch PAN, bank and most personal details",
+                    "People move from typing everything to reviewing it, which saves time",
+                    "Fetched: PAN, name, father’s name, gender, address, bank and personal details",
+                  ].map((t) => (
+                    <li key={t} className="border-t border-bg/15 py-3 text-bg/85">{t}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-20 grid gap-4 md:grid-cols-2">
+              {([
+                ["PAN auto-fetch", "Equifax", "−16%", "drop-offs. PAN details fetched from the mobile number.", 35, 10],
+                ["Bank auto-fetch", "Decentro", "−50%", "drop-offs. Bank details fetched from the mobile number.", 60, 4],
+              ] as const).map(([top, by, big, note, withF, without], i) => (
+                <div key={top} data-fade data-delay={i * 0.08} className="flex flex-col rounded-2xl border border-bg/15 p-7">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <b className="text-xl font-semibold tracking-[-0.02em]">{top}</b>
+                    <span className="label !text-bg/60">with {by}</span>
+                  </div>
+                  <b data-count className="mt-10 block text-7xl font-semibold tabular-nums tracking-[-0.05em]">{big}</b>
+                  <p className="mt-2 text-sm text-bg/65">{note}</p>
+                  <div className="mt-8 flex flex-col gap-3 border-t border-bg/15 pt-5 font-mono text-[11px] text-bg/60">
+                    <span>Conversion</span>
+                    {([["Fetched", withF, "var(--bg)"], ["Manual", without, "rgba(127,127,127,0.6)"]] as const).map(([k, v, c]) => (
+                      <div key={k} className="grid grid-cols-[4rem_1fr_2.5rem] items-center gap-3">
+                        <span>{k}</span>
+                        <span className="h-2 overflow-hidden rounded-full bg-bg/10">
+                          <span data-grow className="block h-full rounded-full" style={{ width: `${v}%`, background: c }} />
+                        </span>
+                        <span className="text-right tabular-nums">{v}%</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
@@ -454,7 +409,63 @@ export default function AccountOpening() {
         </div>
       </section>
 
-      {/* ---------- 04 the redesign: before / after ---------- */}
+      {/* ---------- 03b visual concept ---------- */}
+      <Chapter n="03B" label="Visual concept" title="Borrowed from Upstox’s premium products. Built on top.">
+        <Lede>
+          Leadership asked for a guided setup that felt light, not like a form. We took two concepts forward. The first won.
+        </Lede>
+
+        <div className="mt-14 overflow-hidden rounded-3xl bg-[#f1eef8] p-6 text-[#141217] md:p-10">
+          <Chip tone="ink">Concept 01 · chosen</Chip>
+          <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <h3 data-split="lines" className="max-w-xl text-3xl font-semibold leading-[1.05] tracking-[-0.035em] md:text-[2.8vw]">Glass, light and considered.</h3>
+              <p data-fade className="mt-5 max-w-lg text-[#141217]/70">
+                This visual language was already in our newer premium products. We took the cues and grew the system to carry the entire opening flow.
+              </p>
+              <div data-fade className="mt-6 flex flex-wrap gap-2">
+                {["Glass forms", "Soft gradients", "Translucent depth"].map((t) => (
+                  <span key={t} className="rounded-lg bg-[#5a2a9c]/10 px-3 py-1.5 text-sm font-medium text-[#5a2a9c]">{t}</span>
+                ))}
+              </div>
+              <ul className="mt-10">
+                {[
+                  ["Positioning, not paperwork", "A clear value proposition before any KYC."],
+                  ["Trust building", "A SEBI registration badge you see straight away."],
+                  ["Social proof", "“Trusted by 2 Crore+ Indians” right on the welcome."],
+                ].map(([h, p], i) => (
+                  <li key={h} data-fade data-delay={i * 0.06} className="border-t border-[#141217]/10 py-3">
+                    <b className="font-semibold">{h}</b>
+                    <span className="block text-sm text-[#141217]/65">{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <LoopVideo src={`${IMG}/glass-spin.mp4`} label="A glass form from the Version 3.0 visual language, rotating" className="mx-auto w-full max-w-[280px] rounded-2xl mix-blend-multiply" />
+          </div>
+          <div className="mt-10 grid grid-cols-3 gap-3 md:gap-6">
+            {[["coin", "The welcome, in final form"], ["fetch", "Fetching, in glass"], ["clock", "The activation tracker"]].map(([c, a], i) => (
+              <div key={c} data-parallax={i === 1 ? "-0.05" : "0.04"}>
+                <Clip src={`clips/${c}`} label={a} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6 grid items-center gap-8 rounded-3xl bg-card p-6 md:grid-cols-[1fr_1.1fr] md:p-10">
+          <div>
+            <Chip>Concept 02 · explored</Chip>
+            <h3 className="mt-6 text-2xl font-semibold tracking-[-0.03em]">Story-led</h3>
+            <p data-fade className="mt-3 max-w-md text-muted">Personal and relatable, drawn from people’s daily routines.</p>
+          </div>
+          <div className="overflow-hidden rounded-2xl">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`${IMG}/mood2.webp`} alt="Concept 02 mood board: a desk with a newspaper and chai" loading="lazy" className="block h-auto w-full" />
+          </div>
+        </div>
+      </Chapter>
+
+      {/* ---------- 04 the redesign ---------- */}
       <Chapter n="04" label="The redesign" title="Six changes, each aimed at a specific kind of effort.">
         <div className="mt-10">
           {CHANGES.map((b, i) => (
@@ -466,37 +477,32 @@ export default function AccountOpening() {
               <div className="mt-8 grid gap-4 md:grid-cols-2">
                 <div data-fade className="flex flex-col gap-5 rounded-2xl bg-card p-5">
                   <div>
-                    <span className="label">Before</span>
+                    <span className="label">Version 2.0</span>
                     <p className="mt-2 min-h-[3rem] text-sm text-muted">{b.problem}</p>
                   </div>
                   {b.beforeWide ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={`${IMG}/${b.beforeWide[0]}.webp`} alt={b.beforeWide[1]} loading="lazy" width={2402} height={1364} className="mt-auto h-auto w-full rounded-xl ring-1 ring-black/10 grayscale-[30%]" />
+                    <Zoomable src={`${IMG}/${b.beforeWide[0]}.webp`} alt={b.beforeWide[1]} width={2402} height={1364} className="mt-auto overflow-hidden rounded-xl ring-1 ring-black/10" />
                   ) : (
                     <div className="mt-auto grid grid-cols-3 gap-3">
-                      {b.before.map(([src, alt]) => (
-                        <Phone key={src} src={src} alt={alt} className="grayscale-[30%]" />
-                      ))}
+                      {b.before.map(([src, alt]) => <Shot key={src} src={src} alt={alt} old />)}
                     </div>
                   )}
                 </div>
                 <div data-fade data-delay="0.12" className="relative flex flex-col gap-5 rounded-2xl p-5 ring-1 ring-ink/15">
                   <div className="flex items-start justify-between gap-6">
                     <div>
-                      <span className="label !text-ink">After</span>
+                      <span className="label !text-ink">Version 3.0</span>
                       <p className="mt-2 min-h-[3rem] text-sm text-muted">{b.change}</p>
                     </div>
                     {b.result ? (
                       <div className="shrink-0 text-right">
                         <b data-count className="block text-4xl font-semibold tabular-nums tracking-[-0.05em] md:text-5xl">{b.result[0]}</b>
-                        <span className="mt-1 block max-w-[8rem] text-[11px] leading-tight text-muted">{b.result[1]}, measured</span>
+                        <span className="mt-1 block max-w-[8rem] text-[11px] leading-tight text-muted">{b.result[1]}</span>
                       </div>
                     ) : null}
                   </div>
                   <div className="mt-auto grid grid-cols-3 gap-3">
-                    {b.after.map(([src, alt]) => (
-                      <Phone key={src} src={src} alt={alt} />
-                    ))}
+                    {b.after.map(([src, alt]) => <Shot key={src} src={src} alt={alt} />)}
                   </div>
                 </div>
               </div>
@@ -505,57 +511,34 @@ export default function AccountOpening() {
         </div>
       </Chapter>
 
-      {/* ---------- the whole journey, recorded from the prototype ---------- */}
+      {/* ---------- 04b the whole journey ---------- */}
       <section className="bg-ink px-4 py-28 text-bg sm:px-10 md:py-40">
         <div className="grid gap-10 md:grid-cols-6 md:gap-0">
-          <p data-label className="label !text-bg/60 md:col-span-2">[ 04b — The whole journey ]</p>
-          <div className="md:col-span-4 md:pl-3">
-            <h2 data-split="lines" className="max-w-3xl text-4xl font-semibold leading-[1] tracking-[-0.045em] md:text-[3.5vw]">
-              Sign-up to a first watchlist, in one take.
-            </h2>
+          <Label light>04B — The whole journey</Label>
+          <div className="min-w-0 md:col-span-4 md:pl-3">
+            <h2 data-split="lines" className="max-w-3xl text-4xl font-semibold leading-[1] tracking-[-0.045em] md:text-[3.5vw]">Sign-up to home, in one take.</h2>
             <p data-fade className="mt-6 max-w-xl text-bg/65">
-              Recorded straight from the prototype, at real speed. Most of the motion is there to show progress, so tap a step to jump to it.
+              Recorded from the prototype, at the pace someone would really go through it. Pause, skip, or jump to any step.
             </p>
+            <div className="mt-14">
+              <FlowVideo src={`${IMG}/ao3-flow.mp4`} poster={`${IMG}/ao3-flow-poster.jpg`} chapters={CHAPTERS} />
+            </div>
           </div>
-        </div>
-        <div className="mt-16 md:mt-20 md:pl-[calc(33.333%+0.75rem)]">
-          <FlowVideo src={`${IMG}/ao3-flow.mp4`} poster={`${IMG}/ao3-flow-poster.jpg`} chapters={CHAPTERS} />
         </div>
       </section>
 
-      {/* ---------- visual direction ---------- */}
-      <Chapter n="04c" label="Visual direction" title="Choosing how it should feel.">
-        <Lede>
-          Leadership asked for a guided setup that felt light, not like a form. We tried two directions, then one expressive idea against something we could keep up across every step.
-        </Lede>
-        <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {[
-            ["mood2", "Explored", "Concept 02 · story-led", "Personal and relatable, drawn from people’s daily routines.", "Concept 02 mood board: a desk with a newspaper and chai"],
-            ["mood1", "Chosen", "Concept 01 · glass, light", "Premium and modern, and still recognisably Upstox.", "Concept 01 mood board: glass forms and soft gradients"],
-            ["", "Explored", "An expressive reveal", "Too complex to keep consistent across the KYC flow.", "“Hand reveal” for the PAN card"],
-            ["m3_visual", "Final", "Auto-expanding sections", "Keeps the reveal, works for every section, and gives the flow a rhythm.", "Auto-expanding PAN, bank and personal sections"],
-          ].map(([src, chip, h, p, alt], i) => (
-            <div key={h} data-fade data-delay={i * 0.06} className={`flex flex-col gap-4 rounded-2xl p-3 pb-5 ${chip === "Final" ? "bg-ink text-bg" : "bg-card"}`}>
-              <div className="group aspect-[4/5] overflow-hidden rounded-xl bg-bg">
-                {src ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={`${IMG}/${src}.webp`} alt={alt} loading="lazy" className="h-full w-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105" />
-                ) : (
-                  <div className="grid h-full place-items-center border border-dashed border-ink/25 p-6 text-center font-medium text-muted">{alt}</div>
-                )}
-              </div>
-              <div className="flex flex-col gap-2 px-2">
-                <Chip tone={chip === "Final" ? "red" : chip === "Chosen" ? "ink" : "line"}>{chip}</Chip>
-                <h4 className="text-lg font-semibold leading-tight tracking-[-0.02em]">{h}</h4>
-                <p className={`text-sm ${chip === "Final" ? "text-bg/70" : "text-muted"}`}>{p}</p>
-              </div>
-            </div>
-          ))}
+      {/* ---------- 04c prototype ---------- */}
+      <Chapter n="04C" label="Prototype" title="Try it yourself.">
+        <p data-fade className="mt-6 max-w-2xl text-lg text-muted">
+          The live prototype. Tap through the phone, or use the switches to make an auto-fetch fail and see the manual fallback.
+        </p>
+        <div data-fade className="mt-10">
+          <ProtoEmbed url={PROTO} />
         </div>
       </Chapter>
 
-      {/* ---------- small moments: columns drift at different speeds ---------- */}
-      <Chapter n="04d" label="Small moments" title="The details that keep people going.">
+      {/* ---------- 04d small moments: columns drift at different speeds ---------- */}
+      <Chapter n="04D" label="Small moments" title="The details that keep people going.">
         <Lede>Most of these answer a doubt before it turns into a reason to leave.</Lede>
         <div className="mt-16 grid grid-cols-2 gap-x-4 md:grid-cols-4">
           {[0, 1, 2, 3].map((col) => (
@@ -563,7 +546,7 @@ export default function AccountOpening() {
               {MOMENTS.filter((_, i) => i % 4 === col).map(([src, chip, h]) => (
                 <figure key={src} className="group">
                   <div className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-2 group-hover:rotate-[-1deg]">
-                    <Phone src={src} alt={h} />
+                    <Clip src={`clips/${src}`} label={h} />
                   </div>
                   <figcaption className="mt-4 flex flex-col gap-2">
                     <Chip>{chip}</Chip>
@@ -576,85 +559,46 @@ export default function AccountOpening() {
         </div>
       </Chapter>
 
-      {/* ---------- 05 the outcome: improved / expected / still open ---------- */}
-      <Chapter n="05" label="The outcome" title="Less manual work, measured. The rest, still being proven.">
-        <div className="mt-14 flex items-center gap-3">
-          <Chip tone="ink">Measured</Chip>
-          <span className="text-sm text-muted">Live auto-fetch, conversion with and without it</span>
+      {/* ---------- 05 the outcome ---------- */}
+      <section className="bg-ink px-4 py-28 text-bg sm:px-10 md:py-40">
+        <div className="grid gap-10 md:grid-cols-6 md:gap-0">
+          <Label light>05 — The outcome</Label>
+          <div className="md:col-span-4 md:pl-3">
+            <h2 data-split="lines" className="text-4xl font-semibold leading-[1] tracking-[-0.045em] md:text-[4.6vw]">Fewer steps. Faster activation. More people finishing.</h2>
+            <p data-fade className="mt-6 text-bg/65">Version 3.0, released October 2026.</p>
+          </div>
         </div>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {FETCHED.map(([top, big, note, withF, without], i) => (
-            <div key={top} data-fade data-delay={i * 0.08} className="flex flex-col rounded-2xl bg-ink p-7 text-bg">
-              <span className="label !text-bg/55">{top}</span>
-              <b data-count className="mt-10 block text-6xl font-semibold tabular-nums tracking-[-0.05em]">{big}</b>
-              <p className="mt-2 text-sm text-bg/65">{note}</p>
-              <div className="mt-8 flex flex-col gap-3 border-t border-bg/15 pt-5 font-mono text-[11px] text-bg/60">
-                {[
-                  ["Fetched", withF, "var(--bg)"],
-                  ["Manual", without, "rgba(255,255,255,0.3)"],
-                ].map(([k, v, c]) => (
-                  <div key={k as string} className="grid grid-cols-[4rem_1fr_2.5rem] items-center gap-3">
-                    <span>{k}</span>
-                    <span className="h-2 overflow-hidden rounded-full bg-bg/10">
-                      <span data-grow className="block h-full rounded-full" style={{ width: `${v}%`, background: c as string }} />
-                    </span>
-                    <span className="text-right tabular-nums">{v}%</span>
-                  </div>
-                ))}
+        <div className="mt-16 grid gap-px overflow-hidden rounded-3xl bg-bg/15 md:grid-cols-3">
+          {[
+            ["~38%", "fewer onboarding steps", "A leaner flow, with less friction at every stage of sign-up."],
+            ["~1–2 min", "to complete the happy path", "Down from 8–12 minutes, about 80% faster."],
+            ["~65%", "completion rate", "Up 38 points from about 27% in Version 2.0."],
+          ].map(([big, h, p], i) => (
+            <div key={h} data-fade data-delay={i * 0.08} className="flex min-h-[24rem] flex-col justify-between bg-ink p-8 md:p-10">
+              <div>
+                <b data-count className="block whitespace-nowrap text-6xl font-semibold tabular-nums tracking-[-0.05em] md:text-[5.4vw]">{big}</b>
+                <span className="mt-3 block text-lg">{h}</span>
               </div>
+              <p className="text-sm text-bg/60">{p}</p>
             </div>
           ))}
         </div>
-
-        <div className="mt-20 flex items-center gap-3">
-          <Chip tone="red">Projected</Chip>
-          <span className="text-sm text-muted">From the research phase, to be measured once 3.0 ships</span>
-        </div>
-        <div className="mt-8 grid grid-cols-1 border-y border-line md:grid-cols-3 md:divide-x md:divide-line">
-          {[
-            ["8–12", "~2", "minutes to submit on the happy path"],
-            ["11", "7", "steps on the happy path, most of them confirmations"],
-            ["28%", "~35%", "of people who start, finishing"],
-          ].map(([from, to, s], i) => (
-            <div key={s} data-fade data-delay={i * 0.08} className="py-8 md:px-6 md:first:pl-0">
-              <div className="flex items-baseline gap-3 font-semibold tracking-[-0.05em]">
-                <span className="text-2xl text-muted line-through decoration-1">{from}</span>
-                <span className="text-muted">→</span>
-                <b className="text-6xl tabular-nums">{to}</b>
-              </div>
-              <p className="mt-3 text-sm text-muted">{s}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-20 flex items-center gap-3">
-          <Chip>Still open</Chip>
-          <span className="text-sm text-muted">What we’re watching next</span>
-        </div>
-        <ul className="mt-6 grid gap-x-6 md:grid-cols-3">
-          {[
-            ["Effort", "Does manual typing keep falling as vendor coverage grows?"],
-            ["Completion", "Does drop-off at PAN stay down once 3.0 is live for everyone?"],
-            ["Activation", "Do more new accounts make a first investment, and does moving F&O after eSign cost us F&O users?"],
-          ].map(([h, p], i) => (
-            <li key={h} data-fade data-delay={i * 0.08} className="relative py-6">
-              <span data-grow className="absolute inset-x-0 top-0 h-px bg-line" />
-              <h4 className="text-lg font-semibold tracking-[-0.02em]">{h}</h4>
-              <p className="mt-2 text-sm text-muted">{p}</p>
-            </li>
-          ))}
-        </ul>
-      </Chapter>
+      </section>
 
       {/* ---------- 06 the next step ---------- */}
       <Chapter n="06" label="The next step" title="Getting people through KYC was only half the job.">
-        <div className="mt-8 grid gap-6 text-muted md:grid-cols-2">
-          <p data-fade>
-            An open account and a first investment are two different things. Finishing KYC doesn’t mean someone knows what to do next, so 3.0 carries on past the last KYC step.
-          </p>
-          <p data-fade data-delay="0.1">
-            While the account activates, people build a watchlist. Once it’s ready, alerts on those stocks give them a reason to make a first trade. The same nudge setup can carry other prompts across the app.
-          </p>
+        <div className="mt-12 grid items-center gap-12 md:grid-cols-[1fr_17rem]">
+          <div className="flex flex-col gap-6 text-lg leading-relaxed text-muted">
+            <p data-fade>
+              An open account and a first investment are two different things. Finishing KYC doesn’t mean someone knows what to do next, so Version 3.0 carries on past the last KYC step.
+            </p>
+            <p data-fade data-delay="0.1">
+              While the account activates, people build a watchlist. Once it’s ready, alerts on those stocks give them a reason to make a first trade. The same nudge setup can carry other prompts across the app.
+            </p>
+          </div>
+          <div data-fade data-delay="0.15">
+            <Clip src="ao3-watchlist" label="Picking stocks for a first watchlist, turning on alerts, then landing on the home screen" />
+          </div>
         </div>
       </Chapter>
 
@@ -702,7 +646,7 @@ export default function AccountOpening() {
         </Link>
         <div className="label flex justify-between px-4 py-8 sm:px-10">
           <span>Sal · Lead product designer, Upstox</span>
-          <span>Account Opening 3.0 · 2026</span>
+          <span>Account Opening · 2026</span>
         </div>
       </section>
     </Choreo>
