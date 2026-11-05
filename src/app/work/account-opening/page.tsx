@@ -644,7 +644,7 @@ export default function AccountOpening() {
         <div className="mt-16 grid gap-px overflow-hidden rounded-3xl bg-bg/15 md:grid-cols-3">
           {[
             ["~38%", "fewer onboarding steps", "A leaner flow, with less friction at every stage of sign-up."],
-            ["~1–2 min", "to complete the happy path", "Down from 10–12 minutes."],
+            ["~2–3 min", "to complete the happy path", "Down from 10–12 minutes."],
             ["~65%", "conversion", "Up 38% on Version 2.0."],
           ].map(([big, h, p], i) => (
             <div key={h} data-fade data-delay={i * 0.08} className="flex min-h-[24rem] flex-col justify-between bg-ink p-8 md:p-10">

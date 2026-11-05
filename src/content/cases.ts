@@ -33,7 +33,7 @@ export const cases: CaseStudy[] = [
     cover: ["#3b2bb8", "#8f7bff"],
     metrics: [
       { value: "~65%", label: "Conversion" },
-      { value: "~1–2 min", label: "Time on the happy path" },
+      { value: "~2–3 min", label: "Time on the happy path" },
       { value: "~38%", label: "Fewer onboarding steps" },
     ],
     sections: [],
