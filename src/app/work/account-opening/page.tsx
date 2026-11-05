@@ -246,8 +246,8 @@ export default function AccountOpening() {
         </Lede>
         <div className="mt-16 flex flex-col gap-16">
           {([
-            ["Version 1.0", "Too much on every screen", "Dense forms, several questions at once, long declarations. 24 steps, and every one looked like work.", "ao1_flow", "Version 1.0: 24 numbered screens from email entry to application submitted", 2298, 1288],
-            ["Version 2.0 · Sept 2025", "Less on each screen, more screens", "We went after cognitive load: one question per screen, a primer before each section, lots of visual help. Every screen got easier. The journey got longer.", "ao2_flow", "Version 2.0: every screen of the happy path, in order", 4410, 3419],
+            ["Version 1.0", "Too much on every screen", "Dense forms, several questions at once, long declarations. 24 steps, and every one looked like work.", "ao1_flow", "Version 1.0: 24 screens from email entry to application submitted", 2295, 938],
+            ["Version 2.0 · Sept 2025", "Less on each screen, more screens", "We went after cognitive load: one question per screen, a primer before each section, lots of visual help. Every screen got easier. The journey got longer.", "ao2_flow", "Version 2.0: 26 screens from the happy path, in order", 4590, 1820],
           ] as const).map(([chip, h, p, img, alt, w, hh]) => (
             <div key={chip}>
               <div className="grid gap-4 md:grid-cols-2">
