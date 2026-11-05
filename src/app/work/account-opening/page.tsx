@@ -116,16 +116,16 @@ const JOURNEY = [
 // seconds into ao3-flow.mp4 where each part of the journey starts
 const CHAPTERS = [
   { at: 0, label: "Welcome", note: "Who we are and what it costs, before we ask for anything." },
-  { at: 2.9, label: "Mobile and OTP", note: "The OTP is read from messages and fills itself in." },
-  { at: 8.6, label: "Email", note: "One tap with Google instead of typing an address." },
-  { at: 11.8, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
-  { at: 28.9, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
-  { at: 35.9, label: "Selfie", note: "A quick tip, the camera, done." },
-  { at: 44.0, label: "Two questions", note: "Trading experience and segments, on a single screen." },
-  { at: 48.5, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
-  { at: 58.2, label: "Activation", note: "F&O is offered after submitting, not in the way of it." },
-  { at: 63.8, label: "First watchlist", note: "Something useful to do while the account activates." },
-  { at: 72.5, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
+  { at: 2.7, label: "Mobile and OTP", note: "The OTP is read from messages and fills itself in." },
+  { at: 8.5, label: "Email", note: "One tap with Google instead of typing an address." },
+  { at: 11.5, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
+  { at: 28.3, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
+  { at: 35.3, label: "Selfie", note: "A quick tip, the camera, done." },
+  { at: 43.3, label: "Two questions", note: "Trading experience and segments, on a single screen." },
+  { at: 47.8, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
+  { at: 57.0, label: "Activation", note: "F&O is offered after submitting, not in the way of it." },
+  { at: 63.4, label: "First watchlist", note: "Something useful to do while the account activates." },
+  { at: 74.5, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
 ];
 
 // [name, start column (minutes), length (minutes), steps]
