@@ -632,7 +632,7 @@ export default function AccountOpening() {
                   </div>
                   <figcaption className="mt-4 flex flex-col gap-2">
                     <Chip>{chip}</Chip>
-                    <span className="text-lg font-semibold leading-tight tracking-[-0.02em]">{h}</span>
+                    <span className="text-lg font-normal leading-tight tracking-[-0.01em]">{h}</span>
                   </figcaption>
                 </figure>
               ))}
