@@ -328,7 +328,7 @@ export default function AccountOpening() {
       <Chapter n="02" label="The investigation" title="The biggest drop wasn’t at the end. It was at PAN verification.">
         <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
           <Stat value="~28%" label="of people complete the full Version 2.0 flow" />
-          <Stat value="10–12 min" label="average time to complete" delay={0.06} />
+          <Stat value="10–12" label="minutes on average to complete" delay={0.06} />
           <Stat value="11" label="steps" delay={0.12} />
           <Stat value="55" label="screens" delay={0.18} />
         </div>
