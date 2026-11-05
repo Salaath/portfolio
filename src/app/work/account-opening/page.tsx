@@ -116,16 +116,18 @@ const JOURNEY = [
 // seconds into ao3-flow.mp4 where each part of the journey starts
 const CHAPTERS = [
   { at: 0, label: "Welcome", note: "Who we are and what it costs, before we ask for anything." },
-  { at: 2.7, label: "Mobile and OTP", note: "The OTP is read from messages and fills itself in." },
-  { at: 8.5, label: "Email", note: "One tap with Google instead of typing an address." },
-  { at: 11.5, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
-  { at: 28.3, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
-  { at: 35.3, label: "Selfie", note: "A quick tip, the camera, done." },
-  { at: 43.3, label: "Two questions", note: "Trading experience and segments, on a single screen." },
-  { at: 47.8, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
-  { at: 57.0, label: "Activation", note: "F&O is offered after submitting, not in the way of it." },
-  { at: 63.4, label: "First watchlist", note: "Something useful to do while the account activates." },
-  { at: 74.5, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
+  { at: 3.1, label: "Mobile and OTP", note: "The OTP is read from messages and fills itself in." },
+  { at: 9.0, label: "Email", note: "One tap with Google instead of typing an address." },
+  { at: 13.4, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
+  { at: 30.4, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
+  { at: 37.5, label: "Selfie", note: "A quick tip, the camera, done." },
+  { at: 45.5, label: "Two questions", note: "Trading experience and segments, on a single screen." },
+  { at: 50.8, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
+  { at: 60.9, label: "F&O activation", note: "Offered after submitting, not in the way of it." },
+  { at: 63.2, label: "Link a bank for income proof", note: "Two OTPs filled in for you, one account to pick, and the statement is shared." },
+  { at: 73.7, label: "Activation tracker", note: "Where the application stands, and when you can trade." },
+  { at: 77.2, label: "First watchlist", note: "Something useful to do while the account activates." },
+  { at: 88.4, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
 ];
 
 // [name, start column (minutes), length (minutes), steps]
