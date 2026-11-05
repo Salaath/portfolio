@@ -218,13 +218,12 @@ export default function AccountOpening() {
             <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: RED }}>10–12</b>
             <span className="max-w-[13rem] pb-1 text-sm leading-snug text-[#141217]/60">minutes to open an account when we started, after two redesigns.</span>
           </div>
-          <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-x-6 md:grid-cols-4">
+          <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-x-6 md:grid-cols-3">
             {[
               ["Role", "Lead product designer"],
               ["Timeline", "April to May, 45 days"],
               ["Released", "October 2026"],
-              ["Vendors", "Ignosis, Equifax, Decentro"],
-              ["Team", "Salaath, Lead PD · Sathvik, PD · Sydney, Product manager · Engineering team"],
+              ["Team", "Salaath Shaikh, Lead Product Designer · Sathvik, Product Designer · Sydney, Product Manager · Engineering team"],
             ].map(([k, v], i) => (
               <div key={k} className={`relative py-4 ${k === "Team" ? "col-span-full" : ""}`}>
                 <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-[#141217]/15" />
