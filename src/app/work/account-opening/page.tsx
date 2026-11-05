@@ -46,14 +46,14 @@ function Compare({ before, after }: { before: string[][]; after: string[][] }) {
   const phone = `min(${n <= 3 ? "21vw" : "16vw"}, calc((100vw - 320px) / ${n}))`;
   const group = (label: string, items: string[][]) => (
     <div className="shrink-0">
-      <p className="label mb-5">{label}</p>
-      <div className="flex gap-4">
+      <p className="label mb-5 text-center">{label}</p>
+      <div className="flex justify-center gap-4">
         {items.map(([src, alt]) => {
           const final = src.startsWith("p/");
           return (
             <figure key={src} className={`shrink-0 ${final ? "w-[61.6vw] md:w-[calc(var(--phone)*1.0263)]" : "w-[60vw] md:w-[var(--phone)]"}`}>
               <Shot src={src} alt={alt} />
-              <figcaption className="mt-3 text-sm leading-snug text-muted">{alt}</figcaption>
+              <figcaption className="mt-3 text-center text-sm leading-snug text-muted">{alt}</figcaption>
             </figure>
           );
         })}
@@ -567,11 +567,11 @@ export default function AccountOpening() {
       <section className="px-4 pb-24 sm:px-10 md:pb-36">
         {CHANGES.map((b, i) => (
           <div key={b.title} className="border-t border-line py-16 first:border-t-0">
-            <div className="flex items-baseline gap-4">
+            <div className="flex items-baseline justify-center gap-4">
               <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
               <h3 data-split="lines" className="text-3xl font-semibold tracking-[-0.035em]">{b.title}</h3>
             </div>
-            <div data-fade className="mt-8 grid gap-6 md:grid-cols-[1fr_1fr_auto] md:gap-10">
+            <div data-fade className="mt-8 grid gap-6 text-center md:grid-cols-[1fr_1fr_auto] md:gap-10">
               <div>
                 <span className="label">Version 2.0</span>
                 <p className="mt-2 text-muted">{b.problem}</p>
@@ -581,9 +581,9 @@ export default function AccountOpening() {
                 <p className="mt-2 text-muted">{b.change}</p>
               </div>
               {b.result ? (
-                <div className="md:text-right">
+                <div>
                   <b data-count className="block text-5xl font-semibold tabular-nums tracking-[-0.05em]">{b.result[0]}</b>
-                  <span className="mt-1 block text-xs text-muted md:ml-auto md:max-w-[9rem]">{b.result[1]}</span>
+                  <span className="mx-auto mt-1 block text-xs text-muted md:max-w-[9rem]">{b.result[1]}</span>
                 </div>
               ) : <span className="hidden md:block" />}
             </div>
@@ -619,9 +619,10 @@ export default function AccountOpening() {
       </Chapter>
 
       {/* ---------- 04d small moments: columns drift at different speeds ---------- */}
-      <Chapter n="04D" label="Small moments" title="The details that keep people going.">
-        <Lede>Most of these answer a doubt before it turns into a reason to leave.</Lede>
-        <div className="mt-16 grid grid-cols-2 gap-x-4 md:grid-cols-4">
+      <Chapter n="04D" label="Small moments" title="Delight is built in.">
+        <Lede>Delight is woven into every interaction from the very beginning. Every step is designed to reduce anxiety, build confidence, and create moments of joy.</Lede>
+        <H3>Micro-moments that compound into the feel</H3>
+        <div className="mt-12 grid grid-cols-2 gap-x-4 md:grid-cols-4">
           {[0, 1, 2, 3].map((col) => (
             <div key={col} data-parallax={col % 2 ? "-0.08" : "0.06"} className="flex flex-col gap-10">
               {MOMENTS.filter((_, i) => i % 4 === col).map(([src, chip, h]) => (
@@ -638,6 +639,9 @@ export default function AccountOpening() {
             </div>
           ))}
         </div>
+        <p data-fade className="mt-24 max-w-3xl text-3xl font-medium leading-[1.1] tracking-[-0.03em] md:text-[2.6vw]">
+          An onboarding experience that users actually look forward to completing.
+        </p>
       </Chapter>
 
       {/* ---------- 05 the outcome ---------- */}
