@@ -28,11 +28,11 @@ export const cases: CaseStudy[] = [
     tagline: "Redesigning Upstox account opening to cut the work people had to do, and to give them a clear path from sign-up to their first investment.",
     year: "2026",
     role: "Lead product designer",
-    team: "Product managers, engineering, KYC vendors",
+    team: "Salaath (Lead PD), Sathvik (PD), Sydney (Product manager), Engineering team",
     tags: ["Onboarding", "KYC", "Activation"],
     cover: ["#3b2bb8", "#8f7bff"],
     metrics: [
-      { value: "~65%", label: "Completion rate" },
+      { value: "~65%", label: "Conversion" },
       { value: "~1–2 min", label: "Time on the happy path" },
       { value: "~38%", label: "Fewer onboarding steps" },
     ],

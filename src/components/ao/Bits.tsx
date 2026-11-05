@@ -1,32 +1,8 @@
 "use client";
 
-import { Children, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-/** Temporary: compare layouts in place. Remove once one is picked. */
-export function OptionTabs({ labels, children }: { labels: string[]; children: React.ReactNode }) {
-  const [i, setI] = useState(0);
-  const items = Children.toArray(children);
-  return (
-    <div className="mt-10">
-      <div className="mb-8 flex flex-wrap items-center gap-2 rounded-2xl border border-dashed border-ink/25 p-2">
-        <span className="px-2 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">Pick a layout</span>
-        {labels.map((l, k) => (
-          <button
-            key={l}
-            type="button"
-            onClick={() => setI(k)}
-            className={`rounded-full px-4 py-2 text-sm transition-colors ${k === i ? "bg-ink text-bg" : "hover:bg-card"}`}
-          >
-            {String.fromCharCode(65 + k)}. {l}
-          </button>
-        ))}
-      </div>
-      <div key={i}>{items[i]}</div>
-    </div>
-  );
-}
-
-/** The live Vercel prototype, scaled to fit, loaded only when it comes into view. */
+/** The live prototype, scaled to fit, loaded only when it comes into view. */
 export function ProtoEmbed({ url }: { url: string }) {
   const box = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
@@ -51,7 +27,7 @@ export function ProtoEmbed({ url }: { url: string }) {
           <span className="flex gap-1.5">
             {[0, 1, 2].map((d) => <i key={d} className="size-2.5 rounded-full bg-ink/15" />)}
           </span>
-          <span className="flex-1 truncate rounded-full bg-bg px-4 py-1 text-center font-mono text-xs text-muted">{url.replace("https://", "")}</span>
+          <span className="flex-1 truncate rounded-full bg-bg px-4 py-1 text-center font-mono text-xs text-muted">{url.includes("://") ? url.replace("https://", "") : "Version 3.0 prototype"}</span>
           <a href={url} target="_blank" rel="noreferrer" className="shrink-0 text-sm font-medium underline-offset-4 hover:underline">Open full screen ↗</a>
         </div>
         <div ref={box} className="relative w-full overflow-hidden bg-[#f1eff6]" style={{ height: H * scale }}>

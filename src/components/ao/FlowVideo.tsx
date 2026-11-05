@@ -106,7 +106,7 @@ export function FlowVideo({ src, poster, chapters }: { src: string; poster: stri
         })}
       </ol>
 
-      <div className="order-1 mx-auto w-[68vw] max-w-[330px] md:sticky md:top-20 md:w-[21vw]">
+      <div className="order-1 mx-auto w-[58vw] max-w-[300px] md:sticky md:top-6 md:w-[calc((100svh-170px)*0.45)]">
         <IPhone dark>
           <video
             ref={ref}
@@ -124,7 +124,7 @@ export function FlowVideo({ src, poster, chapters }: { src: string; poster: stri
           />
         </IPhone>
 
-        <div className="mt-6 text-bg">
+        <div className="mt-4 text-bg">
           <div className="flex items-center gap-3 font-mono text-[11px] tabular-nums text-bg/60">
             <span>{clock(t)}</span>
             <input
@@ -139,11 +139,11 @@ export function FlowVideo({ src, poster, chapters }: { src: string; poster: stri
             />
             <span>{clock(dur)}</span>
           </div>
-          <div className="mt-4 flex items-center justify-center gap-3">
+          <div className="mt-3 flex items-center justify-center gap-3">
             <button type="button" onClick={() => seek(t - 5, false)} aria-label="Back 5 seconds" className={ctrl}>
               <span className="font-mono text-[11px]">−5s</span>
             </button>
-            <button type="button" onClick={toggle} aria-label={playing ? "Pause" : "Play"} className={`${ctrl} size-14 bg-bg text-ink hover:bg-bg/80`}>
+            <button type="button" onClick={toggle} aria-label={playing ? "Pause" : "Play"} className={`${ctrl} size-12 bg-bg text-ink hover:bg-bg/80`}>
               {playing ? (
                 <svg width="14" height="14" viewBox="0 0 12 12" fill="currentColor"><rect x="2" y="1" width="3" height="10" rx="1" /><rect x="7" y="1" width="3" height="10" rx="1" /></svg>
               ) : (

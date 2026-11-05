@@ -7,19 +7,22 @@ import { FlowVideo, LoopVideo } from "@/components/ao/FlowVideo";
 import { HeroMock } from "@/components/ao/HeroMock";
 import { IPhone } from "@/components/ao/IPhone";
 import { Zoomable } from "@/components/ao/Zoomable";
-import { DropCircles, DropDots, DropRiver } from "@/components/ao/DropOff";
-import { BenchBoard, BenchClocks, BenchRace } from "@/components/ao/Benchmark";
-import { HeatScreen, OptionTabs, ProtoEmbed } from "@/components/ao/Bits";
+import { DropOff } from "@/components/ao/DropOff";
+import { BenchClocks } from "@/components/ao/Benchmark";
+import { HeatScreen, ProtoEmbed } from "@/components/ao/Bits";
 
 // Account Opening, revised. Every Version 3.0 screen and clip here is captured
 // from the final prototype (see "Case study/proto-video"); screens starting with
-// "o" are Version 2.0, from the older case study assets.
+// "o" are Version 2.0, from the older case study assets; "v2-" are rendered from the
+// Version 2.0 Figma file (see "Case study/ao2-video").
 
 export const metadata: Metadata = { title: "Account Opening — Salaath Shaikh" };
 
 const IMG = "/work/ao3";
 const RED = "#D93A2B";
-const PROTO = "https://ao3-prototype.vercel.app/";
+const SERIF = { fontFamily: 'Georgia, "Times New Roman", serif', fontStyle: "italic", fontWeight: 400, color: "#9b5b97" } as const;
+// The prototype is served from this site so it always matches the page.
+const PROTO = "/work/ao3/prototype/index.html";
 
 /* ---------- building blocks ---------------------------------------------- */
 
@@ -94,17 +97,17 @@ function Chip({ children, tone = "line" }: { children: React.ReactNode; tone?: "
 const CHAPTERS = [
   { at: 0, label: "Welcome", note: "Who we are and what it costs, before we ask for anything." },
   { at: 5.3, label: "Mobile and OTP", note: "The OTP is read from messages and fills itself in." },
-  { at: 14.7, label: "Email", note: "One tap with Google instead of typing an address." },
-  { at: 19.6, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
-  { at: 42.5, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
-  { at: 53.8, label: "Selfie", note: "A quick tip, the camera, done." },
-  { at: 66, label: "Two questions", note: "Trading experience and segments, on a single screen." },
-  { at: 74.2, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
-  { at: 89.2, label: "F&O activation", note: "Offered after submitting, not in the way of it." },
-  { at: 93.2, label: "Link a bank for income proof", note: "Two OTPs filled in for you, one account to pick, and the statement is shared." },
-  { at: 107.5, label: "Activation tracker", note: "Where the application stands, and when you can trade." },
-  { at: 114.2, label: "First watchlist", note: "Something useful to do while the account activates." },
-  { at: 130.8, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
+  { at: 14.5, label: "Email", note: "One tap with Google instead of typing an address." },
+  { at: 19.4, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
+  { at: 42.1, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
+  { at: 53.6, label: "Selfie", note: "A quick tip, the camera, done." },
+  { at: 63.8, label: "Three quick questions", note: "Trading experience, segments and nominee, on a single screen." },
+  { at: 73.2, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
+  { at: 88.3, label: "F&O activation", note: "Offered after submitting, not in the way of it." },
+  { at: 92.2, label: "Link a bank for income proof", note: "Two OTPs filled in for you, one account to pick, and the statement is shared." },
+  { at: 106.9, label: "Activation tracker", note: "Where the application stands, and when you can trade." },
+  { at: 113.4, label: "First watchlist", note: "Something useful to do while the account activates." },
+  { at: 129.7, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
 ];
 
 const CHANGES = [
@@ -142,9 +145,9 @@ const CHANGES = [
   {
     title: "Take the nominee form out of the journey",
     problem: "Most people skip it, but saying yes opened up to 22 screens before the account.",
-    change: "The form is gone from the flow, and consent sits inline. What's left is two quick questions on one screen.",
+    change: "The long form is gone from the flow. Nominee is now one yes-or-no question on the same screen as two others, and can be added later from the accounts section.",
     before: [["o38", "Nominee name field"], ["o42", "Nominee relation"], ["o46", "Nominee address"]],
-    after: [["p/questions", "Two quick questions on one screen"]],
+    after: [["p/questions", "Three quick questions on one screen, including nominee"]],
   },
   {
     title: "Make the end of KYC a starting point",
@@ -168,10 +171,19 @@ const MOMENTS = [
 
 // heat spots are in % of the screen, placed from the Version 2.0 click-map slide
 const HEAT = [
-  { src: `${IMG}/ao2-going.jpg`, alt: "Version 2.0: Get going in 3 steps", note: "Tapping steps that look clickable but aren't", spots: [{ x: 80, y: 42, r: 26, hot: true }, { x: 64, y: 49, r: 20 }, { x: 72, y: 52, r: 16 }, { x: 86, y: 92, r: 20 }, { x: 10, y: 92, r: 12 }], trail: [[60, 52], [68, 50], [74, 47], [82, 42], [70, 50], [64, 53]] },
-  { src: `${IMG}/ao2-sign.jpg`, alt: "Version 2.0: Draw your signature", note: "Pressing Next around the signature", spots: [{ x: 60, y: 93, r: 18 }, { x: 72, y: 95, r: 22, hot: true }, { x: 84, y: 92, r: 18, hot: true }] },
-  { src: `${IMG}/ao2-photo.jpg`, alt: "Version 2.0: Click a photo", note: "Tapping the illustration", spots: [{ x: 72, y: 32, r: 24, hot: true }, { x: 46, y: 50, r: 14 }, { x: 80, y: 92, r: 18 }], trail: [[72, 32], [75, 55], [77, 90]] },
-  { src: `${IMG}/o22.webp`, alt: "Version 2.0: Verify bank with UPI", note: "Repeated taps on the payment options", spots: [{ x: 88, y: 26, r: 22, hot: true }, { x: 46, y: 38, r: 14 }, { x: 80, y: 92, r: 18 }] },
+  { src: `${IMG}/v2-going.webp`, alt: "Version 2.0: Get going in 3 steps", note: "Tapping steps that look clickable but aren't", spots: [{ x: 80, y: 42, r: 26, hot: true }, { x: 64, y: 49, r: 20 }, { x: 72, y: 52, r: 16 }, { x: 86, y: 92, r: 20 }, { x: 10, y: 92, r: 12 }], trail: [[60, 52], [68, 50], [74, 47], [82, 42], [70, 50], [64, 53]] },
+  { src: `${IMG}/v2-sign.webp`, alt: "Version 2.0: Draw your signature", note: "Pressing Next around the signature", spots: [{ x: 60, y: 93, r: 18 }, { x: 72, y: 95, r: 22, hot: true }, { x: 84, y: 92, r: 18, hot: true }] },
+  { src: `${IMG}/v2-photo.webp`, alt: "Version 2.0: Click a photo", note: "Tapping the illustration", spots: [{ x: 72, y: 32, r: 24, hot: true }, { x: 46, y: 50, r: 14 }, { x: 80, y: 92, r: 18 }], trail: [[72, 32], [75, 55], [77, 90]] },
+  { src: `${IMG}/v2-upi.webp`, alt: "Version 2.0: Verify bank with UPI", note: "Repeated taps on the payment options", spots: [{ x: 86, y: 33, r: 22, hot: true }, { x: 46, y: 41, r: 14 }, { x: 80, y: 92, r: 18 }] },
+];
+
+const PAN_ROUTE = [
+  ["v2-pan1", "DigiLocker login"],
+  ["v2-pan2", "DigiLocker OTP"],
+  ["v2-pan3", "DigiLocker consent"],
+  ["v2-pan4", "Enter PAN"],
+  ["v2-pan5", "PAN entered"],
+  ["v2-pan6", "Confirm PAN details"],
 ];
 
 /* ---------- page ----------------------------------------------------------- */
@@ -203,17 +215,18 @@ export default function AccountOpening() {
             Account opening on Upstox, redesigned around the work people had to do, and what they came to do next.
           </p>
           <div data-fade data-load data-delay="0.8" className="mt-10 flex items-end gap-6">
-            <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: RED }}>8–12</b>
+            <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: RED }}>10–12</b>
             <span className="max-w-[13rem] pb-1 text-sm leading-snug text-[#141217]/60">minutes to open an account when we started, after two redesigns.</span>
           </div>
           <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-x-6 md:grid-cols-4">
             {[
               ["Role", "Lead product designer"],
               ["Timeline", "April to May, 45 days"],
-              ["With", "PMs, engineering, Ignosis, Equifax, Decentro"],
               ["Released", "October 2026"],
+              ["Vendors", "Ignosis, Equifax, Decentro"],
+              ["Team", "Salaath, Lead PD · Sathvik, PD · Sydney, Product manager · Engineering team"],
             ].map(([k, v], i) => (
-              <div key={k} className="relative py-4">
+              <div key={k} className={`relative py-4 ${k === "Team" ? "col-span-full" : ""}`}>
                 <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-[#141217]/15" />
                 <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-[#141217]/50">{k}</dt>
                 <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className="mt-1 text-sm font-medium">{v}</dd>
@@ -235,7 +248,7 @@ export default function AccountOpening() {
         <div className="mt-16 flex flex-col gap-16">
           {([
             ["Version 1.0", "Too much on every screen", "Dense forms, several questions at once, long declarations. 24 steps, and every one looked like work.", "ao1_flow", "Version 1.0: 24 numbered screens from email entry to application submitted", 2298, 1288],
-            ["Version 2.0 · Sept 2025", "Less on each screen, more screens", "We went after cognitive load: one question per screen, a primer before each section, lots of visual help. Every screen got easier. The journey got longer.", "ao2_flow", "Version 2.0: 16 numbered steps with primers and branched flows", 2342, 1304],
+            ["Version 2.0 · Sept 2025", "Less on each screen, more screens", "We went after cognitive load: one question per screen, a primer before each section, lots of visual help. Every screen got easier. The journey got longer.", "ao2_flow", "Version 2.0: every screen of the happy path, in order", 4410, 3419],
           ] as const).map(([chip, h, p, img, alt, w, hh]) => (
             <div key={chip}>
               <div className="grid gap-4 md:grid-cols-2">
@@ -253,6 +266,21 @@ export default function AccountOpening() {
               </figure>
             </div>
           ))}
+        </div>
+
+        <div className="mt-16 grid items-center gap-10 md:grid-cols-[minmax(0,17rem)_1fr] md:gap-14">
+          <div data-fade className="mx-auto w-[62vw] max-w-[17rem] md:w-full">
+            <IPhone aspect="360/800">
+              <LoopVideo src={`${IMG}/ao2-flow.mp4`} poster={`${IMG}/ao2-flow-poster.jpg`} label="Tapping through the Version 2.0 Figma prototype, from the phone's home screen to the app" className="absolute inset-0 h-full w-full object-cover" />
+            </IPhone>
+          </div>
+          <div>
+            <Chip>Version 2.0, tap by tap</Chip>
+            <p data-fade className="mt-6 text-3xl font-medium leading-[1.1] tracking-[-0.03em] md:text-[2.6vw]">Watch it to feel how long it goes on.</p>
+            <p data-fade data-delay="0.1" className="mt-5 max-w-md text-muted">
+              Every tap on the happy path, from the Figma prototype, sped up to a minute and a half. Filling it in for real took 10–12 minutes.
+            </p>
+          </div>
         </div>
 
         <H3>After Version 2.0 launched</H3>
@@ -276,17 +304,26 @@ export default function AccountOpening() {
       <Chapter n="02" label="The investigation" title="The biggest drop wasn’t at the end. It was at PAN verification.">
         <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
           <Stat value="~28%" label="of people complete the full Version 2.0 flow" />
-          <Stat value="8–12 min" label="average time to complete" delay={0.06} />
+          <Stat value="10–12 min" label="average time to complete" delay={0.06} />
           <Stat value="11" label="steps" delay={0.12} />
           <Stat value="30" label="screens" delay={0.18} />
         </div>
 
         <H3>Where people left</H3>
-        <OptionTabs labels={["The river", "Field of circles", "100 people"]}>
-          <DropRiver />
-          <DropCircles />
-          <DropDots />
-        </OptionTabs>
+        <DropOff />
+
+        <H3>What Verify PAN asked for</H3>
+        <p data-fade className="mt-4 max-w-2xl text-muted">
+          Right after sign-up, with no warning that KYC was coming: a DigiLocker login with its own OTP, a consent screen, then a PAN typed in by hand and checked.
+        </p>
+        <div className="mt-10 grid grid-cols-3 gap-3 md:grid-cols-6">
+          {PAN_ROUTE.map(([src, alt], i) => (
+            <figure key={src} data-fade data-delay={i * 0.05}>
+              <Shot src={src} alt={alt} />
+              <figcaption className="mt-2 text-xs leading-snug text-muted">{alt}</figcaption>
+            </figure>
+          ))}
+        </div>
 
         <div className="mt-20 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-end">
           <p data-fade className="text-3xl font-medium leading-[1.1] tracking-[-0.03em] md:text-[2.6vw]">
@@ -329,11 +366,7 @@ export default function AccountOpening() {
         <p data-fade className="mt-4 max-w-2xl text-muted">
           Upstox was the slowest. The fastest fetched PAN and most of the profile from the phone number, so people only confirmed.
         </p>
-        <OptionTabs labels={["The race", "Leaderboard", "Clock faces"]}>
-          <BenchRace />
-          <BenchBoard />
-          <BenchClocks />
-        </OptionTabs>
+        <BenchClocks />
       </Chapter>
 
       {/* ---------- 03 our approach (inverted) ---------- */}
@@ -452,16 +485,56 @@ export default function AccountOpening() {
           </div>
         </div>
 
-        <div className="mt-6 grid items-center gap-8 rounded-3xl bg-card p-6 md:grid-cols-[1fr_1.1fr] md:p-10">
-          <div>
-            <Chip>Concept 02 · explored</Chip>
-            <h3 className="mt-6 text-2xl font-semibold tracking-[-0.03em]">Story-led</h3>
-            <p data-fade className="mt-3 max-w-md text-muted">Personal and relatable, drawn from people’s daily routines.</p>
-          </div>
-          <div className="overflow-hidden rounded-2xl">
+        <div className="mt-6 overflow-hidden rounded-3xl bg-card p-6 md:p-10">
+          <Chip>Concept 02 · explored</Chip>
+          <div className="mt-8 grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
+            <div>
+              <h3 data-split="lines" className="text-3xl font-semibold leading-[1.1] tracking-[-0.035em] md:text-[2.6vw]">
+                Borrowed from our user’s routine. Journey that <em style={SERIF}>feels relatable.</em>
+              </h3>
+              <p data-fade className="mt-5 max-w-md text-muted">
+                A story-led approach that feels like home: relatable, intuitive, deeply personal, and made for every kind of India.
+              </p>
+              <div data-fade className="mt-6 flex flex-wrap gap-2">
+                {["Immersive", "Realism", "Storytelling"].map((t) => (
+                  <span key={t} className="rounded-lg bg-[#8a2a78]/10 px-3 py-1.5 text-sm font-medium text-[#8a2a78]">{t}</span>
+                ))}
+              </div>
+            </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`${IMG}/mood2.webp`} alt="Concept 02 mood board: a desk with a newspaper and chai" loading="lazy" className="block h-auto w-full" />
+            <img src={`${IMG}/c2-mood.webp`} alt="Concept 02 mood board: a wooden desk with a newspaper, a glass of chai, and a trader at work" loading="lazy" className="block h-auto w-full mix-blend-multiply" />
           </div>
+
+          <div className="mt-16 grid items-center gap-10 border-t border-line pt-14 md:grid-cols-[minmax(0,17rem)_1fr] md:gap-14">
+            <div data-fade className="mx-auto w-[62vw] max-w-[17rem] md:w-full">
+              <IPhone aspect="360/809">
+                <LoopVideo src={`${IMG}/c2-flow.mp4`} label="Recording of the Concept 02 prototype: entering a phone number over a desk scene, fetching details on a newspaper, then confirming a PAN card held in a hand" className="absolute inset-0 h-full w-full object-cover" />
+              </IPhone>
+            </div>
+            <div>
+              <h3 data-split="lines" className="text-3xl font-semibold leading-[1.1] tracking-[-0.035em] md:text-[2.6vw]">
+                Not a process. <em style={SERIF}>A conversation.</em>
+              </h3>
+              <p data-fade className="mt-5 max-w-lg text-muted">
+                Like stepping into a lobby so welcoming, you slow down on purpose. The kind you actually want to walk into.
+              </p>
+              <div className="mt-10 grid gap-8 sm:grid-cols-2">
+                {[
+                  ["Minimal", "Clutter-free", "Every element serves a purpose. No unnecessary distractions."],
+                  ["Immersive", "Feels personal", "A real conversation. One that walks with you, not ahead of you."],
+                ].map(([tag, h, p], i) => (
+                  <div key={h} data-fade data-delay={i * 0.08}>
+                    <span className="rounded-lg bg-[#8a2a78]/10 px-3 py-1.5 text-sm font-medium text-[#8a2a78]">{tag}</span>
+                    <b className="mt-5 block text-lg font-semibold">{h}</b>
+                    <p className="mt-2 text-sm text-muted">{p}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img data-fade src={`${IMG}/c2-screens.webp`} alt="Three Concept 02 screens: phone number over a desk, fetching details on an Upstox newspaper, and confirming a PAN card" loading="lazy" className="mx-auto mt-16 block h-auto w-full max-w-4xl mix-blend-multiply" />
         </div>
       </Chapter>
 
@@ -571,8 +644,8 @@ export default function AccountOpening() {
         <div className="mt-16 grid gap-px overflow-hidden rounded-3xl bg-bg/15 md:grid-cols-3">
           {[
             ["~38%", "fewer onboarding steps", "A leaner flow, with less friction at every stage of sign-up."],
-            ["~1–2 min", "to complete the happy path", "Down from 8–12 minutes, about 80% faster."],
-            ["~65%", "completion rate", "Up 38 points from about 27% in Version 2.0."],
+            ["~1–2 min", "to complete the happy path", "Down from 10–12 minutes."],
+            ["~65%", "conversion", "Up 38% on Version 2.0."],
           ].map(([big, h, p], i) => (
             <div key={h} data-fade data-delay={i * 0.08} className="flex min-h-[24rem] flex-col justify-between bg-ink p-8 md:p-10">
               <div>
