@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { cases } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
 import { RollButton } from "@/components/RollButton";
-import { FlowVideo, LoopVideo } from "@/components/ao/FlowVideo";
+import { FlowVideo, LoopVideo, PhonePlayer } from "@/components/ao/FlowVideo";
 import { HeroMock } from "@/components/ao/HeroMock";
 import { IPhone } from "@/components/ao/IPhone";
 import { Zoomable } from "@/components/ao/Zoomable";
@@ -20,7 +20,6 @@ export const metadata: Metadata = { title: "Account Opening — Salaath Shaikh" 
 
 const IMG = "/work/ao3";
 const RED = "#D93A2B";
-const SERIF = { fontFamily: 'Georgia, "Times New Roman", serif', fontStyle: "italic", fontWeight: 400, color: "#9b5b97" } as const;
 // The prototype is served from this site so it always matches the page.
 const PROTO = "/work/ao3/prototype/index.html";
 
@@ -38,6 +37,37 @@ function Shot({ src, alt, old }: { src: string; alt: string; old?: boolean }) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={`${IMG}/${src}.${final ? "jpg" : "webp"}`} alt={alt} loading="lazy" className={`absolute inset-0 h-full w-full object-cover ${old ? "grayscale-[30%]" : ""}`} />
     </IPhone>
+  );
+}
+
+/** One change: every screen on one surface, big enough to read, and each opens full screen. */
+function Compare({ before, after }: { before: string[][]; after: string[][] }) {
+  const n = before.length + after.length;
+  const phone = `min(${n <= 3 ? "21vw" : "16vw"}, calc((100vw - 320px) / ${n}))`;
+  const group = (label: string, items: string[][]) => (
+    <div className="shrink-0">
+      <p className="label mb-5">{label}</p>
+      <div className="flex gap-4">
+        {items.map(([src, alt]) => {
+          const final = src.startsWith("p/");
+          return (
+            <figure key={src} className="w-[60vw] shrink-0 md:w-[var(--phone)]">
+              <Zoomable src={`${IMG}/${src}.${final ? "jpg" : "webp"}`} alt={alt} width={final ? 750 : 720} height={final ? 1624 : 1600} quiet>
+                <Shot src={src} alt={alt} />
+              </Zoomable>
+              <figcaption className="mt-3 text-xs leading-snug text-muted">{alt}</figcaption>
+            </figure>
+          );
+        })}
+      </div>
+    </div>
+  );
+  return (
+    <div data-fade className="mt-8 flex gap-8 overflow-x-auto rounded-3xl bg-card p-6 md:justify-center md:p-10" style={{ "--phone": phone } as React.CSSProperties}>
+      {group("Version 2.0", before)}
+      <span aria-hidden className="w-px shrink-0 self-stretch bg-ink/10" />
+      {group("Version 3.0", after)}
+    </div>
   );
 }
 
@@ -96,18 +126,18 @@ function Chip({ children, tone = "line" }: { children: React.ReactNode; tone?: "
 // seconds into ao3-flow.mp4 where each part of the journey starts
 const CHAPTERS = [
   { at: 0, label: "Welcome", note: "Who we are and what it costs, before we ask for anything." },
-  { at: 5.3, label: "Mobile and OTP", note: "The OTP is read from messages and fills itself in." },
-  { at: 14.5, label: "Email", note: "One tap with Google instead of typing an address." },
-  { at: 19.4, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
-  { at: 42.1, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
-  { at: 53.6, label: "Selfie", note: "A quick tip, the camera, done." },
-  { at: 63.8, label: "Three quick questions", note: "Trading experience, segments and nominee, on a single screen." },
-  { at: 73.2, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
-  { at: 88.3, label: "F&O activation", note: "Offered after submitting, not in the way of it." },
-  { at: 92.2, label: "Link a bank for income proof", note: "Two OTPs filled in for you, one account to pick, and the statement is shared." },
-  { at: 106.9, label: "Activation tracker", note: "Where the application stands, and when you can trade." },
-  { at: 113.4, label: "First watchlist", note: "Something useful to do while the account activates." },
-  { at: 129.7, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
+  { at: 5.4, label: "Mobile and OTP", note: "The OTP is read from messages and fills itself in." },
+  { at: 14.7, label: "Email", note: "One tap with Google instead of typing an address." },
+  { at: 19.6, label: "Confirm PAN, bank, personal", note: "Details are fetched while you watch, then confirmed card by card." },
+  { at: 42.5, label: "Signature", note: "Draw it, or tap to sign. A small win when it's saved." },
+  { at: 54, label: "Selfie", note: "A quick tip, the camera, done." },
+  { at: 64.4, label: "Three quick questions", note: "Trading experience, segments and nominee, on a single screen." },
+  { at: 73.9, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
+  { at: 89.1, label: "F&O activation", note: "Offered after submitting, not in the way of it." },
+  { at: 92.8, label: "Link a bank for income proof", note: "Two OTPs filled in for you, one account to pick, and the statement is shared." },
+  { at: 107.4, label: "Activation tracker", note: "Where the application stands, and when you can trade." },
+  { at: 115.5, label: "First watchlist", note: "Something useful to do while the account activates." },
+  { at: 132.2, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
 ];
 
 const CHANGES = [
@@ -138,8 +168,7 @@ const CHANGES = [
     title: "Bring personal details onto one screen",
     problem: "A primer and five single-question screens, for answers we mostly already had.",
     change: "Fetched details arrive pre-filled on one card, and confirmed sections stack up above it.",
-    before: [],
-    beforeWide: ["ao2_personal", "Version 2.0 personal details: a primer followed by five single-question screens"],
+    before: [["v2-per1", "Primer: enter personal details"], ["v2-per2", "Trading experience"], ["v2-per3", "Annual income"], ["v2-per4", "Settlement duration"], ["v2-per5", "Occupation"], ["v2-per6", "Marital status"]],
     after: [["p/personal", "Personal details pre-filled on one card"]],
   },
   {
@@ -156,7 +185,7 @@ const CHANGES = [
     before: [["o67", "Congratulations, application submitted"], ["p1", "15-day Plus free trial interstitial"]],
     after: [["p/waiting", "Account activation in progress"], ["p/home", "Home with an activation tracker"]],
   },
-] as { title: string; problem: string; change: string; result?: [string, string]; before: string[][]; beforeWide?: string[]; after: string[][] }[];
+] as { title: string; problem: string; change: string; result?: [string, string]; before: string[][]; after: string[][] }[];
 
 const MOMENTS = [
   ["coin", "Trust", "The coin settles before anything is asked of you"],
@@ -221,14 +250,14 @@ export default function AccountOpening() {
           <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-x-6 md:grid-cols-3">
             {[
               ["Role", "Lead product designer"],
-              ["Timeline", "April to May, 45 days"],
+              ["Timeline", "April – May 2026 · 45 days"],
               ["Released", "October 2026"],
-              ["Team", "Salaath Shaikh, Lead Product Designer · Sathvik, Product Designer · Sydney, Product Manager · Engineering team"],
+              ["Team", "Salaath Shaikh — Lead Product Designer\nSathvik — Product Designer\nSydney — Product Manager\nEngineering — Cross-functional team"],
             ].map(([k, v], i) => (
               <div key={k} className={`relative py-4 ${k === "Team" ? "col-span-full" : ""}`}>
                 <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-[#141217]/15" />
                 <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-[#141217]/50">{k}</dt>
-                <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className="mt-1 text-sm font-medium">{v}</dd>
+                <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className="mt-1 whitespace-pre-line text-sm font-medium">{v}</dd>
               </div>
             ))}
           </dl>
@@ -269,20 +298,18 @@ export default function AccountOpening() {
 
         <div className="mt-16 grid items-center gap-10 md:grid-cols-[minmax(0,17rem)_1fr] md:gap-14">
           <div data-fade className="mx-auto w-[62vw] max-w-[17rem] md:w-full">
-            <IPhone aspect="360/800">
-              <LoopVideo src={`${IMG}/ao2-flow.mp4`} poster={`${IMG}/ao2-flow-poster.jpg`} label="Tapping through the Version 2.0 Figma prototype, from the phone's home screen to the app" className="absolute inset-0 h-full w-full object-cover" />
-            </IPhone>
+            <PhonePlayer src={`${IMG}/ao2-flow.mp4`} poster={`${IMG}/ao2-flow-poster.jpg`} aspect="360/800" label="Tapping through the Version 2.0 Figma prototype, from the phone's home screen to the app" />
           </div>
           <div>
             <Chip>Version 2.0, tap by tap</Chip>
             <p data-fade className="mt-6 text-3xl font-medium leading-[1.1] tracking-[-0.03em] md:text-[2.6vw]">Watch it to feel how long it goes on.</p>
             <p data-fade data-delay="0.1" className="mt-5 max-w-md text-muted">
-              Every tap on the happy path, from the Figma prototype, sped up to a minute and a half. Filling it in for real took 10–12 minutes.
+              Every tap on the happy path, recorded from the Figma prototype. Filling it in for real took 10–12 minutes.
             </p>
           </div>
         </div>
 
-        <H3>After Version 2.0 launched</H3>
+        <H3>After Version 2.0 launched in September 2025</H3>
         <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
           <Stat value="31%" label="dead clicks at launch (10.4% after fixes)" bad />
           <Stat value="18 min" label="to onboard at launch (12 min after fixes)" bad delay={0.06} />
@@ -295,7 +322,7 @@ export default function AccountOpening() {
       <section className="px-4 py-32 sm:px-10 md:py-48">
         <p data-label className="label mb-10 text-center !text-sm">[ Where that left us ]</p>
         <p data-scrub-words className="mx-auto max-w-5xl text-center text-4xl font-medium leading-[1.05] tracking-[-0.035em] md:text-[4.4vw]">
-          Every screen was easier to get through. The whole thing still felt long.
+          Every screen was easier to get through. The whole journey still felt long.
         </p>
       </section>
 
@@ -305,7 +332,7 @@ export default function AccountOpening() {
           <Stat value="~28%" label="of people complete the full Version 2.0 flow" />
           <Stat value="10–12 min" label="average time to complete" delay={0.06} />
           <Stat value="11" label="steps" delay={0.12} />
-          <Stat value="30" label="screens" delay={0.18} />
+          <Stat value="55" label="screens" delay={0.18} />
         </div>
 
         <H3>Where people left</H3>
@@ -375,7 +402,7 @@ export default function AccountOpening() {
           <div className="md:col-span-4 md:pl-3">
             <h2 data-split="lines" className="text-4xl font-semibold leading-[1] tracking-[-0.045em] md:text-[4.6vw]">Our approach</h2>
             <p data-fade className="mt-8 max-w-2xl text-lg leading-relaxed text-bg/70 md:text-xl">
-              Fewer screens hadn’t meant less effort. So we ran two tracks: design fixes we could ship straight away, and a vendor unlock that changed what the product could do.
+              Fewer screens hadn’t meant less effort. So we ran two tracks: design fixes we could ship straight away and a vendor unlock that changed what the product could do.
             </p>
             <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-10">
               <div data-fade>
@@ -489,14 +516,14 @@ export default function AccountOpening() {
           <div className="mt-8 grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
             <div>
               <h3 data-split="lines" className="text-3xl font-semibold leading-[1.1] tracking-[-0.035em] md:text-[2.6vw]">
-                Borrowed from our user’s routine. Journey that <em style={SERIF}>feels relatable.</em>
+                Borrowed from our user’s routine. Journey that feels relatable.
               </h3>
               <p data-fade className="mt-5 max-w-md text-muted">
                 A story-led approach that feels like home: relatable, intuitive, deeply personal, and made for every kind of India.
               </p>
               <div data-fade className="mt-6 flex flex-wrap gap-2">
                 {["Immersive", "Realism", "Storytelling"].map((t) => (
-                  <span key={t} className="rounded-lg bg-[#8a2a78]/10 px-3 py-1.5 text-sm font-medium text-[#8a2a78]">{t}</span>
+                  <span key={t} className="rounded-lg bg-ink/[0.07] px-3 py-1.5 text-sm font-medium text-ink">{t}</span>
                 ))}
               </div>
             </div>
@@ -512,7 +539,7 @@ export default function AccountOpening() {
             </div>
             <div>
               <h3 data-split="lines" className="text-3xl font-semibold leading-[1.1] tracking-[-0.035em] md:text-[2.6vw]">
-                Not a process. <em style={SERIF}>A conversation.</em>
+                Not a process. A conversation.
               </h3>
               <p data-fade className="mt-5 max-w-lg text-muted">
                 Like stepping into a lobby so welcoming, you slow down on purpose. The kind you actually want to walk into.
@@ -523,7 +550,7 @@ export default function AccountOpening() {
                   ["Immersive", "Feels personal", "A real conversation. One that walks with you, not ahead of you."],
                 ].map(([tag, h, p], i) => (
                   <div key={h} data-fade data-delay={i * 0.08}>
-                    <span className="rounded-lg bg-[#8a2a78]/10 px-3 py-1.5 text-sm font-medium text-[#8a2a78]">{tag}</span>
+                    <span className="rounded-lg bg-ink/[0.07] px-3 py-1.5 text-sm font-medium text-ink">{tag}</span>
                     <b className="mt-5 block text-lg font-semibold">{h}</b>
                     <p className="mt-2 text-sm text-muted">{p}</p>
                   </div>
@@ -538,50 +565,36 @@ export default function AccountOpening() {
       </Chapter>
 
       {/* ---------- 04 the redesign ---------- */}
-      <Chapter n="04" label="The redesign" title="Six changes, each aimed at a specific kind of effort.">
-        <div className="mt-10">
-          {CHANGES.map((b, i) => (
-            <div key={b.title} className="border-t border-line py-16 first:border-t-0 first:pt-6">
-              <div className="flex items-baseline gap-4">
-                <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
-                <h3 data-split="lines" className="text-3xl font-semibold tracking-[-0.035em]">{b.title}</h3>
-              </div>
-              <div className="mt-8 grid gap-4 md:grid-cols-2">
-                <div data-fade className="flex flex-col gap-5 rounded-2xl bg-card p-5">
-                  <div>
-                    <span className="label">Version 2.0</span>
-                    <p className="mt-2 min-h-[3rem] text-sm text-muted">{b.problem}</p>
-                  </div>
-                  {b.beforeWide ? (
-                    <Zoomable src={`${IMG}/${b.beforeWide[0]}.webp`} alt={b.beforeWide[1]} width={2402} height={1364} className="mt-auto overflow-hidden rounded-xl ring-1 ring-black/10" />
-                  ) : (
-                    <div className="mt-auto grid grid-cols-3 gap-3">
-                      {b.before.map(([src, alt]) => <Shot key={src} src={src} alt={alt} old />)}
-                    </div>
-                  )}
-                </div>
-                <div data-fade data-delay="0.12" className="relative flex flex-col gap-5 rounded-2xl p-5 ring-1 ring-ink/15">
-                  <div className="flex items-start justify-between gap-6">
-                    <div>
-                      <span className="label !text-ink">Version 3.0</span>
-                      <p className="mt-2 min-h-[3rem] text-sm text-muted">{b.change}</p>
-                    </div>
-                    {b.result ? (
-                      <div className="shrink-0 text-right">
-                        <b data-count className="block text-4xl font-semibold tabular-nums tracking-[-0.05em] md:text-5xl">{b.result[0]}</b>
-                        <span className="mt-1 block max-w-[8rem] text-[11px] leading-tight text-muted">{b.result[1]}</span>
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="mt-auto grid grid-cols-3 gap-3">
-                    {b.after.map(([src, alt]) => <Shot key={src} src={src} alt={alt} />)}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+      <Chapter n="04" label="The redesign" title="Six changes, each aimed at a specific kind of effort." className="!pb-0">
+        <Lede>Click any screen to open it full size.</Lede>
       </Chapter>
+      <section className="px-4 pb-24 sm:px-10 md:pb-36">
+        {CHANGES.map((b, i) => (
+          <div key={b.title} className="border-t border-line py-16 first:border-t-0">
+            <div className="flex items-baseline gap-4">
+              <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
+              <h3 data-split="lines" className="text-3xl font-semibold tracking-[-0.035em]">{b.title}</h3>
+            </div>
+            <div data-fade className="mt-8 grid gap-6 md:grid-cols-[1fr_1fr_auto] md:gap-10">
+              <div>
+                <span className="label">Version 2.0</span>
+                <p className="mt-2 text-muted">{b.problem}</p>
+              </div>
+              <div>
+                <span className="label !text-ink">Version 3.0</span>
+                <p className="mt-2 text-muted">{b.change}</p>
+              </div>
+              {b.result ? (
+                <div className="md:text-right">
+                  <b data-count className="block text-5xl font-semibold tabular-nums tracking-[-0.05em]">{b.result[0]}</b>
+                  <span className="mt-1 block text-xs text-muted md:ml-auto md:max-w-[9rem]">{b.result[1]}</span>
+                </div>
+              ) : <span className="hidden md:block" />}
+            </div>
+            <Compare before={b.before} after={b.after} />
+          </div>
+        ))}
+      </section>
 
       {/* ---------- 04b the whole journey ---------- */}
       <section className="bg-ink px-4 py-28 text-bg sm:px-10 md:py-40">
@@ -602,7 +615,7 @@ export default function AccountOpening() {
       {/* ---------- 04c prototype ---------- */}
       <Chapter n="04C" label="Prototype" title="Try it yourself.">
         <p data-fade className="mt-6 max-w-2xl text-lg text-muted">
-          The live prototype. Tap through the phone, or use the switches to make an auto-fetch fail and see the manual fallback.
+          The live prototype. Tap through the phone, or pick a path to see what happens when an auto-fetch fails.
         </p>
         <div data-fade className="mt-10">
           <ProtoEmbed url={PROTO} />

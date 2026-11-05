@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Where people left Version 2.0: circles sized by loss, with the same numbers as
-// an easy-to-read list beside them. Each stage's figure is the share of everyone
+// Where people left Version 2.0: circles sized by loss and the same numbers as a
+// list, in one card. Hovering either one highlights the matching stage in both. Each stage's figure is the share of everyone
 // who started, so they add up with the ~28% who finished.
 
 const RED = "#D93A2B";
@@ -44,85 +44,89 @@ export function DropOff() {
   const s = hover === null ? null : STAGES[hover];
 
   return (
-    <div ref={ref} className="mt-10 grid gap-10 lg:grid-cols-[1.55fr_1fr] lg:items-start">
-      <div>
-        <div className="overflow-hidden rounded-2xl bg-card">
-          <svg viewBox="0 0 980 500" className="block w-full" role="img" aria-label="Circles sized by drop-off. Verify PAN at 59% dwarfs every other stage.">
-            {STAGES.map((st, i) => {
-              const r = 205 * Math.sqrt(st.drop / 59);
-              const [cx, cy] = BUBBLES[i];
-              const big = r > 34;
-              const pan = i === 1;
-              return (
-                <g
-                  key={st.name}
-                  onMouseEnter={() => setHover(i)}
-                  onMouseLeave={() => setHover(null)}
-                  style={{
-                    transformOrigin: `${cx}px ${cy}px`,
-                    transformBox: "view-box",
-                    transform: on ? (hover === i ? "scale(1.06)" : "scale(1)") : "scale(0)",
-                    opacity: hover !== null && hover !== i ? 0.35 : 1,
-                    transition: `opacity .3s, transform ${hover === null ? 1 : 0.35}s cubic-bezier(.2,1.2,.3,1) ${on && hover === null ? i * 0.07 : 0}s`,
-                  }}
-                >
-                  <circle cx={cx} cy={cy} r={r} fill={pan ? RED : "#141217"} opacity={pan ? 1 : 0.88} />
-                  {pan ? (
-                    <>
-                      <text x={cx} y={cy + 8} textAnchor="middle" fill="#fff" fontSize="96" fontWeight="600" letterSpacing="-5">59%</text>
-                      <text x={cx} y={cy + 46} textAnchor="middle" fill="#fff" fontSize="24" fontWeight="500">Verify PAN</text>
-                    </>
-                  ) : big ? (
-                    <>
-                      <text x={cx} y={cy + 8} textAnchor="middle" fill="#fff" fontSize="24" fontWeight="600">{st.drop}%</text>
-                      <text x={cx} y={cy + r + 25} textAnchor="middle" fontSize="21" fill="currentColor">{st.short}</text>
-                    </>
-                  ) : (
-                    <>
-                      <text x={cx} y={cy + r + 24} textAnchor="middle" fontSize="21" fontWeight="600" fill="currentColor">{st.drop}%</text>
-                      <text x={cx} y={cy + r + 47} textAnchor="middle" fontSize="21" fill="currentColor" opacity="0.7">{st.short}</text>
-                    </>
-                  )}
-                </g>
-              );
-            })}
-          </svg>
+    <div ref={ref} className="mt-10 rounded-3xl bg-card p-6 md:p-8">
+      <div className="flex flex-wrap items-end gap-x-12 gap-y-4 border-b border-ink/10 pb-6">
+        <div>
+          <b className="block text-6xl font-semibold tracking-[-0.05em]" style={{ color: RED }}>59</b>
+          <span className="text-sm text-muted">of every 100 left at Verify PAN</span>
         </div>
-        <p className="mt-5 min-h-[3.25rem] max-w-2xl text-sm text-muted md:text-base">
+        <div>
+          <b className="block text-6xl font-semibold tracking-[-0.05em]">~28</b>
+          <span className="text-sm text-muted">of every 100 reached the end</span>
+        </div>
+        <p className="min-h-[3rem] min-w-[14rem] flex-1 text-sm text-muted lg:text-right">
           {s ? (
             <>
-              <b className="font-semibold text-ink">{s.name}, {s.drop}%.</b> {s.ask}.
+              <b className="block font-semibold text-ink">{s.name}, {s.drop}%</b> {s.ask}.
             </>
           ) : (
-            "Hover a stage to see what it asked people to do."
+            "Hover a circle or a step to see what it asked people to do."
           )}
         </p>
       </div>
 
-      <ul>
-        <li className="flex items-baseline justify-between pb-5">
-          <span>
-            <b className="block text-6xl font-semibold tracking-[-0.05em]" style={{ color: RED }}>59</b>
-            <span className="text-sm text-muted">left at Verify PAN</span>
-          </span>
-          <span className="text-right">
-            <b className="block text-6xl font-semibold tracking-[-0.05em]">~28</b>
-            <span className="text-sm text-muted">reached the end</span>
-          </span>
-        </li>
-        {STAGES.map((st, i) => (
-          <li
-            key={st.name}
-            onMouseEnter={() => setHover(i)}
-            onMouseLeave={() => setHover(null)}
-            className={`flex justify-between border-t border-line py-2 text-sm transition-colors ${hover === i ? "text-ink" : "text-muted"}`}
-          >
-            <span className={i === 1 ? "font-semibold text-ink" : ""}>{st.name}</span>
-            <span className="tabular-nums" style={i === 1 ? { color: RED, fontWeight: 600 } : undefined}>{st.drop}%</span>
-          </li>
-        ))}
-        <li className="border-t border-line pt-3 text-xs text-muted">Out of every 100 people who started</li>
-      </ul>
+      <div className="mt-6 grid gap-6 lg:grid-cols-[1.35fr_1fr] lg:items-center">
+        <svg viewBox="0 0 980 500" className="block w-full" role="img" aria-label="Circles sized by drop-off. Verify PAN at 59% dwarfs every other stage.">
+          {STAGES.map((st, i) => {
+            const r = 205 * Math.sqrt(st.drop / 59);
+            const [cx, cy] = BUBBLES[i];
+            const big = r > 34;
+            const pan = i === 1;
+            return (
+              <g
+                key={st.name}
+                onMouseEnter={() => setHover(i)}
+                onMouseLeave={() => setHover(null)}
+                onClick={() => setHover(i)}
+                style={{
+                  transformOrigin: `${cx}px ${cy}px`,
+                  transformBox: "view-box",
+                  transform: on ? (hover === i ? "scale(1.08)" : "scale(1)") : "scale(0)",
+                  opacity: hover !== null && hover !== i ? 0.25 : 1,
+                  transition: `opacity .25s, transform ${hover === null ? 1 : 0.3}s cubic-bezier(.2,1.2,.3,1) ${on && hover === null ? i * 0.07 : 0}s`,
+                }}
+              >
+                <circle cx={cx} cy={cy} r={r} fill={pan ? RED : "#141217"} opacity={pan ? 1 : 0.88} />
+                {pan ? (
+                  <>
+                    <text x={cx} y={cy + 8} textAnchor="middle" fill="#fff" fontSize="96" fontWeight="600" letterSpacing="-5">59%</text>
+                    <text x={cx} y={cy + 46} textAnchor="middle" fill="#fff" fontSize="24" fontWeight="500">Verify PAN</text>
+                  </>
+                ) : big ? (
+                  <>
+                    <text x={cx} y={cy + 8} textAnchor="middle" fill="#fff" fontSize="24" fontWeight="600">{st.drop}%</text>
+                    <text x={cx} y={cy + r + 25} textAnchor="middle" fontSize="21" fill="currentColor">{st.short}</text>
+                  </>
+                ) : (
+                  <>
+                    <text x={cx} y={cy + r + 24} textAnchor="middle" fontSize="21" fontWeight="600" fill="currentColor">{st.drop}%</text>
+                    <text x={cx} y={cy + r + 47} textAnchor="middle" fontSize="21" fill="currentColor" opacity="0.7">{st.short}</text>
+                  </>
+                )}
+              </g>
+            );
+          })}
+        </svg>
+
+        <ul>
+          {STAGES.map((st, i) => {
+            const pan = i === 1;
+            const active = hover === i;
+            return (
+              <li
+                key={st.name}
+                onMouseEnter={() => setHover(i)}
+                onMouseLeave={() => setHover(null)}
+                onClick={() => setHover(i)}
+                className={`flex cursor-default justify-between rounded-lg px-3 py-2 text-sm transition duration-200 ${active ? "bg-bg font-semibold text-ink shadow-sm" : "text-muted"} ${hover !== null && !active ? "opacity-40" : ""}`}
+              >
+                <span className={pan ? "font-semibold text-ink" : ""}>{st.name}</span>
+                <span className="tabular-nums" style={pan ? { color: RED, fontWeight: 600 } : undefined}>{st.drop}%</span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }

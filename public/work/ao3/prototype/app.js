@@ -252,7 +252,7 @@ const SCREENS = {};
 SCREENS.welcome = (el)=>{
   el.classList.add('welcome');
   el.innerHTML = `<div class="bg-lav"></div>${brandbar()}
-    <div class="coin z"><video id="coinv" src="${A}coin.mp4" poster="${A}coin-poster.jpg" muted playsinline preload="auto"></video></div>
+    <div class="coin z"><img id="coinv" src="${A}coin/00.webp" alt=""></div>
     <div class="z" style="position:absolute;left:0;right:0;top:520px">
       <div class="stg">
         <div class="trusted"><span class="avs"><img src="${A}av1.jpg" alt=""><img src="${A}av2.jpg" alt=""><img src="${A}av3.jpg" alt=""></span>Trusted by 2 Crore+ Indians</div>
@@ -263,26 +263,24 @@ SCREENS.welcome = (el)=>{
     </div>
     <div class="tap-hint z">Tap anywhere to begin</div>`;
   el.addEventListener('click', ()=>go('phone'), {once:true});
-  // coin: play the spin, then ease the playback to a stop on a resting pose (~1.25s into the clip)
-  const v = $('#coinv', el), STOP = 1.25;
+  // coin: Sal's Lottie as a flipbook. Spins once on arrival, and again whenever it comes back into view
+  const v = $('#coinv', el), N = 20, MS = 1000 * 0.9554 / 8;
+  const files = Array.from({length:N}, (_,i)=>`${A}coin/${String(i).padStart(2,'0')}.webp`);
+  files.forEach(f=>{ new Image().src = f; });
+  let raf = 0, played = false;
   const spin = ()=>{
-    v.currentTime = 0; v.playbackRate = 1;
-    const p = v.play(); if(p) p.catch(()=>{});
-    const tick = ()=>{
+    cancelAnimationFrame(raf); played = true;
+    const t0 = performance.now();
+    const tick = (t)=>{
       if(!v.isConnected) return;
-      const t = v.currentTime;
-      if(t >= STOP){ v.pause(); return; }
-      if(t > 0.85) v.playbackRate = Math.max(0.12, (STOP - t) / 0.4);
-      requestAnimationFrame(tick);
+      const i = Math.min(N-1, Math.floor((t-t0)/MS));
+      v.src = files[i];
+      if(i < N-1) raf = requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    raf = requestAnimationFrame(tick);
   };
-  v.addEventListener('loadeddata', ()=>later(spin, 250), {once:true});
-  if(v.readyState >= 2) later(spin, 250);
-  // replay when the page/iframe becomes visible (browsers pause muted video in background tabs)
-  const onVis = ()=>{ if(!v.isConnected){ document.removeEventListener('visibilitychange', onVis); return; } if(!document.hidden && v.currentTime < 1.2) spin(); };
-  document.addEventListener('visibilitychange', onVis);
-  if('IntersectionObserver' in window){ const io = new IntersectionObserver(es=>{ if(!v.isConnected){ io.disconnect(); return; } if(es[0].isIntersecting && v.currentTime < 0.2) spin(); }, {threshold:.4}); io.observe(v); }
+  later(spin, 250);
+  if('IntersectionObserver' in window){ const io = new IntersectionObserver(es=>{ if(!v.isConnected){ io.disconnect(); return; } if(es[0].isIntersecting){ if(played) spin(); } }, {threshold:.4}); io.observe(v); }
 };
 
 /* ---------- Phone ---------- */

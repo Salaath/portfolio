@@ -14,6 +14,7 @@ export function Zoomable({
   height,
   children,
   className = "",
+  quiet = false,
 }: {
   src: string;
   alt: string;
@@ -21,6 +22,8 @@ export function Zoomable({
   height: number;
   children?: React.ReactNode;
   className?: string;
+  /** Show the zoom hint only on hover, for rows of small targets. */
+  quiet?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState({ s: 1, x: 0, y: 0 });
@@ -80,12 +83,12 @@ export function Zoomable({
           // eslint-disable-next-line @next/next/no-img-element
           <img src={src} alt={alt} loading="lazy" width={width} height={height} className="block h-auto w-full" />
         )}
-        <span className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full bg-ink/85 px-3.5 py-2 text-xs font-medium text-bg backdrop-blur transition-transform duration-300 group-hover:scale-105">
+        <span className={`absolute bottom-4 right-4 flex items-center gap-2 rounded-full bg-ink/85 px-3.5 py-2 text-xs font-medium text-bg backdrop-blur transition duration-300 group-hover:scale-105 ${quiet ? "pointer-events-none whitespace-nowrap !bottom-3 !right-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100" : ""}`}>
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
             <circle cx="7" cy="7" r="5" />
             <path d="M11 11l3.5 3.5M7 5v4M5 7h4" />
           </svg>
-          Click to zoom
+          {quiet ? "Zoom" : "Click to zoom"}
         </span>
       </button>
 

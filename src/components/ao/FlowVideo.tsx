@@ -46,7 +46,7 @@ export function FlowVideo({ src, poster, chapters }: { src: string; poster: stri
   const active = chapters.reduce((a, c, i) => (t >= c.at ? i : a), 0);
   const end = (i: number) => chapters[i + 1]?.at ?? dur;
 
-  const seek = (at: number, play = true) => {
+  const seek = (at: number, play: boolean = true) => {
     const v = ref.current;
     if (!v) return;
     v.currentTime = Math.max(0, Math.min(v.duration || at, at));
@@ -66,8 +66,6 @@ export function FlowVideo({ src, poster, chapters }: { src: string; poster: stri
       v.pause();
     }
   };
-
-  const ctrl = "grid size-11 shrink-0 place-items-center rounded-full border border-bg/30 transition-colors duration-300 hover:bg-bg hover:text-ink";
 
   return (
     <div className="grid items-start gap-12 md:grid-cols-[auto_1fr] md:gap-16">
@@ -124,38 +122,117 @@ export function FlowVideo({ src, poster, chapters }: { src: string; poster: stri
           />
         </IPhone>
 
-        <div className="mt-4 text-bg">
-          <div className="flex items-center gap-3 font-mono text-[11px] tabular-nums text-bg/60">
-            <span>{clock(t)}</span>
-            <input
-              type="range"
-              aria-label="Seek"
-              min={0}
-              max={dur || 1}
-              step={0.1}
-              value={Math.min(t, dur || 1)}
-              onChange={(e) => seek(Number(e.target.value), false)}
-              className="h-1 flex-1 cursor-pointer accent-white"
-            />
-            <span>{clock(dur)}</span>
-          </div>
-          <div className="mt-3 flex items-center justify-center gap-3">
-            <button type="button" onClick={() => seek(t - 5, false)} aria-label="Back 5 seconds" className={ctrl}>
-              <span className="font-mono text-[11px]">−5s</span>
-            </button>
-            <button type="button" onClick={toggle} aria-label={playing ? "Pause" : "Play"} className={`${ctrl} size-12 bg-bg text-ink hover:bg-bg/80`}>
-              {playing ? (
-                <svg width="14" height="14" viewBox="0 0 12 12" fill="currentColor"><rect x="2" y="1" width="3" height="10" rx="1" /><rect x="7" y="1" width="3" height="10" rx="1" /></svg>
-              ) : (
-                <svg width="14" height="14" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.5v9a.5.5 0 0 0 .77.42l7-4.5a.5.5 0 0 0 0-.84l-7-4.5A.5.5 0 0 0 3 1.5Z" /></svg>
-              )}
-            </button>
-            <button type="button" onClick={() => seek(t + 5, false)} aria-label="Forward 5 seconds" className={ctrl}>
-              <span className="font-mono text-[11px]">+5s</span>
-            </button>
-          </div>
-        </div>
+        <Controls t={t} dur={dur} playing={playing} toggle={toggle} seek={seek} light />
       </div>
+    </div>
+  );
+}
+
+const clockIcon = {
+  pause: <svg width="14" height="14" viewBox="0 0 12 12" fill="currentColor"><rect x="2" y="1" width="3" height="10" rx="1" /><rect x="7" y="1" width="3" height="10" rx="1" /></svg>,
+  play: <svg width="14" height="14" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.5v9a.5.5 0 0 0 .77.42l7-4.5a.5.5 0 0 0 0-.84l-7-4.5A.5.5 0 0 0 3 1.5Z" /></svg>,
+};
+
+/** Scrubber, jump back and forward, play and pause. `light` is for dark sections. */
+function Controls({ t, dur, playing, toggle, seek, light }: { t: number; dur: number; playing: boolean; toggle: () => void; seek: (at: number, play?: boolean) => void; light?: boolean }) {
+  const ring = light ? "border-bg/30 hover:bg-bg hover:text-ink" : "border-ink/25 hover:bg-ink hover:text-bg";
+  const ctrl = `grid size-11 shrink-0 place-items-center rounded-full border transition-colors duration-300 ${ring}`;
+  return (
+    <div className={`mt-4 ${light ? "text-bg" : "text-ink"}`}>
+      <div className={`flex items-center gap-3 font-mono text-[11px] tabular-nums ${light ? "text-bg/60" : "text-muted"}`}>
+        <span>{clock(t)}</span>
+        <input
+          type="range"
+          aria-label="Seek"
+          min={0}
+          max={dur || 1}
+          step={0.1}
+          value={Math.min(t, dur || 1)}
+          onChange={(e) => seek(Number(e.target.value), false)}
+          className={`h-1 min-w-0 flex-1 cursor-pointer ${light ? "accent-white" : "accent-black"}`}
+        />
+        <span>{clock(dur)}</span>
+      </div>
+      <div className="mt-3 flex items-center justify-center gap-3">
+        <button type="button" onClick={() => seek(t - 5, false)} aria-label="Back 5 seconds" className={ctrl}>
+          <span className="font-mono text-[11px]">−5s</span>
+        </button>
+        <button type="button" onClick={toggle} aria-label={playing ? "Pause" : "Play"} className={`grid size-12 shrink-0 place-items-center rounded-full transition-opacity hover:opacity-80 ${light ? "bg-bg text-ink" : "bg-ink text-bg"}`}>
+          {playing ? clockIcon.pause : clockIcon.play}
+        </button>
+        <button type="button" onClick={() => seek(t + 5, false)} aria-label="Forward 5 seconds" className={ctrl}>
+          <span className="font-mono text-[11px]">+5s</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** A recording in a phone, with controls. Starts in view, and never overrides a manual pause. */
+export function PhonePlayer({ src, poster, aspect, label }: { src: string; poster?: string; aspect?: string; label: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const userPaused = useRef(false);
+  const [t, setT] = useState(0);
+  const [dur, setDur] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !still && !userPaused.current) v.play().catch(() => {});
+        else if (!e.isIntersecting) v.pause();
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(v);
+    let raf = 0;
+    const tick = () => {
+      setT(v.currentTime);
+      if (v.duration) setDur(v.duration);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+  const seek = (at: number) => {
+    const v = ref.current;
+    if (v) v.currentTime = Math.max(0, Math.min(v.duration || at, at));
+  };
+  const toggle = () => {
+    const v = ref.current;
+    if (!v) return;
+    if (v.paused) {
+      userPaused.current = false;
+      v.play().catch(() => {});
+    } else {
+      userPaused.current = true;
+      v.pause();
+    }
+  };
+  return (
+    <div>
+      <IPhone aspect={aspect}>
+        <video
+          ref={ref}
+          src={src}
+          poster={poster}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          onClick={toggle}
+          aria-label={label}
+          className="absolute inset-0 h-full w-full cursor-pointer object-cover"
+        />
+      </IPhone>
+      <Controls t={t} dur={dur} playing={playing} toggle={toggle} seek={seek} />
     </div>
   );
 }

@@ -1112,3 +1112,5 @@ img{display:block;user-select:none;-webkit-user-drag:none}
 /* PAN card shares the card's corner so the two curves line up */
 .card .c-body,.card[data-k="pan"] .c-body{border-radius:16px}
 .pan3{border-radius:16px}
+
+.welcome .coin img{display:block;width:100%;height:auto;animation:dissolveIn .6s ease both}

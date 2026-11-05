@@ -36,9 +36,9 @@ export function BenchClocks() {
   return (
     <div ref={ref} className="mt-10 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-5">
       {APPS.map(([name, a, b, k], i) => (
-        <figure key={name} className={`rounded-2xl p-3 text-center ${k === "new" ? "bg-[#1F8A4C]/10 ring-1 ring-[#1F8A4C]/25" : ""}`}>
+        <figure key={name} className="p-3 text-center">
           <svg viewBox="0 0 120 120" className="mx-auto block w-full max-w-[150px]" style={{ opacity: on ? 1 : 0, transform: on ? "none" : "rotate(-40deg) scale(.8)", transition: `all .8s cubic-bezier(.2,1,.3,1) ${i * 0.06}s` }}>
-            <circle cx="60" cy="60" r="56" fill={k === "new" ? "#fff" : "var(--card)"} />
+            <circle cx="60" cy="60" r="56" fill={k === "new" ? "#E3F2E9" : "var(--card)"} />
             <path d={arc(60, 60, 56, b)} fill={colour(k)} opacity="0.35" />
             <path d={arc(60, 60, 56, a)} fill={colour(k)} />
             {Array.from({ length: 12 }, (_, t) => {
@@ -48,7 +48,8 @@ export function BenchClocks() {
           </svg>
           <figcaption className="mt-3">
             <b className="block text-2xl font-semibold tabular-nums tracking-[-0.04em]" style={k ? { color: colour(k) } : undefined}>{a}–{b} min</b>
-            <span className={`text-sm ${k ? "font-semibold" : "text-muted"}`}>{name}</span>
+            <span className={`block text-sm ${k ? "font-semibold" : "text-muted"}`}>{name}</span>
+            {k === "new" ? <span className="mt-1 block text-xs font-medium" style={{ color: GREEN }}>Our North Star</span> : null}
           </figcaption>
         </figure>
       ))}
