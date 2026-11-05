@@ -54,7 +54,7 @@ export function DropOff() {
           <b className="block text-6xl font-semibold tracking-[-0.05em]">~28</b>
           <span className="text-sm text-muted">of every 100 reached the end</span>
         </div>
-        <p className="min-h-[3rem] min-w-[14rem] flex-1 text-sm text-muted lg:text-right">
+        <p className="min-h-[3rem] min-w-[14rem] flex-1 text-balance text-sm text-muted lg:text-right">
           {s ? (
             <>
               <b className="block font-semibold text-ink">{s.name}, {s.drop}%</b> {s.ask}.

@@ -40,7 +40,7 @@ function Shot({ src, alt, old }: { src: string; alt: string; old?: boolean }) {
   );
 }
 
-/** One change: every screen on one surface, big enough to read, and each opens full screen. */
+/** One change: every screen on one surface, big enough to read, all the same height. */
 function Compare({ before, after }: { before: string[][]; after: string[][] }) {
   const n = before.length + after.length;
   const phone = `min(${n <= 3 ? "21vw" : "16vw"}, calc((100vw - 320px) / ${n}))`;
@@ -51,11 +51,9 @@ function Compare({ before, after }: { before: string[][]; after: string[][] }) {
         {items.map(([src, alt]) => {
           const final = src.startsWith("p/");
           return (
-            <figure key={src} className="w-[60vw] shrink-0 md:w-[var(--phone)]">
-              <Zoomable src={`${IMG}/${src}.${final ? "jpg" : "webp"}`} alt={alt} width={final ? 750 : 720} height={final ? 1624 : 1600} quiet>
-                <Shot src={src} alt={alt} />
-              </Zoomable>
-              <figcaption className="mt-3 text-xs leading-snug text-muted">{alt}</figcaption>
+            <figure key={src} className={`shrink-0 ${final ? "w-[61.6vw] md:w-[calc(var(--phone)*1.0263)]" : "w-[60vw] md:w-[var(--phone)]"}`}>
+              <Shot src={src} alt={alt} />
+              <figcaption className="mt-3 text-sm leading-snug text-muted">{alt}</figcaption>
             </figure>
           );
         })}
@@ -298,13 +296,13 @@ export default function AccountOpening() {
 
         <div className="mt-16 grid items-center gap-10 md:grid-cols-[minmax(0,17rem)_1fr] md:gap-14">
           <div data-fade className="mx-auto w-[62vw] max-w-[17rem] md:w-full">
-            <PhonePlayer src={`${IMG}/ao2-flow.mp4`} poster={`${IMG}/ao2-flow-poster.jpg`} aspect="360/800" label="Tapping through the Version 2.0 Figma prototype, from the phone's home screen to the app" />
+            <PhonePlayer src={`${IMG}/ao2-flow.mp4`} poster={`${IMG}/ao2-flow-poster.jpg`} aspect="741/1631" label="Tapping through the Version 2.0 Figma prototype, from the phone's home screen to the app" />
           </div>
           <div>
             <Chip>Version 2.0, tap by tap</Chip>
             <p data-fade className="mt-6 text-3xl font-medium leading-[1.1] tracking-[-0.03em] md:text-[2.6vw]">Watch it to feel how long it goes on.</p>
             <p data-fade data-delay="0.1" className="mt-5 max-w-md text-muted">
-              Every tap on the happy path, recorded from the Figma prototype. Filling it in for real took 10–12 minutes.
+              Every tap on the happy path, recorded in the Figma prototype. Filling it in for real took 10–12 minutes.
             </p>
           </div>
         </div>
@@ -565,9 +563,7 @@ export default function AccountOpening() {
       </Chapter>
 
       {/* ---------- 04 the redesign ---------- */}
-      <Chapter n="04" label="The redesign" title="Six changes, each aimed at a specific kind of effort." className="!pb-0">
-        <Lede>Click any screen to open it full size.</Lede>
-      </Chapter>
+      <Chapter n="04" label="The redesign" title="Six changes, each aimed at a specific kind of effort." className="!pb-0" />
       <section className="px-4 pb-24 sm:px-10 md:pb-36">
         {CHANGES.map((b, i) => (
           <div key={b.title} className="border-t border-line py-16 first:border-t-0">
