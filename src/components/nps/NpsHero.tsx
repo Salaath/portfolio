@@ -104,19 +104,20 @@ export function NpsHero() {
           data-pill
           className="rounded-full border border-white/15 bg-white/5 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-white/70 backdrop-blur"
         >
-          Upstox · NPS · Lead designer · 2025
+          Upstox · 0-to-1 product launch · 2025
         </span>
         <h1
           data-h1
           data-hidden
           className="mt-7 text-[13vw] font-semibold leading-[0.92] tracking-[-0.055em] md:text-[6.4vw]"
         >
-          Making NPS feel simple
+          Building NPS from 0 to 1 on Upstox
         </h1>
         <p data-sub className="mt-6 max-w-xl text-lg text-white/65">
-          India’s best tax saver came with a government portal, eight-step
-          wizards and a captcha. We turned opening and buying NPS into a few
-          guided taps inside Upstox.
+          I led the design of a new NPS experience on Upstox, from product
+          vision to launch: discovery, education, contribution, account setup,
+          fund selection, order tracking and portfolio, in one connected
+          journey.
         </p>
         <div data-actions className="mt-9 flex flex-wrap justify-center gap-3">
           <Magnetic strength={0.2}>
@@ -124,7 +125,7 @@ export function NpsHero() {
               invert
               label="See how"
               icon="↓"
-              onClick={() => scrollToId("compare")}
+              onClick={() => scrollToId("opportunity")}
               className="bg-white/5"
             />
           </Magnetic>
