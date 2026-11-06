@@ -173,7 +173,9 @@ export function Choreo({
 
         // Numbers count up from zero, keeping their units ("~28%", "18 min")
         all("[data-count]").forEach((el) => {
-          const text = el.textContent ?? "";
+          // This setup re-runs when the window crosses a breakpoint, by which time the
+          // text may already read zero, so keep the real value from the first run.
+          const text = (el.dataset.countText ??= el.textContent ?? "");
           const m = text.match(/\d+(\.\d+)?/);
           if (!m) return;
           const target = parseFloat(m[0]);
