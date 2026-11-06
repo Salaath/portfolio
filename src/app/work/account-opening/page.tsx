@@ -7,6 +7,7 @@ import { FlowVideo, LoopVideo, PhonePlayer } from "@/components/ao/FlowVideo";
 import { HeroMock } from "@/components/ao/HeroMock";
 import { IPhone } from "@/components/ao/IPhone";
 import { Zoomable } from "@/components/ao/Zoomable";
+import { AlignPicker } from "@/components/ao/AlignPicker";
 import { DropOff } from "@/components/ao/DropOff";
 import { BenchClocks } from "@/components/ao/Benchmark";
 import { HeatScreen, ProtoEmbed } from "@/components/ao/Bits";
@@ -564,14 +565,15 @@ export default function AccountOpening() {
 
       {/* ---------- 04 the redesign ---------- */}
       <Chapter n="04" label="The redesign" title="Six changes, each aimed at a specific kind of effort." className="!pb-0" />
+      <AlignPicker>
       <section className="px-4 pb-24 sm:px-10 md:pb-36">
         {CHANGES.map((b, i) => (
           <div key={b.title} className="border-t border-line py-16 first:border-t-0">
             <div className="flex items-baseline justify-center gap-4">
-              <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
+              <span className="font-mono text-xl text-muted">{String(i + 1).padStart(2, "0")}</span>
               <h3 data-split="lines" className="text-3xl font-semibold tracking-[-0.035em]">{b.title}</h3>
             </div>
-            <div data-fade className="mt-8 grid gap-6 text-center md:grid-cols-[1fr_1fr_auto] md:gap-10">
+            <div data-fade className="mt-8 grid gap-6 text-center group-data-[align=left]/align:text-left md:grid-cols-[1fr_1fr_auto] md:gap-10">
               <div>
                 <span className="label">Version 2.0</span>
                 <p className="mt-2 text-muted">{b.problem}</p>
@@ -581,9 +583,9 @@ export default function AccountOpening() {
                 <p className="mt-2 text-muted">{b.change}</p>
               </div>
               {b.result ? (
-                <div>
+                <div className="group-data-[align=left]/align:md:text-right">
                   <b data-count className="block text-5xl font-semibold tabular-nums tracking-[-0.05em]">{b.result[0]}</b>
-                  <span className="mx-auto mt-1 block text-xs text-muted md:max-w-[9rem]">{b.result[1]}</span>
+                  <span className="mx-auto mt-1 block text-xs text-muted group-data-[align=left]/align:mx-0 group-data-[align=left]/align:md:ml-auto md:max-w-[9rem]">{b.result[1]}</span>
                 </div>
               ) : <span className="hidden md:block" />}
             </div>
@@ -591,6 +593,7 @@ export default function AccountOpening() {
           </div>
         ))}
       </section>
+      </AlignPicker>
 
       {/* ---------- 04b the whole journey ---------- */}
       <section className="bg-ink px-4 py-28 text-bg sm:px-10 md:py-40">

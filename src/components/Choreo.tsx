@@ -181,13 +181,22 @@ export function Choreo({
           const target = parseFloat(m[0]);
           const decimals = m[1] ? m[1].length - 1 : 0;
           const o = { v: 0 };
-          el.textContent = text.replace(m[0], (0).toFixed(decimals));
+          // The real number stays on screen until the count starts, so a trigger
+          // that never fires can't leave a stat reading zero.
+          el.textContent = text;
           gsap.to(o, {
             v: target,
             duration: 1.6,
             ease: "power3.out",
             delay: delayOf(el),
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            scrollTrigger: {
+              trigger: el,
+              start: "top 90%",
+              once: true,
+              onEnter: () => {
+                el.textContent = text.replace(m[0], (0).toFixed(decimals));
+              },
+            },
             onUpdate: () => {
               el.textContent = text.replace(m[0], o.v.toFixed(decimals));
             },
