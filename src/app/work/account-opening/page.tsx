@@ -20,7 +20,7 @@ export const metadata: Metadata = { title: "Account Opening — Salaath Shaikh" 
 const IMG = "/work/ao3";
 // hero-cover.webp: the page background continues the image's left edge; the phone is centred at COVER_CX
 const COVER_BG = "linear-gradient(180deg,rgb(6,6,6),rgb(6,6,6),rgb(6,6,6),rgb(6,6,6),rgb(6,6,6),rgb(8,8,8))";
-const COVER_CX = 0.454;
+const COVER_CX = 0.513;
 const RED = "#D93A2B";
 // The prototype is served from this site so it always matches the page.
 const PROTO = "/work/ao3/prototype/index.html";
