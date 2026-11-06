@@ -190,7 +190,7 @@ const MOMENTS = [
   ["otp", "Effort", "The OTP arrives and fills itself in"],
   ["fetch", "Trust", "You can see what's being fetched"],
   ["cards", "Clarity", "Your details stack up as you confirm them"],
-  ["sign", "Momentum", "A small win when the signature is saved"],
+  ["confirm", "Momentum", "A small win when your details are confirmed"],
   ["selfie", "Momentum", "The same win after the selfie"],
   ["clock", "Clarity", "A clock that makes the wait feel like progress"],
   ["alerts", "Momentum", "Alerts draw themselves, then you're all set"],
