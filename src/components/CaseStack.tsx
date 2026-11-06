@@ -61,7 +61,9 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
 
   return (
     <div ref={ref} className="relative md:h-svh">
-      {cases.map((c, i) => (
+      {cases.map((c, i) => {
+        const dark = c.coverInk === "dark";
+        return (
         <article
           key={c.slug}
           data-panel
@@ -75,29 +77,30 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
             >
               {c.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={c.image} alt="" className="h-full w-full object-cover object-[82%_50%]" />
+                <img src={c.image} alt="" className={`h-full w-full object-cover ${dark ? "object-[91%_50%] md:object-[82%_50%]" : "object-[82%_50%]"}`} />
               ) : null}
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/20" />
-            <div className="relative flex h-full flex-col justify-between p-4 text-white sm:p-10">
-              <div className="label flex justify-between !text-white/70">
+            <div className={`absolute inset-0 bg-gradient-to-t ${dark ? "from-[#f6f6f6] from-45% via-[#f6f6f6]/70 via-55% to-transparent to-72% md:hidden" : "from-black/55 via-transparent to-black/20"}`} />
+            <div className={`relative flex h-full flex-col justify-between p-4 sm:p-10 ${dark ? "text-ink" : "text-white"}`}>
+              <div className={`label flex justify-between ${dark ? "!text-ink/60" : "!text-white/70"}`}>
                 <span>({pad(i + 1)}) — {pad(cases.length)}</span>
                 <span>{c.year}</span>
               </div>
               <div>
-                <h3 className="max-w-5xl overflow-hidden text-[9vw] md:max-w-[48vw] font-semibold leading-[0.95] tracking-[-0.045em] md:text-[6vw]">
+                <h3 className="max-w-5xl overflow-hidden text-balance text-[9vw] md:max-w-[48vw] font-semibold leading-[0.95] tracking-[-0.045em] md:text-[6vw]">
                   <span data-lift className="block">{c.title}</span>
                 </h3>
-                <div className="mt-8 grid gap-4 border-t border-white/25 pt-5 md:grid-cols-6">
-                  <p className="overflow-hidden md:col-span-2"><span data-lift className="block text-white/85">{c.tagline}</span></p>
-                  <p className="label overflow-hidden !text-white/70 md:col-span-2 md:pl-3"><span data-lift className="block">{c.role} · {c.tags.join(" / ")}</span></p>
+                <div className={`mt-8 grid gap-4 border-t pt-5 md:grid-cols-6 ${dark ? "border-ink/20" : "border-white/25"}`}>
+                  <p className="overflow-hidden md:col-span-2"><span data-lift className={`block ${dark ? "text-ink/75" : "text-white/85"}`}>{c.tagline}</span></p>
+                  <p className={`label overflow-hidden md:col-span-2 md:pl-3 ${dark ? "!text-ink/60" : "!text-white/70"}`}><span data-lift className="block">{c.role} · {c.tags.join(" / ")}</span></p>
                   <p className="overflow-hidden text-sm font-medium md:col-span-2 md:pl-3 md:text-right"><span data-lift className="block">View case study ↗</span></p>
                 </div>
               </div>
             </div>
           </Link>
         </article>
-      ))}
+        );
+      })}
     </div>
   );
 }

@@ -10,6 +10,8 @@ export type CaseStudy = {
   year: string;
   role: string;
   team: string;
+  /** Dark text and no shading, for a cover with a light background. */
+  coverInk?: "dark";
   tags: string[];
   /** Two-stop gradient behind the cover image (and the fallback without one) */
   cover: [string, string];
@@ -24,8 +26,9 @@ export const cases: CaseStudy[] = [
     // Has its own page: src/app/work/account-opening/page.tsx
     slug: "account-opening",
     image: "/work/account-opening.jpg",
-    title: "Making it easier to start investing",
-    tagline: "Redesigning Upstox account opening to cut the work people had to do, and to give them a clear path from sign-up to their first investment.",
+    title: "From 12 minutes to 2",
+    tagline: "How we reimagined Upstox’s account-opening journey, replacing tedious form filling with automated verification, fewer steps and a simpler way to start investing.",
+    coverInk: "dark",
     year: "2026",
     role: "Lead product designer",
     team: "Salaath Shaikh (Lead Product Designer), Sathvik (Product Designer), Sydney (Product Manager), Engineering (Cross-functional team)",
