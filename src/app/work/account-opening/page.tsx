@@ -234,12 +234,12 @@ export default function AccountOpening() {
           <p data-label data-load className="label !text-[#141217]/60">[ Selected work — 01 / Upstox ]</p>
         </div>
 
-        <div className="relative z-10 flex flex-1 flex-col justify-center py-10 md:max-w-[52vw]">
-          <h1 data-split="words" data-load data-delay="0.15" className="max-w-[16ch] text-[12vw] font-semibold leading-[0.95] tracking-[-0.05em] md:text-[5.2vw]">
-            Making it easier to start investing.
+        <div className="relative z-10 flex flex-1 flex-col justify-center py-4 md:max-w-[52vw]">
+          <h1 data-split="words" data-load data-delay="0.15" className="text-[9vw] font-semibold leading-[1] tracking-[-0.045em] md:text-[3.5vw]">
+            Turning a 12-minute demat account opening process into a delightful 2-minute experience.
           </h1>
-          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-md text-lg text-[#141217]/65">
-            Account opening on Upstox, redesigned around the work people had to do, and what they came to do next.
+          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-lg text-lg text-[#141217]/65">
+            How we reimagined Upstox’s account-opening journey, replacing tedious form filling with automated verification, fewer steps and a simpler way to start investing.
           </p>
           <div data-fade data-load data-delay="0.8" className="mt-10 flex items-end gap-6">
             <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: RED }}>10–12</b>
