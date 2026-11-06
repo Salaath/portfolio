@@ -26,8 +26,8 @@ export const cases: CaseStudy[] = [
     // Has its own page: src/app/work/account-opening/page.tsx
     slug: "account-opening",
     image: "/work/account-opening.jpg",
-    title: "From 12 minutes to 2",
-    tagline: "How we reimagined Upstox’s account-opening journey, replacing tedious form filling with automated verification, fewer steps and a simpler way to start investing.",
+    title: "How we cut demat account opening from 12 minutes to 2",
+    tagline: "Reimagining Upstox’s account-opening journey: automated verification instead of tedious form filling, fewer steps and a simpler way to start investing.",
     coverInk: "dark",
     year: "2026",
     role: "Lead product designer",
