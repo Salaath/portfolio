@@ -4,7 +4,7 @@ import { cases } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
 import { RollButton } from "@/components/RollButton";
 import { FlowVideo, LoopVideo, PhonePlayer } from "@/components/ao/FlowVideo";
-import { HeroMock } from "@/components/ao/HeroMock";
+import { CoverOptions } from "@/components/ao/CoverOptions";
 import { IPhone } from "@/components/ao/IPhone";
 import { Zoomable } from "@/components/ao/Zoomable";
 import { DropOff } from "@/components/ao/DropOff";
@@ -221,29 +221,21 @@ export default function AccountOpening() {
   return (
     <Choreo>
       {/* ---------- hero: a statement, one phone, one number ---------- */}
-      <header className="relative flex min-h-svh flex-col overflow-hidden px-4 pb-10 pt-28 text-[#141217] sm:px-10" style={{ background: "#e4e4e6" }}>
-        <HeroMock
-          image={`${IMG}/hero-mock.jpg`}
-          src={`${IMG}/ao3-hero.mp4`}
-          poster={`${IMG}/ao3-hero-poster.jpg`}
-          label="Recording from the Version 3.0 prototype: details are fetched securely, then the PAN appears as a card to confirm"
-          className="pointer-events-none absolute -right-[16vw] bottom-0 hidden h-[112%] [mask-image:linear-gradient(90deg,transparent_0,#000_24%)] md:block"
-        />
-
+      <CoverOptions>
         <div className="relative z-10 flex items-start justify-between">
-          <p data-label data-load className="label !text-[#141217]/60">[ Selected work — 01 / Upstox ]</p>
+          <p data-label data-load className="label !text-(--hero-ink)/70">[ Selected work — 01 / Upstox ]</p>
         </div>
 
         <div className="relative z-10 flex flex-1 flex-col justify-center py-4 md:max-w-[52vw]">
           <h1 data-split="words" data-load data-delay="0.15" className="text-[9vw] font-semibold leading-[1] tracking-[-0.045em] md:text-[3.5vw]">
             Turning a 12-minute demat account opening process into a delightful 2-minute experience.
           </h1>
-          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-lg text-lg text-[#141217]/65">
+          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-lg text-lg text-(--hero-ink)/75">
             How we reimagined Upstox’s account-opening journey, replacing tedious form filling with automated verification, fewer steps and a simpler way to start investing.
           </p>
           <div data-fade data-load data-delay="0.8" className="mt-10 flex items-end gap-6">
             <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: RED }}>10–12</b>
-            <span className="max-w-[13rem] pb-1 text-sm leading-snug text-[#141217]/60">minutes to open an account when we started, after two redesigns.</span>
+            <span className="max-w-[13rem] pb-1 text-sm leading-snug text-(--hero-ink)/70">minutes to open an account when we started, after two redesigns.</span>
           </div>
           <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-x-6 md:grid-cols-3">
             {[
@@ -253,18 +245,14 @@ export default function AccountOpening() {
               ["Team", "Salaath Shaikh — Lead Product Designer\nSathvik — Product Designer\nSydney — Product Manager\nEngineering — Cross-functional team"],
             ].map(([k, v], i) => (
               <div key={k} className={`relative py-4 ${k === "Team" ? "col-span-full" : ""}`}>
-                <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-[#141217]/15" />
-                <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-[#141217]/50">{k}</dt>
+                <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-(--hero-ink)/20" />
+                <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-(--hero-ink)/60">{k}</dt>
                 <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className="mt-1 whitespace-pre-line text-sm font-medium">{v}</dd>
               </div>
             ))}
           </dl>
         </div>
-
-        <div className="relative -mx-4 sm:-mx-10 md:hidden">
-          <HeroMock image={`${IMG}/hero-mock.jpg`} src={`${IMG}/ao3-hero.mp4`} poster={`${IMG}/ao3-hero-poster.jpg`} label="Recording from the Version 3.0 prototype" className="relative w-full" />
-        </div>
-      </header>
+      </CoverOptions>
 
       {/* ---------- 01 the problem ---------- */}
       <Chapter n="01" label="The problem" title="We had redesigned account opening twice. People were still dropping off.">

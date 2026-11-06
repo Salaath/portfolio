@@ -1,0 +1,42 @@
+{
+  "flowers": {
+    "label": "Flowers",
+    "w": 1844,
+    "h": 1162,
+    "cx": 0.495,
+    "bg": "linear-gradient(180deg,rgb(15,20,49),rgb(20,29,70),rgb(33,42,98),rgb(59,69,131),rgb(108,119,167),rgb(160,169,197))",
+    "dark": true
+  },
+  "studio": {
+    "label": "Studio wall",
+    "w": 1844,
+    "h": 1160,
+    "cx": 0.514,
+    "bg": "linear-gradient(180deg,rgb(57,62,60),rgb(49,55,53),rgb(36,43,40),rgb(28,34,32),rgb(25,33,32),rgb(16,23,22))",
+    "dark": true
+  },
+  "pillow": {
+    "label": "White form",
+    "w": 1350,
+    "h": 850,
+    "cx": 0.556,
+    "bg": "linear-gradient(180deg,rgb(232,232,232),rgb(232,232,232),rgb(232,232,232),rgb(232,232,232),rgb(232,232,232),rgb(232,232,232))",
+    "dark": false
+  },
+  "plinth": {
+    "label": "Black plinth",
+    "w": 1820,
+    "h": 1160,
+    "cx": 0.489,
+    "bg": "linear-gradient(180deg,rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(82,82,80),rgb(113,113,111))",
+    "dark": true
+  },
+  "corner": {
+    "label": "Purple corner",
+    "w": 2000,
+    "h": 1335,
+    "cx": 0.507,
+    "bg": "linear-gradient(180deg,rgb(21,22,21),rgb(42,36,42),rgb(72,60,74),rgb(60,49,60),rgb(38,31,38),rgb(16,16,16))",
+    "dark": true
+  }
+}
