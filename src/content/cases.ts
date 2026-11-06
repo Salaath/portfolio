@@ -27,7 +27,7 @@ export const cases: CaseStudy[] = [
     slug: "account-opening",
     image: "/work/account-opening.jpg",
     title: "How we cut demat account opening from 12 minutes to 2",
-    tagline: "Reimagining Upstox’s account-opening journey: automated verification instead of tedious form filling, fewer steps and a simpler way to start investing.",
+    tagline: "Revamping Upstox’s account-opening journey by replacing repetitive form filling with automated verification, fewer steps and a simpler path to investing.",
     coverInk: "dark",
     year: "2026",
     role: "Lead product designer",
