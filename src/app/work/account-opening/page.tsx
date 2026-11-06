@@ -186,7 +186,7 @@ const CHANGES = [
 ] as { title: string; problem: string; change: string; result?: [string, string]; before: string[][]; after: string[][] }[];
 
 const MOMENTS = [
-  ["coin", "Trust", "The coin settles before anything is asked of you"],
+  ["coin", "Trust", "SEBI registered, rated 4.3 and trusted by 2 crore+ Indians, before we ask for anything"],
   ["otp", "Effort", "The OTP arrives and fills itself in"],
   ["fetch", "Trust", "You can see what's being fetched"],
   ["cards", "Clarity", "Your details stack up as you confirm them"],
