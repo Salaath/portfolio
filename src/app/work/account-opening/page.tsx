@@ -4,7 +4,6 @@ import { cases } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
 import { RollButton } from "@/components/RollButton";
 import { FlowVideo, LoopVideo, PhonePlayer } from "@/components/ao/FlowVideo";
-import { CoverOptions } from "@/components/ao/CoverOptions";
 import { IPhone } from "@/components/ao/IPhone";
 import { Zoomable } from "@/components/ao/Zoomable";
 import { DropOff } from "@/components/ao/DropOff";
@@ -19,6 +18,9 @@ import { HeatScreen, ProtoEmbed } from "@/components/ao/Bits";
 export const metadata: Metadata = { title: "Account Opening — Salaath Shaikh" };
 
 const IMG = "/work/ao3";
+// hero-cover.webp: the page background continues the image's left edge; the phone is centred at COVER_CX
+const COVER_BG = "linear-gradient(180deg,rgb(6,6,6),rgb(6,6,6),rgb(6,6,6),rgb(6,6,6),rgb(6,6,6),rgb(8,8,8))";
+const COVER_CX = 0.494;
 const RED = "#D93A2B";
 // The prototype is served from this site so it always matches the page.
 const PROTO = "/work/ao3/prototype/index.html";
@@ -221,23 +223,32 @@ export default function AccountOpening() {
   return (
     <Choreo>
       {/* ---------- hero: a statement, one phone, one number ---------- */}
-      <CoverOptions>
+      <header className="relative flex min-h-svh flex-col overflow-hidden px-4 pb-8 pt-32 text-white sm:px-10" style={{ background: COVER_BG }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`${IMG}/hero-cover.webp`}
+          alt="Version 3.0 welcome screen on a phone leaning in a purple-lit corner"
+          width={2000}
+          height={1335}
+          className="pointer-events-none absolute top-0 hidden h-full w-auto max-w-none [mask-image:linear-gradient(90deg,transparent_0,#000_32%)] md:block"
+          style={{ left: "76%", transform: `translateX(${-COVER_CX * 100}%)` }}
+        />
         <div className="relative z-10 flex items-start justify-between">
-          <p data-label data-load className="label !text-(--hero-ink)/70">[ Selected work — 01 / Upstox ]</p>
+          <p data-label data-load className="label !text-white/70">[ Selected work — 01 / Upstox ]</p>
         </div>
 
         <div className="relative z-10 flex flex-1 flex-col justify-center py-4 md:max-w-[52vw]">
           <h1 data-split="words" data-load data-delay="0.15" className="text-[9vw] font-semibold leading-[1] tracking-[-0.045em] md:text-[3.5vw]">
             Turning a 12-minute demat account opening process into a delightful 2-minute experience.
           </h1>
-          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-lg text-lg text-(--hero-ink)/75">
+          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-lg text-lg text-white/75">
             How we reimagined Upstox’s account-opening journey, replacing tedious form filling with automated verification, fewer steps and a simpler way to start investing.
           </p>
-          <div data-fade data-load data-delay="0.8" className="mt-10 flex items-end gap-6">
-            <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[7vw]" style={{ color: RED }}>10–12</b>
-            <span className="max-w-[13rem] pb-1 text-sm leading-snug text-(--hero-ink)/70">minutes to open an account when we started, after two redesigns.</span>
+          <div data-fade data-load data-delay="0.8" className="mt-6 flex items-end gap-6">
+            <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[5vw]">10–12</b>
+            <span className="max-w-[13rem] pb-1 text-sm leading-snug text-white/70">minutes to open an account when we started, after two redesigns.</span>
           </div>
-          <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-x-6 md:grid-cols-3">
+          <dl className="mt-6 grid max-w-2xl grid-cols-2 gap-x-6 md:grid-cols-3">
             {[
               ["Role", "Lead product designer"],
               ["Timeline", "April – May 2026 · 45 days"],
@@ -245,14 +256,17 @@ export default function AccountOpening() {
               ["Team", "Salaath Shaikh — Lead Product Designer\nSathvik — Product Designer\nSydney — Product Manager\nEngineering — Cross-functional team"],
             ].map(([k, v], i) => (
               <div key={k} className={`relative py-4 ${k === "Team" ? "col-span-full" : ""}`}>
-                <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-(--hero-ink)/20" />
-                <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-(--hero-ink)/60">{k}</dt>
-                <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className="mt-1 whitespace-pre-line text-sm font-medium">{v}</dd>
+                <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-white/20" />
+                <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-white/60">{k}</dt>
+                <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className={`mt-1 whitespace-pre-line text-sm font-medium ${k === "Team" ? "md:columns-2" : ""}`}>{v}</dd>
               </div>
             ))}
           </dl>
         </div>
-      </CoverOptions>
+
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`${IMG}/hero-cover.webp`} alt="" width={2000} height={1335} className="relative -mx-4 mt-4 block w-[calc(100%+2rem)] max-w-none sm:-mx-10 sm:w-[calc(100%+5rem)] md:hidden" />
+      </header>
 
       {/* ---------- 01 the problem ---------- */}
       <Chapter n="01" label="The problem" title="We had redesigned account opening twice. People were still dropping off.">
