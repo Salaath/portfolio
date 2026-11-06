@@ -191,7 +191,7 @@ const MOMENTS = [
   ["fetch", "Trust", "You can see what's being fetched"],
   ["cards", "Clarity", "Your details stack up as you confirm them"],
   ["confirm", "Momentum", "A small win when your details are confirmed"],
-  ["selfie", "Momentum", "The same win after the selfie"],
+  ["selfie", "Momentum", "Small wins celebrated after every step"],
   ["clock", "Clarity", "A clock that makes the wait feel like progress"],
   ["alerts", "Momentum", "Alerts draw themselves, then you're all set"],
 ] as const;
