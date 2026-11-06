@@ -193,7 +193,7 @@ const MOMENTS = [
   ["confirm", "Momentum", "A small win when your details are confirmed"],
   ["selfie", "Momentum", "Small wins celebrated after every step"],
   ["clock", "Clarity", "A clear status, and the exact date your account goes live"],
-  ["alerts", "Momentum", "Alerts draw themselves, then you're all set"],
+  ["alerts", "Momentum", "A first step towards investing, while the account activates"],
 ] as const;
 
 // heat spots are in % of the screen, placed from the Version 2.0 click-map slide
