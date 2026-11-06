@@ -30,7 +30,7 @@ export function ProtoEmbed({ url }: { url: string }) {
   useEffect(() => {
     const el = box.current;
     if (!el) return;
-    const fit = () => setScale(Math.min(1, (window.innerHeight - 170) / H, (window.innerWidth - 80) / W));
+    const fit = () => setScale(Math.min(1, (window.innerHeight - 120) / H, (window.innerWidth - 80) / W));
     fit();
     const ro = new ResizeObserver(fit);
     ro.observe(el);
