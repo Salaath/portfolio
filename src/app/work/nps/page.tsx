@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Choreo } from "@/components/Choreo";
 import { HScroll } from "@/components/HScroll";
 import { RollButton } from "@/components/RollButton";
+import { CraJourney } from "@/components/nps/CraJourney";
 import { NpsHero } from "@/components/nps/NpsHero";
 import { NpsStories } from "@/components/nps/NpsStories";
 import { SectionPill } from "@/components/nps/SectionPill";
@@ -75,21 +76,21 @@ const TEARDOWN = [
   {
     name: "Protean eNPS",
     kind: "I completed this registration myself",
-    img: "comp-enps",
+    journey: "enps" as const,
     rows: [
       ["Subscriber and account type, before anything else", "What the account types mean, and which one applies to you", "A product decision arrives before the product has been explained"],
       ["Parents’ names, place of birth and identity proof", "Which details have to match your documents", "A long form to get through before you’ve seen what you’re getting"],
-      ["A captcha, then an acknowledgement number to keep", "That the number matters for what comes next", "Keeping track of the process is left to the user"],
+      ["An acknowledgement number to keep, and OTPs and captchas to finish", "That the number matters for what comes next", "Keeping track of the process is left to the user"],
     ],
   },
   {
-    name: "CAMS",
-    kind: "An 8-step web wizard",
-    img: "comp-cams-forms",
+    name: "KFintech",
+    kind: "Distributor-assisted, in KFintech IRIS",
+    journey: "kfin" as const,
     rows: [
-      ["A photo and a signature upload", "What’s needed, and having both files to hand", "Getting the files means stepping out of the flow"],
-      ["Bank details and a FATCA declaration", "What FATCA is and how to answer it", "A compliance term appears in the middle of a financial task"],
-      ["A choice of pension fund manager", "How managers differ from one another", "No performance is shown at the point of choosing"],
+      ["PAN and date of birth, checked against KYC and an AML database", "Why a pension account opens with a compliance check", "The investor relies on the distributor to explain each step"],
+      ["Tier, fund manager, and Auto or Active allocation", "What lifecycle funds and the E, C, G split mean", "Fund managers are listed without returns, and in the recording the chart legends read “Label for Equity”"],
+      ["A photo, a signature, the PAN card and a cancelled cheque for each tier", "Which files are needed, and in what format and size", "Five uploads mean stepping away to find documents"],
     ],
   },
 ];
@@ -262,7 +263,7 @@ export default function NpsCase() {
               <Heading className="mt-5">I went through the existing journeys myself</Heading>
             </div>
             <p data-fade className="text-white/60 md:pb-2">
-              I reviewed the Protean eNPS and CAMS journeys, the two I examined in detail, and completed eNPS registration myself. The point wasn’t to prove every step wrong. It was to see what someone is asked to know, decide and provide.
+              I reviewed the Protean eNPS and KFintech journeys, the two record-keepers that serve almost the whole market, and completed eNPS registration myself. The point wasn’t to prove every step wrong. It was to see what someone is asked to know, decide and provide.
             </p>
           </div>
 
@@ -273,10 +274,7 @@ export default function NpsCase() {
                   <h3 className="text-3xl font-semibold tracking-[-0.035em]">{t.name}</h3>
                   <span className="font-mono text-xs text-white/45">{t.kind}</span>
                 </div>
-                <figure data-wipe className="mt-6 overflow-hidden rounded-2xl bg-white">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img data-wipe-inner src={`/work/nps/${t.img}.jpg`} alt={`${t.name} account opening screens, blurred`} loading="lazy" className="block h-[14rem] w-full object-cover object-top md:h-[18rem]" />
-                </figure>
+                <CraJourney id={t.journey} />
                 <div className="mt-6 overflow-x-auto">
                   <div className="min-w-[640px]">
                     <div className="label grid grid-cols-3 gap-6 border-b border-white/15 pb-3 !text-white/50">
@@ -295,7 +293,6 @@ export default function NpsCase() {
                 </div>
               </div>
             ))}
-            <ToAdd dark>High-resolution, chronological screenshots of your eNPS walkthrough and the CAMS review, to replace these blurred images. Check each annotation against what the screens actually show.</ToAdd>
           </div>
         </div>
       </section>

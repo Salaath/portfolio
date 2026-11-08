@@ -132,7 +132,17 @@ html.is-loading body {
   transform-origin: left;
   animation: story-grow 1s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+@keyframes enps-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.enps-in {
+  animation: enps-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 @media (prefers-reduced-motion: reduce) {
+  .enps-in,
   .story-rise,
   .story-grow {
     animation: none;
