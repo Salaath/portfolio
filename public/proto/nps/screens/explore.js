@@ -154,7 +154,7 @@ function exploreContent(){
     </div></section>
     <section class="ex-vids">
       <div class="ex-vids-t"><p>Save smart with NPS</p><span>Learn about NPS &amp; plan your retirement strategy</span></div>
-      <div class="ex-vrow">${[0,1,2].map(i=>`<button class="ex-vid ${i?'':'blank'}" data-video="${i}">${i?`<img src="${A}ex-video-poster.png" alt="">`:''}<span class="ex-dur"><img src="${A}ex-play-16.svg" width="16" height="16" alt="">1:23</span></button>`).join('')}</div>
+      <div class="ex-vrow">${VIDEOS.map((v,i)=>`<button class="ex-vid" data-video="${i}"><img src="${A}${v.thumb}" alt="${v.title}"><span class="ex-dur"><img src="${A}ex-play-16.svg" width="16" height="16" alt="">${v.dur}</span></button>`).join('')}</div>
     </section>
     <section class="ex-faqs"><div class="ex-faqs-t">FAQs</div>
       <div class="ex-faq">${FAQS.map(([q,a],i)=>`<div class="ex-faq-i ${i?'':'on'}"><button class="ex-faq-q"><span>${q}</span><img src="${A}ex-chevron-down-16.svg" width="16" height="16" alt=""></button><div class="ex-faq-a"><p>${a}</p></div></div>`).join('')}</div>
@@ -221,7 +221,7 @@ SCREENS.explore = (el, p={})=>{
     const mi = t.closest('[data-mat]'); if(mi){ e.stopPropagation(); return maturitySheet(mi.dataset.mat); }
     const fc = t.closest('[data-fund]'); if(fc){ const id = fc.dataset.fund; S.d.fund = id; return leave(()=>go('fund', 'push', {fund:id})); }
     if(t.closest('[data-allfunds]')) return leave(()=>go('allFunds'));
-    const v = t.closest('[data-video]'); if(v) return leave(()=>go('exVideo'));
+    const v = t.closest('[data-video]'); if(v){ videoIdx = +v.dataset.video; return leave(()=>go('exVideo')); }
     const fq = t.closest('.ex-faq-q'); if(fq) return fq.parentElement.classList.toggle('on');
     if(t.closest('[data-allfaqs]')) return faqSheet();
   });
@@ -420,27 +420,31 @@ function planSheet(done){
   s.el.addEventListener('click', e=>{ const b = e.target.closest('[data-p]'); if(!b) return; S.d.plan = b.dataset.p; s.close(); done(); });
 }
 
-/* ====================================================================== VIDEO (3210:214179) */
+/* ====================================================================== VIDEO (3:171311)
+   A mock player: no playback, just the frame. Tapping pause toggles the icon. */
+const VIDEOS = [
+  { thumb:'ex-vthumb-1.jpg', dur:'0:58', title:'NPS in 60 seconds', yt:'NPS in 60 seconds: how it works for you', at:22 },
+  { thumb:'ex-vthumb-2.jpg', dur:'2:14', title:'Save ₹50,000 more in tax', yt:'How NPS saves you ₹50,000 more in tax', at:38 },
+];
+let videoIdx = 0;
+const VI = {
+  kebab:'<svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>', pause:'<svg width="24" height="24" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>', play:'<svg width="24" height="24" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>', vol:'<svg width="24" height="24" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.47 4.47 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>', gear:'<svg width="24" height="24" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L4.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>', full:'<svg width="24" height="24" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M4 4h6v2H6v4H4zm10 0h6v6h-2V6h-4zM4 14h2v4h4v2H4zm14 0h2v6h-6v-2h4z"/></svg>'
+};
 SCREENS.exVideo = (el)=>{
+  const v = VIDEOS[videoIdx] || VIDEOS[0];
   el.classList.add('ex-video');
-  el.innerHTML = `<div class="topbar ex-top"><div class="l">${I.back()}<span class="b1">Save smart with NPS</span></div><div class="r"><button class="icon-btn" data-help aria-label="Help"><img src="${A}ex-support-fill.svg" width="24" height="24" alt=""></button></div></div>
-    <div class="ex-player"><div class="ex-pv"><img src="${A}ex-video-poster.png" alt=""><button class="ex-bigplay" data-play aria-label="Play"></button></div>
-      <div class="ex-ctrl"><div class="ex-prog"><i data-prog></i></div><div class="ex-ctrl-r"><button data-play class="ex-pp" aria-label="Play / pause"></button><span data-time>0:00 / 1:23</span></div></div></div>`;
+  el.innerHTML = `<div class="topbar ex-top"><div class="l">${I.back()}<span class="b1">${v.title}</span></div><div class="r"><button class="icon-btn" data-help aria-label="Help"><img src="${A}ex-support-fill.svg" width="24" height="24" alt=""></button></div></div>
+    <div class="ex-player">
+      <div class="ex-yt-top"><span class="ex-yt-av">up</span><span class="ex-yt-t">${v.yt}</span>${VI.kebab}</div>
+      <div class="ex-pv"><img src="${A}ex-video-portrait.jpg" alt=""></div>
+      <div class="ex-yt-ctrl"><div class="ex-yt-prog"><i style="width:${v.at}%"></i><b style="left:${v.at}%"></b></div>
+        <div class="ex-yt-row"><button data-pp aria-label="Pause">${VI.pause}</button>${VI.vol}<span class="ex-yt-sp"></span>${VI.gear}${VI.full}</div></div>
+    </div>`;
   wireCommon(el);
-  let playing = false, t = 0, raf = 0, last = 0;
-  const fmt = (s)=> Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
-  const tick = (ts)=>{
-    if(!el.isConnected || !playing) return;
-    if(last) t = Math.min(83, t + (ts-last)/1000); last = ts;
-    $('[data-prog]', el).style.width = (t/83*100)+'%';
-    $('[data-time]', el).textContent = fmt(t)+' / 1:23';
-    if(t>=83){ playing = false; el.classList.remove('playing'); return; }
-    raf = requestAnimationFrame(tick);
-  };
   el.addEventListener('click', e=>{
-    if(!e.target.closest('[data-play]')) return;
-    playing = !playing; el.classList.toggle('playing', playing);
-    if(playing){ if(t>=83) t = 0; last = 0; raf = requestAnimationFrame(tick); } else cancelAnimationFrame(raf);
+    const b = e.target.closest('[data-pp]'); if(!b) return;
+    const paused = b.getAttribute('aria-label')==='Play';
+    b.innerHTML = paused ? VI.pause : VI.play; b.setAttribute('aria-label', paused ? 'Pause' : 'Play');
   });
 };
 
