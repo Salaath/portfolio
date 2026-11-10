@@ -126,11 +126,11 @@ html.is-loading body {
   }
 }
 .story-rise {
-  animation: story-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: story-rise 0.56s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .story-grow {
   transform-origin: left;
-  animation: story-grow 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: story-grow 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 @keyframes enps-in {
   from {

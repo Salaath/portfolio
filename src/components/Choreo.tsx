@@ -220,10 +220,20 @@ export function Choreo({
 
         // Lazy images can change the page height after triggers are measured;
         // re-measure (debounced) whenever one finishes loading.
+        // Only when the page actually got taller or shorter: images inside
+        // fixed-size frames (phone mockups) don't move anything, and a refresh
+        // while a pinned section is mid-scroll makes it jump.
+        const content = () => document.getElementById("smooth-content") ?? document.body;
+        let measured = content().scrollHeight;
         let pending: ReturnType<typeof setTimeout> | undefined;
         const remeasure = () => {
           clearTimeout(pending);
-          pending = setTimeout(() => ScrollTrigger.refresh(), 150);
+          pending = setTimeout(() => {
+            const h = content().scrollHeight;
+            if (Math.abs(h - measured) < 2) return;
+            measured = h;
+            ScrollTrigger.refresh();
+          }, 150);
         };
         all<HTMLImageElement>("img").forEach((img) => {
           if (!img.complete) img.addEventListener("load", remeasure, { once: true });

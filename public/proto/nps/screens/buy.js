@@ -387,17 +387,18 @@ SCREENS.byStatus = (el)=>{
               : `<img class="by-badge" src="${A}by-success-badge.svg" width="120" height="120" alt="">`}
         <p class="by-msg">${bad ? 'PRAN generation failed,<br>expect refund in 2 days' : `Congratulations!<br>You've successfully invested ${inr(o.amount)} in ${f.name}.`}</p>
       </div>
+      <div class="by-scrim" id="scrim"></div>
       <div class="by-ssheet" id="ss">
         <div class="handle"><i></i></div>
         <div class="h2 by-ss-t">Order status</div>
-        <div class="by-ss-f">${o.fund==='icici' ? `<span class="by-lg"><img src="${A}by-icici-logo.png" width="40" height="40" alt=""></span>` : `<span class="by-lg by-lg-t">${f.name[0]}</span>`}<b>${f.name}</b></div>
+        <div class="by-ss-f">${o.fund==='icici' ? `<span class="by-lg"><img src="${A}by-icici-logo.png" width="40" height="40" alt=""></span>` : ['axis','kotak','sbi','hdfc','uti','absl'].includes(o.fund) ? `<span class="by-lg"><img src="${A}ex-logo-${o.fund}.png" width="40" height="40" alt=""></span>` : `<span class="by-lg by-lg-t">${f.name[0]}</span>`}<b>${f.name}</b></div>
         <div class="by-ladder">${steps.map(([t,s,k],i)=>`<div class="by-step ${k} ${i===steps.length-1?'last':''} ${steps[i+1] && /done|err|prog/.test(k) && /done|prog/.test(steps[i+1][2]) ? 'gl':''}">
             <span class="ic">${k.includes('err') ? `<img src="${A}by-step-error.svg" width="16" height="16" alt="">` : k.includes('done') ? `<img src="${A}by-step-done.svg" width="16" height="16" alt="">` : k.includes('prog') ? '<i class="by-prog-ic"></i>' : `<img src="${A}by-step-pending.svg" width="16" height="16" alt="">`}</span>
             <div><span class="b1">${t}</span><span class="meta c2">${s}</span></div></div>`).join('')}</div>
         <div class="by-ss-ft">${bad ? `<button class="btn purple" id="retry">Retry</button>` : `<button class="btn outline" id="close">Close</button><button class="btn purple" id="chk">Check status</button>`}</div>
       </div>`;
     const ss = $('#ss', el), hero = $('#hero', el);
-    later(()=>{ ss.classList.add('on'); hero.classList.add('up'); }, 1400);
+    later(()=>{ ss.classList.add('on'); hero.classList.add('up'); $('#scrim', el).classList.add('on'); }, 1400);
     const toPf = ()=>resetTo(['more','explore'], 'portfolio', {tab:'orders'});
     const c = $('#close', el); c && c.addEventListener('click', toPf);
     const k = $('#chk', el); k && k.addEventListener('click', e=>loadingBtn(e.currentTarget, 700, toPf));

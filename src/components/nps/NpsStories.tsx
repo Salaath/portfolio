@@ -11,7 +11,9 @@ import { useEffect, useRef, useState } from "react";
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const PURPLE = "#5A298B";
-const DURATION = 6; // seconds per story
+// Everything in the stories runs at 1.25× the original pace.
+const SPEED = 1.25;
+const DURATION = 6 / SPEED; // seconds per story
 
 type Blob = { w: number; h: number; x: string; y: number; color: string; radius: string };
 
@@ -73,12 +75,12 @@ const STORIES: Story[] = [
 
 /* ---------- shared pieces ---------- */
 
-const CARD = "rounded-2xl border border-[#F1F1F1] bg-white shadow-[0_14px_30px_-16px_rgba(16,24,40,0.22),0_1px_2px_rgba(16,24,40,0.05)]";
+const CARD = "rounded-2xl border border-[#F1F1F1] bg-white";
 const META = "text-[12px] font-medium leading-4 text-[#6A6A6A]";
 
 function Rise({ d = 0, children, className = "", style }: { d?: number; children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
   return (
-    <div className={`story-rise ${className}`} style={{ ...style, animationDelay: `${d}s` }}>
+    <div className={`story-rise ${className}`} style={{ ...style, animationDelay: `${d / SPEED}s` }}>
       {children}
     </div>
   );
@@ -116,7 +118,7 @@ function Intro() {
           <span className="whitespace-nowrap text-[13px] font-medium leading-5 text-[#6A6A6A]">Additionally, save up to</span>
           <span className="text-[19px] font-bold leading-6 tracking-[-0.4px]">₹46,800</span>
         </div>
-        <div className="story-grow mt-3.5 h-2 rounded" style={{ background: "linear-gradient(90deg,#8DD5B8,#347B54)", animationDelay: "0.4s" }} />
+        <div className="story-grow mt-3.5 h-2 rounded" style={{ background: "linear-gradient(90deg,#8DD5B8,#347B54)", animationDelay: `${0.4 / SPEED}s` }} />
         <p className={`${META} mt-3 !text-[#929292]`}>Using ₹1.5 L as an alternate to 80C</p>
       </Rise>
     </>
@@ -138,7 +140,7 @@ function Life() {
     <>
       <Title kicker="How NPS works">Invest now, get paid after 60</Title>
       <div className="mt-[22px] flex h-[380px] gap-3">
-        <Rise d={0.1} className="flex w-10 flex-col drop-shadow-[0_6px_10px_rgba(16,24,40,0.12)]">
+        <Rise d={0.1} className="flex w-10 flex-col">
           {stops.map((s, i) => (
             <div
               key={s.age}
@@ -187,17 +189,12 @@ function Rules() {
       <Title kicker="Withdrawal rules">When money comes out</Title>
       <Rise d={0.12} className="ml-1.5 mt-6">
         <svg viewBox="0 0 236 344" width="236" height="344" className="block overflow-visible" role="img" aria-label="NPS withdrawal rules as a stacked pillar">
-          <defs>
-            <filter id="story-pillar-shadow" x="-30%" y="-10%" width="160%" height="130%">
-              <feDropShadow dx="0" dy="6" stdDeviation="5" floodColor="#10182B" floodOpacity="0.16" />
-            </filter>
-          </defs>
           {blocks.map(([tag, h, side, title, lines], i) => {
             const top = y;
             y += h + 12;
             return (
               <g key={title}>
-                <g filter="url(#story-pillar-shadow)" stroke="#262626" strokeWidth="0.7" strokeLinejoin="round">
+                <g stroke="#262626" strokeWidth="0.7" strokeLinejoin="round">
                   <polygon points={`0,${top} 14,${top - 8} 46,${top - 8} 32,${top}`} fill="#F9F8FD" />
                   <rect x="0" y={top} width="32" height={h} fill="#fff" />
                   <polygon points={`32,${top} 46,${top - 8} 46,${top + h - 8} 32,${top + h}`} fill={side} />
@@ -238,7 +235,7 @@ function Returns() {
             ].map(([n, w, inv, r], i) => (
               <div key={n} className="contents">
                 <span className={`${META} !font-semibold !text-[#262626]`}>{n}</span>
-                <span className="story-grow flex h-[22px] overflow-hidden rounded-md" style={{ width: w, animationDelay: `${0.3 + i * 0.1}s` }}>
+                <span className="story-grow flex h-[22px] overflow-hidden rounded-md" style={{ width: w, animationDelay: `${(0.3 + i * 0.1) / SPEED}s` }}>
                   <i style={{ width: inv, background: "#E1E1E1" }} />
                   <i className="flex-1" style={{ background: "#8DD5B8" }} />
                 </span>
@@ -253,7 +250,7 @@ function Returns() {
           <p className={`${META} mt-2.5 border-t border-[#F0F0F0] pt-2.5`}>Up to 12% a year with an aggressive plan, higher than PPF</p>
         </Rise>
         <Rise d={0.24} className={`${CARD} flex items-center gap-4 p-4`}>
-          <svg viewBox="0 0 42 42" width="84" height="84" className="shrink-0 -rotate-90 drop-shadow-[0_4px_6px_rgba(16,24,40,0.12)]" aria-hidden>
+          <svg viewBox="0 0 42 42" width="84" height="84" className="shrink-0 -rotate-90" aria-hidden>
             {mix.map(([n, c, p]) => {
               const el = <circle key={n} cx="21" cy="21" r="15.9" fill="none" stroke={c} strokeWidth="6.5" strokeDasharray={`${p} ${100 - p}`} strokeDashoffset={offset} />;
               offset -= p + 1.5;
@@ -307,14 +304,14 @@ export function NpsStories() {
                 type="button"
                 onClick={() => go(i)}
                 aria-current={on}
-                className={`group w-full rounded-[1.6rem] p-5 text-left transition-colors duration-500 md:p-6 ${on ? "bg-white shadow-[0_20px_50px_-30px_rgba(0,0,0,0.35)]" : "hover:bg-white/60"}`}
+                className={`group w-full rounded-[1.6rem] p-5 text-left transition-colors duration-400 md:p-6 ${on ? "bg-white shadow-[0_20px_50px_-30px_rgba(0,0,0,0.35)]" : "hover:bg-white/60"}`}
               >
                 <span className="flex items-center gap-3">
                   <span className={`grid size-7 place-items-center rounded-full font-mono text-[11px] transition-colors ${on ? "bg-ink text-bg" : "bg-black/[0.06] text-muted"}`}>{i + 1}</span>
                   <span className="label">{s.chapter}</span>
                 </span>
                 <span className={`mt-3 block text-2xl font-semibold tracking-[-0.035em] transition-colors md:text-[1.7rem] ${on ? "" : "text-black/35"}`}>{s.title}</span>
-                <span className={`grid transition-[grid-template-rows,opacity] duration-500 ${on ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+                <span className={`grid transition-[grid-template-rows,opacity] duration-400 ${on ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
                   <span className="overflow-hidden">
                     <span className="block max-w-md pt-2 text-[15px] text-muted">{s.why}</span>
                   </span>
@@ -327,7 +324,7 @@ export function NpsStories() {
 
       {/* phone */}
       <div className="relative order-1 mx-auto md:order-2">
-        <div aria-hidden className="absolute -inset-10 rounded-full opacity-70 blur-3xl transition-colors duration-700" style={{ background: story.glow }} />
+        <div aria-hidden className="absolute -inset-10 rounded-full opacity-70 blur-3xl transition-colors duration-[560ms]" style={{ background: story.glow }} />
         <div
           className="relative rounded-[34px] bg-[#111] p-[6px] shadow-[0_50px_90px_-35px_rgba(0,0,0,0.5)]"
           onPointerDown={() => setHeld(true)}

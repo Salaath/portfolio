@@ -168,6 +168,9 @@
 .by-st-bad .by-hero.up{transform:translateY(-170px)}
 .by-failic{width:150px;height:150px;position:relative;animation:byBadge .7s var(--gentle) both}
 .by-failic img{position:absolute;left:0;top:0}
+/* dims the hero once the order sheet is up, so the sheet reads as a layer on top */
+.by-scrim{position:absolute;inset:0;background:rgba(0,0,0,.4);opacity:0;transition:opacity .55s var(--std);pointer-events:none}
+.by-scrim.on{opacity:1}
 .by-ssheet{position:absolute;left:0;right:0;bottom:48px;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 4px 24px rgba(0,0,0,.25);transform:translateY(110%);transition:transform .55s var(--std);display:flex;flex-direction:column;z-index:2}
 .by-ssheet.on{transform:none}
 .by-ssheet .handle i{display:block;width:32px;height:4px;border-radius:2px;background:var(--ui4)}

@@ -11,11 +11,11 @@ const FD = {
   icici:{ logo:'ex-logo-icici.png', start:'18 May 2009', yr:2009, ret:15.12, rvc:'High',    risk:'Average', aum:42350,  top:true },
   axis: { logo:'ex-logo-axis.png',  start:'18 May 2009', yr:2009, ret:17.12, rvc:'High',    risk:'Average', aum:380 },
   kotak:{ logo:'ex-logo-kotak.png', start:'18 May 2009', yr:2009, ret:12.76, rvc:'Average', risk:'Low',     aum:4210 },
-  sbi:  { ini:'SB', start:'14 Dec 2008', yr:2008, ret:13.84, rvc:'Average', risk:'Low',     aum:162400 },
-  hdfc: { ini:'HD', start:'1 Aug 2013',  yr:2013, ret:14.62, rvc:'High',    risk:'Average', aum:98700 },
-  uti:  { ini:'UT', start:'5 Jun 2009',  yr:2009, ret:13.21, rvc:'Average', risk:'Average', aum:45600 },
+  sbi:  { logo:'ex-logo-sbi.png', start:'14 Dec 2008', yr:2008, ret:13.84, rvc:'Average', risk:'Low',     aum:162400 },
+  hdfc: { logo:'ex-logo-hdfc.png', start:'1 Aug 2013',  yr:2013, ret:14.62, rvc:'High',    risk:'Average', aum:98700 },
+  uti:  { logo:'ex-logo-uti.png', start:'5 Jun 2009',  yr:2009, ret:13.21, rvc:'Average', risk:'Average', aum:45600 },
   lic:  { ini:'LI', start:'22 Feb 2010', yr:2010, ret:12.94, rvc:'Average', risk:'Low',     aum:82300 },
-  absl: { ini:'AB', start:'9 May 2017',  yr:2017, ret:14.05, rvc:'High',    risk:'High',    aum:1320 },
+  absl: { logo:'ex-logo-absl.png', start:'9 May 2017',  yr:2017, ret:14.05, rvc:'High',    risk:'High',    aum:1320 },
 };
 const TOP3 = ['icici','axis','kotak'];
 const fname = (id)=> id==='icici' ? 'ICICI  Prudential Pension Fund' : fundById(id).name;

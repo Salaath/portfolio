@@ -95,7 +95,7 @@ export function PhoneStage() {
       <div data-stage-phone className="relative z-10 mx-auto">
         <Shot src="pfInvest" alt="Upstox NPS portfolio with current value, returns and holdings" width={290} />
       </div>
-      <p className="label absolute inset-x-0 top-24 text-center">★ Live to 100% of users since 7 Feb 2025</p>
+      <p className="label absolute inset-x-0 top-24 text-center">★ Live to 100% of users since March 2025</p>
     </section>
   );
 }

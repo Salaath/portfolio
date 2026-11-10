@@ -114,10 +114,11 @@ export function NpsHero() {
           Building NPS from 0 to 1 on Upstox
         </h1>
         <p data-sub className="mt-6 max-w-xl text-lg text-white/65">
-          I led the design of a new NPS experience on Upstox, from product
-          vision to launch: discovery, education, contribution, account setup,
-          fund selection, order tracking and portfolio, in one connected
-          journey.
+          I led the design of NPS on Upstox, from product vision to launch:
+          education, account setup, fund selection, contributions and
+          portfolio, in one journey. It went live to every Upstox user in
+          March 2025, before tax season. A first contribution now takes under
+          3 minutes.
         </p>
         <div data-actions className="mt-9 flex flex-wrap justify-center gap-3">
           <Magnetic strength={0.2}>

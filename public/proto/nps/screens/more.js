@@ -93,7 +93,7 @@ function pillar(){
   let y = 14, g = '';
   rows.forEach(([tag,hh,side,title,lines],i)=>{
     const t = y; y += hh + 12;
-    g += `<g filter="url(#sbShadow)" stroke="#262626" stroke-width=".7" stroke-linejoin="round">
+    g += `<g stroke="#262626" stroke-width=".7" stroke-linejoin="round">
       <polygon points="0,${t} 14,${t-8} 46,${t-8} 32,${t}" fill="#F9F8FD"/><rect x="0" y="${t}" width="32" height="${hh}" fill="#fff"/>
       <polygon points="32,${t} 46,${t-8} 46,${t+hh-8} 32,${t+hh}" fill="${side}"/></g>
       <text transform="translate(20,${t+hh/2}) rotate(-90)" text-anchor="middle" font-size="11" font-weight="600" fill="#3F6CBC">${tag}</text>

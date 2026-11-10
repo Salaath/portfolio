@@ -12,7 +12,7 @@ const { $, $$, A, inr, PLANS, fundById, S, SCREENS, go, later, sheet, toast, wir
 
 /* ---------- data ---------- */
 const FD = {
-  icici:{ r3:11.8, r5:15.12, r10:12.4, launched:'14 Jan 2018', ago:'8.5 yrs ago', aum:'₹20,360 Cr', aumTag:'Top 20%', logo:'fd-logo-icici.png' },
+  icici:{ r3:11.8, r5:15.12, r10:12.4, launched:'14 Jan 2018', ago:'8.5 yrs ago', aum:'₹20,360 Cr', aumTag:'Top 20%' },
 };
 const fdData = (id)=> FD[id] || { r3:10.9, r5:13.4, r10:11.6, launched:'12 May 2009', ago:'17 yrs ago', aum:'₹1,42,300 Cr', aumTag:'Top 10%' };
 const PLAN_RATE = { aggressive:11.1, moderate:9.8, conservative:8.6 };
@@ -32,7 +32,9 @@ function calc(){
 }
 
 /* ---------- small builders ---------- */
-const logo = (f)=>{ const d = fdData(f.id); return d.logo ? `<span class="fd-logo"><img src="${A}${d.logo}" alt=""></span>` : `<span class="fd-logo fd-ini">${f.name.split(' ').slice(0,2).map(w=>w[0]).join('')}</span>`; };
+// fund manager logos, shared with Explore (LIC has none yet, so it keeps its initials)
+const LOGOS = ['icici','axis','kotak','sbi','hdfc','uti','absl'];
+const logo = (f)=>{ const d = { logo: LOGOS.includes(f.id) ? `ex-logo-${f.id}.png` : '' }; return d.logo ? `<span class="fd-logo"><img src="${A}${d.logo}" alt=""></span>` : `<span class="fd-logo fd-ini">${f.name.split(' ').slice(0,2).map(w=>w[0]).join('')}</span>`; };
 const info16 = (k)=>`<button class="fd-i16" data-info="${k}" aria-label="Info"><img src="${A}fd-info-16.svg" width="16" height="16" alt=""></button>`;
 const info24 = (k)=>`<button class="fd-i24" data-info="${k}" aria-label="Info"><img src="${A}fd-info-24.svg" width="24" height="24" alt=""></button>`;
 const secTitle = (t, k)=>`<div class="fd-st"><span>${t}</span>${k?info24(k):''}</div>`;
