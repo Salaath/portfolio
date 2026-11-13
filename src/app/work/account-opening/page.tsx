@@ -4,6 +4,7 @@ import { cases } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
 import { RollButton } from "@/components/RollButton";
 import { FlowVideo, LoopVideo, PhonePlayer } from "@/components/ao/FlowVideo";
+import { HeldPhone } from "@/components/ao/HeldPhone";
 import { IPhone } from "@/components/ao/IPhone";
 import { Zoomable } from "@/components/ao/Zoomable";
 import { DropOff } from "@/components/ao/DropOff";
@@ -18,9 +19,9 @@ import { HeatScreen, ProtoEmbed } from "@/components/ao/Bits";
 export const metadata: Metadata = { title: "Account Opening — Salaath Shaikh" };
 
 const IMG = "/work/ao3";
-// hero-cover.webp: the page background continues the image's left edge; the phone is centred at COVER_CX
-const COVER_BG = "linear-gradient(180deg,rgb(6,6,6),rgb(6,6,6),rgb(6,6,6),rgb(6,6,6),rgb(6,6,6),rgb(8,8,8))";
-const COVER_CX = 0.513;
+// hero-held.webp sits on a flat #d4d4d4 backdrop; the phone's screen is centred at HELD_CX of its width
+const HERO_BG = "#d4d4d4";
+const HELD_CX = 0.314;
 const RED = "#D93A2B";
 // The prototype is served from this site so it always matches the page.
 const PROTO = "/work/ao3/prototype/index.html";
@@ -223,30 +224,30 @@ export default function AccountOpening() {
   return (
     <Choreo>
       {/* ---------- hero: a statement, one phone, one number ---------- */}
-      <header className="relative flex min-h-svh flex-col overflow-hidden px-4 pb-8 pt-32 text-white sm:px-10" style={{ background: COVER_BG }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`${IMG}/hero-cover.webp`}
-          alt="Version 3.0 welcome screen on a phone leaning in a purple-lit corner"
-          width={2000}
-          height={1335}
-          className="pointer-events-none absolute top-0 hidden h-full w-auto max-w-none [mask-image:linear-gradient(90deg,transparent_0,#000_32%)] md:block"
-          style={{ left: "76%", transform: `translateX(${-COVER_CX * 100}%)` }}
+      <header className="relative flex min-h-svh flex-col overflow-hidden px-4 pb-8 pt-32 text-ink sm:px-10" style={{ background: HERO_BG }}>
+        <HeldPhone
+          still={`${IMG}/hero-held.webp`}
+          src={`${IMG}/hero-reel.mp4`}
+          poster={`${IMG}/hero-reel-poster.jpg`}
+          mask={`${IMG}/hero-screen-mask.png`}
+          label="Key moments of the Version 3.0 journey playing on a phone held in someone's hands: welcome, OTP filling itself in, fetching details, PAN card, signature, selfie, activation tracker and all set"
+          className="pointer-events-none !absolute top-0 hidden h-full md:block"
+          style={{ left: "74%", transform: `translateX(${-HELD_CX * 100}%)` }}
         />
         <div className="relative z-10 flex items-start justify-between">
-          <p data-label data-load className="label !text-white/70">[ Selected work — 01 / Upstox ]</p>
+          <p data-label data-load className="label !text-ink/60">[ Selected work — 01 / Upstox ]</p>
         </div>
 
         <div className="relative z-10 flex flex-1 flex-col justify-center py-4 md:max-w-[52vw]">
           <h1 data-split="words" data-load data-delay="0.15" className="text-[9vw] font-semibold leading-[1] tracking-[-0.045em] md:text-[3.5vw]">
             Turning a 12-minute demat account opening process into a delightful 2-minute experience.
           </h1>
-          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-lg text-lg text-white/75">
+          <p data-fade data-load data-delay="0.6" className="mt-6 max-w-lg text-lg text-ink/75">
             How we reimagined Upstox’s account-opening journey, replacing tedious form filling with automated verification, fewer steps and a simpler way to start investing.
           </p>
           <div data-fade data-load data-delay="0.8" className="mt-6 flex items-end gap-6">
             <b className="shrink-0 whitespace-nowrap text-[17vw] font-semibold leading-[0.8] tracking-[-0.06em] md:text-[5vw]">10–12</b>
-            <span className="max-w-[13rem] pb-1 text-sm leading-snug text-white/70">minutes to open an account when we started, after two redesigns.</span>
+            <span className="max-w-[13rem] pb-1 text-sm leading-snug text-ink/70">minutes to open an account when we started, after two redesigns.</span>
           </div>
           <dl className="mt-6 grid max-w-2xl grid-cols-2 gap-x-6 md:grid-cols-3">
             {[
@@ -256,16 +257,25 @@ export default function AccountOpening() {
               ["Team", "Salaath Shaikh — Lead Product Designer\nSathvik — Product Designer\nSydney — Product Manager\nEngineering — Cross-functional team"],
             ].map(([k, v], i) => (
               <div key={k} className={`relative py-4 ${k === "Team" ? "col-span-full" : ""}`}>
-                <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-white/20" />
-                <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-white/60">{k}</dt>
+                <span data-grow data-load data-delay={(0.9 + i * 0.08).toFixed(2)} className="absolute inset-x-0 top-0 h-px bg-ink/20" />
+                <dt data-fade data-load data-delay={(1 + i * 0.08).toFixed(2)} className="label !text-ink/55">{k}</dt>
                 <dd data-fade data-load data-delay={(1.05 + i * 0.08).toFixed(2)} className={`mt-1 whitespace-pre-line text-sm font-medium ${k === "Team" ? "md:columns-2" : ""}`}>{v}</dd>
               </div>
             ))}
           </dl>
         </div>
 
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`${IMG}/hero-cover.webp`} alt="" width={2000} height={1335} className="relative -mx-4 mt-4 block w-[calc(100%+2rem)] max-w-none sm:-mx-10 sm:w-[calc(100%+5rem)] md:hidden" />
+        {/* phones: zoomed in on the phone, so it reads at this size */}
+        <div className="-mx-4 -mb-8 mt-4 w-[calc(100%+2rem)] overflow-hidden sm:-mx-10 sm:w-[calc(100%+5rem)] md:hidden">
+        <HeldPhone
+          still={`${IMG}/hero-held.webp`}
+          src={`${IMG}/hero-reel.mp4`}
+          poster={`${IMG}/hero-reel-poster.jpg`}
+          mask={`${IMG}/hero-screen-mask.png`}
+          label="Key moments of the Version 3.0 journey playing on a phone held in someone's hands"
+          className="w-[160%] max-w-none"
+        />
+        </div>
       </header>
 
       {/* ---------- 01 the problem ---------- */}
