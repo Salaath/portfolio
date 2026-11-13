@@ -77,7 +77,7 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
             >
               {c.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={c.image} alt="" className={`h-full w-full object-cover ${dark ? "object-[91%_50%] md:object-[82%_50%]" : "object-[82%_50%]"}`} />
+                <img src={c.image} alt="" className={`h-full w-full object-cover ${dark ? "object-[68%_50%] md:object-[82%_50%]" : "object-[82%_50%]"}`} />
               ) : null}
             </div>
             <div className={`absolute inset-0 bg-gradient-to-t ${dark ? "from-[#f6f6f6] from-45% via-[#f6f6f6]/70 via-55% to-transparent to-72% md:hidden" : "from-black/55 via-transparent to-black/20"}`} />
