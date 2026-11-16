@@ -1,4 +1,10 @@
-import { cases } from "@/content/cases";
+import { getCase, type CaseStudy } from "@/content/cases";
+
+// Selected work on the home page, in this order. Loans and the F&O risk
+// placeholder keep their pages but are left off the list for now.
+const HOME_WORK = ["account-opening", "watchlist-revised", "nps", "previous-work"]
+  .map(getCase)
+  .filter((c): c is CaseStudy => Boolean(c));
 import { Choreo } from "@/components/Choreo";
 import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/Marquee";
@@ -123,7 +129,7 @@ export default function Home() {
             Selected work — Case studies —
           </h2>
         </div>
-        <CaseStack cases={cases} />
+        <CaseStack cases={HOME_WORK} />
       </section>
 
       <Marquee items={["Investing UX", "Design systems", "Research", "Prototyping", "Motion", "Leadership"]} />

@@ -825,33 +825,32 @@ export default function NpsCase() {
           <p data-scrub-words className="text-3xl font-semibold leading-[1.15] tracking-[-0.035em] md:text-[2.7vw]">
             Building NPS from zero meant making decisions before there was a product pattern to follow. The work wasn’t about removing every detail from a complex financial product. It was about deciding what people needed to understand at each step, what the product could handle in the background, and where transparency and control had to stay with the user.
           </p>
+          <span className="label md:border-t md:border-line md:pt-10">Try it</span>
+          <div data-fade className="flex items-center gap-4 border-t border-line pt-6">
+            <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-[14px] text-xl text-white shadow-[inset_0_-6px_10px_rgba(0,0,0,0.18)]" style={{ background: "#5B2EBD" }}>₹</span>
+            <p className="text-lg leading-snug">
+              Live on Upstox. <span className="text-muted">Open the app, go to More, then NPS.</span>
+            </p>
+          </div>
         </div>
       </section>
 
       {/* ---------- closing ---------- */}
       <section className="relative overflow-hidden px-4 pb-10 pt-20 sm:px-10">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-[1fr_auto_1fr]">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-[1fr_auto]">
           <div>
             <h2 data-split="lines" className="text-4xl font-semibold leading-[1] tracking-[-0.045em] md:text-5xl">
-              Up next: Upstox Loans
+              Up next: Before Upstox
             </h2>
-            <p data-fade className="mt-4 text-muted">Money in two hours, designed three times over.</p>
+            <p data-fade className="mt-4 text-muted">Four products from my years at Tata CLiQ.</p>
             <div data-fade data-delay="0.1" className="mt-7">
-              <RollButton href="/work/personal-loans" label="Read the case" />
+              <RollButton href="/work/previous-work" label="Read the case" />
             </div>
           </div>
-          <div data-fade className="mx-auto" data-parallax="-0.1">
-            <Shot src="pfOrderDone" alt="NPS portfolio after the order completed: portfolio value, returns, PRAN and completed orders" width={250} />
-          </div>
-          <div data-fade data-delay="0.15" className="rounded-[2rem] bg-white p-6 md:justify-self-end">
-            <p className="text-lg font-semibold">Live on Upstox</p>
-            <p className="mt-1 text-sm text-muted">Open the app, go to More, then NPS.</p>
-            <div className="mt-5 flex items-center gap-3 rounded-2xl bg-[#F3F3F1] p-3">
-              <span className="grid size-14 place-items-center rounded-2xl text-2xl font-semibold text-white shadow-[inset_0_-6px_10px_rgba(0,0,0,0.18)]" style={{ background: "#5B2EBD" }}>₹</span>
-              <span className="text-sm">
-                <b className="block">More → NPS</b>
-                <span className="text-muted">Upstox app</span>
-              </span>
+          <div data-fade className="mx-auto md:mr-16" data-parallax="-0.1">
+            <div className="w-[300px] overflow-hidden rounded-[1.25rem]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/work/previous/palette-float.jpg" alt="Tata CLiQ Palette, the beauty homepage" width={2000} height={1250} loading="lazy" className="block aspect-square w-full object-cover" />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Smoother } from "@/components/Smoother";
 import { Cursor } from "@/components/Cursor";
@@ -9,7 +9,6 @@ import { GridLines } from "@/components/GridLines";
 import { StickyCta } from "@/components/StickyCta";
 import { Preloader } from "@/components/Preloader";
 
-const sans = Geist({ variable: "--font-geist", subsets: ["latin"] });
 const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,8 +21,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`${sans.variable} ${mono.variable} antialiased`}>
+    <html lang="en" className={mono.variable}>
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
+        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500&display=swap" />
+      </head>
+      <body className="antialiased">
         <noscript>
           <style>{`[data-split],[data-fade],[data-clip],[data-hidden]{visibility:visible}`}</style>
         </noscript>

@@ -12,6 +12,8 @@ export type CaseStudy = {
   team: string;
   /** Dark text and no shading, for a cover with a light background. */
   coverInk?: "dark";
+  /** Horizontal focus of the cover on phones, where the image is cropped from the sides. */
+  coverX?: string;
   tags: string[];
   /** Two-stop gradient behind the cover image (and the fallback without one) */
   cover: [string, string];
@@ -22,6 +24,27 @@ export type CaseStudy = {
 };
 
 export const cases: CaseStudy[] = [
+  {
+    // The original version stays at /work/watchlist, unlinked.
+    // Has its own page: src/app/work/watchlist-revised/page.tsx
+    slug: "watchlist-revised",
+    image: "/work/watchlist-home.jpg?v=4",
+    coverX: "74%",
+    coverInk: "dark",
+    title: "Watchlist redesign that drove 5.2× more orders",
+    tagline: "A three-release redesign of the Upstox Watchlist, shaped by trader research and product data.",
+    year: "2026",
+    role: "Lead product designer",
+    team: "To add",
+    tags: ["Trading", "Data-led", "Engagement"],
+    cover: ["#2a1257", "#7c3fd6"],
+    metrics: [
+      { value: "+420.8%", label: "Orders from Watchlist rows" },
+      { value: "+2,038.2%", label: "New lists created" },
+      { value: "+138%", label: "Watchlist tab opens" },
+    ],
+    sections: [],
+  },
   {
     // Has its own page: src/app/work/account-opening/page.tsx
     slug: "account-opening",
@@ -44,7 +67,8 @@ export const cases: CaseStudy[] = [
   {
     // Has its own page: src/app/work/nps/page.tsx
     slug: "nps",
-    image: "/work/nps.jpg",
+    image: "/work/nps-home.jpg?v=3",
+    coverX: "54%",
     title: "Making NPS feel simple",
     tagline: "Turning a government portal, eight-step wizards and a captcha into a few guided taps inside Upstox.",
     year: "2025",
@@ -74,6 +98,25 @@ export const cases: CaseStudy[] = [
       { value: "20k", label: "App downloads" },
       { value: "8,037", label: "Leads" },
       { value: "₹6.4 L", label: "Disbursed" },
+    ],
+    sections: [],
+  },
+  {
+    // Has its own page: src/app/work/previous-work/page.tsx
+    slug: "previous-work",
+    image: "/work/previous-work-home.jpg?v=2",
+    coverX: "69%",
+    title: "Before Upstox: beauty, luxury and a marketplace",
+    tagline: "Four products from my years at Tata CLiQ: a beauty homepage that re-themes for every sale, a shoppable luxury magazine, filters and a seller portal.",
+    year: "Tata CLiQ",
+    role: "Product designer",
+    team: "Tata CLiQ product, content and engineering teams",
+    tags: ["E-commerce", "Creative direction", "Research"],
+    cover: ["#962c52", "#1e0a16"],
+    metrics: [
+      { value: "+11.5%", label: "Homepage orders (Palette)" },
+      { value: "+6.5%", label: "Conversion (Luxe Editorial)" },
+      { value: "−60%", label: "Seller onboarding time" },
     ],
     sections: [],
   },

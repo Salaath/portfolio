@@ -19,10 +19,10 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-card: var(--card);
-  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-sans: "Satoshi", system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   /* Older pages still say font-serif; it now resolves to the same family. */
-  --font-serif: var(--font-geist), system-ui, sans-serif;
+  --font-serif: "Satoshi", system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -181,4 +181,14 @@ html.is-loading body {
   .heat-trail {
     animation: none;
   }
+}
+
+/* ---- Satoshi (loaded from Fontshare in layout.tsx) ----
+   Everything stays light: no semibold or bold, display sizes at regular
+   weight with gentler tracking. Mono labels and figures keep Geist Mono. */
+body, body :where(*:not(.font-mono, .font-mono *, .label, .label *, code, pre, code *, pre *)) { font-family: "Satoshi", system-ui, sans-serif; }
+.font-semibold, .font-bold, b, strong { font-weight: 500 !important; }
+:is(h1, h2, [class*="text-4xl"], [class*="text-5xl"], [class*="text-6xl"], [class*="text-7xl"], [class*="text-8xl"], [class*="text-[2.4"], [class*="text-[2.6"], [class*="text-[2.75"], [class*="text-[3"], [class*="text-[4"], [class*="text-[5"], [class*="text-[6"], [class*="text-[7"], [class*="text-[8"], [class*="text-[9"]) {
+  font-weight: 400 !important;
+  letter-spacing: -0.02em !important;
 }

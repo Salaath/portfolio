@@ -6,7 +6,7 @@ import { CaseHero } from "@/components/CaseHero";
 
 export function generateStaticParams() {
   // these have their own static routes
-  return cases.filter((c) => !["account-opening", "nps", "personal-loans"].includes(c.slug)).map((c) => ({ slug: c.slug }));
+  return cases.filter((c) => !["account-opening", "nps", "personal-loans", "watchlist", "watchlist-revised", "previous-work"].includes(c.slug)).map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
