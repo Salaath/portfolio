@@ -19,6 +19,9 @@ const LINKS = [
 export function FNav() {
   const ref = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  // The template serves the case studies under the main site, whose home is "/". The Fable
+  // home at /fable is a concept page with its own sections, so links follow whichever is in use.
+  const base = pathname.startsWith("/fable") ? "/fable" : "/";
   const home = pathname === "/fable";
 
   useGSAP(
@@ -46,17 +49,17 @@ export function FNav() {
   return (
     <div ref={ref}>
       {/* The name sits outside the header so it can blend with the page: white on dark, black on white. */}
-      <Link href="/fable" data-nav className="fixed left-4 top-[1.35rem] z-50 text-lg tracking-[-0.02em] text-white mix-blend-difference sm:left-10">
+      <Link href={base} data-nav className="fixed left-4 top-[1.35rem] z-50 text-lg tracking-[-0.02em] text-white mix-blend-difference sm:left-10">
         Salaath Shaikh
       </Link>
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-4 text-[#f2f1ed] sm:px-10">
       <span />
 
       <nav data-nav className="f-glass pointer-events-auto hidden items-center gap-1 rounded-full p-1.5 text-sm md:flex">
-        {LINKS.map(([label, id]) => (
+        {LINKS.filter(([, id]) => base === "/fable" || id !== "ai").map(([label, id]) => (
           <Link
             key={id}
-            href={`/fable#${id}`}
+            href={base === "/" ? `/#${id}` : `/fable#${id}`}
             onClick={(e) => {
               if (home && scrollToId(id)) e.preventDefault();
             }}

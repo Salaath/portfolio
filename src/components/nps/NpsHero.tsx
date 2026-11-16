@@ -14,7 +14,7 @@ import { FlowVideo } from "./FlowVideo";
  * floating cards either side. As you scroll away a
  * soft curve of the page colour rises and swallows the bottom of the hero.
  */
-export function NpsHero() {
+export function NpsHero({ wait }: { /** Hold the entrance until this resolves, e.g. an opening curtain. */ wait?: Promise<void> } = {}) {
   const ref = useRef<HTMLElement>(null);
 
   useGSAP(
@@ -25,7 +25,8 @@ export function NpsHero() {
         gsap.set(q("[data-hidden]"), { autoAlpha: 1 });
         if (!(ctx.conditions as { motion: boolean }).motion) return;
 
-        const tl = gsap.timeline({ delay: 0.2 });
+        const tl = gsap.timeline({ delay: 0.2, paused: Boolean(wait) });
+        wait?.then(() => tl.play());
         SplitText.create(q("[data-h1]"), {
           type: "lines,words",
           mask: "lines",

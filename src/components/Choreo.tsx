@@ -75,7 +75,8 @@ export function Choreo({
           gsap.fromTo(
             el,
             { autoAlpha: 0, y: 40 },
-            { autoAlpha: 1, y: 0, delay: delayOf(el), scrollTrigger: onScroll(el) },
+            // the leftover transform is cleared so text and images settle back onto whole pixels
+            { autoAlpha: 1, y: 0, delay: delayOf(el), scrollTrigger: onScroll(el), clearProps: "transform" },
           );
         });
 
@@ -176,10 +177,14 @@ export function Choreo({
           // This setup re-runs when the window crosses a breakpoint, by which time the
           // text may already read zero, so keep the real value from the first run.
           const text = (el.dataset.countText ??= el.textContent ?? "");
-          const m = text.match(/\d+(\.\d+)?/);
+          // digit groups count too: "6,32,446" (Indian) and "2,038.2" keep their own grouping
+          const m = text.match(/\d[\d,]*(\.\d+)?/);
           if (!m) return;
-          const target = parseFloat(m[0]);
+          const target = parseFloat(m[0].replace(/,/g, ""));
           const decimals = m[1] ? m[1].length - 1 : 0;
+          const locale = /^\d{1,2}(,\d{2})+,\d{3}/.test(m[0]) ? "en-IN" : "en-US";
+          const show = (v: number) =>
+            m[0].includes(",") ? v.toLocaleString(locale, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) : v.toFixed(decimals);
           const o = { v: 0 };
           // The real number stays on screen until the count starts, so a trigger
           // that never fires can't leave a stat reading zero.
@@ -194,11 +199,11 @@ export function Choreo({
               start: "top 90%",
               once: true,
               onEnter: () => {
-                el.textContent = text.replace(m[0], (0).toFixed(decimals));
+                el.textContent = text.replace(m[0], show(0));
               },
             },
             onUpdate: () => {
-              el.textContent = text.replace(m[0], o.v.toFixed(decimals));
+              el.textContent = text.replace(m[0], show(o.v));
             },
             onComplete: () => {
               el.textContent = text;

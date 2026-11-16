@@ -211,3 +211,111 @@ export function ChapterDock() {
     </div>
   );
 }
+
+/* ---------- stat hero -------------------------------------------------------- */
+
+type HeroStat = { value: string; label: string; note?: React.ReactNode };
+
+/**
+ * A hero that leads with the numbers: eyebrow, a display title, a short intro and
+ * a mock-up beside them, then up to four results that count up along one rule.
+ */
+export function StatHero({
+  eyebrow,
+  title,
+  intro,
+  stats,
+  accent = "#5B2EBD",
+  footnote,
+  children,
+  className = "",
+}: {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  stats: HeroStat[];
+  accent?: string;
+  footnote?: string;
+  /** The mock-up or picture that sits beside the title. */
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  const ref = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const q = gsap.utils.selector(ref);
+      const mm = gsap.matchMedia();
+      mm.add({ motion: MOTION_OK }, (ctx) => {
+        gsap.set(q("[data-hidden]"), { autoAlpha: 1 });
+        if (!(ctx.conditions as { motion: boolean }).motion) return;
+        const intro = gsap.timeline({ paused: true });
+        ready.then(() => intro.play());
+
+        SplitText.create(q("[data-title]"), {
+          type: "lines,words",
+          mask: "lines",
+          autoSplit: true,
+          onSplit(self) {
+            padMasks(self);
+            if (intro.time() > 0) return;
+            return intro.from(self.words, { yPercent: 115, rotate: 5, transformOrigin: "0% 100%", duration: 1.5, stagger: 0.04 }, 0.1);
+          },
+        });
+        intro
+          .from(q("[data-in]"), { y: 28, autoAlpha: 0, stagger: 0.09, duration: 1.1 }, 0.55)
+          .from(q("[data-media]"), { y: 70, autoAlpha: 0, scale: 0.94, duration: 1.8 }, 0.3)
+          .from(q("[data-rule]"), { scaleX: 0, transformOrigin: "0% 50%", duration: 1.6, ease: "expo.inOut" }, 0.7)
+          .from(q("[data-stat]"), { y: 30, autoAlpha: 0, stagger: 0.1, duration: 1.1 }, 0.95);
+
+        // numbers count up, keeping their sign, unit and digit grouping
+        (q("[data-num]") as HTMLElement[]).forEach((el, i) => {
+          const text = el.textContent ?? "";
+          const m = text.match(/[\d,]+(\.\d+)?/);
+          if (!m) return;
+          const target = parseFloat(m[0].replace(/,/g, ""));
+          const dec = m[1] ? m[1].length - 1 : 0;
+          const fmt = (v: number) => (m[0].includes(",") ? v.toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec }) : v.toFixed(dec));
+          const o = { v: 0 };
+          intro.to(o, { v: target, duration: 2, ease: "power3.out", onUpdate: () => { el.textContent = text.replace(m[0], fmt(o.v)); }, onComplete: () => { el.textContent = text; } }, 1 + i * 0.1);
+        });
+
+        gsap
+          .timeline({ defaults: { ease: "none" }, scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom top", scrub: true } })
+          .to(q("[data-media]"), { yPercent: -10 }, 0);
+      });
+    },
+    { scope: ref },
+  );
+
+  return (
+    <header ref={ref} className={`relative overflow-hidden px-4 pb-12 pt-28 sm:px-10 md:pt-32 ${className}`}>
+      <div className="relative grid items-end gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className={children ? "lg:col-span-8" : "lg:col-span-12"}>
+          <p data-in data-hidden className="label flex items-center gap-3">
+            <i className="size-[7px] rounded-full" style={{ background: accent }} /> {eyebrow}
+          </p>
+          <h1 data-title data-hidden className="mt-7 max-w-[15ch] text-[13vw] leading-[0.92] tracking-[-0.045em] lg:text-[min(6.2vw,6.6rem)]">{title}</h1>
+          <p data-in data-hidden className="mt-8 max-w-2xl text-xl leading-snug tracking-[-0.01em] text-ink/75">{intro}</p>
+        </div>
+        {children ? (
+          <div data-media data-hidden className="relative mx-auto lg:col-span-4 lg:justify-self-end">
+            {children}
+          </div>
+        ) : null}
+      </div>
+
+      <div data-rule className="relative mt-10 h-[2px] bg-ink" />
+      <dl className={`relative grid ${stats.length === 4 ? "md:grid-cols-4" : "md:grid-cols-3"}`}>
+        {stats.map((s, i) => (
+          <div key={s.label} data-stat data-hidden className={`py-7 md:pr-8 ${i ? "border-t border-line md:border-l md:border-t-0 md:pl-8" : ""}`}>
+            <dt className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">{s.label}</dt>
+            <dd data-num className="mt-4 whitespace-nowrap text-6xl leading-none tabular-nums tracking-[-0.05em] md:text-[min(4.6vw,4.6rem)]" style={{ color: accent }}>{s.value}</dd>
+            {s.note ? <dd className="mt-4 font-mono text-sm tabular-nums text-muted">{s.note}</dd> : null}
+          </div>
+        ))}
+      </dl>
+      {footnote ? <p data-in data-hidden className="relative border-t border-line pt-3 text-xs leading-relaxed text-muted">{footnote}</p> : null}
+    </header>
+  );
+}

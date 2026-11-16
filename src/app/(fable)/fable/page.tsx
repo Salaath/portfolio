@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getCase, type CaseStudy } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
 import { Magnetic } from "@/components/Magnetic";
@@ -61,17 +62,17 @@ export default function FableHome() {
           <p data-fade className="hidden max-w-xs pb-3 text-muted md:block">Four projects, each told from the problem to the numbers.</p>
         </div>
 
-        <WorkFeature c={AO} href="/fable/work/account-opening" index="01" />
+        <WorkFeature c={AO} href="/work/account-opening" index="01" />
 
         <div className="mt-16 grid gap-x-6 gap-y-16 md:mt-24 md:grid-cols-12">
           <div className="md:col-span-7">
-            <WorkCard c={WATCHLIST} href={`/work/${WATCHLIST.slug}`} index="02" focus="74%" />
+            <WorkCard c={WATCHLIST} href="/work/watchlist-revised" index="02" focus="74%" />
           </div>
           <div className="md:col-span-5 md:mt-40">
-            <WorkCard c={NPS} href={`/work/${NPS.slug}`} index="03" aspect="aspect-[4/5]" focus="54%" />
+            <WorkCard c={NPS} href="/work/nps" index="03" aspect="aspect-[4/5]" focus="54%" />
           </div>
           <div className="md:col-span-10 md:col-start-2">
-            <WorkCard c={BEFORE} href={`/work/${BEFORE.slug}`} index="04" aspect="aspect-[4/3] md:aspect-[21/9]" focus="69%" />
+            <WorkCard c={BEFORE} href="/work/previous-work" index="04" aspect="aspect-[4/3] md:aspect-[21/9]" focus="69%" />
           </div>
         </div>
       </section>
@@ -113,9 +114,9 @@ export default function FableHome() {
             </p>
             <div data-fade data-delay="0.1" className="mt-10 flex flex-col gap-3 text-lg">
               <AskButton q="How do you work with AI?">Ask the site how I work</AskButton>
-              <a href="/fable/work/account-opening#prototype" className="group flex items-center gap-2 underline-offset-4 hover:underline">
+              <Link href="/work/account-opening#prototype" className="group flex items-center gap-2 underline-offset-4 hover:underline">
                 Try a coded prototype <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </a>
+              </Link>
             </div>
           </div>
           <div data-fade data-delay="0.15">

@@ -203,3 +203,32 @@ export function Disciplines({ items }: { items: { title: string; body: string; t
     </ul>
   );
 }
+
+/* ---------- next case ------------------------------------------------------ */
+
+/** The way out of a case study: the next one's title at display size over its cover. */
+export function NextCase({ c, href, label = "Next case study", foot, focus = "74%" }: { c: CaseStudy; href: string; label?: string; foot: string; focus?: string }) {
+  return (
+    <section className="px-4 pb-8 pt-32 sm:px-10 md:pt-48">
+      <Link href={href} data-cursor="Open" onPointerMove={pointer} onPointerLeave={rest} className="group block">
+        <div className="flex items-end justify-between gap-8 border-t border-ink/80 pt-6">
+          <div>
+            <p data-label className="label">[ {label} ]</p>
+            <h2 data-split="lines" className="mt-5 max-w-5xl text-5xl leading-[0.95] tracking-[-0.04em] md:text-[5.4vw]">{c.title}</h2>
+          </div>
+          <span aria-hidden className="mb-2 hidden size-20 shrink-0 place-items-center rounded-full border border-ink/25 text-2xl transition-[transform,background-color,color] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-[-45deg] group-hover:bg-ink group-hover:text-bg md:grid">→</span>
+        </div>
+        <div data-wipe className="relative mt-10 aspect-[4/3] overflow-hidden rounded-[1.75rem] md:aspect-[16/6.5] md:rounded-[2.25rem]">
+          <div data-wipe-inner className="absolute inset-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={c.image} alt="" loading="lazy" className={COVER} style={{ objectPosition: `${focus} 50%` }} />
+          </div>
+        </div>
+      </Link>
+      <div className="label mt-10 flex justify-between gap-4">
+        <span>Sal · Lead product designer, Upstox</span>
+        <span>{foot}</span>
+      </div>
+    </section>
+  );
+}

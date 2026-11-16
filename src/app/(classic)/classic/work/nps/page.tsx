@@ -19,6 +19,8 @@ const DESCRIPTION =
   "How I designed NPS on Upstox from scratch: education, account setup, fund selection, contributions and portfolio. Live to every user before tax season, with a first contribution in under 3 minutes.";
 
 export const metadata: Metadata = {
+  // The earlier version of this case study, kept for reference. The current one is at /work/nps.
+  robots: { index: false, follow: false },
   title: "Building NPS from 0 to 1 — Salaath Shaikh",
   description: DESCRIPTION,
   openGraph: { title: "Building NPS from 0 to 1 on Upstox", description: DESCRIPTION, type: "article" },

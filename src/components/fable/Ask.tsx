@@ -17,7 +17,7 @@ const NOTES: Note[] = [
     q: "How did account opening go from 12 minutes to 2?",
     keys: ["account", "opening", "onboard", "kyc", "demat", "12", "minute", "pan", "fetch", "sign up", "signup", "conversion", "drop"],
     a: "Version 2.0 took 10–12 minutes, and 59% of people left at PAN verification. In Version 3.0 the mobile number fetches PAN, bank and personal details, so people confirm what we found and stop typing. The happy path now takes about 2–3 minutes with ~38% fewer steps, and conversion is at ~65%.",
-    links: [["Account Opening case study", "/fable/work/account-opening"]],
+    links: [["Account Opening case study", "/work/account-opening"]],
   },
   {
     id: "watchlist",
@@ -38,14 +38,14 @@ const NOTES: Note[] = [
     q: "How do you work with AI?",
     keys: ["ai", "claude", "llm", "code", "prototype", "tool", "agent", "automation", "built", "site", "vibe", "gpt", "model"],
     a: "I prototype in code as well as in Figma. The Account Opening and NPS prototypes on this site are coded with Claude, so every path can be tapped through, including the ones where a fetch fails. I also built small tools for the work: one renders Figma files into screens, another records a prototype and cuts it into clips. This site was made the same way.",
-    links: [["Working with AI", "/fable#ai"], ["Try the prototype", "/fable/work/account-opening#prototype"]],
+    links: [["Try the prototype", "/work/account-opening#prototype"]],
   },
   {
     id: "about",
     q: "Who is Sal?",
     keys: ["who", "about", "background", "architect", "experience", "years", "sal", "salaath", "career", "story", "lead", "team", "mentor", "upstox"],
     a: "I trained as an architect before I moved to screens. Now I lead design for investing at Upstox, making first trades, risk and diversification feel calm. Eight years in design, previously at Tata CLiQ. I also mentor on ADPList.",
-    links: [["About", "/fable#about"]],
+    links: [["About", "/#about"]],
   },
   {
     id: "before",
@@ -59,7 +59,7 @@ const NOTES: Note[] = [
     q: "Are you open to new roles?",
     keys: ["hire", "hiring", "role", "job", "open", "contact", "email", "reach", "talk", "available", "resume", "résumé", "cv", "linkedin"],
     a: "Yes. I’m open to lead and senior IC roles. The quickest way to reach me is the contact section at the bottom of the home page.",
-    links: [["Get in touch", "/fable#contact"]],
+    links: [["Get in touch", "/#contact"]],
   },
 ];
 const FALLBACK: Note = {

@@ -1,17 +1,18 @@
-import Link from "next/link";
 import type { Metadata } from "next";
-import { cases } from "@/content/cases";
+import { getCase } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
-import { RollButton } from "@/components/RollButton";
 import { FlowVideo, LoopVideo, PhonePlayer } from "@/components/ao/FlowVideo";
-import { HeldPhone } from "@/components/ao/HeldPhone";
 import { IPhone } from "@/components/ao/IPhone";
 import { Zoomable } from "@/components/ao/Zoomable";
 import { DropOff } from "@/components/ao/DropOff";
 import { BenchClocks } from "@/components/ao/Benchmark";
 import { HeatScreen, ProtoEmbed } from "@/components/ao/Bits";
+import { ReadBar } from "@/components/fable/Bits";
+import { NextCase } from "@/components/fable/Sections";
+import { ChapterDock } from "@/components/fable/Case";
+import { HeldPhone } from "@/components/ao/HeldPhone";
 
-// Account Opening, revised. Every Version 3.0 screen and clip here is captured
+// Account Opening in the Fable template: same story, figures and assets as the classic page. Every Version 3.0 screen and clip here is captured
 // from the final prototype (see "Case study/proto-video"); screens starting with
 // "o" are Version 2.0, from the older case study assets; "v2-" are rendered from the
 // Version 2.0 Figma file (see "Case study/ao2-video").
@@ -20,7 +21,8 @@ export const metadata: Metadata = { title: "Account Opening — Salaath Shaikh" 
 
 const IMG = "/work/ao3";
 // hero-held.webp sits on a flat #d4d4d4 backdrop; the phone's screen is centred at HELD_CX of its width
-const HERO_BG = "#d4d4d4";
+// The photo is lifted until that grey turns white, then multiplied over HERO_BG (see .f-held), so the backdrop can be any light colour.
+const HERO_BG = "#ece7dc";
 const HELD_CX = 0.314;
 const RED = "#D93A2B";
 // The prototype is served from this site so it always matches the page.
@@ -46,7 +48,10 @@ function Shot({ src, alt, old }: { src: string; alt: string; old?: boolean }) {
 /** One change: every screen on one surface, big enough to read, all the same height. */
 function Compare({ before, after }: { before: string[][]; after: string[][] }) {
   const n = before.length + after.length;
-  const phone = `min(${n <= 3 ? "21vw" : "16vw"}, calc((100vw - 320px) / ${n}))`;
+  // As large as the window allows: the whole card (padding, labels, captions) stays within one screen
+  // height, and all the phones stay within one screen width.
+  // Up to three phones also leave room for the text beside them.
+  const phone = `min(22rem, calc((100vw - ${n <= 3 ? "42rem" : "320px"}) / ${n}), calc((100svh - 14rem) / 2.25))`;
   const group = (label: string, items: string[][]) => (
     <div className="shrink-0">
       <p className="label mb-5 text-center">{label}</p>
@@ -64,7 +69,7 @@ function Compare({ before, after }: { before: string[][]; after: string[][] }) {
     </div>
   );
   return (
-    <div data-fade className="mt-8 flex gap-8 overflow-x-auto rounded-3xl bg-card p-6 md:justify-center md:p-10" style={{ "--phone": phone } as React.CSSProperties}>
+    <div data-fade className="flex w-full gap-8 overflow-x-auto rounded-3xl bg-card p-6 md:w-fit md:max-w-full md:shrink-0 md:justify-center md:p-10" style={{ "--phone": phone } as React.CSSProperties}>
       {group("Version 2.0", before)}
       <span aria-hidden className="w-px shrink-0 self-stretch bg-ink/10" />
       {group("Version 3.0", after)}
@@ -80,18 +85,21 @@ function Clip({ src, label }: { src: string; label: string }) {
   );
 }
 
-/** Chapter: label column on the left (pinned on desktop), story on the right. */
-function Chapter({ n, label, title, children, className = "" }: { n: string; label: string; title: React.ReactNode; children?: React.ReactNode; className?: string }) {
+/** Chapter: a large numeral and label that stay in view on the left, the story on the right. */
+function Chapter({ id, n, label, title, children, className = "" }: { id: string; n: string; label: string; title: React.ReactNode; children?: React.ReactNode; className?: string }) {
   return (
-    <section className={`grid gap-10 border-t border-line px-4 py-24 sm:px-10 md:grid-cols-6 md:gap-0 md:py-36 ${className}`}>
-      <div className="md:col-span-2">
-        <div data-pin className="md:pr-10">
-          <Label>{n} — {label}</Label>
+    <section id={id} data-chapter={n} data-chapter-label={label} className={`border-t border-line px-4 py-24 sm:px-10 md:py-40 ${className}`}>
+      <div className="grid gap-10 md:grid-cols-12 md:gap-6">
+        <div className="md:col-span-3">
+          <div className="md:sticky md:top-28">
+            <span data-fade aria-hidden className="block text-[22vw] leading-[0.8] tracking-[-0.06em] text-ink/[0.1] md:text-[9vw]">{n}</span>
+            <div className="mt-5"><Label>{label}</Label></div>
+          </div>
         </div>
-      </div>
-      <div className="min-w-0 md:col-span-4 md:pl-3">
-        <h2 data-split="lines" className="max-w-4xl text-4xl font-semibold leading-[1] tracking-[-0.04em] md:text-[3.5vw]">{title}</h2>
-        {children}
+        <div className="min-w-0 md:col-span-9">
+          <h2 data-split="lines" className="max-w-4xl text-4xl font-semibold leading-[1] tracking-[-0.04em] md:text-[3.9vw]">{title}</h2>
+          {children}
+        </div>
       </div>
     </section>
   );
@@ -219,10 +227,10 @@ const PAN_ROUTE = [
 /* ---------- page ----------------------------------------------------------- */
 
 export default function AccountOpening() {
-  const next = cases.find((c) => c.slug !== "account-opening")!;
-
   return (
-    <Choreo>
+    <Choreo className="paper">
+      <ReadBar />
+      <ChapterDock />
       {/* ---------- hero: a statement, one phone, one number ---------- */}
       <header className="relative flex min-h-svh flex-col overflow-hidden px-4 pb-8 pt-32 text-ink sm:px-10" style={{ background: HERO_BG }}>
         <HeldPhone
@@ -231,8 +239,8 @@ export default function AccountOpening() {
           poster={`${IMG}/hero-reel-poster.jpg`}
           mask={`${IMG}/hero-screen-mask.png`}
           label="Key moments of the Version 3.0 journey playing on a phone held in someone's hands: welcome, OTP filling itself in, fetching details, PAN card, signature, selfie, activation tracker and all set"
-          className="pointer-events-none !absolute top-0 hidden h-full md:block"
-          style={{ left: "74%", transform: `translateX(${-HELD_CX * 100}%)` }}
+          className="f-held pointer-events-none !absolute top-0 hidden h-full md:block"
+          style={{ left: "74%", transform: `translateX(${-HELD_CX * 100}%)`, background: HERO_BG }}
         />
         <div className="relative z-10 flex items-start justify-between">
           <p data-label data-load className="label !text-ink/60">[ Selected work — 01 / Upstox ]</p>
@@ -273,13 +281,14 @@ export default function AccountOpening() {
           poster={`${IMG}/hero-reel-poster.jpg`}
           mask={`${IMG}/hero-screen-mask.png`}
           label="Key moments of the Version 3.0 journey playing on a phone held in someone's hands"
-          className="w-[160%] max-w-none"
+          className="f-held w-[160%] max-w-none"
+          style={{ background: HERO_BG }}
         />
         </div>
       </header>
 
       {/* ---------- 01 the problem ---------- */}
-      <Chapter n="01" label="The problem" title="We had redesigned account opening twice. People were still dropping off.">
+      <Chapter id="problem" n="01" label="The problem" title="We had redesigned account opening twice. People were still dropping off." className="!border-t-0">
         <Lede>
           Before anyone can buy a share, they finish KYC: PAN, bank, personal details, signature, selfie and an Aadhaar eSign. Each earlier version fixed the thing it thought was wrong.
         </Lede>
@@ -329,7 +338,7 @@ export default function AccountOpening() {
       </Chapter>
 
       {/* the takeaway, read word by word */}
-      <section className="px-4 py-32 sm:px-10 md:py-48">
+      <section className="border-t border-line px-4 py-32 sm:px-10 md:py-56">
         <p data-label className="label mb-10 text-center !text-sm">[ Where that left us ]</p>
         <p data-scrub-words className="mx-auto max-w-5xl text-center text-4xl font-medium leading-[1.05] tracking-[-0.035em] md:text-[4.4vw]">
           Every screen was easier to get through. The whole journey still felt long.
@@ -337,7 +346,7 @@ export default function AccountOpening() {
       </section>
 
       {/* ---------- 02 the investigation ---------- */}
-      <Chapter n="02" label="The investigation" title="The biggest drop wasn’t at the end. It was at PAN verification.">
+      <Chapter id="investigation" n="02" label="The investigation" title="The biggest drop wasn’t at the end. It was at PAN verification.">
         <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
           <Stat value="~28%" label="of people complete the full Version 2.0 flow" />
           <Stat value="10–12" label="minutes on average to complete" delay={0.06} />
@@ -406,7 +415,7 @@ export default function AccountOpening() {
       </Chapter>
 
       {/* ---------- 03 our approach (inverted) ---------- */}
-      <section className="bg-ink px-4 py-28 text-bg sm:px-10 md:py-40">
+      <section id="approach" data-chapter="03" data-chapter-label="Approach" className="mx-2 rounded-[2rem] bg-ink px-4 py-28 text-bg sm:px-8 md:mx-4 md:rounded-[3rem] md:py-40">
         <div className="grid gap-10 md:grid-cols-6 md:gap-0">
           <Label light>03 — Approach</Label>
           <div className="md:col-span-4 md:pl-3">
@@ -479,12 +488,12 @@ export default function AccountOpening() {
       </section>
 
       {/* ---------- 03b visual concept ---------- */}
-      <Chapter n="03B" label="Visual concept" title="Borrowed from Upstox’s premium products. Built on top.">
+      <Chapter id="concept" n="03B" label="Visual concept" title="Borrowed from Upstox’s premium products. Built on top.">
         <Lede>
           Leadership asked for a guided setup that felt light, not like a form. We took two concepts forward. The first won.
         </Lede>
 
-        <div className="mt-14 overflow-hidden rounded-3xl bg-[#f1eef8] p-6 text-[#141217] md:p-10">
+        <div className="mt-14 overflow-hidden rounded-3xl bg-white p-6 text-[#141217] md:p-10">
           <Chip tone="ink">Concept 01 · chosen</Chip>
           <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
@@ -575,29 +584,39 @@ export default function AccountOpening() {
       </Chapter>
 
       {/* ---------- 04 the redesign ---------- */}
-      <Chapter n="04" label="The redesign" title="Six changes, each aimed at a specific kind of effort." className="!pb-0" />
+      <Chapter id="redesign" n="04" label="The redesign" title="Six changes, each aimed at a specific kind of effort." className="!pb-0" />
       <section className="px-4 pb-24 sm:px-10 md:pb-36">
         {CHANGES.map((b, i) => (
-          <div key={b.title} className="border-t border-line py-16 first:border-t-0">
-            <div className="flex items-baseline justify-center gap-4">
-              <span className="font-mono text-xl text-muted">{String(i + 1).padStart(2, "0")}</span>
-              <h3 data-split="lines" className="text-3xl font-semibold tracking-[-0.035em]">{b.title}</h3>
-            </div>
-            <div data-fade className="mt-8 grid gap-6 md:grid-cols-[1fr_1fr_auto] md:gap-10">
-              <div>
-                <span className="label">Version 2.0</span>
-                <p className="mt-2 text-muted">{b.problem}</p>
-              </div>
-              <div>
-                <span className="label !text-ink">Version 3.0</span>
-                <p className="mt-2 text-muted">{b.change}</p>
-              </div>
-              {b.result ? (
-                <div className="md:text-right">
-                  <b data-count className="block text-5xl font-semibold tabular-nums tracking-[-0.05em]">{b.result[0]}</b>
-                  <span className="mt-1 block text-xs text-muted md:ml-auto md:max-w-[9rem]">{b.result[1]}</span>
+          // The card hugs its phones. When there's room beside it the text sits there; when the phones need
+          // the full width the text moves above and spreads into columns (it's a container, so it adapts itself).
+          <div key={b.title} className="flex flex-wrap items-center justify-center gap-x-12 gap-y-10 border-t border-line py-16 first:border-t-0 md:gap-x-16 md:py-24">
+            <div className="@container min-w-0 flex-1 basis-[18rem]">
+              <div className="grid gap-8 @3xl:grid-cols-12 @3xl:gap-6">
+                <div className="flex items-baseline justify-between gap-6 @3xl:col-span-3 @3xl:flex-col @3xl:justify-start">
+                  <span data-fade className="font-mono text-sm uppercase tracking-[0.12em] text-muted">Change {String(i + 1).padStart(2, "0")} / {String(CHANGES.length).padStart(2, "0")}</span>
+                  {b.result ? (
+                    <p data-fade data-delay="0.1" className="text-right @3xl:mt-10 @3xl:text-left">
+                      <b data-count className="block text-5xl font-semibold tabular-nums tracking-[-0.05em] @3xl:text-[5.3cqi] @3xl:leading-[0.9]">{b.result[0]}</b>
+                      <span className="mt-2 block text-sm text-muted">{b.result[1]}</span>
+                    </p>
+                  ) : null}
                 </div>
-              ) : <span className="hidden md:block" />}
+                <div className="@3xl:col-span-9">
+                  <h3 data-split="lines" className="text-3xl font-semibold leading-[1.05] tracking-[-0.035em] md:text-[2.5vw] @3xl:md:text-[3.4cqi] @3xl:leading-[1]">{b.title}</h3>
+                  <div className="mt-8 grid gap-x-10 gap-y-7 @3xl:mt-10 @3xl:grid-cols-2">
+                    {([["Version 2.0", b.problem, false], ["Version 3.0", b.change, true]] as const).map(([v, text, now], k) => (
+                      <div key={v} className="relative pt-5">
+                        <span data-grow data-delay={k * 0.12} className={`absolute inset-x-0 top-0 h-px ${now ? "bg-ink" : "bg-ink/25"}`} />
+                        <span data-fade data-delay={k * 0.12} className={`label flex items-center gap-2 ${now ? "!text-ink" : ""}`}>
+                          {now ? <i className="size-1.5 rounded-full bg-[#5b2ebd]" /> : null}
+                          {v}
+                        </span>
+                        <p data-fade data-delay={k * 0.12 + 0.05} className={`mt-3 max-w-md text-lg leading-snug ${now ? "text-ink" : "text-muted"}`}>{text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
             <Compare before={b.before} after={b.after} />
           </div>
@@ -605,7 +624,7 @@ export default function AccountOpening() {
       </section>
 
       {/* ---------- 04b the whole journey ---------- */}
-      <section className="bg-ink px-4 py-28 text-bg sm:px-10 md:py-40">
+      <section id="journey" data-chapter="04B" data-chapter-label="The whole journey" className="mx-2 rounded-[2rem] bg-ink px-4 py-28 text-bg sm:px-8 md:mx-4 md:rounded-[3rem] md:py-40">
         <div className="grid gap-10 md:grid-cols-6 md:gap-0">
           <Label light>04B — The whole journey</Label>
           <div className="min-w-0 md:col-span-4 md:pl-3">
@@ -621,7 +640,7 @@ export default function AccountOpening() {
       </section>
 
       {/* ---------- 04c prototype ---------- */}
-      <Chapter n="04C" label="Prototype" title="Try it yourself.">
+      <Chapter id="prototype" n="04C" label="Prototype" title="Try it yourself.">
         <p data-fade className="mt-6 max-w-2xl text-lg text-muted">
           The live prototype. Tap through the phone, or pick a path to see what happens when an auto-fetch fails.
         </p>
@@ -631,7 +650,7 @@ export default function AccountOpening() {
       </Chapter>
 
       {/* ---------- 04d small moments: columns drift at different speeds ---------- */}
-      <Chapter n="04D" label="Small moments" title="Delight is built in.">
+      <Chapter id="moments" n="04D" label="Small moments" title="Delight is built in.">
         <Lede>Delight is woven into every interaction from the very beginning. Every step is designed to reduce anxiety, build confidence, and create moments of joy.</Lede>
         <H3>Micro-moments that compound into the feel</H3>
         <div className="mt-12 grid grid-cols-2 gap-x-4 md:grid-cols-4">
@@ -657,7 +676,7 @@ export default function AccountOpening() {
       </Chapter>
 
       {/* ---------- 05 the outcome ---------- */}
-      <section className="bg-ink px-4 py-28 text-bg sm:px-10 md:py-40">
+      <section id="outcome" data-chapter="05" data-chapter-label="The outcome" className="mx-2 rounded-[2rem] bg-ink px-4 py-28 text-bg sm:px-8 md:mx-4 md:rounded-[3rem] md:py-40">
         <div className="grid gap-10 md:grid-cols-6 md:gap-0">
           <Label light>05 — The outcome</Label>
           <div className="md:col-span-4 md:pl-3">
@@ -665,7 +684,21 @@ export default function AccountOpening() {
             <p data-fade className="mt-6 text-bg/65">Version 3.0, released October 2026.</p>
           </div>
         </div>
-        <div className="mt-16 grid gap-px overflow-hidden rounded-3xl bg-bg/15 md:grid-cols-3">
+        <div data-fade className="mt-16 rounded-3xl border border-bg/15 p-6 md:p-10">
+          <p className="label !text-bg/60">Time to open an account, on a 12-minute scale</p>
+          {([["Version 2.0", "10–12 min", 83.3, 100, "rgba(244,243,239,0.4)"], ["Version 3.0", "2–3 min", 16.7, 25, "#a78bfa"]] as const).map(([name, t, lo, hi, c]) => (
+            <div key={name} className="mt-6 grid grid-cols-[6.5rem_1fr] items-center gap-4 md:grid-cols-[9rem_1fr_8rem]">
+              <span className="text-bg/80">{name}<b className="block font-normal text-bg/50 md:hidden">{t}</b></span>
+              <span className="relative block h-10 overflow-hidden rounded-full bg-bg/[0.07] md:h-12">
+                <span data-grow className="absolute inset-y-0 left-0 rounded-full opacity-40" style={{ width: `${hi}%`, background: c }} />
+                <span data-grow data-delay="0.2" className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${lo}%`, background: c }} />
+              </span>
+              <b className="hidden text-right text-2xl tabular-nums tracking-[-0.03em] md:block">{t}</b>
+            </div>
+          ))}
+          <p className="mt-6 text-sm text-bg/50">The solid bar is the fastest time, the lighter bar is the slowest.</p>
+        </div>
+        <div className="mt-4 grid gap-px overflow-hidden rounded-3xl bg-bg/15 md:grid-cols-3">
           {[
             ["~38%", "fewer onboarding steps", "A leaner flow, with less friction at every stage of sign-up."],
             ["~2–3 min", "to complete the happy path", "Down from 10–12 minutes."],
@@ -683,7 +716,7 @@ export default function AccountOpening() {
       </section>
 
       {/* ---------- 06 the next step ---------- */}
-      <Chapter n="06" label="The next step" title="Getting people through KYC was only half the job.">
+      <Chapter id="next" n="06" label="The next step" title="Getting people through KYC was only half the job.">
         <div className="mt-12 grid items-center gap-12 md:grid-cols-[1fr_17rem]">
           <div className="flex flex-col gap-6 text-lg leading-relaxed text-muted">
             <p data-fade>
@@ -700,7 +733,7 @@ export default function AccountOpening() {
       </Chapter>
 
       {/* ---------- 07 reflection ---------- */}
-      <Chapter n="07" label="Reflection" title="I stopped counting screens and started looking at effort.">
+      <Chapter id="reflection" n="07" label="Reflection" title="I stopped counting screens and started looking at effort.">
         <div className="mt-10 max-w-2xl text-lg leading-relaxed text-muted">
           <p data-fade>
             A flow can have fewer screens and still be tiring. Sometimes a confirmation does more than a better form, and sometimes the best thing to do with a screen is remove the reason it exists.
@@ -714,38 +747,7 @@ export default function AccountOpening() {
         </div>
       </Chapter>
 
-      {/* ---------- next project ---------- */}
-      <section className="border-t border-line pt-24">
-        <div className="flex items-end justify-between px-4 sm:px-10">
-          <h2 data-split="chars" className="text-[14vw] font-semibold leading-[0.85] tracking-[-0.06em] md:text-[9vw]">Next project</h2>
-          <div data-fade className="hidden pb-4 md:block">
-            <RollButton href={`/work/${next.slug}`} label="Open case" />
-          </div>
-        </div>
-        <Link href={`/work/${next.slug}`} data-cursor="View" className="group mt-10 block">
-          <figure data-wipe className="relative h-[80svh] overflow-hidden">
-            <div
-              data-wipe-inner
-              className="absolute inset-0 transition-transform duration-[1.6s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-              style={{ background: `radial-gradient(120% 120% at 20% 10%, ${next.cover[0]}, ${next.cover[1]})` }}
-            >
-              {next.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={next.image} alt="" className="h-full w-full object-cover object-[82%_50%]" />
-              ) : null}
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
-            <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-4 text-white sm:p-10">
-              <span className="max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.035em] md:text-5xl">{next.title}</span>
-              <span className="label shrink-0 !text-white/70">{next.year} ↗</span>
-            </figcaption>
-          </figure>
-        </Link>
-        <div className="label flex justify-between px-4 py-8 sm:px-10">
-          <span>Sal · Lead product designer, Upstox</span>
-          <span>Account Opening · 2026</span>
-        </div>
-      </section>
+      <NextCase c={getCase("watchlist-revised")!} href="/work/watchlist-revised" foot="Account Opening · 2026" />
     </Choreo>
   );
 }

@@ -15,6 +15,8 @@ const DESCRIPTION =
   "Four products I designed at Tata CLiQ before Upstox: the Palette beauty homepage, the Luxe editorial hub, marketplace filters and the seller portal.";
 
 export const metadata: Metadata = {
+  // The earlier version of this case study, kept for reference. The current one is at /work/previous-work.
+  robots: { index: false, follow: false },
   title: "Before Upstox — Salaath Shaikh",
   description: DESCRIPTION,
   openGraph: { title: "Before Upstox: four products at Tata CLiQ", description: DESCRIPTION, type: "article" },

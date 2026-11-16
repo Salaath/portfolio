@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { Choreo } from "@/components/Choreo";
-import { RollButton } from "@/components/RollButton";
-import { Shot } from "@/components/nps/Shot";
+import { getCase } from "@/content/cases";
+import { ReadBar } from "@/components/fable/Bits";
+import { ChapterDock, StatHero } from "@/components/fable/Case";
+import { ChapterHead } from "@/components/fable/Kit";
+import { NextCase } from "@/components/fable/Sections";
 import { AnalyzeHub } from "@/components/watchlist/AnalyzeHub";
 import { AppReview } from "@/components/watchlist/AppReview";
 import { AsksWeb } from "@/components/watchlist/AsksWeb";
 import { BeforeAfter } from "@/components/watchlist/BeforeAfter";
 import { R1Proto, ReleaseProto } from "@/components/watchlist/R1Proto";
-import { ChapterIndex } from "@/components/watchlist/ChapterIndex";
 import { ChartModeDemo } from "@/components/watchlist/ChartModeDemo";
 import { ChartV2 } from "@/components/watchlist/ChartV2";
 import { CostSim } from "@/components/watchlist/CostSim";
@@ -21,6 +23,8 @@ import { Accent, Drift, Glow, HeroOrbit, Loop, Orbit } from "@/components/watchl
 import { WlPhone } from "@/components/watchlist/WlPhone";
 import { ScrollVideo } from "@/components/watchlist/ScrollVideo";
 
+// The Watchlist case study in the Fable template: same story, figures and components as
+// /work/watchlist-revised, with the template's hero, chapter heads and dock.
 // A second, data-led telling of the watchlist case study, built from Sal's
 // "Watchlist hero case study, revised data-led" brief (11 Nov 2026). The
 // original story lives at /work/watchlist and is untouched. Numbers come from
@@ -40,23 +44,8 @@ export const metadata: Metadata = {
 const PURPLE = "#5B2EBD";
 const GREEN = "#0E7A48";
 
-function Chapter({ n, id, label, title, children, dark }: { n: string; id?: string; label: string; title: React.ReactNode; children?: React.ReactNode; dark?: boolean }) {
-  return (
-    <div id={id} className={`grid gap-6 border-t pt-5 md:grid-cols-12 md:gap-8 ${dark ? "border-white/40" : "border-ink"}`}>
-      <span data-label className={`font-mono text-xs uppercase tracking-[0.12em] md:col-span-3 ${dark ? "text-white/60" : "text-muted"}`}>
-        {n} — {label}
-      </span>
-      <h2 data-split="lines" className="text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:col-span-6 md:text-[3.3rem]">
-        {title}
-      </h2>
-      {children && <div className={`text-[15px] leading-relaxed md:col-span-3 md:pt-2 ${dark ? "text-white/60" : "text-muted"}`}>{children}</div>}
-    </div>
-  );
-}
-
-/** Neutral release header: the shipped marker sits on the shipped design, not here. */
-function ReleaseTag({ release, meta }: { release: string; meta: string }) {
-  return <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">{release} · {meta}</p>;
+function Chapter({ n, label, title, children }: { n: string; label: string; title: React.ReactNode; children?: React.ReactNode }) {
+  return <ChapterHead n={n} label={label} title={title}>{children}</ChapterHead>;
 }
 
 /** Opens the design which actually went live: no box, just a green rule underneath. */
@@ -86,7 +75,7 @@ function PhoneRow({ items, cols }: { items: [string, string][]; cols: string }) 
       <div className={`-mx-4 flex gap-5 overflow-x-auto px-4 pb-12 sm:mx-0 sm:px-0 lg:grid lg:gap-6 lg:overflow-visible ${cols}`}>
         {items.map(([src, cap]) => (
           <figure key={src} data-fade className="w-[11rem] shrink-0 lg:w-auto">
-            <WlPhone src={src} alt={cap} />
+            <div className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2"><WlPhone src={src} alt={cap} /></div>
             <figcaption className="mt-3 text-[13px] leading-snug text-muted">{cap}</figcaption>
           </figure>
         ))}
@@ -112,11 +101,6 @@ const SNAPSHOT: [string, string | [string, string][]][] = [
   ["Team", TEAM],
   ["Releases", [["Release 1", "June 2026"], ["Release 2", "August 2026"], ["Release 3", "October 2026"]]],
   ["Status", "Three live, a fourth in build"],
-];
-
-const CHAPTERS: [string, string][] = [
-  ["Impact", "impact"], ["Baseline", "baseline"], ["Research", "research"], ["Release 1", "r1"],
-  ["Release 2", "r2"], ["Release 3", "r3"], ["Version 4", "v4"], ["Summary", "summary"], ["Learnings", "learnings"],
 ];
 
 const INPUTS = [
@@ -239,55 +223,37 @@ const SUMMARY: [string, string, string][] = [
 // A hairline circle centred on the left or right edge of the screen, so only
 // half of it shows, curving into an empty part of the layout. `inset` is how far
 // the positioned parent sits from that screen edge. Desktop only.
-const SIX = "max(0px, 50vw - 36rem)"; // a max-w-6xl section
+const SIX = "max(0px, 50vw - 40rem)"; // a max-w-7xl section
 const SIX_IN = `${SIX} + 2.5rem`; // inside its sm:px-10 padding
-const WIDE_IN = "max(0px, 50vw - 38.5rem) + 2.5rem"; // inside Release 2's centred column
+const WIDE_IN = "max(0px, 50vw - 42.5rem) + 2.5rem"; // inside Release 2's centred column
 function Edge({ side, inset, top, size, at, dur }: { side: "left" | "right"; inset: string; top: string; size: number; at?: number[]; dur?: number }) {
   return <Loop className="hidden xl:block" style={{ [side]: `calc(-1 * (${inset}) - ${size / 2}rem)`, top, width: `${size}rem`, height: `${size}rem` }} at={at} dur={dur} orb={3} />;
 }
 
 export default function WatchlistRevised() {
   return (
-    <Choreo className="isolate overflow-x-clip bg-white">
+    <Choreo className="paper isolate overflow-x-clip">
+      <ReadBar />
+      <ChapterDock />
       {/* ---------- 01 data-led hero ---------- */}
-      <header id="impact" className="relative overflow-hidden px-4 pb-14 pt-32 sm:px-10 md:pt-40">
-        <div aria-hidden className="pointer-events-none absolute -right-40 top-0 size-[40rem] rounded-full opacity-20 blur-[100px]" style={{ background: PURPLE }} />
-        <Accent size={40} className="right-6 top-[4.4rem] lg:hidden" />
-        <Accent shape="cube" size={26} delay={-3} className="right-24 top-[4.6rem] lg:hidden" />
-        <div className="relative mx-auto max-w-6xl">
-          <div className="grid items-end gap-12 lg:grid-cols-[1fr_auto]">
-            <div>
-              <p data-fade data-load className="font-mono text-xs uppercase tracking-[0.14em] text-muted">Upstox · Watchlist · Data as of 11 November 2026</p>
-              <h1 data-split="words" data-load data-delay="0.1" className="mt-6 text-[13vw] font-semibold leading-[0.9] tracking-[-0.06em] sm:text-[9vw] lg:text-[6.4rem]">
-                Watchlist redesign that drove 5.2× more orders
-              </h1>
-              <p data-fade data-load data-delay="0.4" className="mt-6 max-w-2xl text-xl leading-snug tracking-[-0.01em]">
-                A three-release redesign of the Upstox Watchlist, shaped by trader research and product data.
-              </p>
-            </div>
-            <div data-fade data-load data-delay="0.5" className="relative mx-auto hidden lg:block">
-              <Glow v="a" opacity={0.3} className="left-1/2 top-1/2 size-[40rem] -translate-x-[45%] -translate-y-1/2" />
-              <HeroOrbit className="left-1/2 top-1/2 -translate-x-[40%] -translate-y-1/2 scale-[0.78]" />
-              <div className="relative"><BeforeAfter width={230} /></div>
-            </div>
-          </div>
+      <StatHero
+        className="mx-auto max-w-7xl"
+        eyebrow="Upstox · Watchlist · Data as of 11 November 2026"
+        title="Watchlist redesign that drove 5.2× more orders"
+        intro="A three-release redesign of the Upstox Watchlist, shaped by trader research and product data."
+        accent={PURPLE}
+        stats={HERO.map(([value, label, from, to]) => ({ value, label, note: <>{from} <span className="text-ink">→ {to}</span></> }))}
+        footnote="Mixpanel event counts, not unique users. Watchlist tab opens counts every time someone tapped the Watchlist tab. Before: everything before the June 2026 release. After: the June 2026 release to 11 November 2026."
+      >
+        <Glow v="a" opacity={0.3} className="left-1/2 top-1/2 size-[40rem] -translate-x-[45%] -translate-y-1/2" />
+        <HeroOrbit className="left-1/2 top-1/2 -translate-x-[40%] -translate-y-1/2 scale-[0.78]" />
+        <div className="relative"><BeforeAfter width={250} /></div>
+      </StatHero>
 
-          {/* the three numbers own the first screen */}
-          <dl data-fade data-load data-delay="0.6" className="mt-14 grid border-t-2 border-ink md:grid-cols-3">
-            {HERO.map(([v, l, from, to], i) => (
-              <div key={l} className={`py-7 md:pr-8 ${i ? "border-t border-line md:border-l md:border-t-0 md:pl-8" : ""}`}>
-                <dt className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">{l}</dt>
-                <dd className="mt-4 text-6xl font-semibold leading-none tracking-[-0.06em] md:text-[4.6rem]" style={{ color: PURPLE }}>{v}</dd>
-                <dd className="mt-4 font-mono text-sm tabular-nums text-muted">{from} <span className="text-ink">→ {to}</span></dd>
-              </div>
-            ))}
-          </dl>
-          <p data-fade className="border-t border-line pt-3 text-xs leading-relaxed text-muted">
-            Mixpanel event counts, not unique users. Watchlist tab opens counts every time someone tapped the Watchlist tab. Before: everything before the June 2026 release. After: the June 2026 release to 11 November 2026.
-          </p>
-
-          <div className="mt-14 grid gap-10 md:grid-cols-12">
-            <p data-fade className="text-lg leading-relaxed md:col-span-7">
+      <section id="impact" className="mx-auto max-w-7xl px-4 pb-10 sm:px-10">
+        <div>
+          <div className="mt-6 grid gap-10 md:grid-cols-12">
+            <p data-fade className="text-xl leading-relaxed md:col-span-7">
               After the June 2026 redesign, orders placed directly from Watchlist rows increased by 420.8%. New lists created grew from 29,166 to 6,23,631. I led the work from research through launch, rethinking how traders create and switch lists, discover what to track and analyse multiple stocks. We shipped the redesign in three releases between June and October 2026. A fourth iteration is now in development, based on feedback from traders using the new experience.
             </p>
             <dl data-fade className="grid grid-cols-2 content-start gap-x-6 gap-y-5 md:col-span-5">
@@ -306,18 +272,16 @@ export default function WatchlistRevised() {
             </dl>
           </div>
         </div>
-      </header>
-
-      <ChapterIndex items={CHAPTERS} />
+      </section>
 
       {/* ---------- 02 baseline ---------- */}
-      <section id="baseline" className="relative mt-20 overflow-hidden bg-[#0e0b12] px-4 py-28 text-white sm:px-10">
+      <section id="baseline" data-chapter="02" data-chapter-label="Baseline" className="relative mx-2 mt-20 overflow-hidden rounded-[2rem] bg-[#0e0b12] px-4 py-28 text-white sm:px-8 md:mx-4 md:rounded-[3rem] md:py-36">
         <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 size-[22rem] rounded-full border border-white/10" />
         <div aria-hidden className="pointer-events-none absolute -right-8 -top-8 size-[14rem] rounded-full border border-dashed border-white/15" />
         <Accent size={64} className="right-[9%] top-6 hidden md:block" />
         <Accent size={22} delay={-2} className="right-[17%] top-16 hidden md:block" />
-        <div className="mx-auto max-w-6xl">
-          <Chapter n="02" label="Baseline and opportunity" title="People could open the Watchlist. The hard part was getting things done." dark>
+        <div className="mx-auto max-w-7xl">
+          <Chapter n="02" label="Baseline and opportunity" title="People could open the Watchlist. The hard part was getting things done.">
             The old Watchlist made common tasks harder to find than they needed to be. Switching lists and discovering ready-made lists sat inside a menu. The plus button opened stock search, even when people expected to create a list. Removing a stock depended on a long-press, and checking more than a name and price meant opening stocks one by one. Tap the numbers on the old screen.
           </Chapter>
           <div className="mt-16">
@@ -327,7 +291,7 @@ export default function WatchlistRevised() {
       </section>
 
       {/* ---------- 03 research ---------- */}
-      <section id="research" className="relative mx-auto max-w-6xl px-4 pt-48 sm:px-10">
+      <section id="research" data-chapter="03" data-chapter-label="Research" className="relative mx-auto max-w-7xl px-4 pt-48 sm:px-10">
         <Edge side="right" inset={SIX} top="-7rem" size={16} at={[0.3, 0.55]} />
         <Glow v="b" opacity={0.28} className="-left-48 top-40 size-[24rem] md:-left-72 md:size-[44rem]" />
         <Drift kind="orbit" className="-inset-x-24 top-0 h-48" />
@@ -371,21 +335,13 @@ export default function WatchlistRevised() {
       </section>
 
       {/* ---------- 04 release 1 ---------- */}
-      <section id="r1" className="relative mx-auto max-w-6xl px-4 pt-48 sm:px-10">
+      <section id="r1" data-chapter="04" data-chapter-label="Release 1" className="relative mx-auto max-w-7xl px-4 pt-48 sm:px-10">
         <Glow v="c" opacity={0.3} delay={-4} className="-left-40 top-[34rem] size-[22rem] md:-left-56 md:size-[36rem]" />
         <Edge side="right" inset={SIX} top="-5rem" size={22} at={[0.3, 0.55]} />
         <Drift kind="scatter" className="-inset-x-24 top-0 h-48" />
-        <div className="border-t border-ink pt-5">
-          <ReleaseTag release="Release 1" meta="June 2026" />
-          <div className="mt-6 max-w-3xl">
-            <h2 data-split="lines" className="text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-[3.3rem]">
-              The first release made everyday Watchlist tasks easier to find.
-            </h2>
-            <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-muted">
-              We started with the tasks traders performed most often: adding stocks, creating and switching lists, discovering ready-made lists and placing orders. The redesign brought these actions closer to the list instead of hiding them behind menus or unclear gestures.
-            </p>
-          </div>
-        </div>
+        <ChapterHead n="04" label="Release 1 · June 2026" title="The first release made everyday Watchlist tasks easier to find.">
+            We started with the tasks traders performed most often: adding stocks, creating and switching lists, discovering ready-made lists and placing orders. The redesign brought these actions closer to the list instead of hiding them behind menus or unclear gestures.
+          </ChapterHead>
 
         <div className="relative mt-14 grid gap-10 md:grid-cols-12">
           <Edge side="left" inset={SIX_IN} top="16rem" size={25} at={[0.15, 0.4]} />
@@ -416,7 +372,7 @@ export default function WatchlistRevised() {
             <div className="grid grid-cols-3 gap-2 sm:gap-4">
               {([["+420.8%", "row orders"], ["20×", "lists created"], ["+138%", "Watchlist tab opens"]] as const).map(([v, l]) => (
                 <div key={l} className="min-w-0 rounded-[1.5rem] bg-white shadow-[0_0_0_1px_rgba(42,27,61,0.04),0_24px_60px_-34px_rgba(42,27,61,0.32)] p-3 sm:p-5">
-                  <b className="block text-[1.4rem] font-semibold tracking-[-0.05em] sm:text-3xl md:text-5xl" style={{ color: PURPLE }}>{v}</b>
+                  <b data-count className="block text-[1.4rem] font-semibold tabular-nums tracking-[-0.05em] sm:text-3xl md:text-5xl" style={{ color: PURPLE }}>{v}</b>
                   <span className="mt-2 block text-sm text-muted">{l}</span>
                 </div>
               ))}
@@ -448,22 +404,14 @@ export default function WatchlistRevised() {
       </section>
 
       {/* ---------- 05 release 2 ---------- */}
-      <section id="r2" className="relative mt-48 px-4 pt-0 sm:px-10">
+      <section id="r2" data-chapter="05" data-chapter-label="Release 2" className="relative mt-48 px-4 pt-0 sm:px-10">
         <Edge side="right" inset="0px" top="-10rem" size={18} at={[0.3, 0.55]} />
         <Glow v="a" opacity={0.26} delay={-8} className="-right-40 top-[28rem] size-[26rem] md:-right-64 md:size-[48rem]" />
         <Drift kind="arcs" className="inset-x-0 -top-48 h-48" />
-        <div className="mx-auto max-w-6xl">
-          <div className="border-t border-ink pt-5">
-            <ReleaseTag release="Release 2" meta="August 2026" />
-            <div className="mt-6 max-w-3xl">
-              <h2 data-split="lines" className="text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-[3.3rem]">
-                A multicolumn view, without loading data traders hadn’t asked for.
-              </h2>
-              <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-muted">
-                Traders wanted to compare more information across a list. Our first direction kept the table inside My lists, but engineering flagged the cost: every return to the screen would fetch every selected column for every stock. We changed the approach. Table view became a separate page, and column data loaded only when someone opened it.
-              </p>
-            </div>
-          </div>
+        <div className="mx-auto max-w-7xl">
+          <ChapterHead n="05" label="Release 2 · August 2026" title="A multicolumn view, without loading data traders hadn’t asked for.">
+            Traders wanted to compare more information across a list. Our first direction kept the table inside My lists, but engineering flagged the cost: every return to the screen would fetch every selected column for every stock. We changed the approach. Table view became a separate page, and column data loaded only when someone opened it.
+          </ChapterHead>
 
           <div className="mt-14 grid items-center gap-10 md:grid-cols-12">
             <div data-fade className="md:col-span-5">
@@ -508,7 +456,7 @@ export default function WatchlistRevised() {
               <dl className="border-t border-ink">
                 {([["36%", "of watchlist users open Table view"], ["6,32,446", "users on the multicolumn layout"], ["15.5+ min", "average time spent in the view"], ["89,426", "orders placed from the view"]] as const).map(([v, l]) => (
                   <div key={l} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line py-6">
-                    <dd className="text-5xl font-semibold leading-none tracking-[-0.05em] md:text-6xl">{v}</dd>
+                    <dd data-count className="text-5xl font-semibold leading-none tabular-nums tracking-[-0.05em] md:text-6xl">{v}</dd>
                     <dt className="text-[15px] text-muted">{l}</dt>
                   </div>
                 ))}
@@ -520,21 +468,13 @@ export default function WatchlistRevised() {
       </section>
 
       {/* ---------- 06 release 3 ---------- */}
-      <section id="r3" className="relative mx-auto max-w-6xl px-4 pt-48 sm:px-10">
+      <section id="r3" data-chapter="06" data-chapter-label="Release 3" className="relative mx-auto max-w-7xl px-4 pt-48 sm:px-10">
         <Edge side="right" inset={SIX} top="-5rem" size={20} at={[0.3, 0.55]} />
         <Glow v="b" opacity={0.22} delay={-5} className="-left-48 bottom-40 size-[24rem] md:-left-80 md:size-[46rem]" />
         <Drift kind="steps" className="-inset-x-24 top-0 h-48" />
-        <div className="border-t border-ink pt-5">
-          <ReleaseTag release="Release 3" meta="October 2026" />
-          <div className="mt-6 max-w-3xl">
-            <h2 data-split="lines" className="text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-[3.3rem]">
-              Charts for the whole list, with one place for analysis tools.
-            </h2>
-            <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-muted">
-              Traders told us they were opening stocks one at a time to compare charts. We introduced Charts view so they could scan multiple charts together. We also chose not to add another Chart icon to the floating bar. Table and Charts were both ways to analyse a list, so we brought them under one Analyze entry point.
-            </p>
-          </div>
-        </div>
+        <ChapterHead n="06" label="Release 3 · October 2026" title="Charts for the whole list, with one place for analysis tools.">
+            Traders told us they were opening stocks one at a time to compare charts. We introduced Charts view so they could scan multiple charts together. We also chose not to add another Chart icon to the floating bar. Table and Charts were both ways to analyse a list, so we brought them under one Analyze entry point.
+          </ChapterHead>
 
         <div className="mt-14 grid gap-10 md:grid-cols-12">
           <div data-fade className="md:col-span-5">
@@ -588,7 +528,7 @@ export default function WatchlistRevised() {
             <dl className="border-t border-ink">
               {([["24.69%", "of watchlist users use Charts view daily"], ["96,864", "people opening Charts view every day"], ["43,872", "orders placed from Charts view since launch"]] as const).map(([v, l]) => (
                 <div key={l} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line py-6">
-                  <dd className="text-5xl font-semibold leading-none tracking-[-0.05em] md:text-6xl">{v}</dd>
+                  <dd data-count className="text-5xl font-semibold leading-none tabular-nums tracking-[-0.05em] md:text-6xl">{v}</dd>
                   <dt className="text-[15px] text-muted">{l}</dt>
                 </div>
               ))}
@@ -599,7 +539,7 @@ export default function WatchlistRevised() {
       </section>
 
       {/* ---------- 07 version 4 ---------- */}
-      <section id="v4" className="relative mx-auto max-w-6xl px-4 pt-48 sm:px-10">
+      <section id="v4" data-chapter="07" data-chapter-label="Version 4" className="relative mx-auto max-w-7xl px-4 pt-48 sm:px-10">
         <Glow v="f" opacity={0.32} delay={-9} className="-right-40 top-[22rem] size-[22rem] md:-right-60 md:size-[38rem]" />
         <Edge side="left" inset={SIX} top="-3rem" size={18} at={[0.15, 0.4]} />
         <Drift kind="rings" className="-inset-x-24 top-0 h-48" />
@@ -638,7 +578,7 @@ export default function WatchlistRevised() {
       </section>
 
       {/* ---------- 08 impact summary ---------- */}
-      <section id="summary" className="relative mx-auto max-w-6xl px-4 pt-48 sm:px-10">
+      <section id="summary" data-chapter="08" data-chapter-label="Impact summary" className="relative mx-auto max-w-7xl px-4 pt-48 sm:px-10">
         <Edge side="left" inset={SIX} top="-5rem" size={22} />
         <Glow v="a" opacity={0.24} delay={-12} className="-right-40 top-24 size-[24rem] md:-right-72 md:size-[40rem]" />
         <Drift kind="dashes" className="-inset-x-24 top-0 h-48" />
@@ -661,7 +601,7 @@ export default function WatchlistRevised() {
 
 
       {/* ---------- 09 learnings ---------- */}
-      <section id="learnings" className="relative mx-auto max-w-6xl px-4 pt-48 sm:px-10">
+      <section id="learnings" data-chapter="09" data-chapter-label="Learnings" className="relative mx-auto max-w-7xl px-4 pt-48 sm:px-10">
         <Glow v="c" opacity={0.22} delay={-6} className="-left-32 top-40 size-[18rem] md:-left-48 md:size-[28rem]" />
         <Chapter n="09" label="What I learned" title="Two decisions shaped the work beyond the screens.">
           The first was treating engineering constraints as part of the design problem. The second was giving new capabilities a clear place to live, rather than adding another action every time the product grew.
@@ -677,27 +617,7 @@ export default function WatchlistRevised() {
         </div>
       </section>
 
-      {/* ---------- closing ---------- */}
-      <section className="relative px-4 pb-10 pt-32 sm:px-10">
-        <Glow v="b" opacity={0.3} className="left-1/2 top-10 size-[26rem] -translate-x-1/2 md:size-[42rem]" />
-        <div className="mx-auto grid max-w-6xl items-end gap-10 border-t border-ink pt-10 md:grid-cols-[1fr_auto]">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">Next case study</p>
-            <h2 data-split="lines" className="mt-4 text-5xl font-semibold leading-[0.95] tracking-[-0.05em] md:text-7xl">Making NPS feel simple</h2>
-            <div data-fade className="mt-8 flex flex-wrap items-center gap-4">
-              <RollButton href="/work/nps" label="Read it" />
-            </div>
-          </div>
-          <div data-fade data-parallax="-0.08" className="relative mx-auto">
-            <Orbit className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-[0.7]" />
-            <Shot src="explore" alt="NPS on Upstox: the Explore screen" width={220} />
-          </div>
-        </div>
-        <div className="mx-auto mt-16 flex max-w-6xl justify-between font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-          <span>Sal · Lead product designer, Upstox</span>
-          <span>Watchlist · 2026</span>
-        </div>
-      </section>
+      <NextCase c={getCase("nps")!} href="/work/nps" foot="Watchlist · 2026" focus="54%" />
     </Choreo>
   );
 }
