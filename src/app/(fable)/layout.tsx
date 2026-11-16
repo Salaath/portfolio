@@ -1,25 +1,24 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { Smoother } from "@/components/Smoother";
+import "../globals.css";
+import "../fable.css";
 import { Cursor } from "@/components/Cursor";
-import { Nav } from "@/components/Nav";
-import { ScrollProgress } from "@/components/ScrollProgress";
-import { GridLines } from "@/components/GridLines";
-import { StickyCta } from "@/components/StickyCta";
-import { Preloader } from "@/components/Preloader";
+import { Shell } from "@/components/fable/Shell";
+import { FNav } from "@/components/fable/FNav";
+import { Ask } from "@/components/fable/Ask";
+import { Curtain } from "@/components/fable/Curtain";
+
+// The Fable template: a second root layout, so the classic site in (classic)
+// keeps its own shell untouched. Everything here lives under /fable.
 
 const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Salaath Shaikh — Product Designer",
-  description:
-    "Hands-on product design lead crafting trusted investing experiences at Upstox.",
+  description: "Hands-on product design lead crafting trusted investing experiences at Upstox.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function FableLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={mono.variable}>
       <head>
@@ -27,17 +26,17 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500&display=swap" />
       </head>
-      <body className="antialiased">
+      <body className="fable antialiased">
         <noscript>
           <style>{`[data-split],[data-fade],[data-clip],[data-hidden]{visibility:visible}`}</style>
         </noscript>
-        <GridLines />
-        <Nav />
+        <Shell />
+        <FNav />
         <Cursor />
-        <Smoother>{children}</Smoother>
-        <StickyCta />
-        <ScrollProgress />
-        <Preloader />
+        {children}
+        <Ask />
+        <Curtain />
+        <div aria-hidden className="f-grain" />
       </body>
     </html>
   );
