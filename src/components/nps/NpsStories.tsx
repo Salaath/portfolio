@@ -3,7 +3,7 @@
 import { Inter } from "next/font/google";
 import { useEffect, useRef, useState } from "react";
 
-// The four "Truths of NPS" stories from the More page (Figma: UP_NPS →
+// The four "Truths of NPS" stories that open from NPS on Home (Figma: UP_NPS →
 // NPS – Discovery), redrawn and played as a live story. Screens use the
 // Upstox type scale (Inter) and system palette; brand purple is kept for the
 // CTA only, green carries gains, teal and blue carry the infographics.

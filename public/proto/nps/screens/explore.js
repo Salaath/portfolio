@@ -450,10 +450,10 @@ SCREENS.exVideo = (el)=>{
 
 /* ---------- jumps ---------- */
 const fresh = ()=>{ restoreScroll = 0; truthsOpen = null; };
-jump('explore', 'Explore', 'explore', ()=>{ fresh(); S.d.storiesSeen = false; resetTo(['more'], 'explore'); });
-jump('exploreSeen', 'Explore · stories seen', 'explore', ()=>{ fresh(); S.d.storiesSeen = true; resetTo(['more'], 'explore'); });
-jump('exploreCustom', 'Explore · custom plan', 'explore', ()=>{ fresh(); S.d.plan = 'custom'; S.d.customDone = true; resetTo(['more'], 'explore'); });
-jump('allFunds', 'All funds', 'explore', ()=>{ resetTo(['more','explore'], 'allFunds'); });
+jump('explore', 'Explore', 'explore', ()=>{ fresh(); S.d.storiesSeen = false; resetTo(['home'], 'explore'); });
+jump('exploreSeen', 'Explore · stories seen', 'explore', ()=>{ fresh(); S.d.storiesSeen = true; resetTo(['home'], 'explore'); });
+jump('exploreCustom', 'Explore · custom plan', 'explore', ()=>{ fresh(); S.d.plan = 'custom'; S.d.customDone = true; resetTo(['home'], 'explore'); });
+jump('allFunds', 'All funds', 'explore', ()=>{ resetTo(['home','explore'], 'allFunds'); });
 
 /* Story icons — converted 1:1 from Figma 11410:24589 / 24599 / 24701 / 24920 (layered vectors). */
 const STORY_ICONS = [

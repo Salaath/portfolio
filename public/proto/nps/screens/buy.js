@@ -16,7 +16,7 @@ const esc = (s)=>String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&
 const kbPad = (el)=>({ onFocus:()=>el.classList.add('by-kb'), onBlur:()=>el.classList.remove('by-kb') });
 const topbar = (title, help=true, back=I.back())=>`<div class="topbar">
   <div class="l">${back}<span class="b1">${title}</span></div><div class="r">${help?I.help:''}</div></div>`;
-const STACK = ()=>['more','explore',{id:'fund', p:{fund:S.d.fund}}];
+const STACK = ()=>['home','explore',{id:'fund', p:{fund:S.d.fund}}];
 
 /* what comes after the order form / personal details */
 function nextAfterAmount(){
@@ -373,6 +373,16 @@ const STEPS = {
   processing:[['NPS payment confirmed','3m ago','done'],['PRAN generation in progress','1m ago','prog cur'],['Order placed with Pension Fund','1m ago','todo'],['Investment confirmed','1m ago','todo'],['Units alloted','1m ago','todo']],
   failed:    [['NPS payment confirmed','3m ago','done'],['PRAN generation failed','1m ago','err'],['Refund successful','1m ago','done cur']],
 };
+// Success badge, inlined so its parts can animate: the badge spins in, the tick stamps on,
+// a ring bursts, confetti flies out and the sparkles keep twinkling (css: .by-badge-anim).
+let BADGE = null;
+fetch(A+'by-success-badge.svg').then(r=>r.text()).then(t=>{ BADGE = t.replace(/<svg[^>]*?>/, '<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'); }).catch(()=>{});
+const CONFETTI = ['#fff','#DBD2FC','#FDBD4D','#AEA7E0','#fff','#FD9172','#DBD2FC','#3CC7C5','#fff','#FDBD4D','#AEA7E0','#fff'];
+function successBadge(){
+  if(!BADGE) return `<img class="by-badge" src="${A}by-success-badge.svg" width="120" height="120" alt="">`;
+  const dots = CONFETTI.map((c,i)=>`<b class="by-cf" style="--c:${c};--a:${i*30+(i%2?9:-6)}deg;--d:${i%3===0?150:i%3===1?122:104}px;--s:${i%3===1?6:9}px;animation-delay:${.42+(i%4)*.03}s"></b>`).join('');
+  return `<span class="by-badge by-badge-anim" role="img" aria-label="Success"><i class="by-ring"></i><i class="by-ring r2"></i>${dots}${BADGE}</span>`;
+}
 SCREENS.byStatus = (el)=>{
   const render = ()=>{
     const o = S.d.order || (S.d.order = { fund:S.d.fund, amount:amt(), plan:S.d.plan, status:S.scn.pay, at:Date.now() });
@@ -384,7 +394,7 @@ SCREENS.byStatus = (el)=>{
     const steps = STEPS[status];
     el.innerHTML = `<div class="by-hero ${bad?'':'big'}" id="hero">
         ${bad ? `<div class="by-failic"><img src="${A}by-fail-ring.svg" width="150" height="150" alt=""><img src="${A}by-fail-core.svg" width="100.5" height="103.5" alt="" style="left:25.5px;top:22.5px"><img src="${A}by-fail-bar.svg" width="9.105" height="47.7" alt="" style="left:70.45px;top:43.85px"><img src="${A}by-fail-dot.svg" width="9.105" height="13.4373" alt="" style="left:70.45px;top:97.2px"></div>`
-              : `<img class="by-badge" src="${A}by-success-badge.svg" width="120" height="120" alt="">`}
+              : successBadge()}
         <p class="by-msg">${bad ? 'PRAN generation failed,<br>expect refund in 2 days' : `Congratulations!<br>You've successfully invested ${inr(o.amount)} in ${f.name}.`}</p>
       </div>
       <div class="by-scrim" id="scrim"></div>
@@ -398,8 +408,8 @@ SCREENS.byStatus = (el)=>{
         <div class="by-ss-ft">${bad ? `<button class="btn purple" id="retry">Retry</button>` : `<button class="btn outline" id="close">Close</button><button class="btn purple" id="chk">Check status</button>`}</div>
       </div>`;
     const ss = $('#ss', el), hero = $('#hero', el);
-    later(()=>{ ss.classList.add('on'); hero.classList.add('up'); $('#scrim', el).classList.add('on'); }, 1400);
-    const toPf = ()=>resetTo(['more','explore'], 'portfolio', {tab:'orders'});
+    later(()=>{ ss.classList.add('on'); hero.classList.add('up'); $('#scrim', el).classList.add('on'); }, bad ? 1400 : 1900);
+    const toPf = ()=>resetTo(['home','explore'], 'portfolio', {tab:'orders'});
     const c = $('#close', el); c && c.addEventListener('click', toPf);
     const k = $('#chk', el); k && k.addEventListener('click', e=>loadingBtn(e.currentTarget, 700, toPf));
     const r = $('#retry', el); r && r.addEventListener('click', ()=>{

@@ -58,6 +58,7 @@ export function IPhone({
   priority = false,
   scroll = false,
   screen,
+  statusBar = true,
 }: {
   src: string;
   alt: string;
@@ -68,6 +69,8 @@ export function IPhone({
   /** Replaces the screen image, e.g. with a video of the flow. It fills the whole
    *  screen (360×775 at 1×), status-bar area included. */
   screen?: React.ReactNode;
+  /** false when the screen (a recording) already draws its own iOS status bar */
+  statusBar?: boolean;
 }) {
   const bare = src.includes("/");
   const top = TOPS[src] ?? "#ffffff";
@@ -86,7 +89,7 @@ export function IPhone({
 
         <div className="relative aspect-[360/775] overflow-hidden rounded-[12.4cqw] bg-white">
           {/* iOS status bar */}
-          <div
+          {statusBar && <div
             aria-hidden
             className="absolute inset-x-0 top-0 z-10 flex h-[13cqw] items-center justify-between pl-[9.5cqw] pr-[7.5cqw] pt-[1.2cqw]"
             style={{ background: screen ? "transparent" : top, color: ink }}
@@ -102,7 +105,7 @@ export function IPhone({
               <rect x="46.5" y="3" width="18" height="7" rx="1.8" />
               <path d="M68 4.5v4a2 2 0 0 0 0-4Z" fillOpacity="0.45" />
             </svg>
-          </div>
+          </div>}
           {/* Dynamic Island */}
           <span aria-hidden className="absolute left-1/2 top-[2.4cqw] z-20 h-[8.6cqw] w-[28cqw] -translate-x-1/2 rounded-full bg-black" />
 

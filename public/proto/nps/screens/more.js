@@ -29,7 +29,7 @@ const TABICON = {
   news:'<path d="M4 5h12v15H6a2 2 0 0 1-2-2Zm12 4h4v9a2 2 0 0 1-4 0M7 8.5h6M7 12h6M7 15.5h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
   more:'<circle cx="7" cy="7" r="3.6"/><circle cx="17" cy="7" r="3.6"/><circle cx="7" cy="17" r="3.6"/><circle cx="17" cy="17" r="3.6"/>',
 };
-const tabbar = ()=>`<nav class="mo-tabbar">${[['home','Home'],['stocks','Stocks'],['mf','Mutual Funds'],['news','News'],['more','More']].map(([k,l])=>
+const tabbar = ()=>`<nav class="mo-tabbar">${[['home','Home'],['stocks','Stocks'],['news','News'],['mf','Mutual Funds'],['more','More']].map(([k,l])=>
   `<button class="mo-tb${k==='more'?' on':''}" data-tab="${l}"><svg width="24" height="24" viewBox="0 0 24 24" fill="${k==='more'?'currentColor':'none'}">${TABICON[k]}</svg><span>${l}</span></button>`).join('')}</nav>`;
 
 SCREENS.more = (el)=>{
@@ -42,7 +42,6 @@ SCREENS.more = (el)=>{
         tile('Fixed Deposits','mo-ic-fd.svg',{dot:1,lum:1,tag:'8.5%',tagc:'#148564'}),
         tile('IPOs','mo-ic-ipo.svg',{dot:1,lum:1,tag:'10 Live',tagc:'#DB542A'}),
         tile('Peer-to-peer investing','mo-ic-p2p.svg',{dot:1,lum:1,tag:'9.5%',tagc:'#148564'})]])}
-      ${section('Tax','Save on taxes by optimising your strategies',[[tile('NPS','mo-ic-nps.svg',{id:'nps',nps:1})]],true)}
       ${section('Bonds','Invest in bonds for stable returns',[bondTiles],true)}
       ${section('Loan','Add a safety net with the best coverage plans',[[tile('Personal','mo-ic-personal.svg',{dot:1,lum:1}), tile('Pledge loan','mo-ic-pledge.svg',{dot:1,lum:1})]])}
       ${section('Insurance','Add a safety net with the best coverage plans',[[tile('Life','mo-ic-bond.svg'), tile('Health','mo-ic-bond.svg'), tile('Motor','mo-ic-bond.svg')]])}
@@ -57,19 +56,13 @@ SCREENS.more = (el)=>{
   el.addEventListener('click', e=>{
     const t = e.target.closest('[data-tile]');
     if(t){
-      if(t.dataset.tile==='nps') return openNps();
       return toast(t.dataset.tile.replace(/<br>/,' ')+' — not part of this prototype');
     }
-    const tb = e.target.closest('[data-tab]'); if(tb && tb.dataset.tab!=='More') return toast(tb.dataset.tab+' tab');
+    const tb = e.target.closest('[data-tab]');
+    if(tb){ if(tb.dataset.tab==='Home') return resetTo([], 'home'); if(tb.dataset.tab!=='More') return toast(tb.dataset.tab+' tab'); return; }
     if(e.target.closest('[data-search]')) toast('Search');
   });
 };
-// NPS entry point: already invested → Portfolio; stories seen → Explore; else education stories
-function openNps(){
-  if(S.scn.holdings) return go('portfolio','push');
-  if(S.d.storiesSeen) return go('explore','push');
-  go('stories','push',{start:0});
-}
 
 /* ================= Education stories ================= */
 // Bodies are the redesigned "Truths of NPS": brand purple stays on the CTA only,
@@ -260,7 +253,12 @@ P.openCalculator = function({onDone}={}){
     ruler.addEventListener('pointerup', end); ruler.addEventListener('pointercancel', end);
     root.addEventListener('click', e=>{
       if(FI.active===fi && !e.target.closest('[data-field]')) FI.blur();
-      if(e.target.closest('[data-cont]')){ if(FI.active) FI.blur(); sh.close(); done(); }
+      if(e.target.closest('[data-cont]')){
+        if(FI.active) FI.blur();
+        // straight into plans: keep this sheet and morph it, no close-then-reopen jump
+        if(!onDone) return P.openPlans({reuse:sh});
+        sh.close(); done();
+      }
     });
   }
   return sh;
@@ -282,8 +280,8 @@ function donut(pl, size=41){
   return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="transform:rotate(-90deg)">${segs.join('')}</svg>`;
 }
 const legend = (k, label, v)=>`<div class="mo-lg"><span><i style="background:${COLORS[k]}"></i>${label}</span><b>${v}%</b></div>`;
-P.openPlans = function({onDone}={}){
-  const done = onDone || (()=>resetTo(['more'],'explore'));
+P.openPlans = function({onDone, reuse}={}){
+  const done = onDone || (()=>resetTo(['home'],'explore'));
   let sel = S.d.plan || 'aggressive';
   const sug = suggestFor(S.d.age);
   const row = (k)=>{
@@ -309,9 +307,25 @@ P.openPlans = function({onDone}={}){
     <div class="mo-pl-list">${[1,2,3].map((_,n)=>`<div class="mo-plan"><div class="mo-pl-top"><span class="mo-sk-radio"></span><div><span class="skel" style="width:47px;height:14px;margin-bottom:8px"></span><span class="skel" style="width:52px;height:14px"></span></div><span class="skel" style="width:57px;height:14px;margin-left:auto"></span></div>${n===0?`<div style="padding:0 16px 16px"><span class="skel" style="height:22px;border-radius:8px"></span></div><div class="mo-sk-nudge"><span class="skel" style="width:43px;height:24px;background:#e1e1e1"></span><span class="skel" style="flex:1;height:12px;background:#e1e1e1"></span></div>`:''}</div>`).join('')}
       <div class="mo-plan"><div class="mo-pl-top"><span class="mo-sk-radio"></span><span class="skel" style="width:93px;height:16px"></span></div></div></div>
     <div class="sh-foot mo-foot"><button class="btn purple" disabled>Continue</button></div>`;
-  const sh = sheet({cls:'mo-sheet mo-plans', html:`<div id="plRoot" class="mo-pl-root">${S.scn.load==='loading' ? skel : render()}</div>`});
-  const root = $('#plRoot', sh.el);
-  if(S.scn.load==='loading') later(()=>{ root.innerHTML = render(); }, 1200);
+  let sh, root;
+  if(reuse){
+    // morph the open contribution sheet into Plans: ease its height, fade the new content in
+    sh = reuse;
+    const el = sh.el, h0 = el.offsetHeight;
+    root = h(`<div id="plRoot" class="mo-pl-root mo-morph-in">${render()}</div>`);
+    const old = $('#calcRoot', el);
+    old.replaceWith(root);
+    el.classList.add('mo-plans');
+    const h1 = el.offsetHeight;
+    el.style.height = h0+'px'; void el.offsetHeight;
+    el.style.transition = 'transform .6s var(--gentle), height .52s var(--out)';
+    el.style.height = h1+'px';
+    setTimeout(()=>{ el.style.height = ''; el.style.transition = ''; root.classList.remove('mo-morph-in'); }, 560);
+  } else {
+    sh = sheet({cls:'mo-sheet mo-plans', html:`<div id="plRoot" class="mo-pl-root">${S.scn.load==='loading' ? skel : render()}</div>`});
+    root = $('#plRoot', sh.el);
+  }
+  if(S.scn.load==='loading' && !reuse) later(()=>{ root.innerHTML = render(); }, 1200);
   root.addEventListener('click', e=>{
     if(e.target.closest('[data-why]')){ e.stopPropagation(); return sheet({cls:'mo-sheet', html:`<p class="mo-why">${WHY[sug]}</p>`}); }
     const pl = e.target.closest('[data-plan]');
@@ -402,15 +416,14 @@ SCREENS.customPlan = (el)=>{
         FIELDS.forEach(f=>{ fis[f.k].value = String(c[f.k]); fis[f.k].render(); }); paint();
       }
       const cb = e.target.closest('[data-cont]');
-      if(cb && !cb.disabled){ S.d.plan = 'custom'; P.loadingBtn(cb, 700, ()=>resetTo(['more'],'explore')); }
+      if(cb && !cb.disabled){ S.d.plan = 'custom'; P.loadingBtn(cb, 700, ()=>resetTo(['home'],'explore')); }
     });
   }
 };
 
 /* ================= Jumps ================= */
-jump('more', 'More', 'more', ()=> resetTo([], 'more'));
-jump('stories', 'Stories', 'more', ()=> resetTo(['more'], 'stories', {start:0}));
-jump('calc', 'Contribution', 'more', ()=>{ resetTo([], 'more'); P.openCalculator(); });
-jump('plans', 'Plans', 'more', ()=>{ resetTo([], 'more'); P.openPlans(); });
-jump('customPlan', 'Custom plan', 'more', ()=> resetTo(['more'], 'customPlan'));
+jump('stories', 'Stories', 'more', ()=> resetTo(['home'], 'stories', {start:0}));
+jump('calc', 'Contribution', 'more', ()=>{ resetTo([], 'home'); P.openCalculator(); });
+jump('plans', 'Plans', 'more', ()=>{ resetTo([], 'home'); P.openPlans(); });
+jump('customPlan', 'Custom plan', 'more', ()=> resetTo(['home'], 'customPlan'));
 })();

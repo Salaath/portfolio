@@ -181,7 +181,7 @@ const DECISIONS = [
 ] as const;
 
 const FLOW = [
-  ["Discover", "more", "Find NPS in More, next to tax tools"],
+  ["Discover", "home", "Find NPS on Home, under Discover more"],
   ["Contribute", "calc", "Set this year’s contribution"],
   ["Choose", "plans", "Review the plan suggested for your age"],
   ["Choose", "customPlan", "Or customise within the rules"],
@@ -829,7 +829,7 @@ export default function NpsCase() {
           <div data-fade className="flex items-center gap-4 border-t border-line pt-6">
             <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-[14px] text-xl text-white shadow-[inset_0_-6px_10px_rgba(0,0,0,0.18)]" style={{ background: "#5B2EBD" }}>₹</span>
             <p className="text-lg leading-snug">
-              Live on Upstox. <span className="text-muted">Open the app, go to More, then NPS.</span>
+              Live on Upstox. <span className="text-muted">Open the app and tap NPS under Discover more on Home.</span>
             </p>
           </div>
         </div>

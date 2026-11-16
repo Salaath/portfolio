@@ -366,11 +366,11 @@ SCREENS.pfAllOrders = (el, p={})=>{
 
 /* ---------------- jumps ---------------- */
 const fresh = ()=>{ pf.cancelled = false; };
-jump('pfZero', 'Portfolio (zero)', 'portfolio', ()=>{ fresh(); S.d.order = null; resetTo(['more'], 'portfolio', {force:'zero'}); });
-jump('pfInvest', 'Portfolio (investments)', 'portfolio', ()=>{ fresh(); S.d.order = null; resetTo(['more'], 'portfolio', {force:'holdings', tab:'investments'}); });
-jump('pfOrders', 'Portfolio · orders', 'portfolio', ()=>{ fresh(); S.d.order = null; resetTo(['more'], 'portfolio', {force:'holdings', tab:'orders'}); });
-jump('pfTransfer', 'Orders · transfer', 'portfolio', ()=>{ fresh(); S.d.order = null; resetTo(['more'], 'portfolio', {force:'holdings', tab:'orders', variant:'transfer'}); });
-jump('pfJustOrdered', 'Portfolio · just invested', 'portfolio', ()=>{ fresh(); S.d.order = { fund:S.d.fund||'icici', amount:S.d.amount||50000, plan:S.d.plan, status:S.scn.pay, at:Date.now() }; resetTo(['more','explore'], 'portfolio', {tab:'orders'}); });
-jump('pfOrderDone', 'Portfolio · order completed', 'portfolio', ()=>{ fresh(); S.d.order = { fund:'icici', amount:35000, plan:S.d.plan, status:'done', at:Date.now() }; resetTo(['more','explore'], 'portfolio', {force:'holdings', tab:'orders', variant:'done'}); });
-jump('pfAllOrders', 'All orders', 'portfolio', ()=>{ fresh(); resetTo(['more', {id:'portfolio', p:{force:'holdings', tab:'orders'}}], 'pfAllOrders'); });
+jump('pfZero', 'Portfolio (zero)', 'portfolio', ()=>{ fresh(); S.d.order = null; resetTo(['home'], 'portfolio', {force:'zero'}); });
+jump('pfInvest', 'Portfolio (investments)', 'portfolio', ()=>{ fresh(); S.d.order = null; resetTo(['home'], 'portfolio', {force:'holdings', tab:'investments'}); });
+jump('pfOrders', 'Portfolio · orders', 'portfolio', ()=>{ fresh(); S.d.order = null; resetTo(['home'], 'portfolio', {force:'holdings', tab:'orders'}); });
+jump('pfTransfer', 'Orders · transfer', 'portfolio', ()=>{ fresh(); S.d.order = null; resetTo(['home'], 'portfolio', {force:'holdings', tab:'orders', variant:'transfer'}); });
+jump('pfJustOrdered', 'Portfolio · just invested', 'portfolio', ()=>{ fresh(); S.d.order = { fund:S.d.fund||'icici', amount:S.d.amount||50000, plan:S.d.plan, status:S.scn.pay, at:Date.now() }; resetTo(['home','explore'], 'portfolio', {tab:'orders'}); });
+jump('pfOrderDone', 'Portfolio · order completed', 'portfolio', ()=>{ fresh(); S.d.order = { fund:'icici', amount:35000, plan:S.d.plan, status:'done', at:Date.now() }; resetTo(['home','explore'], 'portfolio', {force:'holdings', tab:'orders', variant:'done'}); });
+jump('pfAllOrders', 'All orders', 'portfolio', ()=>{ fresh(); resetTo(['home', {id:'portfolio', p:{force:'holdings', tab:'orders'}}], 'pfAllOrders'); });
 })();

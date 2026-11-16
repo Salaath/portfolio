@@ -15,7 +15,7 @@ const GROUPS = [
 ] as const;
 
 const STEPS = [
-  ["more", "More"], ["stories", "Stories"], ["calc", "Contribution"], ["plans", "Plans"], ["explore", "Explore"],
+  ["home", "Home"], ["stories", "Stories"], ["calc", "Contribution"], ["plans", "Plans"], ["explore", "Explore"],
   ["allFunds", "All funds"], ["fund", "Fund details"], ["buyAmount", "Amount"], ["byPersonal", "Details"],
   ["byNominee", "Nominee"], ["byReview", "Review"], ["byPayTimer", "Payment"], ["byStatus", "Order status"], ["pfInvest", "Portfolio"],
 ] as const;

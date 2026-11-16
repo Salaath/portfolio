@@ -20,7 +20,7 @@ function group(attr, key){
 }
 group('pay','pay'); group('load','load');
 
-function restart(){ resetData(); startOver('more'); }
+function restart(){ resetData(); startOver('home'); }
 $('#restart').addEventListener('click', restart);
 $('#navbar').addEventListener('click', e=>{
   const b = e.target.closest('[data-nav]'); if(!b) return;
@@ -34,5 +34,5 @@ function fitDevice(){
 window.addEventListener('resize', fitDevice); fitDevice();
 
 const start = (location.hash||'').slice(1);
-if(start && JUMPS.some(j=>j.id===start)) runJump(start); else go('more', 'none');
+if(start && JUMPS.some(j=>j.id===start)) runJump(start); else go('home', 'none');
 })();
