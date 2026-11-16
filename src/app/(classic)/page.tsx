@@ -9,7 +9,7 @@ import { Choreo } from "@/components/Choreo";
 import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/Marquee";
 import { CaseStack } from "@/components/CaseStack";
-import { Process } from "@/components/Process";
+import { AiProjects } from "@/components/AiProjects";
 import { Magnetic } from "@/components/Magnetic";
 import { RollButton } from "@/components/RollButton";
 
@@ -134,7 +134,7 @@ export default function Home() {
 
       <Marquee items={["Investing UX", "Design systems", "Research", "Prototyping", "Motion", "Leadership"]} />
 
-      <Process />
+      <AiProjects />
 
       {/* 05 — Contact */}
       <section id="contact" className="border-t border-line px-4 py-40 text-center sm:px-10">
