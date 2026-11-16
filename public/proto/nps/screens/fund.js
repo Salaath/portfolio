@@ -291,6 +291,6 @@ function openSell(){
   s.el.addEventListener('click', e=>{ if(e.target.closest('[data-ok]')) s.close(); });
 }
 
-jump('fund', 'Fund details', 'fund', ()=>{ S.d.fund = 'icici'; resetTo(['more','explore'], 'fund', {fund:'icici'}); });
-jump('fundHoldings', 'Fund · with holdings', 'fund', ()=>{ S.d.fund = 'icici'; resetTo(['more','portfolio'], 'fund', {fund:'icici', holdings:true}); });
+jump('fund', 'Fund details', 'fund', ()=>{ S.d.fund = 'icici'; resetTo(['home','explore'], 'fund', {fund:'icici'}); });
+jump('fundHoldings', 'Fund · with holdings', 'fund', ()=>{ S.d.fund = 'icici'; resetTo(['home','portfolio'], 'fund', {fund:'icici', holdings:true}); });
 })();

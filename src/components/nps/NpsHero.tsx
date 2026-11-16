@@ -5,11 +5,13 @@ import { MOTION_OK, SplitText, gsap, padMasks, useGSAP } from "@/lib/gsap";
 import { Magnetic } from "../Magnetic";
 import { RollButton } from "../RollButton";
 import { scrollToId } from "../Smoother";
-import { Shot } from "./Shot";
+import { FlowVideo } from "./FlowVideo";
 
 /**
  * Dark hero, centred like Habitline: headline, two actions, a phone rising
- * out of the bottom with floating cards either side. As you scroll away a
+ * out of the bottom, playing a reel of key screens recorded from the prototype
+ * (Home → NPS → plan → fund → invest → order status → Portfolio), with
+ * floating cards either side. As you scroll away a
  * soft curve of the page colour rises and swallows the bottom of the hero.
  */
 export function NpsHero() {
@@ -184,8 +186,16 @@ export function NpsHero() {
             </div>
           </div>
         </div>
-        <div data-phone>
-          <Shot src="explore" alt="Upstox NPS Explore screen: truths of investing, tax saving meter and top NPS funds" width={300} priority />
+        <div data-phone className="w-[300px] max-w-[78vw]">
+          <FlowVideo
+            src="/work/nps/video/journey.mp4?v=7"
+            poster="/work/nps/video/journey-poster.jpg?v=7"
+            title="NPS on Upstox, key screens"
+            dark
+            statusBar={false}
+            threshold={0.05}
+            className=""
+          />
         </div>
       </div>
 

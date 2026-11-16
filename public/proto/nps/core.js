@@ -63,7 +63,7 @@ function go(id, tr='push', p={}, {record=true}={}){
     else {
       el.classList.add('enter-'+tr); prev.classList.add('leave-'+tr);
       if(tr==='push' || tr==='pop'){ prev.style.zIndex = tr==='pop' ? 2 : 0; el.style.zIndex = tr==='pop' ? 1 : 2; }
-      setTimeout(()=>{ prev.remove(); el.classList.remove('enter-'+tr); }, 480);
+      setTimeout(()=>{ prev.remove(); el.classList.remove('enter-'+tr); }, 620);
     }
   }
   markJump(id);
