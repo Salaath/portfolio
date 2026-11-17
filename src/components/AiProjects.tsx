@@ -24,7 +24,7 @@ const PROJECTS: Project[] = [
   {
     title: "Muse",
     tag: "iOS app · Web demo",
-    body: "A private museum journal. Works hang on a 3D wall, each with its story, and boards keep what I have seen in person.",
+    body: "A private museum journal. Works hang on a 3D wall, each with its story and boards keep what I have seen in person.",
     stack: ["SwiftUI", "Remotion", "React"],
     video: "/work/ai/muse.mp4",
     poster: "/work/ai/muse-poster.jpg",
@@ -88,7 +88,7 @@ function Film({ src, poster, label, className, style }: { src: string; poster: s
 
 type Pt = [number, number];
 type SceneSpec = {
-  /** The mock-up photo, and its size in pixels. */
+  /** The mock-up photo and its size in pixels. */
   src: string;
   w: number;
   h: number;
@@ -104,7 +104,7 @@ type SceneSpec = {
    * rounded body fully covers the square one underneath.
    */
   iphone?: number;
-  /** The film's own box before it is warped, when it isn't a phone screen: [width, height], and the corner rounding. */
+  /** The film's own box before it is warped, when it isn't a phone screen: [width, height] and the corner rounding. */
   film?: [number, number];
   round?: string;
   /** If the film shows more than the bare screen, where the screen sits in it: [x, y, width, height, film width, film height]. */

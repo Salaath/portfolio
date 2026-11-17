@@ -24,7 +24,7 @@ const PROOF = [
 const DISCIPLINES = [
   { title: "Product design", body: "End-to-end flows for investing: onboarding, first trades, portfolios and the moments in between.", tags: ["Flows", "Interaction", "Prototyping", "Motion"] },
   { title: "Design systems", body: "Tokens, components and the rules that keep web, app and pro surfaces speaking one language.", tags: ["Tokens", "Components", "Documentation"] },
-  { title: "Research & strategy", body: "Turning what people do, and what they fear, into the one bet the team should make next.", tags: ["Research", "Framing", "Metrics"] },
+  { title: "Research & strategy", body: "Turning what people do and what they fear, into the one bet the team should make next.", tags: ["Research", "Framing", "Metrics"] },
   { title: "Leading designers", body: "Hands-on lead: setting the bar for craft, reviewing closely, mentoring on ADPList.", tags: ["Critique", "Hiring", "Mentoring"] },
 ];
 
@@ -32,7 +32,7 @@ const DISCIPLINES = [
 const AI = [
   ["Prototypes that run", "The Account Opening and NPS prototypes on this site are code, not linked frames. Every path can be tapped through, including the ones where a fetch fails."],
   ["Tools made for the job", "One script renders a Figma file into screens. Another records a prototype and cuts the walkthrough into clips. I build them when the work needs them."],
-  ["This site", "Designed by me and written with Claude Code: the pages, the motion, the charts, and the Ask box at the top."],
+  ["This site", "Designed by me and written with Claude Code: the pages, the motion, the charts and the Ask box at the top."],
 ];
 
 const TICKER = ["Investing UX", "Design systems", "Research", "Prototyping in code", "Motion", "Leadership"];
@@ -110,7 +110,7 @@ export default function FableHome() {
             <p data-label className="label mb-6">[ 03 — Working with AI ]</p>
             <h2 data-split="lines" className="text-5xl leading-[0.98] tracking-[-0.035em] md:text-[5vw]">I design in Figma and in code, with AI doing the typing.</h2>
             <p data-fade className="mt-8 max-w-lg text-lg text-muted">
-              A prototype people can actually use tells me more than a frame they can look at. So I build them, and the tools around them, with Claude.
+              A prototype people can actually use tells me more than a frame they can look at. So I build them and the tools around them, with Claude.
             </p>
             <div data-fade data-delay="0.1" className="mt-10 flex flex-col gap-3 text-lg">
               <AskButton q="How do you work with AI?">Ask the site how I work</AskButton>

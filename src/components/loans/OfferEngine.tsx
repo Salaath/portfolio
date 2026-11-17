@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 // Upstox picks eligible customers, Yubi runs a soft check across its lenders,
 // and the lowest rate and fee wins. Plays itself when scrolled into view.
 
-// Illustrative: which lenders answer, and with what, changes per customer.
+// Illustrative: which lenders answer and with what, changes per customer.
 const LENDERS = [
   ["Federal Bank", "Offer"],
   ["HDFC Bank", "No offer"],

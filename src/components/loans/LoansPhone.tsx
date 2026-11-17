@@ -1,6 +1,6 @@
 // A real Upstox Loans screen inside a thin device bezel. Screens are rendered
 // from the shipped Figma file to /public/work/loans at 720 wide; layers stack
-// on top of each other, and `anim` puts the looping money background
+// on top of each other and `anim` puts the looping money background
 // (the app's own lottie, exported as a webp) underneath them all.
 
 export const LOANS_IMG = "/work/loans";

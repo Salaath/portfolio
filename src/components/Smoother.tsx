@@ -12,7 +12,7 @@ export function Smoother({ children }: { children: React.ReactNode }) {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         {/* Sibling order matters: layout effects run in tree order, so the
-            smoother exists before any page creates its ScrollTriggers, and
+            smoother exists before any page creates its ScrollTriggers and
             RouteSync runs after they're all in place. */}
         <SmootherInit />
         {children}

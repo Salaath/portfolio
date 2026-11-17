@@ -168,8 +168,13 @@ html.lenis body {
 }
 
 /* Held-phone photo: shot on flat #d4d4d4. Brightening by 255/212 turns that backdrop
-   white, and multiply then lets the wrapper's own colour show through in its place. */
+   white and multiply then lets the wrapper's own colour show through in its place. */
 .f-held > img {
   filter: brightness(1.205);
   mix-blend-mode: multiply;
+}
+
+@keyframes f-pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(91, 46, 189, 0.45); }
+  100% { box-shadow: 0 0 0 14px rgba(91, 46, 189, 0); }
 }

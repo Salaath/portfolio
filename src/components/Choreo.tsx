@@ -5,7 +5,7 @@ import { DESKTOP, MOTION_OK, ScrollTrigger, SplitText, gsap, padMasks, useGSAP }
 
 /**
  * Page-level choreographer. Server-rendered markup opts into motion with
- * data attributes, and this component wires them up with GSAP:
+ * data attributes and this component wires them up with GSAP:
  *
  *   data-split="lines|words|chars"  masked SplitText rise (on scroll, or on load with data-load)
  *   data-fade                       fade + lift (on scroll, or on load with data-load)
@@ -226,7 +226,7 @@ export function Choreo({
         // Lazy images can change the page height after triggers are measured;
         // re-measure (debounced) whenever one finishes loading.
         // Only when the page actually got taller or shorter: images inside
-        // fixed-size frames (phone mockups) don't move anything, and a refresh
+        // fixed-size frames (phone mockups) don't move anything and a refresh
         // while a pinned section is mid-scroll makes it jump.
         const content = () => document.getElementById("smooth-content") ?? document.body;
         let measured = content().scrollHeight;

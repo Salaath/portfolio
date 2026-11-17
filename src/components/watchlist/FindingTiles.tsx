@@ -1,7 +1,7 @@
 "use client";
 
 // Research findings as five identical tiles in one row: the number from the
-// evidence, what it measures, the finding, and what we did about it. Same size,
+// evidence, what it measures, the finding and what we did about it. Same size,
 // same order, one way of showing data. Below lg the row scrolls sideways.
 
 const PURPLE = "#5B2EBD";

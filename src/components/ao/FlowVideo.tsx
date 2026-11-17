@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { IPhone } from "./IPhone";
 
 // The AO 3.0 happy path, recorded from the interactive prototype, with full
-// controls: play/pause, jump back and forward, a scrubber, and chapters that
-// seek. It starts when scrolled into view, and never overrides a manual pause.
+// controls: play/pause, jump back and forward, a scrubber and chapters that
+// seek. It starts when scrolled into view and never overrides a manual pause.
 
 export type Chapter = { at: number; label: string; note: string };
 
@@ -168,7 +168,7 @@ function Controls({ t, dur, playing, toggle, seek, light }: { t: number; dur: nu
   );
 }
 
-/** A recording in a phone, with controls. Starts in view, and never overrides a manual pause. */
+/** A recording in a phone, with controls. Starts in view and never overrides a manual pause. */
 export function PhonePlayer({ src, poster, aspect, label }: { src: string; poster?: string; aspect?: string; label: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   const userPaused = useRef(false);

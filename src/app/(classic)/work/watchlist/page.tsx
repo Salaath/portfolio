@@ -27,13 +27,13 @@ import { WlPhone } from "@/components/watchlist/WlPhone";
 
 // The 2026 watchlist revamp. Facts come from the Watchlist PRD, Watchlist
 // Insights (Nov 2025 cohort), the V2 multi-column brief, the Chart Mode briefs
-// and spec, and Mixpanel (Android). Copy is written fresh for this page; the
+// and spec and Mixpanel (Android). Copy is written fresh for this page; the
 // deck was reference only. Layout deliberately differs from the NPS page:
 // light hero with a compare slider, ruled chapter heads, a findings explorer,
 // one phone deck for the features and results laid out as a watchlist.
 
 const DESCRIPTION =
-  "How I redesigned the Upstox watchlist: what the data and our traders told us, what other apps already did, and the lists, tabs, table and chart views that came out of it.";
+  "How I redesigned the Upstox watchlist: what the data and our traders told us, what other apps already did and the lists, tabs, table and chart views that came out of it.";
 
 export const metadata: Metadata = {
   title: "Watchlist revamp — Salaath Shaikh",
@@ -92,7 +92,7 @@ const RELEASES: Release[] = [
   { n: "1", title: "Lists", status: "Shipped", img: "rr-r1", to: "lists", steps: [
     ["Tried", "A new floating bar, with + New sitting among the list chips"],
     ["Why it changed", "It broke our design-system rule: a tab’s main action lives in the floating bar"],
-    ["Shipped", "Add list moved into the bar, and the chips went back to being lists"],
+    ["Shipped", "Add list moved into the bar and the chips went back to being lists"],
   ] },
   { n: "2", title: "Multi-column view", status: "Shipped", img: "rr-4", to: "columns", steps: [
     ["Tried", "An icon that turns My lists into a table, remembered between visits"],
@@ -191,11 +191,11 @@ const MC_FINAL: [string, string][] = [
 const CHART_RULES = [
   "Two overlays and one oscillator at most. Pick two overlays and the rest grey out until you drop one.",
   "Lines start at the left edge. EMA, RSI and MACD are worked out with about 60 extra candles of history, so no card opens on a blank stretch.",
-  "VWAP follows the timeframe. It resets every trading day on 5 minute, 15 minute and 1 hour charts, and runs from the first candle on screen for 1 day and 1 week.",
+  "VWAP follows the timeframe. It resets every trading day on 5 minute, 15 minute and 1 hour charts and runs from the first candle on screen for 1 day and 1 week.",
   "Indicator settings are fixed: EMA 9, 20 and 50, RSI 14 and MACD 12, 26, 9. Fewer choices on a card that small.",
   "Index cards never show volume bars, because an index has no traded volume.",
   "The first time, you get Grid view, candles, 1 day and no indicators. After that the phone keeps your setup, even after the app is closed.",
-  "Charts load as their cards scroll into view, and the price on each card stays live.",
+  "Charts load as their cards scroll into view and the price on each card stays live.",
 ];
 
 const TICKET = [
@@ -229,10 +229,10 @@ const SOURCES = [
 
 const FINDINGS: Finding[] = [
   {
-    title: "First orders are small, and they come fast",
+    title: "First orders are small and they come fast",
     who: "New customers",
-    text: "New customers placed their first order about two and a half days after opening the account, usually in equity, and half the time for under ₹500. They searched for stocks that had just listed, big names under ₹100, gold and silver ETFs. Our default lists showed none of that.",
-    changed: "Lists like IPO access, Top traded and Nifty 50 ETFs, and a ready list in every new account.",
+    text: "New customers placed their first order about two and a half days after opening the account, usually in equity and half the time for under ₹500. They searched for stocks that had just listed, big names under ₹100, gold and silver ETFs. Our default lists showed none of that.",
+    changed: "Lists like IPO access, Top traded and Nifty 50 ETFs and a ready list in every new account.",
     visual: (
       <div className="grid grid-cols-2 gap-3">
         {[
@@ -253,14 +253,14 @@ const FINDINGS: Finding[] = [
     title: "Lists get built everywhere except the watchlist",
     who: "Everyone who adds stocks",
     text: "People rarely sat down in the watchlist tab to build a list. They added a stock while looking at something else: a search result, a stock page, an option chain. The tab itself was for checking prices.",
-    changed: "The option chain and ready-made lists moved into the watchlist, and adding a list takes two taps.",
+    changed: "The option chain and ready-made lists moved into the watchlist and adding a list takes two taps.",
     visual: <SourceBars />,
   },
   {
     title: "A million visits a month, very little action",
     who: "Watchlist visitors",
     text: "Over a million people opened the watchlist every month. Fewer of them added stocks each month, 403K in January down to 305K in April. The ones who did trade from it were a small, intense group, mostly F&O traders.",
-    changed: "Switching lists became a tap, lists could be followed instead of built, and heavy traders got sorting and baskets on top of swipe.",
+    changed: "Switching lists became a tap, lists could be followed instead of built and heavy traders got sorting and baskets on top of swipe.",
     visual: <UsageFunnel />,
   },
   {
@@ -273,7 +273,7 @@ const FINDINGS: Finding[] = [
   {
     title: "Charts were one stock at a time",
     who: "Chart readers",
-    text: "Active traders keep 10 to 30 stocks in a list and look at their charts before the open. On the old app that meant tap a stock, tap Chart, go back, and repeat for every row.",
+    text: "Active traders keep 10 to 30 stocks in a list and look at their charts before the open. On the old app that meant tap a stock, tap Chart, go back and repeat for every row.",
     changed: "Chart mode: the whole list as charts, with one set of indicators for all of them.",
     visual: (
       <div className="grid grid-cols-2 overflow-hidden rounded-xl border border-line text-center">
@@ -320,7 +320,7 @@ const FEATURES: DeckFeature[] = [
     short: "Chains inside the tab",
     stat: "23%",
     statLabel: "of F&O traders’ adds came from the option chain",
-    because: "F&O traders were building lists from a screen that lived somewhere else. We brought it into the watchlist as its own tab, and did the same for MCX.",
+    because: "F&O traders were building lists from a screen that lived somewhere else. We brought it into the watchlist as its own tab and did the same for MCX.",
     screens: [
       { shot: "options", caption: "Option chains for 6 indices, calls or puts, any expiry, tagged ITM, ATM or OTM." },
       { shot: "commodity", caption: "11 MCX contracts with their 10 most-traded strikes. The app reopens on whichever tab you used last." },
@@ -343,7 +343,7 @@ const FEATURES: DeckFeature[] = [
     short: "Columns per trading style",
     stat: "20+",
     statLabel: "columns to choose from, with presets",
-    because: "Scrip stays pinned on the left, price and change always come first, and the rest scrolls sideways. A preset fills the columns so nobody starts with an empty grid.",
+    because: "Scrip stays pinned on the left, price and change always come first and the rest scrolls sideways. A preset fills the columns so nobody starts with an empty grid.",
     screens: [
       { shot: "table", caption: "Overview preset: returns, PE, market cap and yield, with sortable headers." },
       { shot: "tablefo", caption: "The F&O preset swaps in OI, OI change, PCR and IV." },
@@ -355,7 +355,7 @@ const FEATURES: DeckFeature[] = [
     short: "The whole list as charts",
     stat: "1 tap",
     statLabel: "to every chart in a list, instead of ~60",
-    because: "Analyze opens the list as live charts. One timeframe and one set of indicators apply to all of them, and tapping a chart opens the full version with the same settings.",
+    because: "Analyze opens the list as live charts. One timeframe and one set of indicators apply to all of them and tapping a chart opens the full version with the same settings.",
     screens: [
       { shot: "chart", caption: "Grid view, two charts a row, for scanning." },
       { shot: "chartlist", caption: "List view, one wide chart per row, for reading." },
@@ -396,7 +396,7 @@ export default function WatchlistCase() {
               Making the watchlist worth opening
             </h1>
             <p data-fade data-load data-delay="0.5" className="mt-8 max-w-xl text-lg leading-relaxed text-muted">
-              Over a million people opened the Upstox watchlist every month, and most of them only looked at prices. I spent the better part of a year with our data, our traders’ requests and the other apps on their phones, then shipped the redesign in three releases: lists first, then a multi-column view, then Chart mode. Each one changed shape before it went out, because of a design-system rule, a backend limit or a usage number. A second version of Chart mode is with engineering now.
+              Over a million people opened the Upstox watchlist every month and most of them only looked at prices. I spent the better part of a year with our data, our traders’ requests and the other apps on their phones, then shipped the redesign in three releases: lists first, then a multi-column view, then Chart mode. Each one changed shape before it went out, because of a design-system rule, a backend limit or a usage number. A second version of Chart mode is with engineering now.
             </p>
             <dl data-fade data-load data-delay="0.7" className="mt-10 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-line pt-6 sm:grid-cols-4">
               {TICKET.map(([k, v]) => (
@@ -448,7 +448,7 @@ export default function WatchlistCase() {
       <section className="mt-32 bg-[#0e0b12] px-4 py-28 text-white sm:px-10">
         <div className="mx-auto max-w-6xl">
           <Chapter n="02" id="before" label="The old one" title="It had barely changed since 2023" dark>
-            Three years of new users, new products and new competitors, and the watchlist still worked the way it did on day one. Tap the numbers.
+            Three years of new users, new products and new competitors and the watchlist still worked the way it did on day one. Tap the numbers.
           </Chapter>
           <div className="mt-16">
             <OldAnatomy />
@@ -460,7 +460,7 @@ export default function WatchlistCase() {
       {/* ---------- 03 listening ---------- */}
       <section className="mx-auto max-w-6xl px-4 pt-28 sm:px-10">
         <Chapter n="03" id="listening" label="Listening" title="Before drawing anything, we asked what people were already doing">
-          Two kinds of evidence: what the numbers showed people doing, and what traders kept telling us they wanted.
+          Two kinds of evidence: what the numbers showed people doing and what traders kept telling us they wanted.
         </Chapter>
         <div className="mt-14 grid gap-10 md:grid-cols-2">
           <div data-fade>
@@ -502,8 +502,8 @@ export default function WatchlistCase() {
 
       {/* ---------- 05 others ---------- */}
       <section className="mx-auto max-w-6xl px-4 pt-32 sm:px-10">
-        <Chapter n="05" id="others" label="Other apps" title="Our users had other broker apps, and they noticed the gaps">
-          We used seven other watchlists the way our traders would and screenshotted every step, then scanned nine apps for the features traders kept bringing up. If Dhan puts O=H on a row, a trader notices when we don’t. Pick an app to see its watchlist and our notes, and flip the switch to see Upstox before and after.
+        <Chapter n="05" id="others" label="Other apps" title="Our users had other broker apps and they noticed the gaps">
+          We used seven other watchlists the way our traders would and screenshotted every step, then scanned nine apps for the features traders kept bringing up. If Dhan puts O=H on a row, a trader notices when we don’t. Pick an app to see its watchlist and our notes and flip the switch to see Upstox before and after.
         </Chapter>
         <div data-fade className="mt-14">
           <AppReview />
@@ -524,8 +524,8 @@ export default function WatchlistCase() {
 
       {/* ---------- 06 rounds ---------- */}
       <section className="mx-auto max-w-6xl px-4 pt-32 sm:px-10">
-        <Chapter n="06" id="rounds" label="How it got here" title="Three releases, and a fourth in build">
-          Lists, then columns, then charts. Each release started as one design and shipped as another, and the reason is on each card. Click one to jump to it.
+        <Chapter n="06" id="rounds" label="How it got here" title="Three releases and a fourth in build">
+          Lists, then columns, then charts. Each release started as one design and shipped as another and the reason is on each card. Click one to jump to it.
         </Chapter>
         <div data-fade className="mt-14">
           <RoundRail releases={RELEASES} />
@@ -535,13 +535,13 @@ export default function WatchlistCase() {
       {/* ---------- 07 lists: release 1 ---------- */}
       <section className="mx-auto max-w-6xl px-4 pt-32 sm:px-10">
         <Chapter n="07" id="lists" label="Release 1 · Lists" title="Our own design broke the rule we’d set for the floating bar">
-          Research left us with four jobs: making and finding lists, managing them, switching between them, and managing the stocks inside. We shortlisted two layouts for those, then built the stronger one out in full.
+          Research left us with four jobs: making and finding lists, managing them, switching between them and managing the stocks inside. We shortlisted two layouts for those, then built the stronger one out in full.
         </Chapter>
         <div data-fade className="mt-14">
           <OptionSwitch
             title="Shortlisted layouts"
             options={SHORTLIST}
-            footer="Both put the floating bar to work on stocks, and both left making a list up at the top of the screen."
+            footer="Both put the floating bar to work on stocks and both left making a list up at the top of the screen."
           />
         </div>
 
@@ -550,7 +550,7 @@ export default function WatchlistCase() {
             <p className="font-mono text-xs" style={{ color: PURPLE }}>The first full design</p>
             <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">Every state drawn, then sent back</h3>
             <p className="mt-3 text-[15px] text-muted">
-              Lists as chips, filter and sort in a floating bar, swipe a row to buy or sell, and loading, error and empty states for each. It was close. The problem was one chip.
+              Lists as chips, filter and sort in a floating bar, swipe a row to buy or sell and loading, error and empty states for each. It was close. The problem was one chip.
             </p>
           </div>
           <div className="overflow-hidden rounded-[1.25rem] border border-line bg-white md:col-span-8">
@@ -569,7 +569,7 @@ export default function WatchlistCase() {
           <FabRule />
         </div>
         <div className="mt-16">
-          <Live release="Release 1 · Lists" meta="June 2026" title="Add list in the floating bar, and chips that are only lists" />
+          <Live release="Release 1 · Lists" meta="June 2026" title="Add list in the floating bar and chips that are only lists" />
           <div className="mt-6 overflow-hidden rounded-[1.25rem] border border-line bg-white">
             <div className="flex gap-5 overflow-x-auto px-5 pb-12 pt-6 md:px-8 md:pt-8 lg:grid lg:grid-cols-5 lg:gap-6 lg:overflow-visible">
               {R1_FINAL.map(([src, cap]) => (
@@ -582,7 +582,7 @@ export default function WatchlistCase() {
           </div>
         </div>
         <p data-fade className="mt-6 max-w-3xl text-[15px] text-muted">
-          The rule isn’t only for My lists. Home, Orders, Positions, My lists and Holdings all keep their main action in the floating bar, so someone moving between tabs always knows where to look. Creating a list moved into the bar as Add list, and the chips went back to being lists. That’s the version we shipped, and every release after it keeps the same bar.
+          The rule isn’t only for My lists. Home, Orders, Positions, My lists and Holdings all keep their main action in the floating bar, so someone moving between tabs always knows where to look. Creating a list moved into the bar as Add list and the chips went back to being lists. That’s the version we shipped and every release after it keeps the same bar.
         </p>
       </section>
 
@@ -596,9 +596,9 @@ export default function WatchlistCase() {
           <div className="mt-14 grid items-center gap-10 md:grid-cols-12">
             <div data-fade className="md:col-span-5">
               <p className="font-mono text-xs" style={{ color: PURPLE }}>Our first design · Columns on My lists</p>
-              <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">One icon, and the list becomes a table</h3>
+              <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">One icon and the list becomes a table</h3>
               <p className="mt-3 text-[15px] leading-relaxed text-muted">
-                The obvious answer. An icon at the end of the chips flips the list into columns, and the app remembers your choice, so switching tabs or reopening the app brings you back to the table. We drew five versions of the icon and handed the designs to engineering.
+                The obvious answer. An icon at the end of the chips flips the list into columns and the app remembers your choice, so switching tabs or reopening the app brings you back to the table. We drew five versions of the icon and handed the designs to engineering.
               </p>
             </div>
             <div data-fade className="rounded-[1.25rem] border border-line bg-white px-6 pb-6 pt-8 md:col-span-7 md:pt-10">
@@ -613,7 +613,7 @@ export default function WatchlistCase() {
             </div>
             <div data-fade className="grid gap-4 text-[15px] leading-relaxed md:col-span-7">
               <p>The backend engineers raised it. Some people keep more than 50 stocks in one list. Upstox reopens on the tab you left, so a remembered table would pull every extra column for every stock the moment the app opened.</p>
-              <p>And traders hop between Orders and My lists all session. Each hop back would call for all of that data again. The backend wasn’t built to return that many data points for a list, and calling for them on every landing was expensive.</p>
+              <p>And traders hop between Orders and My lists all session. Each hop back would call for all of that data again. The backend wasn’t built to return that many data points for a list and calling for them on every landing was expensive.</p>
               <p>We argued for keeping the table on My lists, because it’s what users would want. We lost that argument for a good reason. The table would open on demand, on a page of its own, for one list at a time.</p>
             </div>
           </div>
@@ -646,7 +646,7 @@ export default function WatchlistCase() {
 
       {/* ---------- 09 charts: release 3 ---------- */}
       <section className="mx-auto max-w-6xl px-4 pt-32 sm:px-10">
-        <Chapter n="09" id="charts" label="Release 3 · Chart mode" title="Chart mode was drawn into a menu, and launched behind one button for analysis">
+        <Chapter n="09" id="charts" label="Release 3 · Chart mode" title="Chart mode was drawn into a menu and launched behind one button for analysis">
           With the table settled, charts were next. Traders who read charts wanted to see a whole list that way, not one stock at a time.
         </Chapter>
 
@@ -655,7 +655,7 @@ export default function WatchlistCase() {
             <p className="font-mono text-xs" style={{ color: PURPLE }}>Why Chart mode</p>
             <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">Thirty stocks meant thirty charts, opened one by one</h3>
             <div className="mt-3 grid gap-3 text-[15px] leading-relaxed text-muted">
-              <p>Say a swing trader wants to know which stocks in their list are trading above the 20 and 50-day averages. Before Chart mode, that meant opening each chart, setting it up, going back, and holding the last few in their head.</p>
+              <p>Say a swing trader wants to know which stocks in their list are trading above the 20 and 50-day averages. Before Chart mode, that meant opening each chart, setting it up, going back and holding the last few in their head.</p>
               <p>Chart mode draws the whole list as small charts. The bigger decision was the control bar: timeframe, chart type and indicators are set once and apply to every card. Every chart is read the same way, so comparing them is fair. The phone remembers the setup, so the next list opens the same way.</p>
               <p>Tap a card when something stands out and you’re on that stock’s full chart.</p>
             </div>
@@ -670,7 +670,7 @@ export default function WatchlistCase() {
             <p className="font-mono text-xs" style={{ color: PURPLE }}>Our first design · Behind the ⋮</p>
             <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">A menu row, a New tag and a red dot</h3>
             <p className="mt-3 text-[15px] leading-relaxed text-muted">
-              Our first design put Chart mode in the ⋮ menu. It would carry a New tag for its first four weeks, and the ⋮ button would show a red dot until you’d opened Chart mode once. It never shipped this way. Before launch, the PMs and the business team asked for something more visible.
+              Our first design put Chart mode in the ⋮ menu. It would carry a New tag for its first four weeks and the ⋮ button would show a red dot until you’d opened Chart mode once. It never shipped this way. Before launch, the PMs and the business team asked for something more visible.
             </p>
           </div>
           <div className="overflow-hidden rounded-[1.25rem] border border-line bg-white md:col-span-8">
@@ -697,11 +697,11 @@ export default function WatchlistCase() {
         <div className="mt-20 grid gap-10 md:grid-cols-12">
           <div data-fade className="md:col-span-5">
             <p className="font-mono text-xs" style={{ color: PURPLE }}>The pushback</p>
-            <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">They asked for a Chart icon in the bar. We said no, and offered something else.</h3>
+            <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">They asked for a Chart icon in the bar. We said no and offered something else.</h3>
           </div>
           <div data-fade className="grid gap-4 text-[15px] leading-relaxed md:col-span-7">
-            <p>The PMs and the business team wanted another icon in the floating bar, just for charts. We pushed back. A bar that takes one more icon for one feature will take the next one too, and every new feature after that would come asking for space.</p>
-            <p>Looking at the two features together, Table view and Chart mode do the same job: they help you analyse a list. So we proposed one Analyze button in the bar that opens both. It fixes discovery for both, and the next analysis feature joins the sheet instead of the bar. Both teams agreed, and that’s what’s live.</p>
+            <p>The PMs and the business team wanted another icon in the floating bar, just for charts. We pushed back. A bar that takes one more icon for one feature will take the next one too and every new feature after that would come asking for space.</p>
+            <p>Looking at the two features together, Table view and Chart mode do the same job: they help you analyse a list. So we proposed one Analyze button in the bar that opens both. It fixes discovery for both and the next analysis feature joins the sheet instead of the bar. Both teams agreed and that’s what’s live.</p>
             <p>Chart mode went out in Android 3.31.0 on 3 August 2026 and reached every user by 15 August. Analyze opens a screen with two tabs, Chart mode first and Table view second, sharing one list picker.</p>
           </div>
         </div>
@@ -741,15 +741,15 @@ export default function WatchlistCase() {
           <PhoneDeck features={FEATURES} />
         </div>
         <p data-fade className="mt-6 max-w-3xl text-[15px] text-muted">
-          New accounts, and anyone who joined after January 2025 with three lists or fewer, start with ready lists such as Trending and Nifty 50. We can update those without an app release, so the tab is never empty on someone’s first day.
+          New accounts and anyone who joined after January 2025 with three lists or fewer, start with ready lists such as Trending and Nifty 50. We can update those without an app release, so the tab is never empty on someone’s first day.
         </p>
       </section>
 
       {/* ---------- 11 race ---------- */}
       <section className="mt-32 bg-[#F6F5F2] px-4 py-28 sm:px-10">
         <div className="mx-auto max-w-6xl">
-          <Chapter n="11" id="race" label="Try it" title="Do the same job on both, and count">
-            Both phones are working prototypes built from the Figma files. Pick a task, finish it on each, and the counters keep score.
+          <Chapter n="11" id="race" label="Try it" title="Do the same job on both and count">
+            Both phones are working prototypes built from the Figma files. Pick a task, finish it on each and the counters keep score.
           </Chapter>
           <div data-fade className="mt-14 hidden md:block">
             <TaskRace />
@@ -788,7 +788,7 @@ export default function WatchlistCase() {
             </div>
           </div>
           <p data-fade className="text-[15px] leading-relaxed text-muted md:col-span-7 md:pt-2">
-            Some of this is undercounted. Orders placed from Chart mode and Table view don’t carry a watchlist tag yet, and since July untagged orders are up 73%. Baskets from a list are counted with every other basket, and the iOS events haven’t been mapped. Fixing the tracking is next on the list, so the real number is probably better than what’s shown here.
+            Some of this is undercounted. Orders placed from Chart mode and Table view don’t carry a watchlist tag yet and since July untagged orders are up 73%. Baskets from a list are counted with every other basket and the iOS events haven’t been mapped. Fixing the tracking is next on the list, so the real number is probably better than what’s shown here.
           </p>
         </div>
       </section>
@@ -796,7 +796,7 @@ export default function WatchlistCase() {
       {/* ---------- 13 chart mode version 2 ---------- */}
       <section className="mx-auto max-w-6xl px-4 pt-32 sm:px-10">
         <Chapter n="13" id="v2" label="Release 4 · In build" title="Chart mode, version 2">
-          The watchlist shipped, and the work didn’t stop there. This is the release that’s with engineering now.
+          The watchlist shipped and the work didn’t stop there. This is the release that’s with engineering now.
         </Chapter>
         <div className="mt-14 grid gap-10 md:grid-cols-12">
           <div data-fade className="md:col-span-5">
@@ -804,8 +804,8 @@ export default function WatchlistCase() {
             <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">Three months after launch, traders wanted to read the charts faster</h3>
           </div>
           <div data-fade className="grid gap-4 text-[15px] leading-relaxed md:col-span-7">
-            <p>Chart mode did well after launch, and users asked for more. The brief for version 2 was short: help people read charts faster and compare stocks better.</p>
-            <p>Two of the changes undo calls we made in version 1. The high and low used to appear only while you pressed and held a chart; now they’re on every card. And the single timeframe chip mixed two choices into one: how big each candle is, and how far back you look. Version 2 splits them into a range and an interval.</p>
+            <p>Chart mode did well after launch and users asked for more. The brief for version 2 was short: help people read charts faster and compare stocks better.</p>
+            <p>Two of the changes undo calls we made in version 1. The high and low used to appear only while you pressed and held a chart; now they’re on every card. And the single timeframe chip mixed two choices into one: how big each candle is and how far back you look. Version 2 splits them into a range and an interval.</p>
           </div>
         </div>
         <div data-fade className="mt-10">
@@ -814,7 +814,7 @@ export default function WatchlistCase() {
         <div className="mt-10 grid gap-6 md:grid-cols-12">
           <div data-fade className="md:col-span-5">
             <p className="font-mono text-xs" style={{ color: PURPLE }}>Also in version 2 · Table view</p>
-            <p className="mt-3 text-[15px] leading-relaxed text-muted">The Performance tab gets 3-month returns next to the 1-month ones, as a toggle or its own column (still being decided), and a quarterly sales growth column in the horizontal scroll.</p>
+            <p className="mt-3 text-[15px] leading-relaxed text-muted">The Performance tab gets 3-month returns next to the 1-month ones, as a toggle or its own column (still being decided) and a quarterly sales growth column in the horizontal scroll.</p>
           </div>
           <p data-fade className="text-[15px] leading-relaxed text-muted md:col-span-7">
             Version 2 went to engineering in November 2026, so it isn’t in the results above. Those cover version 1 only.

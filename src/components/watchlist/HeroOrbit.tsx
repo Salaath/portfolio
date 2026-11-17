@@ -11,7 +11,7 @@ import { Cube, Sphere } from "./Shapes";
 // - Accent: one floating sphere or cube.
 // Decorative only; everything holds still with reduced motion.
 
-// stroke colours: faint ring, dotted orbit, and the stops of the arc gradient
+// stroke colours: faint ring, dotted orbit and the stops of the arc gradient
 export const MINT = ["#E4D8FB", "#8C93EE", "#7B55E8"] as const;
 
 // One hairline circle, in the same 1px ink weight as the site header's contour

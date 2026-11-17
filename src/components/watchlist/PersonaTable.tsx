@@ -135,7 +135,7 @@ export function PersonaTable() {
         </table>
       </div>
       <p className="mt-4 text-xs text-muted">
-        Sample values. Signals appear only on rows where they apply, and each signal category can be switched off.
+        Sample values. Signals appear only on rows where they apply and each signal category can be switched off.
       </p>
       <style>{`@keyframes wlIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}@media (prefers-reduced-motion:reduce){[class*="wlIn"]{animation:none!important}}`}</style>
     </div>

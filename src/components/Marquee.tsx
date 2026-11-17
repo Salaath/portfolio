@@ -5,7 +5,7 @@ import { MOTION_OK, ScrollTrigger, gsap, useGSAP } from "@/lib/gsap";
 
 /**
  * Endless marquee that reacts to scroll: scrolling speeds it up, flips its
- * direction to match, and skews the type with velocity.
+ * direction to match and skews the type with velocity.
  */
 export function Marquee({ items }: { items: string[] }) {
   const ref = useRef<HTMLDivElement>(null);

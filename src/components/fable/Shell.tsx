@@ -7,7 +7,7 @@ import { ScrollTrigger, gsap } from "@/lib/gsap";
 
 /**
  * Smooth scrolling for the Fable template. Lenis eases the real scroll position
- * (nothing is transformed), so position: sticky and fixed keep working, and
+ * (nothing is transformed), so position: sticky and fixed keep working and
  * ScrollTrigger reads the same value on GSAP's own ticker.
  */
 let lenis: Lenis | null = null;

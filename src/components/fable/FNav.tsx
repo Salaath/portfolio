@@ -46,6 +46,25 @@ export function FNav() {
     { scope: ref },
   );
 
+  // Case studies: the plain bar from the earlier site. Name and three links, no pill, no Ask.
+  if (base === "/")
+    return (
+      <div ref={ref}>
+        <header data-nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-5 text-white mix-blend-difference sm:px-10">
+          <Link href="/" className="text-lg font-medium tracking-[-0.03em]">
+            Salaath Shaikh<sup className="ml-0.5 text-[0.55em]">®</sup>
+          </Link>
+          <nav className="flex gap-2 text-sm">
+            {LINKS.filter(([, id]) => id !== "ai").map(([label, id]) => (
+              <Magnetic key={id}>
+                <Link href={`/#${id}`} className="block px-3 py-2">{label}</Link>
+              </Magnetic>
+            ))}
+          </nav>
+        </header>
+      </div>
+    );
+
   return (
     <div ref={ref}>
       {/* The name sits outside the header so it can blend with the page: white on dark, black on white. */}
@@ -56,10 +75,10 @@ export function FNav() {
       <span />
 
       <nav data-nav className="f-glass pointer-events-auto hidden items-center gap-1 rounded-full p-1.5 text-sm md:flex">
-        {LINKS.filter(([, id]) => base === "/fable" || id !== "ai").map(([label, id]) => (
+        {LINKS.map(([label, id]) => (
           <Link
             key={id}
-            href={base === "/" ? `/#${id}` : `/fable#${id}`}
+            href={`/fable#${id}`}
             onClick={(e) => {
               if (home && scrollToId(id)) e.preventDefault();
             }}

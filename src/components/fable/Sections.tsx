@@ -94,7 +94,7 @@ const SESSION: [string, string][] = [
   ["render “UP_AO 2.0.fig”", "Screens rendered straight from the Figma file"],
   ["build prototype --paths happy,pan,bank,manual", "A coded prototype with every fallback path"],
   ["record prototype --path happy", "Walkthrough recorded and cut into 8 clips"],
-  ["deploy prototype", "Live, and embedded in the case study"],
+  ["deploy prototype", "Live and embedded in the case study"],
 ];
 
 /** A terminal that plays the pipeline behind a case study, one command at a time. */
@@ -202,24 +202,41 @@ export function Disciplines({ items }: { items: { title: string; body: string; t
 
 /* ---------- next case ------------------------------------------------------ */
 
-/** The way out of a case study: the next one's title at display size over its cover. */
+/**
+ * The way on to the next case study: one wide card with the cover shown whole and the
+ * story (title, line and three numbers) set into the cover's quiet left side.
+ */
 export function NextCase({ c, href, label = "Next case study", foot, focus = "74%" }: { c: CaseStudy; href: string; label?: string; foot: string; focus?: string }) {
+  const light = c.coverInk !== "dark"; // photo covers carry white text on desktop
   return (
     <section className="px-4 pb-8 pt-32 sm:px-10 md:pt-48">
-      <Link href={href} data-cursor="Open" onPointerMove={pointer} onPointerLeave={rest} className="group block">
-        <div className="flex items-end justify-between gap-8 border-t border-ink/80 pt-6">
-          <div>
-            <p data-label className="label">[ {label} ]</p>
-            <h2 data-split="lines" className="mt-5 max-w-5xl text-5xl leading-[0.95] tracking-[-0.04em] md:text-[5.4vw]">{c.title}</h2>
-          </div>
-          <span aria-hidden className="mb-2 hidden size-20 shrink-0 place-items-center rounded-full border border-ink/25 text-2xl transition-[transform,background-color,color] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-[-45deg] group-hover:bg-ink group-hover:text-bg md:grid">→</span>
-        </div>
-        <div data-wipe className="relative mt-10 aspect-[4/3] overflow-hidden rounded-[1.75rem] md:aspect-[16/6.5] md:rounded-[2.25rem]">
+      <div className="flex items-center justify-between border-t border-ink/80 pt-6">
+        <p data-label className="label">[ {label} ]</p>
+        <p className="label">{c.year}</p>
+      </div>
+      <Link href={href} data-cursor="Open" className={`group relative mt-8 block overflow-hidden rounded-[1.75rem] text-[#0e0e0e] md:rounded-[2.25rem] ${light ? "bg-[#e9e7e0]" : "bg-white"}`}>
+        <div data-wipe className="relative aspect-[4/3] overflow-hidden md:aspect-[16/9]">
           <div data-wipe-inner className="absolute inset-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={c.image} alt="" loading="lazy" className={COVER} style={{ objectPosition: `${focus} 50%` }} />
+            <img src={c.image} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]" style={{ objectPosition: `${focus} 40%` }} />
           </div>
+          {light ? <div aria-hidden className="absolute inset-0 hidden bg-[linear-gradient(to_right,rgba(0,0,0,0.55),transparent_58%)] md:block" /> : null}
         </div>
+        <div className={`relative flex flex-col justify-end gap-6 p-6 md:absolute md:inset-0 md:w-[44%] md:p-12 ${light ? "md:text-white" : ""}`}>
+          <h2 data-split="lines" className="text-4xl leading-[0.98] tracking-[-0.035em] md:text-[4vw]">{c.title}</h2>
+          <p data-fade className="max-w-md opacity-70">{c.tagline}</p>
+          <dl data-fade data-delay="0.1" className={`grid max-w-md grid-cols-3 gap-4 border-t pt-5 ${light ? "border-black/15 md:border-white/30" : "border-black/15"}`}>
+            {c.metrics.map((m) => (
+              <div key={m.label}>
+                <dd className={`whitespace-nowrap text-lg tracking-[-0.03em] sm:text-2xl md:text-[2vw] ${light ? "text-[#5b2ebd] md:text-white" : "text-[#5b2ebd]"}`}>{m.value}</dd>
+                <dt className="mt-1 text-xs leading-snug opacity-60">{m.label}</dt>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <span className={`absolute right-6 top-6 hidden items-center gap-2 rounded-full px-4 py-2 text-sm transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 md:right-10 md:top-10 md:flex ${light ? "bg-white text-black" : "bg-black text-white"}`}>
+          Read the case study <span className="transition-transform duration-500 group-hover:rotate-[-45deg]">→</span>
+        </span>
       </Link>
       <div className="label mt-10 flex justify-between gap-4">
         <span>Sal · Lead product designer, Upstox</span>

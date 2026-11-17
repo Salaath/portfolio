@@ -33,7 +33,7 @@ const STAGES = [
   },
   {
     key: "Track",
-    needs: ["Track the total worth of my portfolio", "Track investments and returns", "Download tax proof", "Track every holding and transaction, and invest more"],
+    needs: ["Track the total worth of my portfolio", "Track investments and returns", "Download tax proof", "Track every holding and transaction and invest more"],
     mood: "Worried, after every change",
     worries: [
       "Is my money growing enough? Should I invest more?",
@@ -45,7 +45,7 @@ const STAGES = [
   },
 ];
 
-/** Tabs across the journey; each shows what people need, what they fear, and how they should feel. */
+/** Tabs across the journey; each shows what people need, what they fear and how they should feel. */
 export function EmotionMap() {
   const [i, setI] = useState(0);
   const ref = useRef<HTMLDivElement>(null);

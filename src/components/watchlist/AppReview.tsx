@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 // The competitor review in one place. Left: what each app's watchlist could do
-// (Watchlist Insights review, 2025, and the Chart Mode market scan, 28 Jun 2026).
+// (Watchlist Insights review, 2025 and the Chart Mode market scan, 28 Jun 2026).
 // Right: screenshots of that app and what we noted while using it. Screens come
 // from the explorations file (ex/r-*) and the Insights review (cr/*).
 // Click a screenshot to open a viewer that steps through every app's screens.
@@ -23,9 +23,9 @@ const APPS: App[] = [
   { name: "Kotak Neo", where: "India", has: [0], scan: "Themed lists such as pocket-friendly stocks", shots: cr("kotak", 1) },
   { name: "Groww", where: "India", has: [5], scan: "Up to 8 charts at once in its charts terminal, tied to the watchlist", shots: ["ex/r-groww", ...cr("groww", 1)], good: ["Add with a + and edit from the top right"], meh: ["Only pinned lists get a tab. The rest live on an All watchlists page"] },
   { name: "Zerodha Kite", where: "India", has: [], scan: "Up to 8 charts, on web only; notes and a 52-week toggle on the list", shots: ["ex/r-zerodha", ...cr("zerodha", 1)], good: ["Add stocks with search inside the list"], meh: ["You can’t create lists. Kite gives you fixed empty ones and long-press to edit"] },
-  { name: "IndMoney", where: "India", shots: ["ex/r-indmoney"], good: ["Add stocks with a + icon"], meh: ["One list to start, and creating another is at the end of a scroll"] },
+  { name: "IndMoney", where: "India", shots: ["ex/r-indmoney"], good: ["Add stocks with a + icon"], meh: ["One list to start and creating another is at the end of a scroll"] },
   { name: "Webull", where: "Global", has: [4, 5], scan: "Multi-column lists with volume, OI and Greeks; chart grids with one indicator applied to all", shots: ["ex/r-webull", ...cr("webull", 3)], good: ["First-time users get stocks to pick from straight away", "Search to add sits at the bottom, in thumb reach"], meh: ["Editing and creating lists hide in a side panel"] },
-  { name: "Robinhood", where: "Global", has: [2, 4], scan: "Lists built from 50+ criteria, and a multi-column layout", shots: cr("robinhood", 3) },
+  { name: "Robinhood", where: "Global", has: [2, 4], scan: "Lists built from 50+ criteria and a multi-column layout", shots: cr("robinhood", 3) },
 ];
 
 // every screen of every app, in order, so the viewer can walk straight through

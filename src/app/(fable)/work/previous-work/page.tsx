@@ -12,7 +12,7 @@ import { ThemeStack, type Theme } from "@/components/previous/ThemeStack";
 // Work from Tata CLiQ, before Upstox, gathered into one page. Facts and
 // mock-ups come from the old Framer portfolio (salaath.framer.website/work).
 // This page is a showcase: mock-ups first, a few lines and one or two numbers
-// per project. The full process lives on the old site.
+// per project.
 
 const DESCRIPTION =
   "Four products I designed at Tata CLiQ before Upstox: the Palette beauty homepage, the Luxe editorial hub, marketplace filters and the seller portal.";
@@ -36,6 +36,78 @@ const THEMES: Theme[] = [
   { src: "vid-palette-mens", name: "Men’s care", vision: "Shop by concern, get to the product fast", look: "Relatable imagery and fresh colours", bg: "#ECE5DA", accent: "#D6B98C" },
   { src: "vid-palette-luxe", name: "Luxe beauty", vision: "Bold and aspirational", look: "Whitespace, subtle colour, brands shown at their best", bg: "#15100F", accent: "#8E2E3C", dark: true },
 ];
+
+// Palette homepage revamp: facts, figures and pictures from the old case study
+// (salaath.framer.website/work/palette-homepage-revamp). Nothing here is new.
+const PALETTE_FACTS: [string, string][] = [
+  ["5.2 L", "People using Palette every month"],
+  ["1,000+", "Beauty brands on the store"],
+  ["4.6", "App Store rating, out of 5"],
+  ["4.3", "Play Store rating, out of 5"],
+];
+const PALETTE_GAPS = [
+  ["Brands had no good place to pay for", "The page had few formats a brand could sponsor, so brand deals were hard to sell."],
+  ["It could not dress up for a sale", "Big events like Diwali needed a different page. The old one could barely change."],
+  ["Thumbnails came in one size", "Quick links and carousels were locked to fixed sizes."],
+  ["Parts could not be combined", "There was no way to join components into one large category or brand showcase."],
+];
+const STILLS = [
+  { src: "palette-skincare", name: "Skincare", look: "Fresh, soft colours, real skin, ingredients up front" },
+  { src: "palette-mens", name: "Men’s care", look: "Relatable imagery and fresh colours, built around the product" },
+  { src: "palette-luxe", name: "Luxe beauty", look: "Whitespace, subtle colour, brands shown at their best" },
+];
+
+// Filters: quarterly figures from the outcomes slide of the old case study.
+const QUARTERS = ["Q4 ’21", "Q1 ’22", "Q2 ’22", "Q3 ’22"];
+const FILTER_TRENDS: { title: string; note: string; filter: number[]; none?: number[] }[] = [
+  { title: "Filter use", note: "Share of shoppers who used a filter", filter: [19.5, 19.8, 21.7, 25.1] },
+  { title: "Click-through", note: "Shoppers who filtered, against those who didn’t", filter: [77.7, 79.6, 80.7, 81.6], none: [62.1, 64.0, 65.5, 63.9] },
+  { title: "Conversion", note: "Shoppers who filtered, against those who didn’t", filter: [5.5, 6.4, 6.1, 6.8], none: [3.5, 3.8, 3.5, 3.2] },
+];
+const FILTER_SCREENS = [
+  { src: "filters-multi", w: 720, h: 1791, name: "Recommended filters", body: "A panel inside the listing suggests sizes, colours and materials. Pick several, then view the products." },
+  { src: "filters-visual", w: 720, h: 3147, name: "Visual filters", body: "Categories and brands appear as picture tiles between the products, so narrowing down takes one tap." },
+];
+
+/** One quarterly trend as a small line chart: the filter cohort in colour, the rest in grey. */
+function Trend({ title, note, filter, none }: (typeof FILTER_TRENDS)[number]) {
+  const all = [...filter, ...(none ?? [])];
+  const lo = Math.min(...all), hi = Math.max(...all), pad = (hi - lo) * 0.25 || 1;
+  const X = (i: number) => 26 + i * 89.3;
+  const Y = (v: number) => 132 - ((v - (lo - pad)) / (hi - lo + 2 * pad)) * 108;
+  const line = (d: number[]) => d.map((v, i) => `${i ? "L" : "M"}${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join(" ");
+  return (
+    <figure data-fade className="rounded-[1.25rem] bg-white p-6 md:p-7">
+      <figcaption>
+        <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">{title}</span>
+        <p className="mt-3 flex items-baseline gap-3">
+          <b className="text-5xl font-semibold leading-none tabular-nums tracking-[-0.05em] text-[#E0245E]">{filter[3]}%</b>
+          <span className="text-sm text-muted">from {filter[0]}%</span>
+        </p>
+        <p className="mt-2 text-sm text-muted">{note}</p>
+      </figcaption>
+      <svg viewBox="0 0 320 172" className="mt-5 block w-full overflow-visible" role="img" aria-label={`${title} by quarter: ${filter.join("%, ")}%${none ? `; without filters: ${none.join("%, ")}%` : ""}`}>
+        <line x1="26" x2="294" y1="146" y2="146" stroke="currentColor" strokeOpacity="0.15" />
+        {none ? <path d={line(none)} fill="none" stroke="currentColor" strokeOpacity="0.3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> : null}
+        <path d={line(filter)} fill="none" stroke="#E0245E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        {filter.map((v, i) => (
+          <g key={i}>
+            <circle cx={X(i)} cy={Y(v)} r="3.5" fill="#E0245E" />
+            <text x={X(i)} y={Y(v) - 10} textAnchor="middle" fontSize="11" fill="currentColor">{v}%</text>
+            {none ? <text x={X(i)} y={Y(none[i]) + 18} textAnchor="middle" fontSize="11" fill="currentColor" fillOpacity="0.5">{none[i]}%</text> : null}
+            <text x={X(i)} y="164" textAnchor="middle" fontSize="10" fill="currentColor" fillOpacity="0.5" fontFamily="ui-monospace, monospace">{QUARTERS[i]}</text>
+          </g>
+        ))}
+      </svg>
+      {none ? (
+        <p className="mt-3 flex gap-5 text-xs text-muted">
+          <span className="flex items-center gap-2"><i className="h-0.5 w-4 bg-[#E0245E]" />Used filters</span>
+          <span className="flex items-center gap-2"><i className="h-0.5 w-4 bg-ink/30" />Did not</span>
+        </p>
+      ) : null}
+    </figure>
+  );
+}
 
 const LUXE_PHONES = [
   { src: "vid-luxe-app", label: "The Luxe Life tab in the app" },
@@ -179,12 +251,67 @@ export default function PreviousWork() {
               ["Timeline", "4 weeks"],
               ["Role", "UI/UX, creative direction"],
               ["Platform", "iOS, Android, m-site"],
+              ["Client", "Tata CLiQ Palette"],
+              ["Shipped", "15 components, on every platform"],
+              ["Presented to", "CEO and Business Head"],
             ]}
           >
-            Palette had just gone from content-led social commerce to a full beauty store, and the homepage couldn’t keep up with brand deals or big sale events. I designed 15 modular components that let the team re-theme the whole page for any season.
+            Palette had just gone from content-led social commerce to a full beauty store and the homepage couldn’t keep up with brand deals or big sale events. I designed 15 modular components that let the team re-theme the whole page for any season.
           </Head>
+          {/* the store in four numbers */}
+          <div className="mt-16 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
+            {PALETTE_FACTS.map(([v, l], i) => (
+              <div key={l} data-fade data-delay={i * 0.06} className="border-t border-ink/20 pt-4">
+                <b data-count className="block text-5xl font-semibold leading-none tabular-nums tracking-[-0.05em] md:text-[4.2vw]">{v}</b>
+                <span className="mt-3 block max-w-[14rem] text-sm text-muted">{l}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* before: the homepage we started with */}
+          <div className="mt-28 grid gap-12 md:grid-cols-12 md:gap-8">
+            <div className="md:col-span-5">
+              <div data-pin>
+                <p data-label className="font-mono text-xs uppercase tracking-[0.12em] text-muted">[ Before ]</p>
+                <h3 data-split="lines" className="mt-5 text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-5xl">A social feed, asked to do a store’s job</h3>
+                <p data-fade className="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
+                  Within four months of its national launch, Palette went from a content-led social app to a full beauty store. The homepage was still a feed of guides and posts.
+                </p>
+                <ol className="mt-8 border-t border-ink/20">
+                  {PALETTE_GAPS.map(([h, b], i) => (
+                    <li key={h} data-fade data-delay={i * 0.05} className="grid grid-cols-[2.5rem_1fr] gap-x-2 border-b border-ink/20 py-4">
+                      <span className="pt-0.5 font-mono text-[11px] text-muted">{String(i + 1).padStart(2, "0")}</span>
+                      <div>
+                        <p className="font-medium leading-snug">{h}</p>
+                        <p className="mt-1 text-sm leading-relaxed text-muted">{b}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <figure className="relative md:col-span-7">
+              <div className="flex items-start gap-3 rounded-[1.25rem] bg-[#EADCD6] px-4 pb-10 pt-16 sm:gap-5 sm:px-8 md:px-10 md:pb-16 md:pt-20">
+                {[1, 2, 3].map((n) => (
+                  <div key={n} className={`w-1/3 ${n === 1 ? "mt-10 md:mt-20" : n === 3 ? "mt-24 md:mt-44" : ""}`}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img data-parallax={n === 2 ? "0.04" : n === 1 ? "-0.05" : "-0.1"} src={`${IMG}/hd/palette-before-${n}.webp`} alt="The Palette homepage before the revamp" loading="lazy" className="block w-full" />
+                  </div>
+                ))}
+              </div>
+              <figcaption className="absolute left-5 top-5 rounded-md bg-ink px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-white">Before · Existing homepage</figcaption>
+            </figure>
+          </div>
+
+          <div className="mt-28 grid gap-6 border-t border-ink pt-5 md:grid-cols-12 md:gap-8">
+            <span data-label className="font-mono text-xs uppercase tracking-[0.12em] text-muted md:col-span-3">After</span>
+            <h3 data-split="lines" className="text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:col-span-6 md:text-5xl">A homepage built from 15 parts that can change shape</h3>
+            <p data-fade className="text-[15px] leading-relaxed text-muted md:col-span-3 md:pt-2">
+              Soft backgrounds, a light glass effect and strong imagery, with room for GIFs and video.
+            </p>
+          </div>
           {/* bento: two mock-ups on solid tiles, stats as tiles beside them */}
-          <div className="mt-16 grid gap-4 md:grid-cols-12 md:grid-rows-[auto_auto_auto]">
+          <div className="mt-10 grid gap-4 md:grid-cols-12 md:grid-rows-[auto_auto_auto]">
             <figure data-wipe className="relative overflow-hidden rounded-[1.25rem] bg-[#B8325E] md:col-span-7 md:row-span-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img data-wipe-inner src={`${IMG}/hd/palette-tile-glossier.webp`} alt="Palette homepage with a Glossier banner and a Lancôme carousel" width={1600} height={1720} loading="lazy" className="block h-full w-full object-cover" />
@@ -197,7 +324,13 @@ export default function PreviousWork() {
               <img data-wipe-inner src={`${IMG}/hd/palette-tile-tray.webp`} alt="Palette screens with glass-effect banners" width={2000} height={1240} loading="lazy" className="block h-full w-full object-cover object-bottom" />
               <figcaption className="absolute left-5 top-5 rounded-full bg-ink/10 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-ink">Glass banners · Skincare</figcaption>
             </figure>
-            <Tile className="bg-[#EAD6CC] md:col-span-5" label="People using Palette every month" value="5.2 L" note="Across iOS, Android and the mobile site." />
+            <div data-fade className="flex min-h-[15rem] flex-col justify-between rounded-[1.25rem] bg-[#EAD6CC] p-6 md:col-span-5 md:p-8">
+              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">Launch timing</span>
+              <div>
+                <p className="text-3xl font-semibold leading-[1.05] tracking-[-0.04em] md:text-4xl">Live right before Diwali, Black Friday and wedding season</p>
+                <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">Shipping ahead of the peak sale season helped the team reach its annual sales target.</p>
+              </div>
+            </div>
           </div>
 
           <div className="mt-28 grid gap-6 border-t border-ink pt-5 pb-16 md:grid-cols-12 md:gap-8">
@@ -212,6 +345,26 @@ export default function PreviousWork() {
         </div>
       </section>
       <ThemeStack themes={THEMES} base={IMG} />
+
+      {/* the themes as stills: the mock-ups sit on their own blush, so the section matches it */}
+      <section className="overflow-hidden bg-[#F5EDE9] pb-28 pt-24 md:pt-32">
+        <p aria-hidden data-slide="-30" className="whitespace-nowrap pl-4 text-[17vw] font-semibold leading-[0.85] tracking-[-0.06em] text-ink/[0.07] sm:pl-10">
+          Skincare — Men’s care — Luxe beauty —
+        </p>
+        <div className="mx-auto -mt-[6vw] flex max-w-7xl flex-col gap-10 px-4 sm:px-10 md:gap-0">
+          {STILLS.map((m, i) => (
+            <figure key={m.src} className={`grid items-end gap-4 md:grid-cols-12 md:gap-8 ${i ? "md:mt-10" : ""}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img data-fade src={`${IMG}/hd/${m.src}.webp`} alt={`Three Palette ${m.name} screens`} width={3000} height={1875} loading="lazy" className={`block w-full ${i === 2 ? "md:col-span-10 md:col-start-2" : i === 1 ? "md:order-2 md:col-span-8 md:col-start-5" : "md:col-span-8"}`} />
+              <figcaption data-fade className={`pb-6 md:pb-24 ${i === 2 ? "md:col-span-6 md:col-start-4 md:pb-0 md:text-center" : i === 1 ? "md:order-1 md:col-span-4 md:row-start-1" : "md:col-span-4"}`}>
+                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">{String(i + 2).padStart(2, "0")} / 04</span>
+                <p className="mt-2 text-3xl font-semibold tracking-[-0.04em] md:text-4xl">{m.name}</p>
+                <p className={`mt-2 max-w-xs text-[15px] leading-relaxed text-muted ${i === 2 ? "md:mx-auto" : ""}`}>{m.look}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
 
       {/* ---------- 02 luxe ---------- */}
       <section className="bg-[#0e0d0b] px-4 py-28 text-white sm:px-10">
@@ -273,7 +426,46 @@ export default function PreviousWork() {
             <div className="grid gap-8 md:col-span-5">
               <Stat value="+29%" label="Growth in filter use, from 19.5% to 25.1% of shoppers (Q4 ’21 → Q3 ’22)" color="#E0245E" />
               <Stat value="+5%" label="Click-through on filtered results, from 77.7% to 81.6%" />
+              <Stat value="6.8%" label="Conversion for shoppers who filter, up from 5.5%. Shoppers who didn’t filter converted at 3.2%" />
             </div>
+          </div>
+
+          {/* the final design: filters inside the listing itself */}
+          <div className="mt-28 grid gap-10 md:grid-cols-12 md:gap-8">
+            <div className="md:col-span-4">
+              <div data-pin>
+                <p data-label className="font-mono text-xs uppercase tracking-[0.12em] text-muted">[ Final design ]</p>
+                <h3 data-split="lines" className="mt-5 text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-5xl">Filters that come to you as you scroll</h3>
+                <dl className="mt-8 border-t border-ink/20">
+                  {FILTER_SCREENS.map((f, i) => (
+                    <div key={f.src} data-fade data-delay={i * 0.06} className="grid grid-cols-[2.5rem_1fr] gap-x-2 border-b border-ink/20 py-4">
+                      <span className="pt-0.5 font-mono text-[11px] text-muted">{String(i + 1).padStart(2, "0")}</span>
+                      <div>
+                        <dt className="font-medium leading-snug">{f.name}</dt>
+                        <dd className="mt-1 text-sm leading-relaxed text-muted">{f.body}</dd>
+                      </div>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </div>
+            <div className="flex items-start gap-4 rounded-[1.25rem] bg-[#F1F1F3] px-5 py-10 sm:gap-8 sm:px-10 md:col-span-8 md:px-16 md:py-16">
+              {FILTER_SCREENS.map((f, i) => (
+                <figure key={f.src} className={`w-1/2 ${i ? "" : "mt-16 md:mt-32"}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img data-parallax={i ? "0.03" : "-0.06"} src={`${IMG}/hd/${f.src}.webp`} alt={`${f.name} on a product listing`} width={f.w} height={f.h} loading="lazy" className="block w-full rounded-[1.1rem] shadow-[0_30px_60px_-30px_rgba(20,20,40,0.35)] md:rounded-[1.6rem]" />
+                </figure>
+              ))}
+            </div>
+          </div>
+
+          {/* four quarters of data */}
+          <div className="mt-24 grid gap-6 border-t border-ink pt-5 md:grid-cols-12 md:gap-8">
+            <span data-label className="font-mono text-xs uppercase tracking-[0.12em] text-muted md:col-span-3">Four quarters on</span>
+            <h3 data-split="lines" className="text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:col-span-6 md:text-5xl">More people filtered and those who did bought more</h3>
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {FILTER_TRENDS.map((t) => <Trend key={t.title} {...t} />)}
           </div>
         </div>
       </section>
@@ -310,11 +502,6 @@ export default function PreviousWork() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-16 sm:px-10">
-        <a data-fade href="https://salaath.framer.website/work" target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 text-lg underline decoration-ink/25 underline-offset-4 hover:decoration-ink">
-          The full process for these projects is on my old site <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">↗</span>
-        </a>
-      </section>
       <NextCase c={getCase("account-opening")!} href="/work/account-opening" label="Back to Upstox" foot="Before Upstox · Tata CLiQ" focus="78%" />
     </Choreo>
   );

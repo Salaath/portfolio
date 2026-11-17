@@ -29,7 +29,7 @@ const DISCIPLINES = [
   },
   {
     title: "Research & strategy",
-    body: "Turning what people do, and what they fear, into the one bet the team should make next.",
+    body: "Turning what people do and what they fear, into the one bet the team should make next.",
     tags: ["Research", "Framing", "Metrics"],
     tones: ["#dfe2e4", "#c3c8cc"],
   },

@@ -215,7 +215,7 @@ h1 { font: 600 34px/1.1 var(--f-display); margin: 6px 0 0; text-wrap: balance; }
       <div class="eyebrow">Before · the old watchlist</div>
       <h1>One list at a time, one stock at a time</h1>
     </div>
-    <p class="lede">The watchlist as it was, rebuilt from the Figma designs so it behaves like the app: type on the keyboard, add stocks, create and manage lists, follow a list from Discover, and swipe a row to trade. Pick a task and count the taps.</p>
+    <p class="lede">The watchlist as it was, rebuilt from the Figma designs so it behaves like the app: type on the keyboard, add stocks, create and manage lists, follow a list from Discover and swipe a row to trade. Pick a task and count the taps.</p>
     <div class="meter"><div><b id="tapCount">0</b><span>taps this task</span></div><div><b id="doneCount">0 of 7</b><span>tasks done</span></div></div>
     <ul class="tasks" id="tasks"></ul>
     <p class="other">Now try the <a href="new.html">new watchlist prototype</a> and compare the tap counts.</p>
@@ -558,7 +558,7 @@ function manageScreen() {
     <div class="topbar" style="padding-right:12px"><button class="ic" data-act="back" aria-label="Close">${I.close()}</button><h2>Manage lists</h2>
       <button class="btn-s${anyChecked ? ' red' : ''}" data-act="mdel"${anyChecked ? '' : ' disabled'}>Delete</button><button class="btn-s${M.dirty ? ' pur' : ''}" data-act="msave"${M.dirty ? '' : ' disabled'}>Save</button></div>
     ${edit}<div class="grow" data-scroll="manage" style="padding-bottom:${S.kb ? 205 : 0}px">${rows}
-    <p style="font-size:12.5px;color:#888;padding:16px 18px;margin:0;line-height:1.5">Tick lists to delete them, tap the pencil to rename your own lists, and drag the handle to reorder. Nothing changes until you tap Save.</p></div>
+    <p style="font-size:12.5px;color:#888;padding:16px 18px;margin:0;line-height:1.5">Tick lists to delete them, tap the pencil to rename your own lists and drag the handle to reorder. Nothing changes until you tap Save.</p></div>
   </div>`;
 }
 

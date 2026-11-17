@@ -5,7 +5,7 @@ import { useState } from "react";
 export type Finding = { title: string; who: string; text: string; changed: string; visual: React.ReactNode };
 
 /**
- * Five findings as one explorer: a row of numbered tabs across the top, and
+ * Five findings as one explorer: a row of numbered tabs across the top and
  * the open finding below with its evidence on the right.
  */
 export function Findings({ items }: { items: Finding[] }) {

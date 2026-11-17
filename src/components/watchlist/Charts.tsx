@@ -101,7 +101,7 @@ export function OpcBars() {
   );
 }
 
-/** Monthly watchlist viewers, and how few went further. Feb–Mar 2026 averages. */
+/** Monthly watchlist viewers and how few went further. Feb–Mar 2026 averages. */
 export function UsageFunnel() {
   const [ref, on] = useInView<HTMLDivElement>();
   const steps = [

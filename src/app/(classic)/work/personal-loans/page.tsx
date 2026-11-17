@@ -15,7 +15,7 @@ import { Rounds } from "@/components/loans/Rounds";
 
 // Upstox Loans: pre-approved personal loans, launched as a separate app.
 // Sources: the "Launching pre-approved loans" deck, the self review (impact
-// numbers, to be refreshed), and the UP_Loans Figma file, whose frames are
+// numbers, to be refreshed) and the UP_Loans Figma file, whose frames are
 // rendered to /public/work/loans (prototype at /proto/loans). The page mixes
 // the two other case studies: Account Opening's chapters, stats and inverted
 // sections, NPS's pill nav, eyebrows and white cards.
@@ -99,7 +99,7 @@ function Streaks({ count = 9, className = "" }: { count?: number; className?: st
 /* ---------- content ----------------------------------------------------------- */
 
 const SEGMENTS = [
-  [50, "Short-term fund seekers", "Need money quickly, often urgently, and want the fastest disbursal."],
+  [50, "Short-term fund seekers", "Need money quickly, often urgently and want the fastest disbursal."],
   [15, "Simplified-journey seekers", "Find loan applications complicated and give up on long paperwork."],
   [15, "Rate-sensitive borrowers", "Worried about high interest and being overcharged."],
   [15, "Support-focused borrowers", "Want clear status updates and help understanding repayments."],
@@ -107,19 +107,19 @@ const SEGMENTS = [
 ] as const;
 
 const COMPETITORS = [
-  ["Google Pay", "Instant loans", "20", "steps to apply, and you can still be rejected after all of them", true],
+  ["Google Pay", "Instant loans", "20", "steps to apply and you can still be rejected after all of them", true],
   ["CRED", "CRED Cash", "6", "easy steps, but only one lender", false],
   ["ET Money", "ET Money Cash", "6", "steps, with a line of credit", false],
   ["Groww", "Groww loans", "6", "steps, one lender", false],
 ] as const;
 
 const WORRIES = [
-  { worry: "Is Upstox even allowed to give loans?", title: "Your Upstox account, a named lender", body: "You log in with the Upstox number you already trust, and every offer names the bank or NBFC lending the money: InCred, Aditya Birla Finance, Fibe.", layers: ["app-login"], anim: false },
+  { worry: "Is Upstox even allowed to give loans?", title: "Your Upstox account, a named lender", body: "You log in with the Upstox number you already trust and every offer names the bank or NBFC lending the money: InCred, Aditya Birla Finance, Fibe.", layers: ["app-login"], anim: false },
   { worry: "How high will the interest be?", title: "The rate first, chosen for you", body: "Explore opens on your pre-approved limit and the best rate across lenders, tagged “Best rate for you”, with the lending partner underneath.", layers: ["app-explore"], anim: false },
   { worry: "What happens to my data?", title: "Consent before anything is shared", body: "Before a credit bureau or a lender sees a thing, one sheet explains what’s shared, with whom and why.", layers: ["app-consent"], anim: false },
   { worry: "Which EMI plan should I pick?", title: "Plans you can actually compare", body: "Each plan shows the monthly EMI and the total interest, with the repayment schedule one tap away. No mental maths.", layers: ["emi-picked"], anim: false },
   { worry: "Are there hidden charges?", title: "Every rupee before you submit", body: "Review lists the amount with fees, tax and charges, the rate, the EMI, the first EMI date and the bank, in one place.", layers: ["review"], anim: false },
-  { worry: "How long until I get the money?", title: "A tracker, not a waiting room", body: "Submitted, mandate set, KFS accepted, disbursal initiated, credited. Usually within 10 minutes to 2 hours, and you can close the app.", layers: ["tracking"], anim: false },
+  { worry: "How long until I get the money?", title: "A tracker, not a waiting room", body: "Submitted, mandate set, KFS accepted, disbursal initiated, credited. Usually within 10 minutes to 2 hours and you can close the app.", layers: ["tracking"], anim: false },
 ];
 
 const FLOW = [
@@ -249,7 +249,7 @@ export default function LoansCase() {
       {/* ---------- 01 the bet ---------- */}
       <section id="bet" className="mx-auto max-w-6xl px-4 py-24 sm:px-10">
         <Intro eyebrow="01 · The bet" title="An investing app that lends you money, fast">
-          The hypothesis: adding pre-approved loans through lending partners widens what Upstox offers, opens a new revenue line, and brings people closer to a complete financial life in one place.
+          The hypothesis: adding pre-approved loans through lending partners widens what Upstox offers, opens a new revenue line and brings people closer to a complete financial life in one place.
         </Intro>
         <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
           <Stat value="12×" label="growth in digital personal loan disbursals, 2017 to 2022" />
@@ -357,7 +357,7 @@ export default function LoansCase() {
         </div>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           {[
-            ["Confident and excited", "Getting the best rate possible, and enough information to decide."],
+            ["Confident and excited", "Getting the best rate possible and enough information to decide."],
             ["Secure and uncomplicated", "Every charge shown up front. Nothing to find out later."],
             ["Well informed", "The next EMI, open loans and next actions, always accurate."],
           ].map(([h, p], i) => (
@@ -372,7 +372,7 @@ export default function LoansCase() {
 
       {/* ---------- 05 flow ---------- */}
       <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-10">
-        <Intro eyebrow="05 · The flow" title="Four phases, and only one of them takes minutes">
+        <Intro eyebrow="05 · The flow" title="Four phases and only one of them takes minutes">
           The flow chart we aligned on with product, engineering and the lending partner. Discovery should take seconds and tracking should need no effort, so the work goes into the middle.
         </Intro>
         <div data-fade className="mt-12">
@@ -423,7 +423,7 @@ export default function LoansCase() {
       <section className="relative overflow-hidden bg-[#121110] py-28 text-white">
         <div className="mx-auto max-w-6xl px-4 sm:px-10">
           <Intro dark eyebrow="08 · A brand that moves" title="If it’s instant, it should feel instant">
-            A new app needed its own icon, splash and first impression. Behind login, rupee coins drift past streaks of light on a loop: the promise of speed before you’ve typed anything. I explored the 3D coins with Adobe Firefly, and one version went live.
+            A new app needed its own icon, splash and first impression. Behind login, rupee coins drift past streaks of light on a loop: the promise of speed before you’ve typed anything. I explored the 3D coins with Adobe Firefly and one version went live.
           </Intro>
 
           <div className="mt-14 grid gap-4 md:grid-cols-[1.25fr_1fr]">
@@ -534,7 +534,7 @@ export default function LoansCase() {
           <Eyebrow>10 · Try it</Eyebrow>
           <Heading className="mx-auto mt-5 max-w-3xl">Borrow ₹2 lakh. Time yourself.</Heading>
           <p data-fade className="mx-auto mt-5 max-w-xl text-muted">
-            The shipped happy path, built from the final Figma file. Tap the Upstox Loans icon to start. A clock runs from “Apply now” to applied, and you can skip ahead to the money landing.
+            The shipped happy path, built from the final Figma file. Tap the Upstox Loans icon to start. A clock runs from “Apply now” to applied and you can skip ahead to the money landing.
           </p>
         </div>
         <div data-fade className="mt-12 hidden overflow-hidden rounded-[2rem] bg-white shadow-[0_40px_80px_-40px_rgba(0,0,0,0.35)] ring-1 ring-black/5 md:block">

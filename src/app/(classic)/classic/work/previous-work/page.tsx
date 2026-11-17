@@ -192,7 +192,7 @@ export default function PreviousWork() {
               ["Platform", "iOS, Android, m-site"],
             ]}
           >
-            Palette had just gone from content-led social commerce to a full beauty store, and the homepage couldn’t keep up with brand deals or big sale events. I designed 15 modular components that let the team re-theme the whole page for any season.
+            Palette had just gone from content-led social commerce to a full beauty store and the homepage couldn’t keep up with brand deals or big sale events. I designed 15 modular components that let the team re-theme the whole page for any season.
           </Head>
           {/* bento: two mock-ups on solid tiles, stats as tiles beside them */}
           <div className="mt-16 grid gap-4 md:grid-cols-12 md:grid-rows-[auto_auto_auto]">

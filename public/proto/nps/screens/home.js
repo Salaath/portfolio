@@ -1,7 +1,7 @@
 /* Home — Figma "Invest home entry" (v2, Invest home entry1.fig) › Home (1:1238)
    NPS is entered from the "Discover more" carousel (1:1293) on Home.
    The body is the rendered Figma frame in three slices: the ticker → "Discover more" heading,
-   the carousel (scrolls sideways, every chip tappable), and Instant investing → Quicklinks.
+   the carousel (scrolls sideways, every chip tappable) and Instant investing → Quicklinks.
    Tab bar is 1:1408. */
 (function(){
 const { A, S, SCREENS, go, resetTo, toast, wireCommon, I, jump } = P;

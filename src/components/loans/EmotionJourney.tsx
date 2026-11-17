@@ -4,19 +4,19 @@ import { useState } from "react";
 
 // The user journey map from Figma (Process and explorations → User Journey Map),
 // redrawn as an emotion curve. Pick a stage to read what people do, think,
-// struggle with, and what we did about it.
+// struggle with and what we did about it.
 
 type Stage = { name: string; score: number; mood: string; does: string; thinks: string; pain: string; fix: string };
 
 const STAGES: Stage[] = [
   { name: "Discover", score: -0.15, mood: "Curious, a little suspicious", does: "Spots an instant loan offer inside the app and taps Apply now.", thinks: "“This seems too good to be true. Is this a gimmick?”", pain: "No preview of the steps, unclear eligibility and paperwork.", fix: "Lead with the offer, the rate and the lender, plus FAQs and a short video on how lenders are picked." },
-  { name: "See the offer", score: 0.45, mood: "Delighted, then unsure", does: "Reads the pre-approved amount, the rate and the EMI options.", thinks: "“I’m eligible for this much? Is this really the best rate for me?”", pain: "No min and max amount, no sense of whether it’s fully digital.", fix: "“Best rate for you”, collateral-free, borrow from ₹10k, and the lending partner named up front." },
+  { name: "See the offer", score: 0.45, mood: "Delighted, then unsure", does: "Reads the pre-approved amount, the rate and the EMI options.", thinks: "“I’m eligible for this much? Is this really the best rate for me?”", pain: "No min and max amount, no sense of whether it’s fully digital.", fix: "“Best rate for you”, collateral-free, borrow from ₹10k and the lending partner named up front." },
   { name: "Set the amount", score: -0.35, mood: "Frustrated", does: "Types the amount they actually need.", thinks: "“Let me quickly type my desired amount.”", pain: "Manual entry is fiddly and there’s no range to drag within.", fix: "A slider between min and max. (The custom snap points we wanted couldn’t be built in time.)" },
-  { name: "Choose an EMI", score: -0.55, mood: "Anxious", does: "Compares plans, rates and tenures, shortlists one.", thinks: "“So many plans. Which one saves me the most interest?”", pain: "Hard to compare, and no view of the repayment schedule.", fix: "Plan cards with monthly EMI and total interest, and the schedule one tap away." },
-  { name: "Add a bank", score: -0.6, mood: "Frustrated", does: "Picks or adds the account for the money and the EMIs.", thinks: "“Is this where my loan lands, or where EMIs come from?”", pain: "Adding an account is long, and typing the number twice is tedious.", fix: "Popular banks up front, account type as chips, and a ₹1 penny drop to verify." },
-  { name: "KYC", score: 0.2, mood: "Relieved, but wary", does: "Takes a selfie and verifies Aadhaar through DigiLocker.", thinks: "“Quick. But is my data being used safely?”", pain: "Worry that KYC details might be misused.", fix: "A consent sheet before anything is shared, in plain words, and only for this loan." },
+  { name: "Choose an EMI", score: -0.55, mood: "Anxious", does: "Compares plans, rates and tenures, shortlists one.", thinks: "“So many plans. Which one saves me the most interest?”", pain: "Hard to compare and no view of the repayment schedule.", fix: "Plan cards with monthly EMI and total interest and the schedule one tap away." },
+  { name: "Add a bank", score: -0.6, mood: "Frustrated", does: "Picks or adds the account for the money and the EMIs.", thinks: "“Is this where my loan lands, or where EMIs come from?”", pain: "Adding an account is long and typing the number twice is tedious.", fix: "Popular banks up front, account type as chips and a ₹1 penny drop to verify." },
+  { name: "KYC", score: 0.2, mood: "Relieved, but wary", does: "Takes a selfie and verifies Aadhaar through DigiLocker.", thinks: "“Quick. But is my data being used safely?”", pain: "Worry that KYC details might be misused.", fix: "A consent sheet before anything is shared, in plain words and only for this loan." },
   { name: "Auto-EMI mandate", score: -0.3, mood: "Anxious", does: "Reviews the EMI amount and sets up autopay with their bank.", thinks: "“What are the fees? When is my first EMI?”", pain: "Processing fees, taxes and the first EMI date weren’t visible.", fix: "A review screen with every charge, the first EMI date and the bank, before submitting." },
-  { name: "Money arrives", score: 0.75, mood: "Impatient, then delighted", does: "Submits and waits for the disbursal.", thinks: "“Should I wait, or can I close the app? …Oh, it’s already here.”", pain: "No idea how long it takes or whether closing the app loses progress.", fix: "A live tracker: usually within 2 hours, and a notification when it lands." },
+  { name: "Money arrives", score: 0.75, mood: "Impatient, then delighted", does: "Submits and waits for the disbursal.", thinks: "“Should I wait, or can I close the app? …Oh, it’s already here.”", pain: "No idea how long it takes or whether closing the app loses progress.", fix: "A live tracker: usually within 2 hours and a notification when it lands." },
 ];
 
 const W = 760, H = 220, PAD = 40;

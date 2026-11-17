@@ -9,7 +9,7 @@ const DIRS = [
   {
     name: "Just price lines",
     tag: "Quickest to build",
-    risk: "Quick to build and light on the phone. But the first thing chart readers asked was where their EMA and RSI had gone, and this had no answer.",
+    risk: "Quick to build and light on the phone. But the first thing chart readers asked was where their EMA and RSI had gone and this had no answer.",
     meters: [1, 1, 3],
     kind: "plain",
   },

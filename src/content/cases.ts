@@ -140,7 +140,7 @@ export const cases: CaseStudy[] = [
     ],
     sections: [
       { heading: "Context", body: "Regulatory change and the tension between safety and growth." },
-      { heading: "My role", body: "What you designed hands-on, and how you aligned compliance and product." },
+      { heading: "My role", body: "What you designed hands-on and how you aligned compliance and product." },
       { heading: "Key decisions", body: "What you reframed, pushed back on, or killed." },
       { heading: "Outcome", body: "Impact and learnings." },
     ],

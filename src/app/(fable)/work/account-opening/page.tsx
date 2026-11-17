@@ -49,7 +49,7 @@ function Shot({ src, alt, old }: { src: string; alt: string; old?: boolean }) {
 function Compare({ before, after }: { before: string[][]; after: string[][] }) {
   const n = before.length + after.length;
   // As large as the window allows: the whole card (padding, labels, captions) stays within one screen
-  // height, and all the phones stay within one screen width.
+  // height and all the phones stay within one screen width.
   // Up to three phones also leave room for the text beside them.
   const phone = `min(22rem, calc((100vw - ${n <= 3 ? "42rem" : "320px"}) / ${n}), calc((100svh - 14rem) / 2.25))`;
   const group = (label: string, items: string[][]) => (
@@ -143,8 +143,8 @@ const CHAPTERS = [
   { at: 64.4, label: "Three quick questions", note: "Trading experience, segments and nominee, on a single screen." },
   { at: 73.9, label: "Aadhaar eSign", note: "Inside the app, with the OTP filled in for you." },
   { at: 89.1, label: "F&O activation", note: "Offered after submitting, not in the way of it." },
-  { at: 92.8, label: "Link a bank for income proof", note: "Two OTPs filled in for you, one account to pick, and the statement is shared." },
-  { at: 107.4, label: "Activation tracker", note: "Where the application stands, and when you can trade." },
+  { at: 92.8, label: "Link a bank for income proof", note: "Two OTPs filled in for you, one account to pick and the statement is shared." },
+  { at: 107.4, label: "Activation tracker", note: "Where the application stands and when you can trade." },
   { at: 115.5, label: "First watchlist", note: "Something useful to do while the account activates." },
   { at: 132.2, label: "Home", note: "Into the app, with a tracker showing when you can trade." },
 ];
@@ -176,14 +176,14 @@ const CHANGES = [
   {
     title: "Bring personal details onto one screen",
     problem: "A primer and five single-question screens, for answers we mostly already had.",
-    change: "Fetched details arrive pre-filled on one card, and confirmed sections stack up above it.",
+    change: "Fetched details arrive pre-filled on one card and confirmed sections stack up above it.",
     before: [["v2-per1", "Primer: enter personal details"], ["v2-per2", "Trading experience"], ["v2-per3", "Annual income"], ["v2-per4", "Settlement duration"], ["v2-per5", "Occupation"], ["v2-per6", "Marital status"]],
     after: [["p/personal", "Personal details pre-filled on one card"]],
   },
   {
     title: "Take the nominee form out of the journey",
     problem: "Most people skip it, but saying yes opened up to 22 screens before the account.",
-    change: "The long form is gone from the flow. Nominee is now one yes-or-no question on the same screen as two others, and can be added later from the accounts section.",
+    change: "The long form is gone from the flow. Nominee is now one yes-or-no question on the same screen as two others and can be added later from the accounts section.",
     before: [["o38", "Nominee name field"], ["o42", "Nominee relation"], ["o46", "Nominee address"]],
     after: [["p/questions", "Three quick questions on one screen, including nominee"]],
   },
@@ -203,7 +203,7 @@ const MOMENTS = [
   ["cards", "Clarity", "Your details stack up as you confirm them"],
   ["confirm", "Momentum", "A small win when your details are confirmed"],
   ["selfie", "Momentum", "Small wins celebrated after every step"],
-  ["clock", "Clarity", "A clear status, and the exact date your account goes live"],
+  ["clock", "Clarity", "A clear status and the exact date your account goes live"],
   ["alerts", "Momentum", "A first step towards investing, while the account activates"],
 ] as const;
 
@@ -294,7 +294,7 @@ export default function AccountOpening() {
         </Lede>
         <div className="mt-16 flex flex-col gap-16">
           {([
-            ["Version 1.0", "Too much on every screen", "Dense forms, several questions at once, long declarations. 24 steps, and every one looked like work.", "ao1_flow", "Version 1.0: 24 screens from email entry to application submitted", 2295, 938],
+            ["Version 1.0", "Too much on every screen", "Dense forms, several questions at once, long declarations. 24 steps and every one looked like work.", "ao1_flow", "Version 1.0: 24 screens from email entry to application submitted", 2295, 938],
             ["Version 2.0 · Sept 2025", "Less on each screen, more screens", "We went after cognitive load: one question per screen, a primer before each section, lots of visual help. Every screen got easier. The journey got longer.", "ao2_flow", "Version 2.0: 26 screens from the happy path, in order", 4590, 1820],
           ] as const).map(([chip, h, p, img, alt, w, hh]) => (
             <div key={chip}>
@@ -538,7 +538,7 @@ export default function AccountOpening() {
                 Borrowed from our user’s routine. Journey that feels relatable.
               </h3>
               <p data-fade className="mt-5 max-w-md text-muted">
-                A story-led approach that feels like home: relatable, intuitive, deeply personal, and made for every kind of India.
+                A story-led approach that feels like home: relatable, intuitive, deeply personal and made for every kind of India.
               </p>
               <div data-fade className="mt-6 flex flex-wrap gap-2">
                 {["Immersive", "Realism", "Storytelling"].map((t) => (
@@ -547,7 +547,7 @@ export default function AccountOpening() {
               </div>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`${IMG}/c2-mood.webp`} alt="Concept 02 mood board: a wooden desk with a newspaper, a glass of chai, and a trader at work" loading="lazy" className="block h-auto w-full mix-blend-multiply" />
+            <img src={`${IMG}/c2-mood.webp`} alt="Concept 02 mood board: a wooden desk with a newspaper, a glass of chai and a trader at work" loading="lazy" className="block h-auto w-full mix-blend-multiply" />
           </div>
 
           <div className="mt-16 grid items-center gap-10 border-t border-line pt-14 md:grid-cols-[minmax(0,17rem)_1fr] md:gap-14">
@@ -579,7 +579,7 @@ export default function AccountOpening() {
           </div>
 
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img data-fade src={`${IMG}/c2-screens.webp`} alt="Three Concept 02 screens: phone number over a desk, fetching details on an Upstox newspaper, and confirming a PAN card" loading="lazy" className="mx-auto mt-16 block h-auto w-full max-w-4xl mix-blend-multiply" />
+          <img data-fade src={`${IMG}/c2-screens.webp`} alt="Three Concept 02 screens: phone number over a desk, fetching details on an Upstox newspaper and confirming a PAN card" loading="lazy" className="mx-auto mt-16 block h-auto w-full max-w-4xl mix-blend-multiply" />
         </div>
       </Chapter>
 
@@ -651,7 +651,7 @@ export default function AccountOpening() {
 
       {/* ---------- 04d small moments: columns drift at different speeds ---------- */}
       <Chapter id="moments" n="04D" label="Small moments" title="Delight is built in.">
-        <Lede>Delight is woven into every interaction from the very beginning. Every step is designed to reduce anxiety, build confidence, and create moments of joy.</Lede>
+        <Lede>Delight is woven into every interaction from the very beginning. Every step is designed to reduce anxiety, build confidence and create moments of joy.</Lede>
         <H3>Micro-moments that compound into the feel</H3>
         <div className="mt-12 grid grid-cols-2 gap-x-4 md:grid-cols-4">
           {[0, 1, 2, 3].map((col) => (
@@ -736,10 +736,10 @@ export default function AccountOpening() {
       <Chapter id="reflection" n="07" label="Reflection" title="I stopped counting screens and started looking at effort.">
         <div className="mt-10 max-w-2xl text-lg leading-relaxed text-muted">
           <p data-fade>
-            A flow can have fewer screens and still be tiring. Sometimes a confirmation does more than a better form, and sometimes the best thing to do with a screen is remove the reason it exists.
+            A flow can have fewer screens and still be tiring. Sometimes a confirmation does more than a better form and sometimes the best thing to do with a screen is remove the reason it exists.
           </p>
           <p data-fade className="mt-6">
-            Not every fix here was a design fix. Auto-fetch did more for speed than any layout change, and getting it in meant working with PMs and vendors, not just in Figma.
+            Not every fix here was a design fix. Auto-fetch did more for speed than any layout change and getting it in meant working with PMs and vendors, not just in Figma.
           </p>
           <p data-fade className="mt-6">
             For an investing app, an open account isn’t the goal. It’s where investing starts.

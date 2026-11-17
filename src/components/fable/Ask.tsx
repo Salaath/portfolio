@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { lockScroll } from "./Shell";
 
@@ -16,7 +17,7 @@ const NOTES: Note[] = [
     id: "ao",
     q: "How did account opening go from 12 minutes to 2?",
     keys: ["account", "opening", "onboard", "kyc", "demat", "12", "minute", "pan", "fetch", "sign up", "signup", "conversion", "drop"],
-    a: "Version 2.0 took 10–12 minutes, and 59% of people left at PAN verification. In Version 3.0 the mobile number fetches PAN, bank and personal details, so people confirm what we found and stop typing. The happy path now takes about 2–3 minutes with ~38% fewer steps, and conversion is at ~65%.",
+    a: "Version 2.0 took 10–12 minutes and 59% of people left at PAN verification. In Version 3.0 the mobile number fetches PAN, bank and personal details, so people confirm what we found and stop typing. The happy path now takes about 2–3 minutes with ~38% fewer steps and conversion is at ~65%.",
     links: [["Account Opening case study", "/work/account-opening"]],
   },
   {
@@ -51,7 +52,7 @@ const NOTES: Note[] = [
     id: "before",
     q: "What did you do before Upstox?",
     keys: ["before", "tata", "cliq", "ecommerce", "e-commerce", "luxury", "beauty", "seller", "previous", "marketplace", "earlier"],
-    a: "Four products from my years at Tata CLiQ: a beauty homepage that re-themes for every sale, a shoppable luxury magazine, filters and a seller portal. Homepage orders rose 11.5% on Palette, conversion rose 6.5% on Luxe Editorial, and seller onboarding time fell 60%.",
+    a: "Four products from my years at Tata CLiQ: a beauty homepage that re-themes for every sale, a shoppable luxury magazine, filters and a seller portal. Homepage orders rose 11.5% on Palette, conversion rose 6.5% on Luxe Editorial and seller onboarding time fell 60%.",
     links: [["Before Upstox", "/work/previous-work"]],
   },
   {
@@ -83,7 +84,12 @@ function answer(q: string): Note {
 /** Open the palette from anywhere, optionally with a question already asked. */
 export const ask = (q?: string) => window.dispatchEvent(new CustomEvent("fable:ask", { detail: q }));
 
+/** The palette only exists on the /fable concept pages; the case studies carry no Ask. */
 export function Ask() {
+  return usePathname().startsWith("/fable") ? <AskPalette /> : null;
+}
+
+function AskPalette() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [asked, setAsked] = useState("");

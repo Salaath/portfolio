@@ -59,7 +59,7 @@ const WIDE = { W: 760, BASE: 380, RMAX: 176, LEN: 236, num: 46, lab: 12, ls: 1.2
 const NARROW = { W: 400, BASE: 160, RMAX: 150, LEN: 0, num: 0, lab: 0, ls: 0 }; // shapes only; numbers sit below as text
 type Geo = typeof WIDE;
 
-// leader runs up from the dot, turns, and becomes the underline the number sits on;
+// leader runs up from the dot, turns and becomes the underline the number sits on;
 // the text starts past the turn so the line never crosses it
 function Callout({ g, dot, top, value, label, color }: { g: Geo; dot: [number, number]; top: number; value: number; label: string; color: string }) {
   const [dx, dy] = dot; const { W, LEN } = g;
@@ -108,7 +108,7 @@ export function CostSim() {
         <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">One trader, one session</p>
         <Slider label="Stocks in the list" value={stocks} min={10} max={100} step={5} onChange={setStocks} hint="Lists of more than 50 were common." />
         <Slider label="Extra columns picked" value={cols} min={1} max={15} onChange={setCols} />
-        <Slider label="Times they land on My lists" value={visits} min={1} max={30} onChange={setVisits} hint="Every switch back from Orders, and every app reopen." />
+        <Slider label="Times they land on My lists" value={visits} min={1} max={30} onChange={setVisits} hint="Every switch back from Orders and every app reopen." />
         <Slider label="Times they open Table view" value={op} min={0} max={Math.min(10, visits)} onChange={setOpens} hint="Never more than they land on My lists." />
       </div>
 

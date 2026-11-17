@@ -1,3 +1,4 @@
+import { Phone } from "@/components/previous/Phone";
 import type { Metadata } from "next";
 import { Choreo } from "@/components/Choreo";
 import { HScroll } from "@/components/HScroll";
@@ -86,9 +87,9 @@ const TEARDOWN = [
     kind: "I completed this registration myself",
     journey: "enps" as const,
     rows: [
-      ["Subscriber and account type, before anything else", "What the account types mean, and which one applies to you", "A product decision arrives before the product has been explained"],
+      ["Subscriber and account type, before anything else", "What the account types mean and which one applies to you", "A product decision arrives before the product has been explained"],
       ["Parents’ names, place of birth and identity proof", "Which details have to match your documents", "A long form to get through before you’ve seen what you’re getting"],
-      ["An acknowledgement number to keep, and OTPs and captchas to finish", "That the number matters for what comes next", "Keeping track of the process is left to the user"],
+      ["An acknowledgement number to keep and OTPs and captchas to finish", "That the number matters for what comes next", "Keeping track of the process is left to the user"],
     ],
   },
   {
@@ -97,8 +98,8 @@ const TEARDOWN = [
     journey: "kfin" as const,
     rows: [
       ["PAN and date of birth, checked against KYC and an AML database", "Why a pension account opens with a compliance check", "The investor relies on the distributor to explain each step"],
-      ["Tier, fund manager, and Auto or Active allocation", "What lifecycle funds and the E, C, G split mean", "Fund managers are listed without returns, and in the recording the chart legends read “Label for Equity”"],
-      ["A photo, a signature, the PAN card and a cancelled cheque for each tier", "Which files are needed, and in what format and size", "Five uploads mean stepping away to find documents"],
+      ["Tier, fund manager and Auto or Active allocation", "What lifecycle funds and the E, C, G split mean", "Fund managers are listed without returns and in the recording the chart legends read “Label for Equity”"],
+      ["A photo, a signature, the PAN card and a cancelled cheque for each tier", "Which files are needed and in what format and size", "Five uploads mean stepping away to find documents"],
     ],
   },
 ];
@@ -134,8 +135,8 @@ const DECISIONS = [
   {
     principle: 0,
     title: "Start with the tax benefit, not a form",
-    why: "Most people come to NPS for the tax break, and testing showed they didn’t know what it was worth to them. One question up front, how much this year, answers that before anything else is asked.",
-    what: "A slider lands on ₹50,000, the 80CCD(1B) limit, and shows the saving as it moves. Explore keeps a tax meter on top, so the benefit stays in view while people browse.",
+    why: "Most people come to NPS for the tax break and testing showed they didn’t know what it was worth to them. One question up front, how much this year, answers that before anything else is asked.",
+    what: "A slider lands on ₹50,000, the 80CCD(1B) limit and shows the saving as it moves. Explore keeps a tax meter on top, so the benefit stays in view while people browse.",
     shots: [
       ["calc", false, "Contribution sheet: how much are you planning to invest in NPS this year"],
       ["full/exploreSeen", true, "Explore: tax meter, top funds, NPS vs others, videos and FAQs"],
@@ -143,7 +144,7 @@ const DECISIONS = [
   },
   {
     principle: 0,
-    title: "Suggest a plan, and say why",
+    title: "Suggest a plan and say why",
     why: "Equity, corporate bonds and government securities in shifting proportions is a lot to judge cold. In testing, people wanted the default explained, not tucked away.",
     what: "Age sets a starting plan. At 29 that’s Aggressive, with the reason right next to it and a clear way to switch or build a custom mix within the rules.",
     shots: [["plans", false, "Plans sheet: Aggressive suggested for a 29-year-old, with the reason"]],
@@ -151,7 +152,7 @@ const DECISIONS = [
   {
     principle: 0,
     title: "Make funds comparable at a glance",
-    why: "Ten pension fund managers, most of them unfamiliar names. People needed more than returns to trust a pick, and they wanted to know what they’d end up with.",
+    why: "Ten pension fund managers, most of them unfamiliar names. People needed more than returns to trust a pick and they wanted to know what they’d end up with.",
     what: "The list is sorted by 5Y CAGR for your amount and horizon, with returns and risk against the category and the corpus at maturity on every card. Fund details open on the maturity amount and monthly pension.",
     shots: [
       ["full/allFunds", true, "Fund managers ranked by 5Y CAGR with maturity amount and risk vs category"],
@@ -162,7 +163,7 @@ const DECISIONS = [
     principle: 1,
     title: "Ask only for what we don’t already know",
     why: "Opening NPS elsewhere means a separate form, OTPs and a wait for a PRAN. Upstox already holds most of those details from KYC, so asking again would be friction for nothing.",
-    what: "Of the 22 fields a PRAN needs, 17 come from Upstox. The order asks only for the rest, like a father’s or spouse’s name, and the PRAN is created in the background.",
+    what: "Of the 22 fields a PRAN needs, 17 come from Upstox. The order asks only for the rest, like a father’s or spouse’s name and the PRAN is created in the background.",
     shots: [["byPersonal", false, "Personal details: only the fields Upstox doesn’t already have"]],
     fields: true,
   },
@@ -176,7 +177,7 @@ const DECISIONS = [
   {
     principle: 3,
     title: "Make the wait after payment useful",
-    why: "Units arrive a few days after payment, and a PRAN is new to most people. Without a status, that gap feels like the money went missing.",
+    why: "Units arrive a few days after payment and a PRAN is new to most people. Without a status, that gap feels like the money went missing.",
     what: "A live checklist runs from payment to PRAN to units allotted. Portfolio then brings value, returns, PRAN and holdings into one place to come back to.",
     shots: [
       ["byStatus", false, "Order status: payment confirmed, PRAN generated, order placed"],
@@ -209,7 +210,7 @@ const V1_PATH = [
   ["v1/amount", "Amount", "Enter and invest", false],
 ] as const;
 
-// What version 1 assumed, and what testing told us. No fixes here; those come
+// What version 1 assumed and what testing told us. No fixes here; those come
 // in the final design section.
 const ASSUMPTIONS = [
   {
@@ -221,7 +222,7 @@ const ASSUMPTIONS = [
   {
     assumed: "Returns and maturity were enough to pick a fund",
     v1: "Funds showed the two numbers we thought mattered most: 5Y returns and the maturity amount.",
-    heard: "NPS was still new, and so were these pension funds. People wanted to know how risky each one was before picking.",
+    heard: "NPS was still new and so were these pension funds. People wanted to know how risky each one was before picking.",
     shot: ["v1/all", "Version 1 fund list: 5Y returns and maturity amount only", true],
   },
   {
@@ -233,7 +234,7 @@ const ASSUMPTIONS = [
   {
     assumed: "Performance was what people looked for first",
     v1: "Fund details opened on CAGR, with a calculator to compare the fund’s returns across plan types.",
-    heard: "People looked for the maturity amount first, and found the calculator complex.",
+    heard: "People looked for the maturity amount first and found the calculator complex.",
     shot: ["v1/details", "Version 1 fund details: CAGR chart and plan calculator", true],
   },
 ] as const;
@@ -241,9 +242,9 @@ const ASSUMPTIONS = [
 // How the final design answered each finding.
 const CHANGES = [
   ["storyWorks", "People didn’t know what NPS was", "NPS explained on the first visit", "The first time someone lands on NPS, short stories explain what it is, how it works, the tax benefit and when money comes out.", "Story: how NPS works, invest now and get paid after 60"],
-  ["calc", "People didn’t know what they’d save", "Tax saving comes first", "The journey opens with one question, how much this year, and shows the tax saved as you set it. Explore keeps a tax meter on top.", "Contribution sheet with the tax saving"],
+  ["calc", "People didn’t know what they’d save", "Tax saving comes first", "The journey opens with one question, how much this year and shows the tax saved as you set it. Explore keeps a tax meter on top.", "Contribution sheet with the tax saving"],
   ["allFunds", "Pension funds were new to people", "Two more numbers on every fund", "Returns vs category and risk vs category sit next to 5Y returns and maturity.", "Fund list with returns and risk vs category"],
-  ["plans", "People wanted to know why", "The plan became a step, with a reason", "A plan is suggested for your age, with why, and a clear way to switch or customise.", "Plans step: Aggressive suggested at 29, with the reason"],
+  ["plans", "People wanted to know why", "The plan became a step, with a reason", "A plan is suggested for your age, with why and a clear way to switch or customise.", "Plans step: Aggressive suggested at 29, with the reason"],
   ["fund", "Maturity mattered more than CAGR", "Maturity first, no calculator", "Fund details open on the maturity amount and monthly pension. Amount and plan are two dropdowns.", "Fund details with maturity amount and pension first"],
   ["vsOthers", "People asked how NPS compares", "NPS vs others, on Explore", "The same yearly amount till 60 in NPS, PPF and a Nifty 50 index, so people can see the difference without a calculator.", "Explore: NPS vs PPF and Nifty 50 for ₹50,000 a year till 60"],
 ] as const;
@@ -309,7 +310,7 @@ export default function NpsCase() {
           <Eyebrow dark>02 · Setting the ambition</Eyebrow>
           <Heading className="mt-5 max-w-4xl">Before designing the first version, we defined what great could look like</Heading>
           <p data-fade className="mt-6 max-w-2xl text-white/60">
-            We didn’t want to start with a list of screens. With the product manager, I worked through an 11-star exercise to map the ambition into stages: what a functional first release needed, what would make it more useful, and what a complete retirement experience could eventually offer.
+            We didn’t want to start with a list of screens. With the product manager, I worked through an 11-star exercise to map the ambition into stages: what a functional first release needed, what would make it more useful and what a complete retirement experience could eventually offer.
           </p>
           <div className="mt-20 grid items-end gap-3 md:grid-cols-4">
             {STARS.map(([s, items], i) => (
@@ -373,7 +374,7 @@ export default function NpsCase() {
               <Heading className="mt-5">I went through the existing journeys myself</Heading>
             </div>
             <p data-fade className="text-white/60 md:pb-2">
-              I reviewed the Protean eNPS and KFintech journeys, the two record-keepers that serve almost the whole market, and completed eNPS registration myself. The point wasn’t to prove every step wrong. It was to see what someone is asked to know, decide and provide.
+              I reviewed the Protean eNPS and KFintech journeys, the two record-keepers that serve almost the whole market and completed eNPS registration myself. The point wasn’t to prove every step wrong. It was to see what someone is asked to know, decide and provide.
             </p>
           </div>
 
@@ -476,11 +477,11 @@ export default function NpsCase() {
         <div className="grid gap-8 md:grid-cols-2 md:items-end">
           <div>
             <Eyebrow>07 · Testing the first version</Eyebrow>
-            <Heading className="mt-5">We tested a short first version, and our assumptions didn’t hold</Heading>
+            <Heading className="mt-5">We tested a short first version and our assumptions didn’t hold</Heading>
           </div>
           <div data-fade className="grid gap-4 text-muted md:pb-2">
             <p>
-              We had to launch before the financial year ended, so we built the first version fast and took it straight to the floor. We ran 12 sessions with users in the office, and took people from product management, tech, development and business through it too.
+              We had to launch before the financial year ended, so we built the first version fast and took it straight to the floor. We ran 12 sessions with users in the office and took people from product management, tech, development and business through it too.
             </p>
             <p>Version 1 was built for speed: four steps to Invest, with education there only if people asked for it. What we learned went into the final version, which launched in March, before the end of tax season.</p>
           </div>
@@ -507,7 +508,7 @@ export default function NpsCase() {
           </ol>
         </div>
 
-        <h3 data-fade className="mt-20 text-2xl font-semibold tracking-[-0.03em]">What we assumed, and what we heard</h3>
+        <h3 data-fade className="mt-20 text-2xl font-semibold tracking-[-0.03em]">What we assumed and what we heard</h3>
         <div className="mt-6 grid gap-4">
           {ASSUMPTIONS.map((l, i) => (
             <article key={l.assumed} data-fade className="grid gap-10 rounded-[2.2rem] bg-white p-8 md:grid-cols-[1fr_auto] md:items-center md:gap-16 md:p-12">
@@ -537,7 +538,7 @@ export default function NpsCase() {
             <p className="mt-4 text-xl font-medium tracking-[-0.02em] text-white/55 md:text-2xl">Something we hadn’t planned for</p>
             <h4 className="mt-1 text-3xl font-semibold leading-[1.05] tracking-[-0.035em] md:text-4xl">How does NPS compare?</h4>
             <p className="mt-6 max-w-2xl text-lg leading-snug text-white/75">
-              Version 1 didn’t compare NPS with anything. People asked how it stacks up against PPF, the retirement product they already knew, and against putting the same ₹50,000 into equity themselves. They asked for a returns calculator.
+              Version 1 didn’t compare NPS with anything. People asked how it stacks up against PPF, the retirement product they already knew and against putting the same ₹50,000 into equity themselves. They asked for a returns calculator.
             </p>
           </article>
         </div>
@@ -689,7 +690,7 @@ export default function NpsCase() {
       {/* prototype and branches */}
       <section id="prototype" data-chapter="10B" data-chapter-label="Prototype" className="mx-auto max-w-7xl px-4 py-24 sm:px-10">
         <div className="grid gap-8 md:grid-cols-2 md:items-end">
-          <h3 data-split="lines" className="text-4xl font-semibold leading-[1] tracking-[-0.045em] md:text-5xl">Try it, and flip the branches I designed</h3>
+          <h3 data-split="lines" className="text-4xl font-semibold leading-[1] tracking-[-0.045em] md:text-5xl">Try it and flip the branches I designed</h3>
           <p data-fade className="text-muted md:pb-2">The real flow, built from the Figma designs. Set a scenario beside the phone to see what changes, or open it full screen.</p>
         </div>
         <div data-fade className="mt-10 hidden md:block">
@@ -706,7 +707,7 @@ export default function NpsCase() {
           <Eyebrow>11 · The launch</Eyebrow>
           <Heading className="mx-auto mt-5 max-w-3xl">NPS went live to all Upstox users</Heading>
           <p data-fade className="mx-auto mt-5 max-w-xl text-muted">
-            It launched in March 2025, before the end of tax season, and reached 100% of users, with organic discovery and no marketing push. The numbers so far.
+            It launched in March 2025, before the end of tax season and reached 100% of users, with organic discovery and no marketing push. The numbers so far.
           </p>
         </div>
         {/* one even 3×2 grid that fades in as a block, so no card lags behind the others */}
@@ -736,7 +737,7 @@ export default function NpsCase() {
             <Heading className="mt-5">We launched at 7 stars, on purpose</Heading>
           </div>
           <p data-fade className="text-muted md:pb-2">
-            Three weeks of design left little room, and missing tax season meant waiting another year for the people who needed NPS most. So we drew the line at 7★, cut what could wait, and planned the rest for after launch.
+            Three weeks of design left little room and missing tax season meant waiting another year for the people who needed NPS most. So we drew the line at 7★, cut what could wait and planned the rest for after launch.
           </p>
         </div>
 
@@ -803,13 +804,13 @@ export default function NpsCase() {
               src="/work/nps/video/corp.mp4?v=5"
               poster="/work/nps/video/corp-poster.jpg?v=5"
               title="Corporate NPS"
-              caption="The employer’s email leads to Upstox, the corporate account links, and the new plan and holdings appear in Portfolio."
+              caption="The employer’s email leads to Upstox, the corporate account links and the new plan and holdings appear in Portfolio."
             />
             <FlowVideo
               src="/work/nps/video/shift.mp4?v=4"
               poster="/work/nps/video/shift-poster.jpg?v=4"
               title="Account shifting"
-              caption="From a banner on Explore: enter the PRAN, confirm the transfer, and the existing holdings land in Portfolio."
+              caption="From a banner on Explore: enter the PRAN, confirm the transfer and the existing holdings land in Portfolio."
             />
           </div>
         </div>
@@ -817,14 +818,26 @@ export default function NpsCase() {
         <div className="mt-24 grid gap-10 md:grid-cols-[auto_1fr]">
           <span className="label md:pt-3">What I took away</span>
           <p data-scrub-words className="text-3xl font-semibold leading-[1.15] tracking-[-0.035em] md:text-[2.7vw]">
-            Building NPS from zero meant making decisions before there was a product pattern to follow. The work wasn’t about removing every detail from a complex financial product. It was about deciding what people needed to understand at each step, what the product could handle in the background, and where transparency and control had to stay with the user.
+            Building NPS from zero meant making decisions before there was a product pattern to follow. The work wasn’t about removing every detail from a complex financial product. It was about deciding what people needed to understand at each step, what the product could handle in the background and where transparency and control had to stay with the user.
           </p>
           <span className="label md:border-t md:border-line md:pt-10">Try it</span>
-          <div data-fade className="flex items-center gap-4 border-t border-line pt-6">
-            <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-[14px] text-xl text-white shadow-[inset_0_-6px_10px_rgba(0,0,0,0.18)]" style={{ background: "#5B2EBD" }}>₹</span>
-            <p className="text-lg leading-snug">
-              Live on Upstox. <span className="text-muted">Open the app and tap NPS under Discover more on Home.</span>
-            </p>
+          <div data-fade className="relative grid overflow-hidden rounded-[1.75rem] bg-white md:grid-cols-[1fr_auto]">
+            <div className="flex flex-col justify-between gap-10 p-7 md:p-10">
+              <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-[14px] text-xl text-white shadow-[inset_0_-6px_10px_rgba(0,0,0,0.18)]" style={{ background: "#5B2EBD" }}>₹</span>
+              <div>
+                <p className="text-3xl font-semibold leading-[1.05] tracking-[-0.04em] md:text-4xl">Live on Upstox</p>
+                <p className="mt-3 max-w-sm text-lg leading-snug text-muted">Open the app, go to More and tap NPS under Diversify Portfolio.</p>
+              </div>
+            </div>
+            {/* the live More tab, rising out of the card; the ring marks the NPS tile */}
+            <div className="relative h-[22rem] px-10 md:h-[26rem] md:px-8 lg:px-16">
+              <Phone screen="738 / 1600" className="mx-auto mt-10 w-[15rem] md:w-[17rem]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/work/nps/more-live.webp" alt="The More tab in the Upstox app, with NPS under Diversify Portfolio" width={738} height={1600} loading="lazy" className="absolute inset-0 block h-full w-full" />
+                <span aria-hidden className="absolute left-1/2 top-[2.2%] h-[3.1%] w-[30%] -translate-x-1/2 rounded-full bg-black" />
+                <span aria-hidden className="absolute left-[4%] top-[36.6%] aspect-square w-[17%] rounded-[22%] border-2 border-[#5B2EBD] [animation:f-pulse-ring_2.2s_ease-out_infinite]" />
+              </Phone>
+            </div>
           </div>
         </div>
       </section>

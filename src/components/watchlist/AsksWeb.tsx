@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 // Traders' requests as a slow, living web: each ask hangs off a thin line
-// from one hub, drifts a little, and every few seconds one of them moves to
+// from one hub, drifts a little and every few seconds one of them moves to
 // an empty spot. Hover (or focus) an ask to stop the motion and trace its line.
 
 type Ask = { text: string; topic: string };

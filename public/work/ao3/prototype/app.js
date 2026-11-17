@@ -263,7 +263,7 @@ SCREENS.welcome = (el)=>{
     </div>
     <div class="tap-hint z">Tap anywhere to begin</div>`;
   el.addEventListener('click', ()=>go('phone'), {once:true});
-  // coin: Sal's Lottie as a flipbook. Spins once on arrival, and again whenever it comes back into view
+  // coin: Sal's Lottie as a flipbook. Spins once on arrival and again whenever it comes back into view
   const v = $('#coinv', el), N = 20, MS = 1000 * 0.9554 / 8;
   const files = Array.from({length:N}, (_,i)=>`${A}coin/${String(i).padStart(2,'0')}.webp`);
   files.forEach(f=>{ new Image().src = f; });

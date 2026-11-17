@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 // A slow field of light, drawn on the GPU: domain-warped noise in ink and violet
 // that leans toward the pointer. It renders only while on screen, at a capped
-// resolution, and falls back to a single still frame for reduced motion.
+// resolution and falls back to a single still frame for reduced motion.
 
 const FRAG = `
 precision highp float;

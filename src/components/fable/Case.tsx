@@ -5,7 +5,7 @@ import { MOTION_OK, SplitText, gsap, padMasks, useGSAP } from "@/lib/gsap";
 import { IPhone } from "@/components/ao/IPhone";
 import { LoopVideo } from "@/components/ao/FlowVideo";
 import { Tilt } from "./Bits";
-import { lockScroll, ready, scrollToId } from "./Shell";
+import { ready, scrollToId } from "./Shell";
 
 /* ---------- case study hero ------------------------------------------------ */
 
@@ -133,15 +133,15 @@ export function CaseHero({
 type Ch = { id: string; n: string; label: string };
 
 /**
- * A glass pill at the bottom of a case study: the chapter being read, how far
- * through the page you are, and the full list on tap. It reads the chapters
- * from the page ([data-chapter] sections), so pages don't have to list them.
+ * The chapters of a case study as one bare line at the bottom of the screen: every
+ * chapter number is always on show, the one being read opens out to its name and a
+ * hairline along its base fills as the page is read. It sits on a thin pane of clear glass,
+ * so it stays readable over any section. It reads the chapters from the page ([data-chapter]).
  */
 export function ChapterDock() {
   const [chapters, setChapters] = useState<Ch[]>([]);
   const [active, setActive] = useState(-1);
-  const [open, setOpen] = useState(false);
-  const ring = useRef<SVGCircleElement>(null);
+  const bar = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter]"));
@@ -156,7 +156,7 @@ export function ChapterDock() {
       });
       setActive(cur);
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      ring.current?.style.setProperty("stroke-dashoffset", String(100 - (max > 0 ? (window.scrollY / max) * 100 : 0)));
+      if (bar.current) bar.current.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
     };
     const onScroll = () => (raf ||= requestAnimationFrame(measure));
     measure();
@@ -164,51 +164,36 @@ export function ChapterDock() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    if (!open) return;
-    const close = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
-  }, [open]);
-  useEffect(() => () => lockScroll(false), []);
-
-  const cur = chapters[active];
   return (
-    <div className={`fixed inset-x-0 bottom-5 z-40 flex justify-center px-4 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${cur ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-24 opacity-0"}`}>
-      <div className="f-glass relative w-full max-w-sm rounded-[1.75rem] text-[#f2f1ed]">
-        <div className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
-          <div className="overflow-hidden">
-            <ol data-lenis-prevent className="max-h-[50svh] overflow-y-auto p-2 pb-0">
-              {chapters.map((c, i) => (
-                <li key={c.id}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setOpen(false);
-                      scrollToId(c.id);
-                    }}
-                    className={`flex w-full items-baseline gap-4 rounded-2xl px-4 py-2.5 text-left transition-colors hover:bg-white/10 ${i === active ? "text-white" : "text-white/55"}`}
-                  >
-                    <span className="w-8 font-mono text-[11px]">{c.n}</span>
-                    <span className="flex-1">{c.label}</span>
-                    {i === active ? <i className="size-1.5 self-center rounded-full bg-[#a78bfa]" /> : null}
-                  </button>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-        <button type="button" aria-expanded={open} onClick={() => setOpen((o) => !o)} className="flex w-full items-center gap-3 py-2 pl-2 pr-4 text-left text-sm">
-          <svg viewBox="0 0 36 36" className="size-9 shrink-0 -rotate-90">
-            <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,.14)" strokeWidth="2.5" />
-            <circle ref={ring} cx="18" cy="18" r="15.9" fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" pathLength={100} strokeDasharray="100" strokeDashoffset="100" />
-          </svg>
-          <span className="font-mono text-[11px] text-white/50">{cur?.n}</span>
-          <span key={cur?.id} className="f-rise flex-1 truncate">{cur?.label}</span>
-          <span className={`text-white/50 transition-transform duration-500 ${open ? "rotate-180" : ""}`}>⌃</span>
-        </button>
+    <nav
+      aria-label="Chapters"
+      className={`pointer-events-none fixed inset-x-0 bottom-5 z-40 flex justify-center px-4 text-[#0e0e0e] transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${active >= 0 ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+    >
+      <div className={`relative overflow-hidden rounded-[10px] bg-white/35 px-1.5 py-0.5 shadow-[0_8px_24px_-14px_rgba(0,0,0,0.3),inset_0_0_0_1px_rgba(255,255,255,0.55),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-2xl backdrop-saturate-[1.8] sm:px-2 ${active >= 0 ? "pointer-events-auto" : ""}`}>
+        <ol className="flex items-baseline">
+          {chapters.map((c, i) => {
+            const on = i === active;
+            return (
+              <li key={c.id} className="group relative">
+                <button
+                  type="button"
+                  aria-current={on ? "step" : undefined}
+                  onClick={() => scrollToId(c.id)}
+                  title={c.label}
+                  className={`flex items-baseline px-1.5 py-1.5 transition-opacity duration-500 sm:px-2 ${on ? "opacity-100" : "opacity-40 hover:opacity-100"}`}
+                >
+                  <span className="font-mono text-[11px] tabular-nums">{c.n}</span>
+                  <span className={`hidden overflow-hidden whitespace-nowrap text-[13px] transition-[max-width,margin,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:block ${on ? "ml-2.5 mr-1 max-w-[16rem] opacity-100" : "max-w-0 opacity-0"}`}>{c.label}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+        <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-black/[0.06]">
+          <span ref={bar} className="absolute inset-0 origin-left scale-x-0 bg-[#0e0e0e]" />
+        </span>
       </div>
-    </div>
+    </nav>
   );
 }
 

@@ -121,7 +121,7 @@ const ASKS = [
 
 // evidence → finding → so we…
 const INSIGHTS: [string, string, string][] = [
-  ["2.5% of new customers made a watchlist in their first 45 days, and about half of first orders were under ₹500.", "People needed a faster start.", "Made creating and discovering lists easier."],
+  ["2.5% of new customers made a watchlist in their first 45 days and about half of first orders were under ₹500.", "People needed a faster start.", "Made creating and discovering lists easier."],
   ["Over a million people opened the watchlist every month, yet only 0.18% of new customers placed a first order from it. Search managed 3%.", "People returned to check and act.", "Brought more useful information and actions into the list."],
   ["Traders opened stock after stock to check one number: OI, a dividend, the day’s range.", "Different traders needed different information.", "Introduced configurable multicolumn layouts."],
   ["Checking the charts of a 20-stock list took around 60 taps, one stock at a time.", "Traders compared stocks one at a time.", "Let them scan many stocks at once in Charts view."],
@@ -152,7 +152,7 @@ const R1_FINAL: [string, string][] = [
   ["addlist", "Add list opens one page: make your own list or start from a ready-made one."],
   ["create", "Making a list asks for a name and nothing else."],
   ["ex/r1-sort", "Sort keeps its own button in the bar."],
-  ["ex/r1-more", "More holds the rest: managing and editing lists, and alerts."],
+  ["ex/r1-more", "More holds the rest: managing and editing lists and alerts."],
 ];
 
 const MC_FINAL: [string, string][] = [
@@ -209,7 +209,7 @@ const V4: [string, string][] = [
 
 const LEARNINGS: [string, string][] = [
   ["Treat technical constraints as design input", "The table we first put inside My lists would have reloaded every column on every visit. Instead of pushing for it, we took engineering’s idea of a separate page and tried three ways to reach it from My lists."],
-  ["Protect the screen, and find an answer both sides can live with", "Designers own the experience. When a PM wanted a Chart icon of its own in the floating bar, every visit would have carried one more choice, and every later feature would have asked for the same. One Analyze button for Table and Charts gave the feature a clear home and kept the bar calm."],
+  ["Protect the screen and find an answer both sides can live with", "Designers own the experience. When a PM wanted a Chart icon of its own in the floating bar, every visit would have carried one more choice and every later feature would have asked for the same. One Analyze button for Table and Charts gave the feature a clear home and kept the bar calm."],
 ];
 
 const SUMMARY: [string, string, string][] = [
@@ -282,7 +282,7 @@ export default function WatchlistRevised() {
         <Accent size={22} delay={-2} className="right-[17%] top-16 hidden md:block" />
         <div className="mx-auto max-w-7xl">
           <Chapter n="02" label="Baseline and opportunity" title="People could open the Watchlist. The hard part was getting things done.">
-            The old Watchlist made common tasks harder to find than they needed to be. Switching lists and discovering ready-made lists sat inside a menu. The plus button opened stock search, even when people expected to create a list. Removing a stock depended on a long-press, and checking more than a name and price meant opening stocks one by one. Tap the numbers on the old screen.
+            The old Watchlist made common tasks harder to find than they needed to be. Switching lists and discovering ready-made lists sat inside a menu. The plus button opened stock search, even when people expected to create a list. Removing a stock depended on a long-press and checking more than a name and price meant opening stocks one by one. Tap the numbers on the old screen.
           </Chapter>
           <div className="mt-16">
             <OldAnatomy />
@@ -296,7 +296,7 @@ export default function WatchlistRevised() {
         <Glow v="b" opacity={0.28} className="-left-48 top-40 size-[24rem] md:-left-72 md:size-[44rem]" />
         <Drift kind="orbit" className="-inset-x-24 top-0 h-48" />
         <Chapter n="03" label="Research and findings" title="The research pointed to five jobs the Watchlist wasn’t supporting well.">
-          We looked at four months of Android Watchlist events, followed 1,19,080 new customers from sign-up to first order, and spoke with 65 traders across six months of office sessions. The patterns were consistent: new customers needed help getting started, active traders needed faster ways to organise lists, and different trading styles called for different levels of information.
+          We looked at four months of Android Watchlist events, followed 1,19,080 new customers from sign-up to first order and spoke with 65 traders across six months of office sessions. The patterns were consistent: new customers needed help getting started, active traders needed faster ways to organise lists and different trading styles called for different levels of information.
         </Chapter>
 
         <div className="mt-14 grid gap-10 md:grid-cols-12">
@@ -410,7 +410,7 @@ export default function WatchlistRevised() {
         <Drift kind="arcs" className="inset-x-0 -top-48 h-48" />
         <div className="mx-auto max-w-7xl">
           <ChapterHead n="05" label="Release 2 · August 2026" title="A multicolumn view, without loading data traders hadn’t asked for.">
-            Traders wanted to compare more information across a list. Our first direction kept the table inside My lists, but engineering flagged the cost: every return to the screen would fetch every selected column for every stock. We changed the approach. Table view became a separate page, and column data loaded only when someone opened it.
+            Traders wanted to compare more information across a list. Our first direction kept the table inside My lists, but engineering flagged the cost: every return to the screen would fetch every selected column for every stock. We changed the approach. Table view became a separate page and column data loaded only when someone opened it.
           </ChapterHead>
 
           <div className="mt-14 grid items-center gap-10 md:grid-cols-12">
@@ -418,7 +418,7 @@ export default function WatchlistRevised() {
               <p className="font-mono text-xs" style={{ color: PURPLE }}>The initial idea</p>
               <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">Keep the table inside My lists</h3>
               <p className="mt-3 text-[15px] leading-relaxed text-muted">
-                One icon flips the list into columns, and the choice sticks. Engineering flagged the cost: every reopen would load every column for every stock.
+                One icon flips the list into columns and the choice sticks. Engineering flagged the cost: every reopen would load every column for every stock.
               </p>
             </div>
             <div data-fade className="pb-6 md:col-span-7">
@@ -482,7 +482,7 @@ export default function WatchlistRevised() {
             <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">No Chart icon in the bar. One Analyze button for both views.</h3>
           </div>
           <p data-fade className="text-[15px] leading-relaxed text-muted md:col-span-7">
-            A Chart icon would crowd the bar, and every later feature would want one too. Table and Charts both analyse a list, so they share Analyze, and future analysis tools join them there.
+            A Chart icon would crowd the bar and every later feature would want one too. Table and Charts both analyse a list, so they share Analyze and future analysis tools join them there.
           </p>
         </div>
         <div data-fade className="mt-10">
@@ -491,7 +491,7 @@ export default function WatchlistRevised() {
         <div className="mt-16">
           <div data-fade>
             <p className="font-mono text-xs" style={{ color: PURPLE }}>Try the shared controls</p>
-            <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">Set it once, and every card follows</h3>
+            <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">Set it once and every card follows</h3>
           </div>
           <div data-fade className="relative mt-8">
             <Glow v="e" opacity={0.24} delay={-7} className="-left-24 top-1/4 size-[18rem] md:-left-48 md:size-[30rem]" />
@@ -544,7 +544,7 @@ export default function WatchlistRevised() {
         <Edge side="left" inset={SIX} top="-3rem" size={18} at={[0.15, 0.4]} />
         <Drift kind="rings" className="-inset-x-24 top-0 h-48" />
         <Chapter n="07" label="Version 4 · In development" title="The next changes came from using the charts, not from adding more features.">
-          Feedback on Charts view was specific: key price levels were hard to read, charts needed more room in List view, and range and candle interval were being treated as the same control. The next version addresses those issues with high/low markers, larger charts, separate controls and a default interval for each range. After launch, we’ll measure orders placed from Charts view and time spent on charts.
+          Feedback on Charts view was specific: key price levels were hard to read, charts needed more room in List view and range and candle interval were being treated as the same control. The next version addresses those issues with high/low markers, larger charts, separate controls and a default interval for each range. After launch, we’ll measure orders placed from Charts view and time spent on charts.
         </Chapter>
         <div className="mt-14 overflow-hidden rounded-[1.5rem] bg-white shadow-[0_0_0_1px_rgba(42,27,61,0.04),0_24px_60px_-34px_rgba(42,27,61,0.32)]">
           <div className="hidden grid-cols-[1fr_auto_1fr] gap-6 border-b border-line px-6 py-3 font-mono text-[11px] uppercase tracking-[0.12em] text-muted md:grid md:px-8">
@@ -568,7 +568,7 @@ export default function WatchlistRevised() {
             <p className="font-mono text-xs" style={{ color: PURPLE }}>Ships with version 4</p>
             <h3 className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.03em]">More of the list on screen while you scroll</h3>
             <p className="mt-3 text-[15px] leading-relaxed text-muted">
-              Traders asked to see more stocks at once. Scroll down My Lists and the search bar and top tabs slide away, and the floating bar shrinks to its icons. Scroll back up and everything returns.
+              Traders asked to see more stocks at once. Scroll down My Lists and the search bar and top tabs slide away and the floating bar shrinks to its icons. Scroll back up and everything returns.
             </p>
           </div>
           <div data-fade className="flex justify-center md:col-span-7">

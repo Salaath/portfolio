@@ -6,7 +6,7 @@ import { introDone } from "@/lib/intro";
 
 /**
  * Hero backdrop: a drafting sheet of contour lines that drift like a slow
- * swell. The pointer acts as a lens, parting the lines around it, and
+ * swell. The pointer acts as a lens, parting the lines around it and
  * scrolling away flattens them. Canvas 2D, redrawn on GSAP's ticker.
  */
 export function LineField({ className = "" }: { className?: string }) {

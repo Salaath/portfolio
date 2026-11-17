@@ -5,7 +5,7 @@ import { WlPhone } from "./WlPhone";
 
 // The live chart mode against the next version, one change at a time. Both
 // phones are working prototypes (public/proto/watchlist/r3.html, v4.html);
-// picking a change moves both to the state that shows it, and from there
+// picking a change moves both to the state that shows it and from there
 // every control can be tapped.
 
 const CHANGES = [
@@ -19,12 +19,12 @@ const CHANGES = [
     k: "big",
     label: "Bigger charts in List view",
     v1: { src: "ex/c1-list", alt: "Version 1 list view with three charts on screen", note: "A little over three charts on screen." },
-    v2: { src: "ex/v2-list", alt: "Version 2 list view with two tall charts and a price axis", note: "Two charts per screen, even with no indicators on, and a price axis on the side." },
+    v2: { src: "ex/v2-list", alt: "Version 2 list view with two tall charts and a price axis", note: "Two charts per screen, even with no indicators on and a price axis on the side." },
   },
   {
     k: "range",
     label: "A range to pick, not only a candle",
-    v1: { src: "ex/c1-grid", alt: "Version 1 control bar with a single 1D chip", note: "One 1D chip. It set the candle size, and the history you saw came along with it." },
+    v1: { src: "ex/c1-grid", alt: "Version 1 control bar with a single 1D chip", note: "One 1D chip. It set the candle size and the history you saw came along with it." },
     v2: { src: "ex/v2-grid", alt: "Version 2 with a row of ranges from 1D to 5Y", note: "A row of ranges from 1D to 5Y. Candle size moves to its own button in the floating bar, since that’s all the old chip ever changed." },
   },
   {

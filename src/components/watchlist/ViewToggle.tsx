@@ -5,7 +5,7 @@ import { WlPhone } from "./WlPhone";
 
 // Release 2, first design: one icon on My lists flips the list into columns, in place.
 // Table mode scrolls the way the final multi-column design does: the whole
-// table moves, the Scrip column slides away with it, and each row keeps a
+// table moves, the Scrip column slides away with it and each row keeps a
 // light grey name tag (#F1F1F1, 12/16 Inter, as in the shipped Table view)
 // pinned at its top left so you never lose which stock you're on. The table is the full 608pt-wide Figma frame.
 const F = (v: number, of: number) => `${(v / of) * 100}%`;
