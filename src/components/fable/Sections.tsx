@@ -55,26 +55,14 @@ export function WorkFeature({ c, href, index }: { c: CaseStudy; href: string; in
   );
 }
 
-/** Every other case: a cover tile with its headline number, the title underneath. */
+/** Every other case: a clean cover, then the title with its three numbers underneath. */
 export function WorkCard({ c, href, index, aspect = "aspect-[4/3]", focus = "50%" }: { c: CaseStudy; href: string; index: string; aspect?: string; focus?: string }) {
-  const [big, ...others] = c.metrics;
   return (
     <Link href={href} data-cursor="Open" onPointerMove={pointer} onPointerLeave={rest} className="group block">
       <div data-wipe className={`relative overflow-hidden rounded-[1.75rem] md:rounded-[2.25rem] ${aspect}`}>
         <div data-wipe-inner className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={c.image} alt="" loading="lazy" className={COVER} style={{ objectPosition: `${focus} 50%` }} />
-        </div>
-        <div className="absolute left-4 top-4 rounded-2xl bg-black/75 px-4 py-3 text-white backdrop-blur-md md:left-6 md:top-6">
-          <b className="block text-2xl tracking-[-0.03em] md:text-3xl">{big.value}</b>
-          <span className="text-xs text-white/65">{big.label}</span>
-        </div>
-        <div className="absolute inset-x-4 bottom-4 flex translate-y-3 flex-wrap gap-2 opacity-0 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100 md:inset-x-6 md:bottom-6">
-          {others.map((m) => (
-            <span key={m.label} className="rounded-full bg-white/90 px-3 py-1.5 text-xs text-black backdrop-blur-md">
-              <b>{m.value}</b> {m.label}
-            </span>
-          ))}
         </div>
       </div>
       <div className="mt-5 grid gap-x-6 gap-y-2 md:grid-cols-[auto_1fr_auto]">
@@ -84,6 +72,14 @@ export function WorkCard({ c, href, index, aspect = "aspect-[4/3]", focus = "50%
             <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-[position:0_100%] bg-no-repeat transition-[background-size] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[length:100%_1px]">{c.title}</span>
           </h3>
           <p className="mt-2 max-w-lg text-sm text-muted">{c.tagline}</p>
+          <dl data-fade className="mt-6 grid max-w-lg grid-cols-3 gap-4 border-t border-line pt-4">
+            {c.metrics.map((m) => (
+              <div key={m.label}>
+                <dd className="whitespace-nowrap text-lg tracking-[-0.03em] text-[var(--accent)] sm:text-2xl md:text-[1.9vw]">{m.value}</dd>
+                <dt className="mt-1 text-xs leading-snug text-muted">{m.label}</dt>
+              </div>
+            ))}
+          </dl>
         </div>
         <span className="label pt-1.5">{c.year}</span>
       </div>

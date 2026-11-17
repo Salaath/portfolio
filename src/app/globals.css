@@ -192,3 +192,20 @@ body, body :where(*:not(.font-mono, .font-mono *, .label, .label *, code, pre, c
   font-weight: 400 !important;
   letter-spacing: -0.02em !important;
 }
+
+/* Home covers marked coverFit: on windows wider than 19:10 the photo stops growing with the
+   width (which would crop the mock-up top and bottom) and its sides fade into a blurred copy. */
+@media (min-width: 768px) and (min-aspect-ratio: 19/10) {
+  .cover-fit {
+    width: 190svh;
+    margin-inline: auto;
+    object-position: 50% 36%;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  }
+  .cover-fit-back {
+    display: block;
+    filter: blur(48px) saturate(1.05);
+    transform: scale(1.15);
+  }
+}

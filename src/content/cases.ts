@@ -14,6 +14,8 @@ export type CaseStudy = {
   coverInk?: "dark";
   /** Horizontal focus of the cover on phones, where the image is cropped from the sides. */
   coverX?: string;
+  /** On wide, short windows, stop the cover zooming past the mock-up: the photo keeps its full height and its sides melt into a blurred copy. */
+  coverFit?: boolean;
   tags: string[];
   /** Two-stop gradient behind the cover image (and the fallback without one) */
   cover: [string, string];
@@ -67,8 +69,9 @@ export const cases: CaseStudy[] = [
   {
     // Has its own page: src/app/work/nps/page.tsx
     slug: "nps",
-    image: "/work/nps-home.jpg?v=3",
+    image: "/work/nps-home.jpg?v=4",
     coverX: "54%",
+    coverFit: true,
     title: "Making NPS feel simple",
     tagline: "Turning a government portal, eight-step wizards and a captcha into a few guided taps inside Upstox.",
     year: "2025",
