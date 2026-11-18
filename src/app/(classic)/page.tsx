@@ -33,12 +33,12 @@ export default function Home() {
         <p data-label className="label relative mb-10 text-center">[ 01 — Approach ]</p>
         <p
           data-scrub-words
-          className="relative mx-auto max-w-5xl text-center text-4xl font-medium leading-[1.05] tracking-[-0.035em] sm:text-6xl md:text-[4.4vw]"
+          className="relative mx-auto max-w-5xl text-center md:max-w-[80vw] text-[2rem] font-medium leading-[1.05] tracking-[-0.035em] sm:text-[3.4rem] md:text-[3.96vw]"
         >
-          Building with AI made me more protective of craft, not less. When anyone
-          can ship, execution isn&rsquo;t the moat, the idea is. I lead design for
-          investing at Upstox, where the goal is simple: make first trades, risk
-          and diversification feel calm and cared for.
+          Building with AI has made me more protective of craft, not less. When
+          anyone can ship, execution isn&rsquo;t the moat, the idea is. I lead design
+          for investing at Upstox, making first trades, risk and diversification
+          feel calm.
         </p>
         <div data-fade className="relative mt-16 flex justify-center gap-10 label">
           <span>8 years in design</span>

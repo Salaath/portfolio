@@ -237,7 +237,8 @@ export default function WatchlistRevised() {
       <ChapterDock />
       {/* ---------- 01 data-led hero ---------- */}
       <StatHero
-        className="mx-auto max-w-7xl"
+        // the glow and orbit behind the phone run past the column's edge (the page clips sideways overflow)
+        className="mx-auto max-w-7xl !overflow-visible"
         eyebrow="Upstox · Watchlist · Data as of 11 November 2026"
         title="Watchlist redesign that drove 5.2× more orders"
         intro="A three-release redesign of the Upstox Watchlist, shaped by trader research and product data."

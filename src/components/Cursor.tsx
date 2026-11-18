@@ -31,6 +31,13 @@ export function Cursor() {
       let hidden = false;
       const move = (e: PointerEvent) => {
         if ((e.target as HTMLElement).tagName === "IFRAME") return;
+        // inside a prototype or phone mock-up the browser's own arrow and hand take over:
+        // they don't lag and show exactly where a click will land
+        if ((e.target as HTMLElement).closest?.("[data-native-cursor]")) {
+          if (!hidden) leave();
+          gsap.set(el, { x: e.clientX, y: e.clientY });
+          return;
+        }
         if (hidden) enter();
         xTo(e.clientX);
         yTo(e.clientY);

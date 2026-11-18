@@ -34,7 +34,9 @@ export function OptionSwitch({ title, options, footer }: { title: string; option
         </div>
       </div>
       <div key={i} className="grid gap-8 p-5 [animation:osIn_.45s_ease_both] md:p-8 lg:grid-cols-[1fr_17rem]">
-        <div className="-mx-3 -mb-10 flex gap-4 overflow-x-auto px-3 pb-12 md:gap-6">
+        {/* the strip only scrolls on narrow screens; a scroller clips the phones' soft shadows, so its
+            padding runs out to the card's edge and on wide screens it doesn't clip at all */}
+        <div className="-mx-5 -mb-5 flex gap-4 overflow-x-auto px-5 pb-16 md:-mx-8 md:-mb-8 md:gap-6 md:px-8 md:pb-20 lg:m-0 lg:overflow-visible lg:p-0">
           {o.shots.map((s) => (
             <figure key={s.src} className="w-[min(11.5rem,42vw)] shrink-0 md:w-[12.5rem]">
               <WlPhone src={s.src} alt={s.caption} />

@@ -49,17 +49,19 @@ export function ChartV2({ labels = ["Version 1 · live", "Version 2 · with engi
   useEffect(() => { setI(0); }, [run]);
   return (
     <div className="grid gap-8 rounded-[1.5rem] bg-white shadow-[0_0_0_1px_rgba(42,27,61,0.04),0_24px_60px_-34px_rgba(42,27,61,0.32)] p-5 md:p-8 lg:grid-cols-[17rem_1fr]">
-      <ol className="flex gap-1.5 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible">
+      {/* a ruled list: the open step turns to ink and a purple rule draws across its hairline */}
+      <ol className="flex gap-6 overflow-x-auto pb-1 lg:flex-col lg:gap-0 lg:self-start lg:overflow-visible lg:pb-0">
         {CHANGES.map((x, k) => (
-          <li key={x.k} className="shrink-0">
+          <li key={x.k} className="relative shrink-0 border-t border-line lg:last:border-b">
+            <span aria-hidden className={`absolute -top-px left-0 h-px w-full origin-left bg-[#5B2EBD] transition-transform duration-700 ease-out ${i === k ? "scale-x-100" : "scale-x-0"}`} />
             <button
               type="button"
               aria-pressed={i === k}
               onClick={() => pick(k)}
-              className={`flex w-full items-baseline gap-3 rounded-lg px-3.5 py-2.5 text-left text-[15px] transition-all duration-300 ${i === k ? "bg-[#F6F3FC] text-ink shadow-[inset_2px_0_0_#5B2EBD]" : "text-muted hover:text-ink"}`}
+              className={`group flex w-full items-baseline gap-4 py-4 text-left text-[15px] leading-snug transition-colors duration-500 ${i === k ? "text-ink" : "text-muted hover:text-ink"}`}
             >
-              <span className={`font-mono text-[11px] ${i === k ? "text-[#5B2EBD]" : "text-muted/70"}`}>0{k + 1}</span>
-              <b className={i === k ? "font-semibold" : "font-medium"}>{x.label}</b>
+              <span className={`font-mono text-[11px] tabular-nums transition-colors duration-500 ${i === k ? "text-[#5B2EBD]" : "text-muted/60"}`}>0{k + 1}</span>
+              <span className="font-medium tracking-[-0.01em]">{x.label}</span>
             </button>
           </li>
         ))}

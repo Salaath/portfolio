@@ -11,7 +11,8 @@ const MIN = 1000, MAX = 9999999, TAX_CAP = 50000;
 const fundName = ()=>fundById(S.d.fund).name;
 const planName = ()=>(PLANS[S.d.plan] || PLANS.aggressive).name + ' plan';
 const amt = ()=>S.d.amount || 0;
-const FEES = 507;                       // Figma review: ₹50,000 → total ₹50,507
+const FEES = 507;                       // Figma review: ₹50,000 → total ₹50,507.40 (platform 400 + processing 30 + GST 77.40)
+const total = ()=> inr(amt()+FEES)+'.40';
 const esc = (s)=>String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const kbPad = (el)=>({ onFocus:()=>el.classList.add('by-kb'), onBlur:()=>el.classList.remove('by-kb') });
 const topbar = (title, help=true, back=I.back())=>`<div class="topbar">
@@ -248,12 +249,12 @@ SCREENS.byReview = (el)=>{
       <div class="scroll"><div class="by-rv stg">
         <div class="by-rv-hd"><div class="h3 c2">I want to</div><div class="h2 cg">invest ${inr(amt())} in NPS</div></div>
         <div class="by-rows">
-          <div class="by-row"><span>Total amount</span><em>${inr(amt()+FEES)}</em></div>
+          <div class="by-row"><span>Total amount</span><em>${total()}</em></div>
           <div class="by-row"><span>Expected delivery<button class="by-lm" id="lm">Learn more<img src="${A}by-arrow-right-8.svg" width="8" height="8" alt=""></button></span><em>2-3 working days</em></div>
           <div class="by-row"><span>Applicable NAV date</span><em>${navDate()}</em></div>
           <div class="by-row"><span>Nominee</span><button class="by-link" id="nom">${nom?'Edit nominees':'Add nominee'}</button></div>
           <button class="by-row by-accrow" id="acc"><span>View tax &amp; charges</span><img src="${A}${st.open?'by-chevron-up-24.svg':'by-chevron-down-24.svg'}" width="24" height="24" alt=""></button>
-          <div class="by-fees ${st.open?'on':''}"><div><span>Platform Fees for NPS (One-time)</span><em>₹230.00</em></div><div><span>Transaction Processing Fees</span><em>₹30.00</em></div></div>
+          <div class="by-fees ${st.open?'on':''}"><div><span>GST</span><em>₹77.40</em></div><div><span>Platform Fees for NPS (One-time)</span><em>₹400.00</em></div><div><span>Transaction Processing Fees</span><em>₹30.00</em></div></div>
         </div>
       </div></div>
       <div class="by-rv-ft">
@@ -325,7 +326,7 @@ SCREENS.byGpay = (el)=>{
   el.innerHTML = `<div class="by-gp-top"><div class="by-gp-logo"><img src="${A}by-gpay-logo.jpg" width="48" height="48" alt="Google Pay"></div>
       <img class="by-ph" src="${A}by-placeholder.svg" width="371" height="47" alt=""></div>
     <div class="by-gp-card">
-      <div class="by-gp-amt"><b>${inr(amt()+FEES)}</b><span>Payment request from RKSV Securities Pvt. Ltd.</span></div>
+      <div class="by-gp-amt"><b>${total()}</b><span>Payment request from RKSV Securities Pvt. Ltd.</span></div>
       <div class="by-gp-bank"><span class="lg"><img src="${A}by-axis-logo.png" width="24" height="24" alt=""></span><div><b>Axis Bank Ltd. ••••1943</b><span>Savings account</span></div><img src="${A}by-gpay-chevron.svg" width="24" height="24" alt=""></div>
       <div style="padding:16px"><button class="by-gp-btn" id="pp">Proceed to pay</button></div>
     </div>`;
@@ -338,7 +339,7 @@ SCREENS.byGpay = (el)=>{
 SCREENS.byPin = (el)=>{
   el.classList.add('by-ext');
   el.innerHTML = `<div class="by-pin-bar"><div><b>Axis Bank Ltd.</b><span>XX1943</span></div><img src="${A}by-upi-logo.png" width="65" height="24" alt="UPI"></div>
-    <div class="by-pin-sum"><span>Sending: ${inr(amt()+FEES)}.00</span><span>To: RKSV Securities Pv....</span></div>
+    <div class="by-pin-sum"><span>Sending: ${total()}</span><span>To: RKSV Securities Pv....</span></div>
     <div class="by-pin-mid"><span>Enter 4-digit UPI PIN</span><div class="by-dots" id="dots">${'<i></i>'.repeat(4)}</div>
       <img class="by-ph" src="${A}by-placeholder.svg" width="371" height="47" alt=""></div>
     <div class="by-pin-kp">${[1,2,3,4,5,6,7,8,9,'',0].map(k=>`<button ${k===''?'disabled':`data-k="${k}"`}>${k}</button>`).join('')}<button data-k="go" class="go"><img src="${A}by-pin-btn-bg.svg" width="34" height="34" alt=""><img src="${A}by-pin-arrow.svg" width="24" height="24" alt="" class="ar"></button></div>`;

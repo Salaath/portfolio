@@ -9,8 +9,15 @@ import { RollButton } from "@/components/RollButton";
 
 export const metadata: Metadata = {
   title: "About — Salaath Shaikh",
-  description: cv.summary,
+  description: "Product Design Lead at Upstox, crafting investing experiences for millions of Indians.",
 };
+
+// Sal's own words for the top of the page (the rest comes from the CV).
+const ABOUT = [
+  "I\u2019m a Product Design Lead at Upstox, crafting investing experiences for millions of Indians \u2014 from their first trade to more complex trading tools. I lead and mentor a team of six product designers, staying closely involved in the work and building alongside them.",
+  "I care about software that feels cared for i.e the motion, the details and the decisions nobody explicitly asked for but everybody feels. Trained as an architect, I tend to think in systems rather than screens, bringing a broader perspective to the products I build.",
+  "I\u2019m particularly interested in how AI can raise the ceiling of what we create, not just the floor. As execution becomes increasingly accessible, I believe the real design work lies in having conviction: knowing what is worth building, making deliberate choices and editing relentlessly until done actually means good.",
+];
 
 const RESUME = "/resume.pdf";
 
@@ -57,11 +64,18 @@ export default function About() {
           data-split="lines"
           data-load
           data-delay="0.1"
-          className="max-w-6xl text-4xl font-medium leading-[1.05] tracking-[-0.035em] sm:text-5xl md:text-[4.2vw]"
+          className="max-w-6xl text-3xl font-medium leading-[1.1] tracking-[-0.03em] sm:text-4xl md:text-[3.1vw]"
         >
-          {cv.summary}
+          {ABOUT[0]}
         </h1>
-        <div data-fade data-load data-delay="0.6" className="mt-14 grid gap-8 md:grid-cols-6 md:items-center">
+        <div data-fade data-load data-delay="0.45" className="mt-12 grid gap-8 md:mt-16 md:grid-cols-6 md:gap-0">
+          {ABOUT.slice(1).map((para, i) => (
+            <p key={i} className={`text-lg leading-relaxed text-muted md:text-xl md:leading-[1.5] ${i ? "md:col-span-2 md:pl-3" : "md:col-span-2 md:col-start-3 md:pl-3 md:pr-8"}`}>
+              {para}
+            </p>
+          ))}
+        </div>
+        <div data-fade data-load data-delay="0.6" className="mt-14 grid gap-8 md:mt-20 md:grid-cols-6 md:items-center">
           <div className="md:col-span-2">
             <Magnetic strength={0.2}>
               <RollButton href={RESUME} newTab label="Download résumé" icon="↓" />
@@ -91,8 +105,8 @@ export default function About() {
             </div>
             <ul className="mt-6 flex flex-col gap-3">
               {(job.bullets as Run[][]).map((runs, i) => (
-                <li key={i} data-fade data-delay={Math.min(i, 4) * 0.05} className="grid grid-cols-[1.25rem_minmax(0,1fr)] text-muted md:text-lg md:leading-snug">
-                  <span aria-hidden className="pt-[0.1em] text-ink/30">—</span>
+                <li key={i} data-fade data-delay={Math.min(i, 4) * 0.05} className="grid grid-cols-[1.125rem_minmax(0,1fr)] text-muted md:text-lg md:leading-snug">
+                  <span aria-hidden className="mt-[0.62em] size-[5px] rounded-full bg-ink/25" />
                   <span>
                     {runs.map((r, k) =>
                       r.b ? <strong key={k} className="font-semibold text-ink">{r.t}</strong> : <span key={k}>{r.t}</span>,

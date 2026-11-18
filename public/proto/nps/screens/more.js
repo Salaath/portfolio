@@ -65,63 +65,100 @@ SCREENS.more = (el)=>{
 };
 
 /* ================= Education stories ================= */
-// Bodies are the redesigned "Truths of NPS": brand purple stays on the CTA only,
-// green carries gains, teal and blue carry the infographics.
-const SB_CARD = 'sb-card';
-const sw = (c)=>`<i class="sb-sw" style="background:${c}"></i>`;
-const STORY_BLOBS = [
-  [[320,280,'right:-130px',150,'#E1F3EE','58% 42% 47% 53%/45% 55% 45% 55%'],[220,200,'left:-100px',360,'#EAF6F1','40% 60% 55% 45%/60% 40% 60% 40%']],
-  [[320,320,'left:-160px',110,'#E3F4F6','45% 55% 60% 40%/50% 45% 55% 50%'],[260,240,'right:-130px',400,'#EFF8FA','60% 40% 45% 55%/40% 60% 40% 60%']],
-  [[300,340,'right:-150px',100,'#EAF0F8','52% 48% 40% 60%/55% 45% 55% 45%'],[240,220,'left:-120px',420,'#EFF8FA','45% 55% 58% 42%/48% 52% 48% 52%']],
-  [[360,280,'left:-130px',120,'#E1F3EE','48% 52% 62% 38%/52% 40% 60% 48%'],[240,260,'right:-120px',380,'#EAF6F1','60% 40% 45% 55%/45% 60% 40% 55%']],
+// Bodies are the "Truths of NPS" drawn in the Upstox invest-story style (as the Gold and SGB
+// stories): white ground, plum headings, a teal kicker, flat teal and hairline isometric shapes,
+// halftone dots and flat bar charts. Each piece arrives on its own beat. Brand purple stays on the CTA.
+const SV = {plum:'#2A0E4E', ink:'#262626', grey:'#6A6A6A', teal:'#7DCFCF', tealT:'#16939B', bar:'#C5E4E6', green:'#1E8E6B', line:'#1F2A2E'};
+const at = (d)=>`animation-delay:${d}s`;
+const halftone = (size, pos, d, dark)=>`<i class="sv-half sv-fade${dark?' dark':''}" style="width:${size}px;height:${size}px;${pos};${at(d)}"></i>`;
+const sparkle = (size, pos, d)=>`<svg class="sv-spark" viewBox="0 0 20 20" width="${size}" height="${size}" style="${pos};${at(d)}"><path d="M10 0 C10.8 6 14 9.2 20 10 C14 10.8 10.8 14 10 20 C9.2 14 6 10.8 0 10 C6 9.2 9.2 6 10 0Z" fill="#F0A64A"/></svg>`;
+function coins(n, x, y, r, d){
+  const ry = r*.5, t = 4.5; let g = `<ellipse class="sv-fade" style="${at(d)}" cx="${r*.3}" cy="${ry*.5}" rx="${r}" ry="${ry}" fill="${SV.line}" stroke="none"/>`;
+  for(let i=0;i<n;i++){ const cy = -i*t;
+    g += `<g class="sv-drop" style="${at((d+i*.09).toFixed(2))}"><path d="M${-r} ${cy-t} v${t} a${r} ${ry} 0 0 0 ${2*r} 0 v${-t}" fill="${SV.teal}"/><ellipse cx="0" cy="${cy-t}" rx="${r}" ry="${ry}" fill="#fff"/>${i===n-1?`<ellipse cx="0" cy="${cy-t}" rx="${r*.55}" ry="${ry*.55}" fill="none"/>`:''}</g>`; }
+  return `<g transform="translate(${x} ${y})" stroke="${SV.line}" stroke-width=".6" stroke-linejoin="round">${g}</g>`;
+}
+const disc = (d, inner)=>`<span class="sv-disc sv-pop" style="${at(d)}"><svg viewBox="-36 -36 72 72" width="72" height="72" aria-hidden="true">${inner}</svg></span>`;
+
+// background elements of each story, laid over the whole screen
+const STORY_BG = [
+  ()=>`<svg class="sv-shard sv-drift" style="--dx:-26px;--dy:18px;${at(.1)}" viewBox="0 0 80 124" fill="none" stroke="${SV.line}" stroke-width=".6" stroke-linejoin="round"><polygon points="76,2 2,96 20,120" fill="${SV.teal}"/><polygon points="76,2 20,120 48,112" fill="#fff"/></svg>
+    ${halftone(210,'right:-128px;top:120px',.15,true)}<i class="sv-circle sv-drift" style="--dx:-40px;--dy:40px;${at(.2)}"></i>`,
+  ()=>halftone(230,'right:-134px;top:96px',.1)+halftone(180,'left:-120px;bottom:120px',.2),
+  ()=>halftone(220,'right:-136px;top:90px',.1)+halftone(170,'left:-116px;bottom:110px',.2),
+  ()=>'',
 ];
-const blobs = (k)=>STORY_BLOBS[k].map(([w,hh,x,y,c,r])=>`<i class="sb-blob" style="width:${w}px;height:${hh}px;${x};top:${y}px;background-color:${c};border-radius:${r}"></i>`).join('');
-const head = (kicker, title)=>`<p class="meta c3">${kicker}</p><h2 class="h2 sb-h">${title}</h2>`;
+const stBg = (k)=>STORY_BG[k]();
+const kick = (t)=>`<p class="sv-kick">${t}</p>`;
 
 function pillar(){
-  const rows = [['3 YRS',70,'#EAF0F8','Partial withdrawal',['Allowed 3 times, 5 yrs apart,','in special cases']],
-    ['10 YRS',88,'#D6E3F4','Premature exit',['100% lump sum under ₹1L','Above ₹1L: 80% lump sum,','rest as pension']],
-    ['AT 60',88,'#8FAEDE','On maturity',['100% lump sum under ₹5L','Above ₹5L: 60% lump sum,','rest as pension']],
-    ['ANY',44,'#3F6CBC','On death',['100% lump sum to your nominee']]];
-  let y = 14, g = '';
+  const rows = [['3 YRS',76,'#DDF1F1','Partial withdrawal',['Allowed 3 times, 5 yrs apart,','in special cases']],
+    ['10 YRS',94,'#B5E2E2','Premature exit',['100% lump sum under ₹1L','Above ₹1L: 80% lump sum,','rest as pension']],
+    ['AT 60',94,SV.teal,'On maturity',['100% lump sum under ₹5L','Above ₹5L: 60% lump sum,','rest as pension']],
+    ['ANY',48,'#2F9AA0','On death',['100% lump sum to your nominee']]];
+  const base = 14 + rows.reduce((t,r)=>t+r[1],0) + 12*(rows.length-1);
+  let y = 14, g = `<polygon class="sv-fade" style="${at(.35)}" points="36,${base} 52,${base-9} 66,${base-9} 50,${base}" fill="${SV.line}" opacity=".9"/>`;
   rows.forEach(([tag,hh,side,title,lines],i)=>{
-    const t = y; y += hh + 12;
-    g += `<g stroke="#262626" stroke-width=".7" stroke-linejoin="round">
-      <polygon points="0,${t} 14,${t-8} 46,${t-8} 32,${t}" fill="#F9F8FD"/><rect x="0" y="${t}" width="32" height="${hh}" fill="#fff"/>
-      <polygon points="32,${t} 46,${t-8} 46,${t+hh-8} 32,${t+hh}" fill="${side}"/></g>
-      <text transform="translate(20,${t+hh/2}) rotate(-90)" text-anchor="middle" font-size="11" font-weight="600" fill="#3F6CBC">${tag}</text>
-      ${i ? `<line x1="64" y1="${t-6}" x2="312" y2="${t-6}" stroke="#D9E1EC"/>` : ''}
-      <text x="64" y="${t+18}" font-size="16" font-weight="600" fill="#262626">${title}</text>
-      ${lines.map((l,n)=>`<text x="64" y="${t+38+n*17}" font-size="12" font-weight="500" fill="#6A6A6A">${l}</text>`).join('')}`;
+    const t = y, d = .4 + i*.45; y += hh + 12;
+    g += `<g class="sv-drop" style="${at(d.toFixed(2))}"><g stroke="${SV.line}" stroke-width=".6" stroke-linejoin="round">
+      <polygon points="0,${t} 16,${t-9} 52,${t-9} 36,${t}" fill="#fff"/><rect x="0" y="${t}" width="36" height="${hh}" fill="#fff"/>
+      <polygon points="36,${t} 52,${t-9} 52,${t+hh-9} 36,${t+hh}" fill="${side}"/></g>
+      <text transform="translate(22,${t+hh/2}) rotate(-90)" text-anchor="middle" font-size="11" font-weight="700" letter-spacing=".6" fill="${SV.tealT}">${tag}</text></g>
+      <g class="sv-rise" style="${at((d+.15).toFixed(2))}"><text x="74" y="${t+18}" font-size="16" font-weight="600" fill="${SV.ink}">${title}</text>
+      ${lines.map((l,n)=>`<text x="74" y="${t+38+n*18}" font-size="13" fill="${SV.grey}">${l}</text>`).join('')}</g>`;
   });
-  return `<svg class="sb-pillar" viewBox="0 0 312 344" width="312" height="344" role="img" aria-label="NPS withdrawal rules as a stacked pillar">
-    <defs><filter id="sbShadow" x="-30%" y="-10%" width="160%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#10182B" flood-opacity=".16"/></filter></defs>${g}</svg>`;
+  return `<svg class="sb-pillar" viewBox="0 0 312 372" width="312" height="372" role="img" aria-label="NPS withdrawal rules as a stacked pillar">${g}</svg>`;
 }
 
 const STORY_HTML = [
-  ()=>`${head('Introducing','National Pension Scheme')}<p class="meta c2 sb-sub">Government-backed retirement savings</p>
-    <div class="sb-hero"><p class="meta cg">Save tax up to</p><p class="sb-big">₹15,600</p><p class="meta c2">On ₹50k, under 80CCD(1)</p></div>
-    <div class="${SB_CARD} sb-extra"><div class="sb-row"><span class="b2 c2">Additionally, save up to</span><b class="sb-amt">₹46,800</b></div>
-      <i class="sb-bar sb-grow"></i><p class="meta c3">Using ₹1.5 L as an alternate to 80C</p></div>`,
-  ()=>`${head('How NPS works','Invest now, get paid after 60')}
-    <div class="sb-life"><div class="sb-rail"><i style="background:#A7D9DF;color:#0F3A41">Today</i><i style="background:#3E8A95">At 60</i><i style="background:#1F5A63">After 60</i></div>
-      <div class="sb-stops">
-        <div class="${SB_CARD}" style="border-left-color:#A7D9DF"><p class="b1 semi">Invest up to ₹50k a year</p><p class="meta c2">Tax exemption up to ₹15,600 u/s 80CCD(1)</p><p class="meta sb-lock">${'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>'}Locked till 60</p></div>
-        <div class="${SB_CARD}" style="border-left-color:#3E8A95"><p class="b1 semi">Withdraw 60% of your corpus</p><p class="meta c2">All tax-free</p></div>
-        <div class="${SB_CARD}" style="border-left-color:#1F5A63"><p class="b1 semi">Monthly or yearly pension</p><p class="meta c2">Taxed as per your slab</p></div>
-      </div></div>`,
-  ()=>`${head('Withdrawal rules','When money comes out')}<div class="sb-pillar-wrap">${pillar()}</div>`,
-  ()=>`${head('Returns vs risk','High returns at low risk')}
-    <div class="${SB_CARD} sb-cmp">
-      <div class="sb-cmp-g"><span class="meta semi">NPS</span><span class="sb-sbar sb-grow"><i style="width:36%"></i><i></i></span><b class="meta cg">10–13%</b>
-        <span class="meta semi">PPF</span><span class="sb-sbar sb-grow" style="width:66%"><i style="width:55%"></i><i></i></span><b class="meta c2">7.1%</b></div>
-      <div class="meta c2 sb-legend"><span>${sw('#E1E1E1')}Invested</span><span>${sw('#8DD5B8')}Profit</span></div>
-      <p class="meta c2 sb-note">Up to 12% a year with an aggressive plan, higher than PPF</p></div>
-    <div class="${SB_CARD} sb-mix">
-      <svg viewBox="0 0 42 42" width="96" height="96" aria-hidden="true"><circle cx="21" cy="21" r="15.9" fill="none" stroke="#3F6CBC" stroke-width="6.5" stroke-dasharray="43 57" stroke-dashoffset="25"/><circle cx="21" cy="21" r="15.9" fill="none" stroke="#8DD5B8" stroke-width="6.5" stroke-dasharray="28 72" stroke-dashoffset="-19.5"/><circle cx="21" cy="21" r="15.9" fill="none" stroke="#8AD5DE" stroke-width="6.5" stroke-dasharray="24 76" stroke-dashoffset="-49"/></svg>
-      <div class="meta"><div>${sw('#3F6CBC')}Equity</div><div>${sw('#8DD5B8')}Corporate bonds</div><div>${sw('#8AD5DE')}Govt. bonds</div><p class="c2">Diversified as per your age</p></div></div>`,
+  ()=>`<div class="sv-intro">
+      <p class="sv-kick sv-rise" style="${at(.1)}">Introducing</p>
+      <h2 class="sv-h sv-rise" style="${at(.22)}">National Pension<br>Scheme</h2>
+      <p class="sv-sub sv-rise" style="${at(.4)}">Government-backed retirement savings</p>
+      <div class="sv-rise" style="${at(.7)}"><p class="sv-kick sv-save">Save tax up to</p>
+        <p class="sv-big">₹<span data-count="15600" data-delay="750">15,600</span>${sparkle(16,'left:-20px;top:0',1.5)}${sparkle(10,'right:-18px;bottom:6px',1.8)}${sparkle(7,'right:-8px;bottom:20px',2.1)}</p>
+        <p class="sv-meta">On ₹50k, under 80CCD(1)</p></div>
+    </div>
+    <div class="sv-extra sv-rise" style="${at(1.25)}">
+      <svg viewBox="0 0 36 36" width="38" height="38" aria-hidden="true"><ellipse cx="15" cy="18.5" rx="9.5" ry="13" transform="rotate(18 15 18.5)" fill="#F08A6B" stroke="${SV.line}" stroke-width=".6"/><ellipse cx="19" cy="18" rx="9.5" ry="13" transform="rotate(18 19 18)" fill="#fff" stroke="${SV.line}" stroke-width=".6"/><path class="sv-check" style="${at(1.55)}" pathLength="1" d="M14.5 19.5l3 3.2 5.2-8" fill="none" stroke="${SV.tealT}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p><b>Additionally, save up to ₹46,800</b><span>Using ₹1.5 L as an alternate to 80C</span></p></div>`,
+  ()=>{
+    const stops = [['Today','Invest up to ₹50k a year','Tax exemption up to ₹15,600 u/s 80CCD(1)',(d)=>coins(1,0,7,15,d),true],
+      ['At 60','Withdraw 60% of your corpus','All tax-free',(d)=>coins(5,0,16,15,d)],
+      ['After 60','Monthly or yearly pension','Taxed as per your slab',(d)=>coins(2,-13,2,9.5,d)+coins(2,12,5,9.5,d+.12)+coins(2,-1,18,9.5,d+.24)]];
+    return `<div class="sv-rise" style="${at(.05)}">${kick('How NPS works')}<h2 class="sv-h l">Invest now, get<br>paid after 60</h2></div>
+      <div class="sv-life"><i class="sv-dash sv-growy" style="${at(.6)}"></i>
+      ${stops.map(([age,act,note,icon,lock],i)=>{ const d = .4 + i*.6;
+        return `<div class="sv-stop">${disc(d, icon(d+.15))}<div class="sv-rise" style="${at((d+.2).toFixed(2))}"><p class="sv-age">${age}</p><p class="sv-act">${act}</p><p class="sv-meta">${note}${lock?'<span class="sv-lock">Locked till 60</span>':''}</p></div></div>`; }).join('')}
+      </div>`; },
+  ()=>`<div class="sv-rise" style="${at(.05)}">${kick('Withdrawal rules')}<h2 class="sv-h l">When money<br>comes out</h2></div><div class="sb-pillar-wrap">${pillar()}</div>`,
+  ()=>{
+    const mix = [['Equity','#2F9AA0',43],['Corporate bonds',SV.teal,28],['Govt. bonds','#C5E4E6',24]];
+    const sq = (c)=>`<i style="background:${c}"></i>`;
+    return `<h2 class="sv-h l ink sv-rise" style="${at(.05)}">High returns<br>at low risk</h2>
+      <p class="sv-lab sv-rise" style="${at(.3)}">Money invested vs profit</p>
+      <div class="sv-cmp">${[['NPS','100%','36%','10–13%'],['PPF','66%','55%','7.1%']].map(([n,w,inv,r],i)=>
+        `<div class="sv-barrow" style="width:${w}"><span class="sv-inv sv-growx" style="width:${inv};${at(.45+i*.12)}">${n}</span><span class="sv-gain sv-growx" style="${at(1+i*.3)}"></span></div>
+         <p class="sv-rate sv-rise${i?' dim':''}" style="${at(1.35+i*.3)}">${r}<span>a year</span></p>`).join('')}</div>
+      <div class="sv-leg sv-rise" style="${at(1.5)}"><span class="dim">${sq(SV.bar)}Invested</span><span class="dim">${sq(SV.green)}Profit</span></div>
+      <p class="sv-lab two sv-rise" style="${at(2)}">Where your money goes</p>
+      <div class="sv-mix">${mix.map(([n,c,p],i)=>`<span class="sv-growx" style="width:${p}%;background:${c};${at((2.15+i*.22).toFixed(2))}"></span>`).join('')}</div>
+      <div class="sv-rise" style="${at(2.8)}"><div class="sv-leg">${mix.map(([n,c])=>`<span>${sq(c)}${n}</span>`).join('')}</div><p class="sv-meta sm">Diversified as per your age</p></div>
+      <p class="sv-foot sv-rise" style="${at(3.1)}">*Up to 12% a year with an aggressive plan, higher than PPF</p>`; },
 ];
-const STORY_MS = 5000, N_STORIES = 4;
+// the hero number counts up once its line has risen in (looked up afresh each frame, since a screen transition can swap the node)
+function countUp(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const t0 = performance.now() + 750, run = (countUp.run = {});
+  (function f(now){
+    if(countUp.run !== run) return;
+    const els = document.querySelectorAll('.mo-story [data-count]'); if(!els.length) return;
+    const k = Math.min(1, Math.max(0, (now-t0)/900));
+    els.forEach(el=>{ el.textContent = Math.round(+el.dataset.count*(1-Math.pow(1-k,3))).toLocaleString('en-IN'); });
+    if(k<1) requestAnimationFrame(f);
+  })(performance.now());
+}
+const STORY_MS = 6000, N_STORIES = 4;
 SCREENS.stories = (el, p={})=>{
   let i = Math.max(0, Math.min(N_STORIES-1, p.start|0)), hold = false, downAt = 0, state = 'ok';
   el.classList.add('mo-story');
@@ -137,8 +174,9 @@ SCREENS.stories = (el, p={})=>{
   const setDark = (on)=>{ el.classList.toggle('dark', on); $('#statusbar').classList.toggle('light', on); };
   function show(k){
     i = k; state = 'ok'; setDark(false);
-    body.innerHTML = `<div class="sb stg">${STORY_HTML[k]()}</div>`;
-    $('#stBlobs', el).innerHTML = blobs(k);
+    body.innerHTML = `<div class="sb sv">${STORY_HTML[k]()}</div>`;
+    $('#stBlobs', el).innerHTML = stBg(k);
+    countUp();
     body.dataset.story = k+1;
     steps.forEach((s, n)=>{ s.className = n<k ? 'done' : n===k ? 'cur' : ''; const b = s.firstChild; b.style.animation='none'; void b.offsetWidth; b.style.animation=''; });
   }
@@ -149,7 +187,7 @@ SCREENS.stories = (el, p={})=>{
       ? `<div class="mo-st-dots"><i></i><i></i><i></i><i></i><i></i></div>`
       : `<div class="mo-st-err"><p>We were unable to fetch<br>the next story</p><button data-retry>Retry</button></div>`;
   }
-  // auto-advance: the current segment's CSS animation runs 5s; pause while held or a sheet is open
+  // auto-advance: the current segment's CSS animation runs 6s; pause while held or a sheet is open
   el.addEventListener('animationend', e=>{
     if(!e.target.parentElement || !e.target.parentElement.classList.contains('cur')) return;
     if(i < N_STORIES-1) show(i+1); else e.target.parentElement.className = 'done';

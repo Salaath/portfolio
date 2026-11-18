@@ -81,6 +81,13 @@ body {
   html.has-cursor button {
     cursor: none;
   }
+  /* ...except inside prototypes and phone mock-ups, which keep the browser's arrow and hand */
+  html.has-cursor [data-native-cursor] {
+    cursor: default;
+  }
+  html.has-cursor [data-native-cursor] :is(a, button, [role="button"], label, summary) {
+    cursor: pointer;
+  }
 }
 
 /* While the preloader runs, the page can't scroll underneath it. */
@@ -208,4 +215,26 @@ body, body :where(*:not(.font-mono, .font-mono *, .label, .label *, code, pre, c
     filter: blur(48px) saturate(1.05);
     transform: scale(1.15);
   }
+}
+
+/* Product screens drawn in the Upstox app type (Inter), exempt from the Satoshi rule above. */
+.story-ui, .story-ui * { font-family: var(--font-inter), system-ui, sans-serif; }
+
+/* NPS stories: the smaller beats inside each screen */
+@keyframes story-fade { from { opacity: 0; } }
+@keyframes story-drop { from { opacity: 0; transform: translateY(-9px); } }
+@keyframes story-pop { from { opacity: 0; transform: scale(0.6); } }
+@keyframes story-growy { from { transform: scaleY(0); } }
+@keyframes story-drift { from { opacity: 0; transform: translate(var(--dx, 0), var(--dy, 0)); } }
+@keyframes story-twinkle { 0%, 100% { opacity: 0.25; transform: scale(0.6) rotate(0deg); } 50% { opacity: 1; transform: scale(1) rotate(20deg); } }
+@keyframes story-check { from { stroke-dashoffset: 1; } }
+.story-fade { animation: story-fade 0.6s ease-out both; }
+.story-drop { animation: story-drop 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.story-pop { animation: story-pop 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) both; }
+.story-growy { transform-origin: top; animation: story-growy 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.story-drift { animation: story-drift 1.1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.story-twinkle { transform-origin: center; animation: story-twinkle 1.8s ease-in-out infinite both; }
+.story-check { stroke-dasharray: 1; animation: story-check 0.45s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .story-fade, .story-drop, .story-pop, .story-growy, .story-drift, .story-twinkle, .story-check { animation: none; }
 }

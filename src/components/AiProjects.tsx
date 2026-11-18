@@ -26,12 +26,12 @@ const PROJECTS: Project[] = [
     tag: "iOS app · Web demo",
     body: "A private museum journal. Works hang on a 3D wall, each with its story and boards keep what I have seen in person.",
     stack: ["SwiftUI", "Remotion", "React"],
-    video: "/work/ai/muse.mp4",
-    poster: "/work/ai/muse-poster.jpg",
+    video: "/work/ai/muse-home.mp4",
+    poster: "/work/ai/muse-home-poster.jpg",
     kind: "scene",
     ground: "#e8e2d5",
-    href: "https://muse-web-vert.vercel.app/",
-    cta: "Open demo",
+    href: "/work/muse",
+    cta: "View project",
   },
   {
     title: "Chapters",
@@ -42,8 +42,8 @@ const PROJECTS: Project[] = [
     poster: "/work/ai/chapters-poster.jpg",
     kind: "scene",
     ground: "#14020a",
-    href: "https://chapters-web-five.vercel.app/",
-    cta: "Open demo",
+    href: "/work/chapters",
+    cta: "View project",
   },
   {
     title: "Design onboarding",
@@ -147,7 +147,7 @@ const SCENES: Record<string, SceneSpec> = {
 const PHONE: [number, number] = [353, 767];
 
 /** The matrix3d that carries the film's box onto four corners of the photo (a homography). */
-function warp(q: Pt[], [FILM_W, FILM_H]: [number, number], grow = 1) {
+export function warp(q: Pt[], [FILM_W, FILM_H]: [number, number], grow = 1) {
   // push each corner 1.5px out from the centre, so no sliver of the photo's sample screen shows
   const cx = q.reduce((t, c) => t + c[0], 0) / 4, cy = q.reduce((t, c) => t + c[1], 0) / 4;
   const dst = q.map(([x, y]) => {
@@ -223,6 +223,8 @@ function Scene({ p, spec }: { p: Project; spec: SceneSpec }) {
                 className="absolute block max-w-none object-fill"
                 style={c ? { left: (-c[0] / c[2]) * FILM_W, top: (-c[1] / c[3]) * FILM_H, width: (c[4] / c[2]) * FILM_W, height: (c[5] / c[3]) * FILM_H } : { left: 0, top: 0, width: FILM_W, height: FILM_H }}
               />
+              {/* the Dynamic Island, drawn over the recording's own (which shows the red recording dot) */}
+              {spec.iphone ? <span aria-hidden className="absolute left-[28.8%] top-[1%] h-[4.3%] w-[40.8%] rounded-full bg-black" /> : null}
               </div>
             </div>
           </div>
@@ -311,7 +313,7 @@ export function AiProjects() {
       </div>
       <div className="flex flex-col gap-24 md:gap-40">
         {PROJECTS.map((p, i) => (
-          <a key={p.title} href={p.href} target="_blank" rel="noreferrer" data-cursor="Open" onPointerMove={pointer} onPointerLeave={rest} className="group grid gap-10 md:grid-cols-12 md:gap-6">
+          <a key={p.title} href={p.href} {...(p.href.startsWith("/work/") ? {} : { target: "_blank", rel: "noreferrer" })} data-cursor="Open" onPointerMove={pointer} onPointerLeave={rest} className="group grid gap-10 md:grid-cols-12 md:gap-6">
             {/* the column is as tall as the scene, so the words have room to stay pinned inside it */}
             <div className={`md:col-span-4 ${i % 2 ? "md:order-2 md:col-start-9" : ""}`}>
               <div data-pin>

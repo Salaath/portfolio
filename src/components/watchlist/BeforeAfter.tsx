@@ -19,7 +19,7 @@ export function BeforeAfter({ width = 320 }: { width?: number }) {
   };
 
   return (
-    <div style={{ width }} className="max-w-full">
+    <div data-native-cursor style={{ width }} className="max-w-full">
       <div className="rounded-[2.6rem] bg-[#16121c] p-[8px] shadow-[0_50px_90px_-40px_rgba(40,14,80,0.55),inset_0_0_0_1.5px_#2c2833]">
         <div
           ref={box}

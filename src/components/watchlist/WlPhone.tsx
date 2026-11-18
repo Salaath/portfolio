@@ -5,7 +5,7 @@
 
 export const WL_IMG = "/work/watchlist";
 // bump when the screenshot files change, so browsers drop cached copies
-export const SHOT_V = "?v=7";
+export const SHOT_V = "?v=8";
 
 export function WlPhone({
   src,
@@ -29,7 +29,7 @@ export function WlPhone({
   return (
     <div className={`[container-type:inline-size] ${className}`} style={width ? { width } : undefined}>
       <div className="rounded-[13.5cqw] bg-[#16121c] p-[2.4cqw] shadow-[0_40px_80px_-30px_rgba(40,14,80,0.45),inset_0_0_0_1.5px_#2c2833]">
-      <div className="relative aspect-[9/20] w-full overflow-hidden rounded-[11.2cqw] bg-white">
+      <div data-native-cursor className="relative aspect-[9/20] w-full overflow-hidden rounded-[11.2cqw] bg-white">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`${WL_IMG}/${src}.jpg${SHOT_V}`}

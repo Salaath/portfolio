@@ -13,8 +13,6 @@ const TOPS: Record<string, string> = {
   byStatus: "#0c503b",
   calc: "#929292",
   plans: "#929292",
-  stories: "#e0e0e0",
-  storyWorks: "#dfdfdf",
   "v1/plans": "#929292",
 };
 
@@ -59,6 +57,7 @@ export function IPhone({
   scroll = false,
   screen,
   statusBar = true,
+  over,
 }: {
   src: string;
   alt: string;
@@ -71,6 +70,8 @@ export function IPhone({
   screen?: React.ReactNode;
   /** false when the screen (a recording) already draws its own iOS status bar */
   statusBar?: boolean;
+  /** Interactive layer drawn over the screen image, in the image's own box. */
+  over?: React.ReactNode;
 }) {
   const bare = src.includes("/");
   const top = TOPS[src] ?? "#ffffff";
@@ -87,7 +88,7 @@ export function IPhone({
         <span aria-hidden className="absolute -left-[0.8cqw] top-[49cqw] h-[13cqw] w-[1cqw] rounded-l-[0.6cqw] bg-[#2c2c2e]" />
         <span aria-hidden className="absolute -right-[0.8cqw] top-[37cqw] h-[21cqw] w-[1cqw] rounded-r-[0.6cqw] bg-[#2c2c2e]" />
 
-        <div className="relative aspect-[360/775] overflow-hidden rounded-[12.4cqw] bg-white">
+        <div data-native-cursor className="relative aspect-[360/775] overflow-hidden rounded-[12.4cqw] bg-white">
           {/* iOS status bar */}
           {statusBar && <div
             aria-hidden
@@ -117,20 +118,25 @@ export function IPhone({
             )}
             <div
               tabIndex={scroll ? 0 : undefined}
+              // Lenis smooths the page scroll and would otherwise take the wheel
+              // and touch events meant for this screen.
+              data-lenis-prevent={scroll ? "" : undefined}
               aria-label={scroll ? `${alt}. Scroll to see the full screen.` : undefined}
               className={`min-h-0 flex-1 ${scroll ? "overflow-y-auto overscroll-contain [scrollbar-width:none] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#7B5CB8] [&::-webkit-scrollbar]:hidden" : "overflow-hidden"}`}
             >
               {screen ?? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={`/work/nps/${src}.jpg`}
-                alt={alt}
-                width={720}
-                loading={priority ? "eager" : "lazy"}
-                decoding="async"
-                className="block h-auto w-full"
-                style={bare ? undefined : { marginTop: "-13.3333%" }}
-              />
+              <div className="relative" style={bare ? undefined : { marginTop: "-13.3333%" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/work/nps/${src}.jpg`}
+                  alt={alt}
+                  width={720}
+                  loading={priority ? "eager" : "lazy"}
+                  decoding="async"
+                  className="block h-auto w-full"
+                />
+                {over}
+              </div>
               )}
             </div>
             {bar && (

@@ -4,11 +4,12 @@ import { useState } from "react";
 import { WlPhone } from "./WlPhone";
 
 // The old watchlist, annotated. Pin positions are percentages of the 360×800 screen.
+// Pins sit beside what they point at, never on top of it.
 const PINS = [
-  { x: 30, y: 8.6, t: "Lists were hidden", b: "Switching lists, creating one and Discover all lived inside this chevron. Several taps to change lists, so most people didn’t: 18% of monthly visitors ever switched." },
-  { x: 91, y: 8.6, t: "Add looked like Create", b: "It opened search to add a stock. In our review it kept reading as “new list”, which is what people were hunting for." },
+  { x: 47, y: 5.7, t: "Lists were hidden", b: "Switching lists, creating one and Discover all lived inside this chevron. Several taps to change lists, so most people didn’t: 18% of monthly visitors ever switched." },
+  { x: 91, y: 6, t: "Add looked like Create", b: "It opened search to add a stock. In our review it kept reading as “new list”, which is what people were hunting for." },
   { x: 50, y: 33, t: "Remove relied on a hidden gesture", b: "Managing the stocks in a list depended on a gesture nobody guessed." },
-  { x: 82, y: 50, t: "Rows showed too little", b: "Name and price. For a chart, an OI number or a dividend date you opened the stock, checked, came back and opened the next one." },
+  { x: 64, y: 52.5, t: "Rows showed too little", b: "Name and price. For a chart, an OI number or a dividend date you opened the stock, checked, came back and opened the next one." },
 ];
 
 const RED = "#E5483A";
