@@ -57,7 +57,7 @@ export function FNav() {
           <nav className="flex gap-2 text-sm">
             {LINKS.filter(([, id]) => id !== "ai").map(([label, id]) => (
               <Magnetic key={id}>
-                <Link href={`/#${id}`} className="block px-3 py-2">{label}</Link>
+                <Link href={id === "about" ? "/about" : `/#${id}`} className="block px-3 py-2">{label}</Link>
               </Magnetic>
             ))}
           </nav>

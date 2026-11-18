@@ -813,6 +813,21 @@ export default function NpsCase() {
               caption="From a banner on Explore: enter the PRAN, confirm the transfer and the existing holdings land in Portfolio."
             />
           </div>
+          {/* figures supplied by Sal, 2026-11-17 */}
+          <div className="mt-12 grid gap-8 border-t border-line pt-8 md:grid-cols-[1fr_auto_auto] md:items-end md:gap-16">
+            <div>
+              <span className="label">Launch result · Corporate NPS</span>
+              <p className="mt-3 max-w-sm text-2xl font-semibold leading-[1.1] tracking-[-0.03em]">Within three months of launch</p>
+            </div>
+            <div>
+              <b data-count className="block text-6xl font-semibold leading-none tabular-nums tracking-[-0.05em] md:text-7xl" style={{ color: "#12A150" }}>50+</b>
+              <span className="mt-3 block text-sm text-muted">Corporate accounts opened</span>
+            </div>
+            <div>
+              <b data-count className="block text-6xl font-semibold leading-none tabular-nums tracking-[-0.05em] md:text-7xl">₹26 L</b>
+              <span className="mt-3 block text-sm text-muted">Worth of orders every month</span>
+            </div>
+          </div>
         </div>
 
         <div className="mt-24 grid gap-10 md:grid-cols-[auto_1fr]">
@@ -821,7 +836,7 @@ export default function NpsCase() {
             Building NPS from zero meant making decisions before there was a product pattern to follow. The work wasn’t about removing every detail from a complex financial product. It was about deciding what people needed to understand at each step, what the product could handle in the background and where transparency and control had to stay with the user.
           </p>
           <span className="label md:border-t md:border-line md:pt-10">Try it</span>
-          <div data-fade className="relative grid overflow-hidden rounded-[1.75rem] bg-white md:grid-cols-[1fr_auto]">
+          <div data-fade className="relative grid overflow-hidden rounded-[1.75rem] bg-white lg:grid-cols-[1fr_auto]">
             <div className="flex flex-col justify-between gap-10 p-7 md:p-10">
               <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-[14px] text-xl text-white shadow-[inset_0_-6px_10px_rgba(0,0,0,0.18)]" style={{ background: "#5B2EBD" }}>₹</span>
               <div>
@@ -829,13 +844,13 @@ export default function NpsCase() {
                 <p className="mt-3 max-w-sm text-lg leading-snug text-muted">Open the app, go to More and tap NPS under Diversify Portfolio.</p>
               </div>
             </div>
-            {/* the live More tab, rising out of the card; the ring marks the NPS tile */}
+            {/* the live More tab, rising out of the card; a soft tint marks the NPS tile */}
             <div className="relative h-[22rem] px-10 md:h-[26rem] md:px-8 lg:px-16">
               <Phone screen="738 / 1600" className="mx-auto mt-10 w-[15rem] md:w-[17rem]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/work/nps/more-live.webp" alt="The More tab in the Upstox app, with NPS under Diversify Portfolio" width={738} height={1600} loading="lazy" className="absolute inset-0 block h-full w-full" />
                 <span aria-hidden className="absolute left-1/2 top-[2.2%] h-[3.1%] w-[30%] -translate-x-1/2 rounded-full bg-black" />
-                <span aria-hidden className="absolute left-[4%] top-[36.6%] aspect-square w-[17%] rounded-[22%] border-2 border-[#5B2EBD] [animation:f-pulse-ring_2.2s_ease-out_infinite]" />
+                <span aria-hidden className="absolute left-[3.5%] top-[36.2%] aspect-square w-[18%] rounded-[26%] bg-[#5B2EBD]/[0.09] mix-blend-multiply [animation:f-soft-glow_2.6s_ease-in-out_infinite]" />
               </Phone>
             </div>
           </div>

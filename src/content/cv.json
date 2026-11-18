@@ -1,0 +1,507 @@
+{
+  "name": "Salaath Shaikh",
+  "role": "Product Design Lead",
+  "location": "Mumbai, India",
+  "email": "salaathshaikh94@gmail.com",
+  "linkedin": "linkedin.com/in/salaathshaikh",
+  "summary": "Hands-on product design manager with 8+ years of experience simplifying investing and launching products that help long-term investors and traders diversify.",
+  "jobs": [
+    {
+      "title": "Product Design Manager",
+      "company": "Upstox",
+      "when": "Apr 2026 – Present",
+      "bullets": [
+        [
+          {
+            "t": "Lead and mentor a team of ",
+            "b": false
+          },
+          {
+            "t": "6 product designers",
+            "b": true
+          },
+          {
+            "t": " across top-of-funnel acquisition, activation and discoverability.",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Led the Watchlist redesign: orders from Watchlist rows up ",
+            "b": false
+          },
+          {
+            "t": "420.8% (5.2×)",
+            "b": true
+          },
+          {
+            "t": ", new lists up ",
+            "b": false
+          },
+          {
+            "t": "2,038%",
+            "b": true
+          },
+          {
+            "t": ", tab opens up ",
+            "b": false
+          },
+          {
+            "t": "138%",
+            "b": true
+          },
+          {
+            "t": ".",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Led Account Opening 3.0: demat account opening cut from 12 minutes to ",
+            "b": false
+          },
+          {
+            "t": "2–3",
+            "b": true
+          },
+          {
+            "t": ", ",
+            "b": false
+          },
+          {
+            "t": "~38% fewer steps",
+            "b": true
+          },
+          {
+            "t": ", ",
+            "b": false
+          },
+          {
+            "t": "~65%",
+            "b": true
+          },
+          {
+            "t": " conversion.",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Launched US stocks from 0 to 1, making Upstox one of the first brokers in India to offer them: ",
+            "b": false
+          },
+          {
+            "t": "45.5k orders",
+            "b": true
+          },
+          {
+            "t": " placed.",
+            "b": false
+          }
+        ]
+      ]
+    },
+    {
+      "title": "Lead Product Designer",
+      "company": "Upstox",
+      "when": "Apr 2025 – Mar 2026",
+      "bullets": [
+        [
+          {
+            "t": "Launched NPS and corporate NPS from 0 to 1: ",
+            "b": false
+          },
+          {
+            "t": "96.4K accounts",
+            "b": true
+          },
+          {
+            "t": ", ",
+            "b": false
+          },
+          {
+            "t": "₹34.6 Cr AUM",
+            "b": true
+          },
+          {
+            "t": ", first contribution in ",
+            "b": false
+          },
+          {
+            "t": "under 3 minutes",
+            "b": true
+          },
+          {
+            "t": ".",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Launched personal loans from 0 to 1 as a standalone app: ",
+            "b": false
+          },
+          {
+            "t": "20k downloads",
+            "b": true
+          },
+          {
+            "t": " and ",
+            "b": false
+          },
+          {
+            "t": "8,037 leads",
+            "b": true
+          },
+          {
+            "t": ".",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Launched NCDs and bonds from 0 to 1: ",
+            "b": false
+          },
+          {
+            "t": "0.7%",
+            "b": true
+          },
+          {
+            "t": " NCD market share, scalable to 5% (₹50 L revenue a month).",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Launched intraday screeners (",
+            "b": false
+          },
+          {
+            "t": "23%",
+            "b": true
+          },
+          {
+            "t": " of all equity orders) and an MTF calculator (",
+            "b": false
+          },
+          {
+            "t": "14.5k",
+            "b": true
+          },
+          {
+            "t": " daily active users).",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Redesigned the fund wallet and autopay: ",
+            "b": false
+          },
+          {
+            "t": "3.78M users",
+            "b": true
+          },
+          {
+            "t": " and ",
+            "b": false
+          },
+          {
+            "t": "15.33 L",
+            "b": true
+          },
+          {
+            "t": " fund additions in the first 2 months.",
+            "b": false
+          }
+        ]
+      ]
+    },
+    {
+      "title": "Senior UX Designer",
+      "company": "Upstox",
+      "when": "Jan 2024 – Mar 2025",
+      "bullets": [
+        [
+          {
+            "t": "Launched goal-based investing: ",
+            "b": false
+          },
+          {
+            "t": "2,88,788 users",
+            "b": true
+          },
+          {
+            "t": " set a goal in the first 3 months.",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Launched MTF on Invest: ",
+            "b": false
+          },
+          {
+            "t": "2.5%",
+            "b": true
+          },
+          {
+            "t": " of all orders and ",
+            "b": false
+          },
+          {
+            "t": "₹22.5 L",
+            "b": true
+          },
+          {
+            "t": " in interest earned a month.",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Designed mutual fund portfolio tracking, which improved retention and draws ",
+            "b": false
+          },
+          {
+            "t": "11.5k",
+            "b": true
+          },
+          {
+            "t": " daily active users.",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Launched the commodities page: ",
+            "b": false
+          },
+          {
+            "t": "1.28M orders",
+            "b": true
+          },
+          {
+            "t": " placed.",
+            "b": false
+          }
+        ]
+      ]
+    },
+    {
+      "title": "Product Designer",
+      "company": "Tata CLiQ",
+      "when": "Nov 2021 – Jan 2024",
+      "bullets": [
+        [
+          {
+            "t": "Launched Tata CLiQ Palette (",
+            "b": false
+          },
+          {
+            "t": "4.6",
+            "b": true
+          },
+          {
+            "t": " on the App Store): modular homepage lifted orders ",
+            "b": false
+          },
+          {
+            "t": "11.5%",
+            "b": true
+          },
+          {
+            "t": " in 30 days.",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Led Editorial on Tata CLiQ Luxury, India’s highest-rated e-commerce app (",
+            "b": false
+          },
+          {
+            "t": "4.8",
+            "b": true
+          },
+          {
+            "t": ", ",
+            "b": false
+          },
+          {
+            "t": "5M",
+            "b": true
+          },
+          {
+            "t": " monthly users): conversion ",
+            "b": false
+          },
+          {
+            "t": "+6.5%",
+            "b": true
+          },
+          {
+            "t": ", time spent ",
+            "b": false
+          },
+          {
+            "t": "+12%",
+            "b": true
+          },
+          {
+            "t": ".",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Redesigned filters (use up ",
+            "b": false
+          },
+          {
+            "t": "29%",
+            "b": true
+          },
+          {
+            "t": ") and rebuilt the Seller Portal, cutting seller onboarding time by ",
+            "b": false
+          },
+          {
+            "t": "60%",
+            "b": true
+          },
+          {
+            "t": ".",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Built two design systems (",
+            "b": false
+          },
+          {
+            "t": "500+",
+            "b": true
+          },
+          {
+            "t": " components) and led a research team of six: task completion up ",
+            "b": false
+          },
+          {
+            "t": "25%",
+            "b": true
+          },
+          {
+            "t": ", errors down ",
+            "b": false
+          },
+          {
+            "t": "30%",
+            "b": true
+          },
+          {
+            "t": ".",
+            "b": false
+          }
+        ]
+      ]
+    },
+    {
+      "title": "Assistant Art Director, UI/UX",
+      "company": "Zirca Digital Solutions",
+      "when": "Jul 2020 – Oct 2021",
+      "bullets": [
+        [
+          {
+            "t": "Designed CARER (carerforcancer.com) end to end: ",
+            "b": false
+          },
+          {
+            "t": "3.9×",
+            "b": true
+          },
+          {
+            "t": " more leads, ",
+            "b": false
+          },
+          {
+            "t": "50%",
+            "b": true
+          },
+          {
+            "t": " lower cost per lead and ",
+            "b": false
+          },
+          {
+            "t": "2.6×",
+            "b": true
+          },
+          {
+            "t": " conversion.",
+            "b": false
+          }
+        ]
+      ]
+    }
+  ],
+  "earlier": [
+    {
+      "title": "Founding Designer",
+      "company": "Retale Gateway",
+      "when": "Mar 2020 – Jun 2020"
+    },
+    {
+      "title": "Architect & Visual Designer",
+      "company": "Studio PM and DIG Architects",
+      "when": "2017 – 2019"
+    }
+  ],
+  "skills": [
+    {
+      "k": "Product design",
+      "v": "0-to-1 design, high-fidelity UI, data-dense interfaces, user flows, prototyping, user research, motion",
+      "when": ""
+    },
+    {
+      "k": "Design systems",
+      "v": "Tokens, component libraries, documentation, adoption, governance, OKLCH colors",
+      "when": ""
+    },
+    {
+      "k": "Design-to-code & AI",
+      "v": "Figma MCP, Perplexity, Claude Design, Claude Code, Cursor (AI-assisted design and research)",
+      "when": ""
+    },
+    {
+      "k": "Tools",
+      "v": "Figma, Framer, SwiftUI, Remotion, Mixpanel, CleverTap, Jira, Miro",
+      "when": ""
+    }
+  ],
+  "recognition": [
+    {
+      "k": "Top 1% Mentor",
+      "v": "ADPList",
+      "when": ""
+    },
+    {
+      "k": "Product Design Star",
+      "v": "Tata CLiQ",
+      "when": ""
+    }
+  ],
+  "education": [
+    {
+      "k": "Bachelor of Architecture",
+      "v": "NMIMS Balwant Sheth School of Architecture, Mumbai",
+      "when": "2012 – 2017"
+    },
+    {
+      "k": "Advanced Certification in Digital Design",
+      "v": "Indian Institute of Digital Education, Mumbai",
+      "when": "2019 – 2020"
+    }
+  ]
+}

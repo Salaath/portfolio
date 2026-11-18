@@ -102,7 +102,7 @@ export function Hero() {
         <div data-rule className="mt-8 h-px origin-left bg-ink/80" />
         <div data-sub className="mt-6 grid gap-8 md:grid-cols-6 md:items-start">
           <p className="max-w-md text-lg leading-snug md:col-span-2">
-            I design calm, trustworthy tools for anxious money moments.
+            Hands-on design lead making money feel simple for millions of Indians.
           </p>
           <div className="md:col-span-2 md:pl-3">
             <Magnetic strength={0.2}>

@@ -50,15 +50,15 @@ export function Nav() {
       <Link href="/" className="text-lg font-semibold tracking-[-0.03em]">
         Salaath Shaikh<sup className="ml-0.5 text-[0.55em] font-medium">®</sup>
       </Link>
-      <span className="label hidden !text-white/70 md:block">Product designer — Upstox</span>
       <nav className="flex gap-2 text-sm">
         {links.map(([label, id]) => (
           <Magnetic key={id}>
             <Link
-              href={`/#${id}`}
+              href={id === "about" ? "/about" : `/#${id}`}
               className="block px-3 py-2"
               onClick={(e) => {
-                if (pathname === "/" && scrollToId(id)) e.preventDefault();
+                // About is its own page; the others are sections of the home page.
+                if (id !== "about" && pathname === "/" && scrollToId(id)) e.preventDefault();
               }}
             >
               {label}

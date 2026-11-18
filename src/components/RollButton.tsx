@@ -10,6 +10,7 @@ export function RollButton({
   label,
   icon = "↗",
   href,
+  newTab = false,
   onClick,
   invert = false,
   className = "",
@@ -17,6 +18,8 @@ export function RollButton({
   label: string;
   icon?: string;
   href?: string;
+  /** Open the link in a new tab, for files such as the résumé PDF. */
+  newTab?: boolean;
   onClick?: () => void;
   invert?: boolean;
   className?: string;
@@ -45,6 +48,13 @@ export function RollButton({
     </>
   );
   const cls = `group relative inline-flex items-center gap-4 overflow-hidden rounded-full border py-2.5 pl-6 pr-3 text-sm font-medium ${tone} ${className}`;
+  if (href && newTab) {
+    return (
+      <a href={href} target="_blank" rel="noreferrer" className={cls}>
+        {inner}
+      </a>
+    );
+  }
   if (href) {
     return (
       <Link href={href} className={cls}>

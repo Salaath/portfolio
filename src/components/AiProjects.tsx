@@ -300,7 +300,7 @@ export function AiProjects() {
     <section id="ai" className="px-4 pb-32 pt-28 sm:px-10 md:pt-40">
       <div className="mb-16 flex items-end justify-between gap-6 md:mb-24">
         <div>
-          <p data-label className="label mb-6">[ 04 — Built with AI ]</p>
+          <p data-label className="label mb-6">[ 03 — Built with AI ]</p>
           <h2 data-split="lines" className="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-[6vw]">
             From idea to working app
           </h2>
