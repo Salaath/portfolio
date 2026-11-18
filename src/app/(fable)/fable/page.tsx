@@ -1,3 +1,4 @@
+import cv from "@/content/cv.json";
 import Link from "next/link";
 import { getCase, type CaseStudy } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
@@ -153,12 +154,12 @@ export default function FableHome() {
         <div className="relative">
           <p data-label className="label mb-8 !text-white/60">[ 05 — Open to lead &amp; senior IC roles ]</p>
           <Magnetic strength={0.2}>
-            <a href="mailto:hello@example.com" data-cursor="Say hi" data-split="chars" className="block text-[19vw] leading-[0.85] tracking-[-0.05em] sm:text-[13vw]">
+            <a href={`mailto:${cv.email}`} data-cursor="Say hi" data-split="chars" className="block text-[19vw] leading-[0.85] tracking-[-0.05em] sm:text-[13vw]">
               Let&rsquo;s talk
             </a>
           </Magnetic>
           <div data-fade data-delay="0.3" className="mt-14 flex flex-wrap justify-center gap-4">
-            <RollButton href="https://www.linkedin.com/" label="LinkedIn" />
+            <RollButton href={`https://www.${cv.linkedin}`} newTab label="LinkedIn" />
             <RollButton href="/resume.pdf" label="Résumé" />
           </div>
           <div className="label mt-40 flex flex-wrap justify-between gap-4 border-t border-white/15 pt-6 !text-white/50">

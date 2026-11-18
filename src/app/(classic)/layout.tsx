@@ -12,6 +12,7 @@ import { Preloader } from "@/components/Preloader";
 const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://salaathshaikh.com"),
   title: "Salaath Shaikh — Product Designer",
   description:
     "Hands-on product design lead crafting trusted investing experiences at Upstox.",

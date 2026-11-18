@@ -1,3 +1,4 @@
+import cv from "@/content/cv.json";
 import { getCase, type CaseStudy } from "@/content/cases";
 
 // Selected work on the home page, in this order. Loans and the F&O risk
@@ -69,7 +70,7 @@ export default function Home() {
         <p data-label className="label mb-8">[ 04 — Open to lead &amp; senior IC roles ]</p>
         <Magnetic strength={0.25}>
           <a
-            href="mailto:hello@example.com"
+            href={`mailto:${cv.email}`}
             data-cursor="Say hi"
             data-split="chars"
             className="block text-[16vw] font-semibold leading-[0.85] tracking-[-0.06em] sm:text-[11vw]"
@@ -78,7 +79,7 @@ export default function Home() {
           </a>
         </Magnetic>
         <div data-fade data-delay="0.3" className="mt-16 flex flex-wrap justify-center gap-4">
-          <RollButton href="https://www.linkedin.com/" label="LinkedIn" />
+          <RollButton href={`https://www.${cv.linkedin}`} newTab label="LinkedIn" />
           <RollButton href="/about" label="Résumé" />
         </div>
       </section>
