@@ -1116,7 +1116,10 @@ function render() {
   else if (sh === 'comu') over = radioSheet('Select contract', Object.keys(COMM).map((k) => [k, COMM[k].label]), S.com.u, 'comupick');
   else if (sh === 'comexp') over = radioSheet('Select expiry', COMM[S.com.u].exp.map((e) => [e, e]), S.com.exp, 'comexppick');
   if (S.dialog === 'exit') over += exitDialog();
-  const kb = S.kb ? kbHTML() : '';
+  // the keyboard slides up only when it first opens; every key press redraws the screen,
+  // and replaying the slide on each one made the keyboard jump while typing
+  const kb = S.kb ? (window.__kbShown ? kbHTML().replace('<div class="kb">', '<div class="kb" style="animation:none">') : kbHTML()) : '';
+  window.__kbShown = !!S.kb;
   let tst = '';
   if (S.toast) { const b = S.kb ? 214 : (t === 'home' ? 124 : (t === 'order' || t === 'basket' || t === 'bpick' || t === 'disc' || t === 'cols' ? 150 : t === 'scrip' ? (S.sd && S.sd.tab === 'Chart' ? 146 : 118) : 16)); tst = `<div class="toast" style="bottom:${b}px" role="status">${S.toast.check ? I.checkG() : ''}<span class="tx">${esc(S.toast.text)}</span>${S.toast.action ? `<button class="ta" data-act="${S.toast.action.act}">${esc(S.toast.action.label)}</button>` : ''}</div>`; }
   $scr.innerHTML = html.replace('<div class="app">', '<div class="app" id="app">') + `<div class="nav"><button data-act="sysback" aria-label="Back">${I.sysBack()}</button><button data-act="syshome" aria-label="Home">${I.sysHome()}</button><button data-act="noop" aria-label="Recent apps">${I.sysRec()}</button></div>`;

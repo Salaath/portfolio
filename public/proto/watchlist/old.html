@@ -683,7 +683,10 @@ function render() {
   let over = '';
   if (S.sheet === 'switcher') over = switcherSheet(); else if (S.sheet === 'create') over = createSheet(); else if (S.sheet === 'quick') over = quickSheet(); else if (S.sheet === 'sort') over = sortSheet();
   if (S.dialog === 'exit') over += exitDialog();
-  const kb = S.kb ? kbHTML() : '';
+  // the keyboard slides up only when it first opens; every key press redraws the screen,
+  // and replaying the slide on each one made the keyboard jump while typing
+  const kb = S.kb ? (window.__kbShown ? kbHTML().replace('<div class="kb">', '<div class="kb" style="animation:none">') : kbHTML()) : '';
+  window.__kbShown = !!S.kb;
   let tst = '';
   if (S.toast) { const b = S.kb ? 214 : (t === 'home' ? 66 : (t === 'order' ? 150 : 16)); tst = `<div class="toast" style="bottom:${b}px" role="status">${S.toast.check ? I.checkG() : ''}<span class="tx">${esc(S.toast.text)}</span>${S.toast.action ? `<button class="ta" data-act="${S.toast.action.act}">${esc(S.toast.action.label)}</button>` : ''}</div>`; }
   $scr.innerHTML = html.replace('<div class="app">', '<div class="app" id="app">') + `<div class="nav"><button data-act="sysback" aria-label="Back">${I.sysBack()}</button><button data-act="syshome" aria-label="Home">${I.sysHome()}</button><button data-act="noop" aria-label="Recent apps">${I.sysRec()}</button></div>`;
