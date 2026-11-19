@@ -238,3 +238,10 @@ body, body :where(*:not(.font-mono, .font-mono *, .label, .label *, code, pre, c
 @media (prefers-reduced-motion: reduce) {
   .story-fade, .story-drop, .story-pop, .story-growy, .story-drift, .story-twinkle, .story-check { animation: none; }
 }
+
+/* Phones: nothing set smaller than 12px, apart from text drawn inside a phone mock-up. */
+@media (max-width: 767px) {
+  :is([class*="text-[10px]"], [class*="text-[10.5px]"], [class*="text-[11px]"]):not(.story-ui *, [data-native-cursor] *) {
+    font-size: 12px;
+  }
+}

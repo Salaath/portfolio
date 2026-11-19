@@ -346,6 +346,7 @@ export default function NpsCase() {
             </p>
           </div>
           <div data-fade className="self-end overflow-x-auto rounded-[2rem] bg-white p-6 md:p-8">
+            <p className="font-mono text-xs uppercase tracking-[0.12em] mb-4 text-muted md:hidden">Swipe the table sideways →</p>
             <div className="min-w-[480px]">
               <div className="label grid grid-cols-[1fr_1.1fr_1.3fr] gap-4 border-b border-line pb-4">
                 <span>CRA</span>
@@ -386,7 +387,8 @@ export default function NpsCase() {
                   <span className="font-mono text-xs text-white/45">{t.kind}</span>
                 </div>
                 <CraJourney id={t.journey} />
-                <div className="mt-6 overflow-x-auto">
+                <p className="font-mono text-xs uppercase tracking-[0.12em] mt-6 text-white/55 md:hidden">Swipe the table sideways →</p>
+                <div className="mt-3 md:mt-6 overflow-x-auto">
                   <div className="min-w-[640px]">
                     <div className="label grid grid-cols-3 gap-6 border-b border-white/15 pb-3 !text-white/50">
                       <span>What the screen asks</span>

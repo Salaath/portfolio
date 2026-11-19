@@ -8,7 +8,8 @@ import { DESKTOP, MOTION_OK, gsap, useGSAP } from "@/lib/gsap";
 /**
  * Selected work as a deck of full-screen covers. On desktop the section pins
  * and each next case wipes up over the last, which sinks back and dims; the
- * cover inside settles from a slight zoom as it lands. Mobile is a plain stack.
+ * cover inside settles from a slight zoom as it lands. On a phone each case is a
+ * picture with its text underneath.
  */
 export function CaseStack({ cases }: { cases: CaseStudy[] }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -67,9 +68,12 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
         <article
           key={c.slug}
           data-panel
-          className="relative h-[90svh] overflow-hidden md:absolute md:inset-0 md:h-auto"
+          className="relative overflow-hidden md:absolute md:inset-0"
         >
-          <Link href={`/work/${c.slug}`} data-cursor="View" className="absolute inset-0 block">
+          {/* Phone: the picture sits on top and the text below it on the section's solid
+              background, so nothing is ever read over the photo. Desktop: full-bleed cover. */}
+          <Link href={`/work/${c.slug}`} data-cursor="View" className="relative block md:absolute md:inset-0">
+            <div className="relative aspect-[4/5] overflow-hidden md:static md:aspect-auto md:overflow-visible">
             <div
               data-cover
               className="absolute inset-0 will-change-transform"
@@ -84,9 +88,12 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
                 <img src={c.image} alt="" style={{ "--cover-x": c.coverX ?? (dark ? "68%" : "82%") } as React.CSSProperties} className={`relative h-full w-full object-cover object-[var(--cover-x)_50%] md:object-[82%_50%] ${c.coverFit ? "cover-fit" : ""}`} />
               ) : null}
             </div>
-            <div className={`absolute inset-0 bg-gradient-to-t ${dark ? "from-[#f6f6f6] from-45% via-[#f6f6f6]/70 via-55% to-transparent to-72% md:hidden" : "from-black/55 via-transparent to-black/20 md:bg-[linear-gradient(to_top,rgba(0,0,0,0.5),transparent_30%),linear-gradient(to_right,rgba(0,0,0,0.42),transparent_52%)]"}`} />
-            <div className={`relative flex h-full flex-col justify-between p-4 sm:p-10 ${dark ? "text-ink" : "text-white"}`}>
-              <div className={`label flex justify-between ${dark ? "!text-ink/60" : "!text-white/70"}`}>
+            </div>
+            {dark ? null : (
+              <div className="absolute inset-0 hidden md:block md:bg-[linear-gradient(to_top,rgba(0,0,0,0.5),transparent_30%),linear-gradient(to_right,rgba(0,0,0,0.42),transparent_52%)]" />
+            )}
+            <div className={`relative flex flex-col justify-between gap-6 px-4 pb-14 pt-5 text-bg sm:px-10 md:h-full md:gap-0 md:p-10 ${dark ? "md:text-ink" : "md:text-white"}`}>
+              <div className={`label flex justify-between max-md:!text-bg/60 ${dark ? "md:!text-ink/60" : "md:!text-white/70"}`}>
                 <span>({pad(i + 1)}) — {pad(cases.length)}</span>
                 <span>{c.year}</span>
               </div>
@@ -98,15 +105,15 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
                   {c.metrics.map((m) => (
                     <div key={m.label} className="overflow-hidden">
                       <div data-lift>
-                        <dd className={`whitespace-nowrap text-xl tracking-[-0.03em] sm:text-3xl md:text-[2.6vw] md:leading-none ${dark ? "text-[#5b2ebd]" : ""}`}>{m.value}</dd>
-                        <dt className={`mt-1 text-xs leading-snug md:mt-2 md:text-sm ${dark ? "text-ink/60" : "text-white/75"}`}>{m.label}</dt>
+                        <dd className={`whitespace-nowrap text-xl tracking-[-0.03em] sm:text-3xl md:text-[2.6vw] md:leading-none ${dark ? "md:text-[#5b2ebd]" : ""}`}>{m.value}</dd>
+                        <dt className={`mt-1 text-[13px] leading-snug text-bg/65 md:mt-2 md:text-sm ${dark ? "md:text-ink/60" : "md:text-white/75"}`}>{m.label}</dt>
                       </div>
                     </div>
                   ))}
                 </dl>
-                <div className={`mt-6 grid md:mt-8 gap-4 border-t pt-5 md:grid-cols-6 ${dark ? "border-ink/20" : "border-white/25"}`}>
-                  <p className="overflow-hidden md:col-span-2"><span data-lift className={`block ${dark ? "text-ink/75" : "text-white/85"}`}>{c.tagline}</span></p>
-                  <p className={`label overflow-hidden md:col-span-2 md:pl-3 ${dark ? "!text-ink/60" : "!text-white/70"}`}><span data-lift className="block">{c.role} · {c.tags.join(" / ")}</span></p>
+                <div className={`mt-6 grid gap-4 border-t border-bg/20 pt-5 md:mt-8 md:grid-cols-6 ${dark ? "md:border-ink/20" : "md:border-white/25"}`}>
+                  <p className="overflow-hidden md:col-span-2"><span data-lift className={`block text-bg/85 ${dark ? "md:text-ink/75" : "md:text-white/85"}`}>{c.tagline}</span></p>
+                  <p className={`label overflow-hidden max-md:!text-bg/60 md:col-span-2 md:pl-3 ${dark ? "md:!text-ink/60" : "md:!text-white/70"}`}><span data-lift className="block">{c.role} · {c.tags.join(" / ")}</span></p>
                   <p className="overflow-hidden text-sm font-medium md:col-span-2 md:pl-3 md:text-right"><span data-lift className="block">View case study ↗</span></p>
                 </div>
               </div>

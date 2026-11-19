@@ -52,7 +52,7 @@ export function OldAnatomy() {
       </div>
 
       <div>
-        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40">Where the old screen got in the way</p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/60 md:text-white/40">Where the old screen got in the way</p>
         <ol className="mt-6">
           {PINS.map((p, i) => {
             const active = on === i;
@@ -71,8 +71,8 @@ export function OldAnatomy() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span>
-                    <span className={`block text-2xl leading-tight tracking-[-0.025em] transition-colors duration-500 md:text-[1.75rem] ${active ? "text-white" : "text-white/55"}`}>{p.t}</span>
-                    <span className={`mt-2.5 block max-w-xl text-[15px] leading-relaxed transition-colors duration-500 ${active ? "text-white/65" : "text-white/35"}`}>{p.b}</span>
+                    <span className={`block text-2xl leading-tight tracking-[-0.025em] transition-colors duration-500 md:text-[1.75rem] ${active ? "text-white" : "text-white/80 md:text-white/55"}`}>{p.t}</span>
+                    <span className={`mt-2.5 block max-w-xl text-[15px] leading-relaxed transition-colors duration-500 ${active ? "text-white/75 md:text-white/65" : "text-white/60 md:text-white/35"}`}>{p.b}</span>
                   </span>
                 </button>
               </li>

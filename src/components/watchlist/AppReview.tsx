@@ -193,6 +193,7 @@ export function AppReview() {
       <div className="grid lg:grid-cols-[1fr_17rem]">
         {/* matrix: each row is also the app picker */}
         <div className="min-w-0 lg:border-r lg:border-line">
+          <p className="font-mono text-xs uppercase tracking-[0.12em] px-4 pb-1 pt-3 text-muted md:hidden">Swipe the table sideways →</p>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[600px] border-collapse text-sm">
               <thead>

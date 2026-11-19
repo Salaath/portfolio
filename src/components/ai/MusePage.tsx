@@ -96,7 +96,7 @@ export function MusePage() {
             <h1 data-split="chars" className="mt-6 text-center text-[30vw] leading-[0.8] tracking-[-0.06em] md:mt-2 md:text-[17vw]">
               Muse
             </h1>
-            <div className="-mt-[8vw] grid items-end gap-12 md:-mt-[7vw] md:grid-cols-[1fr_auto_1fr]">
+            <div className="mt-6 grid items-end gap-12 md:-mt-[7vw] md:grid-cols-[1fr_auto_1fr]">
               <div data-fade className="order-2 md:order-1 md:pb-6">
                 <p className="max-w-xs text-2xl leading-[1.15] tracking-[-0.02em]">The art I have seen in person, hung on a wall I can walk again.</p>
                 <div className="mt-8">

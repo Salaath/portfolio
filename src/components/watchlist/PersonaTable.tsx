@@ -97,6 +97,7 @@ export function PersonaTable() {
         {conf ? conf.who : "Everyone saw the same two columns: symbol and price. Anything else meant opening the stock."}
       </p>
 
+      <p className="font-mono text-xs uppercase tracking-[0.12em] mt-4 text-muted md:hidden">Swipe the table sideways →</p>
       <div className="mt-4 overflow-x-auto">
         <table key={style} className="w-full min-w-[640px] border-collapse text-left text-[14px] [animation:wlIn_.5s_ease_both]">
           <thead>
