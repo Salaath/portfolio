@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>US Stocks Journey</title>
+<meta name="description" content="Interactive prototype of the Upstox US Stocks happy flow — FTUE, activation, explore, scrip details, order, payment and holdings.">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="stage">
+  <aside class="panel" id="panel">
+    <div class="panel-head">
+      <div class="eyebrow">Interactive prototype</div>
+      <h1>US Stocks</h1>
+      <p class="lede">First-time user, happy flow: discover US Stocks, activate the account, pick Apple, add money while ordering, and land in Holdings.</p>
+    </div>
+
+    <div class="panel-block">
+      <div class="block-title">Journey</div>
+      <ol class="journey" id="journey"></ol>
+    </div>
+
+    <div class="panel-foot">
+      <button class="restart" id="restart"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Restart</button>
+      <span class="hint">Tip: type digits on your keyboard on the order and wallet screens</span>
+    </div>
+  </aside>
+
+  <div class="device-wrap">
+    <div class="device" id="device">
+      <div class="screen" id="screen">
+        <div class="statusbar" id="statusbar">
+          <span class="sb-l"><i class="cam"></i><span class="sb-time">12:34</span></span>
+          <span class="sb-icons">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 20.5 1.5 9a15 15 0 0 1 21 0Z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M21 3v18H3Z"/></svg>
+            <svg width="10" height="16" viewBox="0 0 10 18"><rect x="3" y="0" width="4" height="2" rx=".5"/><rect x="0" y="2" width="10" height="16" rx="1.5"/></svg>
+          </span>
+        </div>
+        <div class="views" id="views"></div>
+        <div class="sheet-layer" id="sheetLayer"></div>
+        <div class="toast" id="toast"></div>
+        <div class="navbar"><span>◁</span><span class="o"></span><span class="sq"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="assets/lottie.min.js"></script>
+<script src="assets/success-anim.js"></script>
+
+<script src="assets/declare-svg.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -178,3 +178,87 @@ html.lenis body {
   0%, 100% { box-shadow: 0 0 0 0 rgba(91, 46, 189, 0.1); opacity: 0.75; }
   50% { box-shadow: 0 0 18px 6px rgba(91, 46, 189, 0.14); opacity: 1; }
 }
+
+/* Leadership hero: a grainy dusk sky with wisps of cloud that pales to sage at the
+   horizon, then falls away into the night below. After the Upstox Plus welcome artwork. */
+.lead-sky {
+  isolation: isolate;
+  background:
+    /* the top stays dark enough for the name in the bar */
+    linear-gradient(to bottom, #08080a 0, rgba(8, 8, 10, 0.5) 72px, rgba(8, 8, 10, 0) 210px),
+    /* the glow that sits low in the sky */
+    radial-gradient(70% 20% at 50% 45%, rgba(128, 66, 226, 0.9), rgba(128, 66, 226, 0) 75%),
+    /* dusty periwinkle down to the pale horizon, then a long eased fall through dusk into the
+       page's night, finished well above the foot so the words below sit on one even dark */
+    linear-gradient(to bottom, #4b4b8e 0%, #625fae 14%, #6f66bd 27%, #7a55cf 39%, #9c8fd0 50%, #c4c3c8 56%, #cdd0b4 60%, #b9baa8 63%, #9a9895 66%, #77737d 69%, #575262 72%, #3b3745 75%, #26232c 78%, #17151b 81.5%, #0e0d11 85.5%, #08080a 91%);
+}
+.lead-sky > * { position: relative; z-index: 2; }
+.lead-sky::before,
+.lead-sky::after,
+.lead-sky > .lead-clouds,
+.lead-clouds::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+/* the grain thins out over the last stretch, so the sky's foot matches the plain night below it */
+.lead-sky::before,
+.lead-sky::after {
+  -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 97%);
+  mask-image: linear-gradient(to bottom, #000 74%, transparent 97%);
+}
+/* film grain over everything in the sky, clouds included */
+.lead-sky::after {
+  inset: 0;
+  z-index: 1;
+  opacity: 0.42;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.6' intercept='-.8'/%3E%3CfeFuncG type='linear' slope='2.6' intercept='-.8'/%3E%3CfeFuncB type='linear' slope='2.6' intercept='-.8'/%3E%3CfeFuncA type='linear' slope='0' intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 320px 320px;
+}
+/* a second, finer pass so the grain reads on the pale horizon as well */
+.lead-sky::before {
+  inset: 0;
+  z-index: 1;
+  opacity: 0.16;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.6' intercept='-.8'/%3E%3CfeFuncG type='linear' slope='2.6' intercept='-.8'/%3E%3CfeFuncB type='linear' slope='2.6' intercept='-.8'/%3E%3CfeFuncA type='linear' slope='0' intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 190px 190px;
+}
+/* clouds: two layers of drifting wisps, thickest to the right and thinning out to the edges */
+.lead-sky > .lead-clouds {
+  inset: 4% -12% 38% -12%;
+  z-index: 0;
+  opacity: 0.6;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='700' preserveAspectRatio='none'%3E%3Cfilter id='c' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0045 .016' numOctaves='5' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 .97  0 0 0 0 .94  0 0 0 0 1  0 0 0 2.6 -1.42'/%3E%3CfeGaussianBlur stdDeviation='2.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  -webkit-mask-image: radial-gradient(60% 46% at 68% 44%, #000 20%, transparent 100%);
+  mask-image: radial-gradient(60% 46% at 68% 44%, #000 20%, transparent 100%);
+  animation: lead-drift 70s ease-in-out infinite alternate;
+}
+.lead-clouds::before {
+  inset: 34% 0 -18% 0;
+  opacity: 0.75;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='700' preserveAspectRatio='none'%3E%3Cfilter id='c' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.003 .02' numOctaves='5' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 .97  0 0 0 0 .94  0 0 0 0 1  0 0 0 2.4 -1.36'/%3E%3CfeGaussianBlur stdDeviation='2.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  -webkit-mask-image: radial-gradient(55% 50% at 30% 50%, #000 10%, transparent 100%);
+  mask-image: radial-gradient(55% 50% at 30% 50%, #000 10%, transparent 100%);
+  animation: lead-drift 95s ease-in-out infinite alternate-reverse;
+}
+@keyframes lead-drift {
+  from { transform: translate3d(-4%, 0, 0); }
+  to { transform: translate3d(5%, -1.5%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lead-clouds, .lead-clouds::before { animation: none; }
+}
+
+/* US Stocks stage: the artwork pieces bob slowly, each on its own rhythm. */
+@keyframes us-float {
+  from { transform: translate3d(0, -7px, 0) rotate(-1.2deg); }
+  to { transform: translate3d(0, 9px, 0) rotate(1.2deg); }
+}
+.us-float-a { animation: us-float 6.5s ease-in-out infinite alternate; }
+.us-float-b { animation: us-float 8s ease-in-out -2.5s infinite alternate-reverse; }
+.us-float-c { animation: us-float 7.2s ease-in-out -4s infinite alternate; }
+@media (prefers-reduced-motion: reduce) {
+  .us-float-a, .us-float-b, .us-float-c { animation: none; }
+}

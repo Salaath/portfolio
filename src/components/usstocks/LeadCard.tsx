@@ -1,0 +1,96 @@
+import Link from "next/link";
+import { HandScene } from "./HandScene";
+
+// The home page entry for /leadership. It follows the "Built with AI" section:
+// a headline, then the projects as mock-up tiles (US Stocks plays on the
+// phone in a hand mock-up photo) with their
+// words underneath. Two tiles side by side, one per project, each opening its
+// part of the page. A project without `media` keeps an empty ground until its
+// mock-up arrives.
+
+const EASE = "ease-[cubic-bezier(0.16,1,0.3,1)]";
+
+type Project = {
+  id: string;
+  tag: string;
+  title: string;
+  line?: string;
+  metrics?: [value: string, label: string][];
+  ground: string;
+  media?: { video: string; poster: string; label: string };
+};
+
+const PROJECTS: Project[] = [
+  {
+    id: "us-stocks",
+    tag: "Live on Upstox Pro",
+    title: "US Stocks on Pro",
+    line: "It was about to launch half in Pro and half in Invest. I made the case for one journey and we shipped it end to end in Pro.",
+    metrics: [
+      ["$1,763,732", "Orders placed in month one"],
+      ["~$122", "Average buy order"],
+    ],
+    ground: "#ededed",
+    media: { video: "/work/us-stocks/flow.mp4", poster: "/work/us-stocks/flow-poster.jpg", label: "The opening of the US Stocks journey in Upstox Pro, playing on a phone held in a hand" },
+  },
+  {
+    id: "upstox-cloud",
+    tag: "Upstox",
+    title: "Upstox Cloud",
+    ground: "#eeede9",
+  },
+];
+
+export function LeadProjects({ label = "[ Leading the team ]", className = "" }: { label?: string; className?: string }) {
+  return (
+    <section id="leading" className={className}>
+      <div className="mb-14 flex items-end justify-between gap-6 md:mb-20">
+        <div>
+          <p data-label className="label mb-6">{label}</p>
+          <h2 data-split="lines" className="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-[6vw]">Projects I led this year</h2>
+        </div>
+        <p data-fade className="hidden max-w-xs pb-3 text-muted md:block">Two projects where I pushed back on the plan, got product and engineering aligned and shipped one seamless experience.</p>
+      </div>
+
+      <div className="grid gap-x-6 gap-y-20 md:grid-cols-2">
+        {PROJECTS.map((p, i) => (
+          <Link key={p.id} href={`/leadership#${p.id}`} data-cursor="Open" className="group block">
+            <div data-wipe className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] sm:aspect-square md:rounded-[2.25rem]" style={{ background: p.ground }}>
+              <div data-wipe-inner className="absolute inset-0 grid place-items-center">
+                {p.media ? (
+                  <div className={`absolute inset-0 transition-transform duration-[1.4s] ${EASE} group-hover:scale-[1.04]`}>
+                    <HandScene video={p.media.video} poster={p.media.poster} label={p.media.label} />
+                  </div>
+                ) : (
+                  <span className="rounded-md border border-dashed border-black/30 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-black/50">Mock-up to add</span>
+                )}
+              </div>
+              <span className="absolute left-4 top-4 rounded-full bg-black/75 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-white backdrop-blur-md md:left-6 md:top-6">{p.tag}</span>
+            </div>
+
+            <div className="mt-8 grid gap-x-6 gap-y-6 md:mt-10 md:grid-cols-[1fr_auto] md:items-start">
+              <div>
+                <span data-fade className="label block">({String(i + 1).padStart(2, "0")}) — {String(PROJECTS.length).padStart(2, "0")}</span>
+                <h3 data-split="lines" className="mt-5 text-4xl leading-[0.98] tracking-[-0.04em] md:text-[3.4vw]">{p.title}</h3>
+                {p.line ? <p data-fade data-delay="0.1" className="mt-5 max-w-md text-lg leading-snug text-muted">{p.line}</p> : null}
+                {p.metrics ? (
+                  <dl data-fade data-delay="0.16" className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-line pt-5">
+                    {p.metrics.map(([v, l]) => (
+                      <div key={l}>
+                        <dd className="whitespace-nowrap text-2xl tracking-[-0.03em] md:text-[2vw] md:leading-none">{v}</dd>
+                        <dt className="mt-2 text-sm text-muted">{l}</dt>
+                      </div>
+                    ))}
+                  </dl>
+                ) : null}
+              </div>
+              <span data-fade data-delay="0.22" className="inline-flex items-center gap-3 justify-self-start rounded-full border border-ink/25 py-2.5 pl-5 pr-4 text-sm transition-colors duration-500 group-hover:bg-ink group-hover:text-bg md:mt-9">
+                View project <span aria-hidden className="transition-transform duration-500 group-hover:rotate-[-45deg]">→</span>
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}

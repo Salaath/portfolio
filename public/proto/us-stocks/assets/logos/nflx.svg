@@ -1,0 +1,22 @@
+<svg width="6.06222" height="11" viewBox="0 0 6.06222 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Netflix 1" clip-path="url(#clip0_0_56)">
+<path id="path6055" d="M-0.0127135 -0.0126445L0.0253188 11.0294C0.831319 10.8742 1.46513 10.8911 2.18048 10.8266V3.29909e-05L-0.0127135 -0.0126445Z" fill="url(#paint0_linear_0_56)"/>
+<path id="path678" d="M3.89199 0H6.08519L6.11055 11.004L3.87932 10.6364L3.89199 0Z" fill="url(#paint1_linear_0_56)"/>
+<path id="path362" d="M0.0126873 0C0.0633971 0.126774 3.81592 10.8012 3.81592 10.8012C4.43253 10.7968 5.25933 10.8975 6.0725 10.9913L2.16785 0H0.0126873Z" fill="#E50914"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_56" x1="0.860537" y1="4.66147" x2="2.43825" y2="4.01604" gradientUnits="userSpaceOnUse">
+<stop stop-color="#B1060F"/>
+<stop offset="0.546072" stop-color="#7B010C"/>
+<stop offset="1" stop-color="#E50914" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_56" x1="5.02003" y1="5.73716" x2="3.40645" y2="6.41844" gradientUnits="userSpaceOnUse">
+<stop stop-color="#B1060F"/>
+<stop offset="0.625007" stop-color="#7B010C"/>
+<stop offset="1" stop-color="#B1060F" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="clip0_0_56">
+<rect width="6.06222" height="11" fill="white"/>
+</clipPath>
+</defs>
+</svg>

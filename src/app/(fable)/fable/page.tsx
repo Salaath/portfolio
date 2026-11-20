@@ -1,4 +1,4 @@
-import cv from "@/content/cv.json";
+import { LINKEDIN_URL, MAILTO, RESUME_PDF } from "@/content/links";
 import Link from "next/link";
 import { getCase, type CaseStudy } from "@/content/cases";
 import { Choreo } from "@/components/Choreo";
@@ -7,6 +7,7 @@ import { RollButton } from "@/components/RollButton";
 import { HomeHero } from "@/components/fable/HomeHero";
 import { ShaderField } from "@/components/fable/ShaderField";
 import { Spot } from "@/components/fable/Bits";
+import { LeadProjects } from "@/components/usstocks/LeadCard";
 import { AskButton, Disciplines, Terminal, WorkCard, WorkFeature } from "@/components/fable/Sections";
 
 // The Fable home page. Copy is carried over from the classic home page; the
@@ -76,6 +77,9 @@ export default function FableHome() {
             <WorkCard c={BEFORE} href="/work/previous-work" index="04" aspect="aspect-[4/3] md:aspect-[21/9]" focus="69%" />
           </div>
         </div>
+
+        {/* not case studies: the projects I led this year, on a page of their own */}
+        <LeadProjects className="mt-28 md:mt-44" />
       </section>
 
       {/* ticker */}
@@ -154,13 +158,13 @@ export default function FableHome() {
         <div className="relative">
           <p data-label className="label mb-8 !text-white/60">[ 05 — Open to lead &amp; senior IC roles ]</p>
           <Magnetic strength={0.2}>
-            <a href={`mailto:${cv.email}`} data-cursor="Say hi" data-split="chars" className="block text-[19vw] leading-[0.85] tracking-[-0.05em] sm:text-[13vw]">
+            <a href={MAILTO} data-cursor="Say hi" data-split="chars" className="block text-[19vw] leading-[0.85] tracking-[-0.05em] sm:text-[13vw]">
               Let&rsquo;s talk
             </a>
           </Magnetic>
           <div data-fade data-delay="0.3" className="mt-14 flex flex-wrap justify-center gap-4">
-            <RollButton href={`https://www.${cv.linkedin}`} newTab label="LinkedIn" />
-            <RollButton href="/resume.pdf" label="Résumé" />
+            <RollButton href={LINKEDIN_URL} newTab label="LinkedIn" />
+            <RollButton href={RESUME_PDF} newTab label="Résumé" />
           </div>
           <div className="label mt-40 flex flex-wrap justify-between gap-4 border-t border-white/15 pt-6 !text-white/50">
             <span>© 2026 Salaath Shaikh</span>

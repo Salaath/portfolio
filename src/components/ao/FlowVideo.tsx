@@ -238,7 +238,7 @@ export function PhonePlayer({ src, poster, aspect, label }: { src: string; poste
 }
 
 /** A muted loop that only plays while visible. */
-export function LoopVideo({ src, poster, label, className = "" }: { src: string; poster?: string; label: string; className?: string }) {
+export function LoopVideo({ src, poster, label, className = "", controls }: { src: string; poster?: string; label: string; className?: string; controls?: boolean }) {
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const v = ref.current;
@@ -247,5 +247,5 @@ export function LoopVideo({ src, poster, label, className = "" }: { src: string;
     io.observe(v);
     return () => io.disconnect();
   }, []);
-  return <video ref={ref} src={src} poster={poster} muted loop playsInline preload="metadata" aria-label={label} className={className} />;
+  return <video ref={ref} src={src} poster={poster} muted loop playsInline preload="metadata" aria-label={label} className={className} controls={controls} controlsList={controls ? "nodownload noplaybackrate" : undefined} disablePictureInPicture={controls} data-native-cursor={controls ? "" : undefined} />;
 }

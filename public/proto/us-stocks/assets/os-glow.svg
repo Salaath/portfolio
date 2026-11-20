@@ -1,0 +1,15 @@
+<svg width="660" height="536.196" viewBox="0 0 660 536.196" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Container">
+<g id="glow" filter="url(#filter0_f_0_4434)">
+<path d="M97 67.1961C97 67.1961 122.561 334.176 330 334.176C537.439 334.176 563 67.1961 563 67.1961V439.196H97V67.1961Z" fill="#D7BCF1"/>
+<path d="M546.576 65.614C546.576 65.615 546.576 65.6142 546.768 65.6336L579.5 67.1961V455.696H80.5V67.1961L113.231 65.6336C113.424 65.6141 113.424 65.615 113.424 65.614L113.425 65.6228L113.483 66.1853C113.531 66.6206 113.607 67.2985 113.717 68.2019C113.937 70.0091 114.292 72.7182 114.818 76.2C115.872 83.1682 117.611 93.2066 120.332 105.286C125.79 129.516 135.116 161.599 150.561 193.495C181.482 257.35 235.216 317.676 330 317.676C424.784 317.676 478.518 257.35 509.439 193.495C524.884 161.599 534.21 129.516 539.668 105.286C542.389 93.2066 544.128 83.1682 545.182 76.2C545.708 72.7182 546.063 70.0091 546.283 68.2019C546.393 67.2985 546.469 66.6206 546.517 66.1853L546.575 65.6228L546.576 65.614Z" stroke="#F5EFFB" stroke-width="33"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_0_4434" x="0" y="-3.09944e-06" width="660" height="536.196" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="32" result="effect1_foregroundBlur_0_4434"/>
+</filter>
+</defs>
+</svg>

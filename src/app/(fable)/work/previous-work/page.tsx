@@ -117,8 +117,8 @@ const LUXE_PHONES = [
 ];
 
 /** A muted screen recording that plays while on screen, on the recording's own off-white. */
-function Clip({ src, label, className = "", wipe }: { src: string; label: string; className?: string; wipe?: boolean }) {
-  const video = <LoopVideo src={`${IMG}/${src}.mp4`} poster={`${IMG}/${src}.jpg`} label={label} className="block h-full w-full object-contain" />;
+function Clip({ src, label, className = "", wipe, controls }: { src: string; label: string; className?: string; wipe?: boolean; controls?: boolean }) {
+  const video = <LoopVideo src={`${IMG}/${src}.mp4`} poster={`${IMG}/${src}.jpg`} label={label} controls={controls} className="block h-full w-full object-contain" />;
   return (
     <div {...(wipe ? { "data-wipe": "" } : { "data-fade": "" })} className={`overflow-hidden rounded-[1.25rem] bg-[#FCFCFC] ${className}`}>
       {wipe ? <div data-wipe-inner className="h-full w-full">{video}</div> : video}
@@ -494,7 +494,10 @@ export default function PreviousWork() {
             <Stat value="25–30" label="Days it used to take a seller to reach their first listing" />
             <Stat value="4" label="Flows redesigned: sign-up, onboarding, back-office approval, listing" />
           </div>
-          <div className="mt-16 grid gap-5 md:grid-cols-3">
+          <div className="mt-16">
+            <Clip wipe controls src="vid-seller-signup" label="A new seller signing up on Seller Portal 2.0" className="aspect-[2878/1794] !bg-black" />
+          </div>
+          <div className="mt-5 grid gap-5 md:grid-cols-3">
             <Shot src="seller-listing" alt="Product listing screens" w={2000} h={1500} className="aspect-[4/3]" />
             <Shot src="seller-sites" alt="Site performance dashboard" w={2000} h={1500} className="aspect-[4/3]" />
             <Shot src="seller-backoffice" alt="Back-office approval screens" w={2000} h={1500} className="aspect-[4/3]" />

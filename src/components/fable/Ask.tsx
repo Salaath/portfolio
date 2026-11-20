@@ -35,6 +35,13 @@ const NOTES: Note[] = [
     links: [["NPS case study", "/work/nps"]],
   },
   {
+    id: "us-stocks",
+    q: "How did you lead US Stocks on Pro?",
+    keys: ["us stocks", "us stock", "american", "wallet", "invest mode", "pro mode", "pushback", "leadership", "leading", "disagree", "stakeholder", "decision"],
+    a: "US stocks was about to launch half in Pro and half in Invest. I didn’t think a trader should have to switch modes halfway through, so I made the case for one journey to the product team and then to leadership. They backed it and we designed the full journey in Pro in about a month. It launched on Sept 19, 2026; in the first month the total value of orders placed was $1,763,732 and the average buy order was about $122.",
+    links: [["US Stocks on Pro", "/leadership#us-stocks"]],
+  },
+  {
     id: "ai",
     q: "How do you work with AI?",
     keys: ["ai", "claude", "llm", "code", "prototype", "tool", "agent", "automation", "built", "site", "vibe", "gpt", "model"],
@@ -67,7 +74,7 @@ const FALLBACK: Note = {
   id: "none",
   q: "",
   keys: [],
-  a: "I don’t have a note on that yet. I can tell you about Account Opening, the Watchlist, NPS, my work before Upstox, or how I work with AI.",
+  a: "I don’t have a note on that yet. I can tell you about Account Opening, the Watchlist, NPS, US Stocks, my work before Upstox, or how I work with AI.",
   links: [],
 };
 

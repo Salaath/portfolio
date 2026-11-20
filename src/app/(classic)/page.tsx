@@ -1,4 +1,4 @@
-import cv from "@/content/cv.json";
+import { EMAIL, LINKEDIN_URL, MAILTO, PHONE, RESUME_PDF, TEL } from "@/content/links";
 import { getCase, type CaseStudy } from "@/content/cases";
 
 // Selected work on the home page, in this order. Loans and the F&O risk
@@ -10,6 +10,7 @@ import { Choreo } from "@/components/Choreo";
 import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/Marquee";
 import { CaseStack } from "@/components/CaseStack";
+import { LeadProjects } from "@/components/usstocks/LeadCard";
 import { AiProjects } from "@/components/AiProjects";
 import { Magnetic } from "@/components/Magnetic";
 import { RollButton } from "@/components/RollButton";
@@ -61,16 +62,19 @@ export default function Home() {
         <CaseStack cases={HOME_WORK} />
       </section>
 
+      {/* 03 — Leading the team: two projects as mock-up tiles, opening /leadership */}
+      <LeadProjects label="[ 03 — Leading the team ]" className="px-4 pb-32 pt-28 sm:px-10 md:pb-40 md:pt-40" />
+
       <Marquee items={["Investing UX", "Design systems", "Research", "Prototyping", "Motion", "Leadership"]} />
 
       <AiProjects />
 
-      {/* 04 — Contact */}
+      {/* 05 — Contact */}
       <section id="contact" className="border-t border-line px-4 py-40 text-center sm:px-10">
-        <p data-label className="label mb-8">[ 04 — Open to lead &amp; senior IC roles ]</p>
+        <p data-label className="label mb-8">[ 05 — Open to lead &amp; senior IC roles ]</p>
         <Magnetic strength={0.25}>
           <a
-            href={`mailto:${cv.email}`}
+            href={MAILTO}
             data-cursor="Say hi"
             data-split="chars"
             className="block text-[16vw] font-semibold leading-[0.85] tracking-[-0.06em] sm:text-[11vw]"
@@ -79,9 +83,24 @@ export default function Home() {
           </a>
         </Magnetic>
         <div data-fade data-delay="0.3" className="mt-16 flex flex-wrap justify-center gap-4">
-          <RollButton href={`https://www.${cv.linkedin}`} newTab label="LinkedIn" />
-          <RollButton href="/about" label="Résumé" />
+          <RollButton href={LINKEDIN_URL} newTab label="LinkedIn" />
+          <RollButton href={RESUME_PDF} newTab label="Résumé" />
         </div>
+        {/* phone and email, always in view rather than behind a click */}
+        <dl data-fade data-delay="0.4" className="mx-auto mt-16 grid max-w-3xl gap-8 border-t border-line pt-10 sm:grid-cols-3">
+          <div>
+            <dt className="label mb-2">Contact</dt>
+            <dd><a href={TEL} className="text-lg font-medium tracking-[-0.01em] hover:opacity-60">{PHONE}</a></dd>
+          </div>
+          <div>
+            <dt className="label mb-2">Email</dt>
+            <dd><a href={MAILTO} className="break-all text-lg font-medium tracking-[-0.01em] hover:opacity-60">{EMAIL}</a></dd>
+          </div>
+          <div>
+            <dt className="label mb-2">Based in</dt>
+            <dd className="text-lg font-medium tracking-[-0.01em]">Mumbai, India</dd>
+          </div>
+        </dl>
       </section>
     </Choreo>
   );

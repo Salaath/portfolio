@@ -26,7 +26,8 @@ type Item = {
 };
 
 // Lit paintings keep to the outer margins, clear of the words (the column is
-// 1100px wide). Plates go anywhere, the middle included.
+// 1100px wide; the frame loop below holds them out of it at any window width).
+// Plates go anywhere, the middle included.
 const ITEMS: Item[] = [
   { n: 4, r: 0.48, x: -0.02, y: 0.02, w: 13, d: 1.1, lit: true },
   { n: 8, r: 1.145, x: 0.915, y: 0.08, w: 8, d: 0.8, lit: true },
@@ -79,7 +80,14 @@ export function FloatingArt({ plate = "#e5ddcc" }: { plate?: string }) {
         const travel = it.y * loop - sy * it.d;
         // wrap within the loop, entering from one tile-height below the window
         const y = ((travel % loop) + loop) % loop - h - vh * 0.5 - my * it.d * 60;
-        const x = it.x * vw - mx * it.d * 70;
+        let x = it.x * vw - mx * it.d * 70;
+        // A lit painting never crosses into the text column: it stops short of
+        // the column's edge and hangs off the side of the window instead.
+        if (it.lit) {
+          const gutter = Math.max(vw < 768 ? 20 : 40, (vw - 1100) / 2);
+          const gap = Math.min(20, gutter * 0.4);
+          x = it.x < 0.5 ? Math.min(x, gutter - gap - w) : Math.max(x, vw - gutter + gap);
+        }
         el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
         if (!it.lit) el.dataset.on = px >= x && px <= x + w && py >= y && py <= y + h ? "1" : "0";
       });

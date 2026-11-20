@@ -1,0 +1,37 @@
+# Placeholder city photos
+
+From Wikimedia Commons, via the Wikipedia article for each city. Placeholders only, to be replaced with Sal's own photos. Several are CC BY or CC BY-SA, which need the credit below if they are ever published.
+
+- `barcelona-1.jpg`: [File:Barcelona - Estación de Sants y Hotel Barceló Sants 2.jpg](https://commons.wikimedia.org/wiki/File:Barcelona_-_Estaci%C3%B3n_de_Sants_y_Hotel_Barcel%C3%B3_Sants_2.jpg), Zarateman (CC0)
+- `barcelona-2.jpg`: [File:Barcelona - Museu d'Art Contemporani de Barcelona (MACBA).jpg](https://commons.wikimedia.org/wiki/File:Barcelona_-_Museu_d%27Art_Contemporani_de_Barcelona_(MACBA).jpg), Zarateman (CC0)
+- `barcelona-5.jpg`: [File:View of Sagrada Familia 2026 corrected.jpg](https://commons.wikimedia.org/wiki/File:View_of_Sagrada_Familia_2026_corrected.jpg), ほっきー (CC0)
+- `madrid-2.jpg`: [File:Madrid (28228858839).jpg](https://commons.wikimedia.org/wiki/File:Madrid_(28228858839).jpg), Nicolas Vigier from Madrid, Spain (CC0)
+- `madrid-4.jpg`: [File:(Castillejos) Vista de Madrid desde Plaza de Castilla 03 (cropped).jpg](https://commons.wikimedia.org/wiki/File:(Castillejos)_Vista_de_Madrid_desde_Plaza_de_Castilla_03_(cropped).jpg), curly_exp( l)osure (CC BY 2.0)
+- `paris-1.jpg`: [File:Lesdeuxmagots.jpg](https://commons.wikimedia.org/wiki/File:Lesdeuxmagots.jpg), Roboppy at English Wikipedia (Public domain)
+- `paris-4.jpg`: [File:Arc de Triomphe HDR 2007.jpg](https://commons.wikimedia.org/wiki/File:Arc_de_Triomphe_HDR_2007.jpg), Kainet (CC BY 2.0)
+- `prague-3.jpg`: [File:Prague Zoo main entrance.JPG](https://commons.wikimedia.org/wiki/File:Prague_Zoo_main_entrance.JPG), Miaow Miaow (Public domain)
+- `prague-4.jpg`: [File:Prazske-vystaviste-holesovice.jpg](https://commons.wikimedia.org/wiki/File:Prazske-vystaviste-holesovice.jpg), Vity (Public domain)
+- `prague-6.jpg`: [File:2022-10-15 Václavské náměstí 1.jpg](https://commons.wikimedia.org/wiki/File:2022-10-15_V%C3%A1clavsk%C3%A9_n%C3%A1m%C4%9Bst%C3%AD_1.jpg), SteinundBaum (CC BY-SA 4.0)
+- `berlin-1.jpg`: [File:Reichstagsgebaeude.jpg](https://commons.wikimedia.org/wiki/File:Reichstagsgebaeude.jpg), Unknown authorUnknown author (Public domain)
+- `berlin-4.jpg`: [File:Alte Nationalgalerie abends (Zuschnitt).jpg](https://commons.wikimedia.org/wiki/File:Alte_Nationalgalerie_abends_(Zuschnitt).jpg), Thomas Wolf, www.foto-tw.de (CC BY-SA 3.0)
+- `berlin-5.jpg`: [File:Berlin, Mitte, Behrenstrasse, Berliner Bank 05.jpg](https://commons.wikimedia.org/wiki/File:Berlin,_Mitte,_Behrenstrasse,_Berliner_Bank_05.jpg), Jörg Zägel (CC BY-SA 3.0)
+- `berlin-6.jpg`: [File:Berlin-BerlinerSchloss-2-Asio (cropped).JPG](https://commons.wikimedia.org/wiki/File:Berlin-BerlinerSchloss-2-Asio_(cropped).JPG), Asio otus (CC BY-SA 3.0)
+- `amsterdam-2.jpg`: [File:Brug 127 in de Lijnbaansgracht over de Egelantiersgracht foto 4.jpg](https://commons.wikimedia.org/wiki/File:Brug_127_in_de_Lijnbaansgracht_over_de_Egelantiersgracht_foto_4.jpg), Alf van Beem (Public domain)
+- `vienna-1.jpg`: [File:57A Anschützgasse.jpg](https://commons.wikimedia.org/wiki/File:57A_Ansch%C3%BCtzgasse.jpg), Tokfo (CC0)
+- `vienna-2.jpg`: [File:62 Wolkersbergenstraße.jpg](https://commons.wikimedia.org/wiki/File:62_Wolkersbergenstra%C3%9Fe.jpg), Tokfo (CC0)
+- `vienna-5.jpg`: [File:Liliputbahn autune.JPG](https://commons.wikimedia.org/wiki/File:Liliputbahn_autune.JPG), Tokfo (CC0)
+- `salzburg-2.jpg`: [File:Fountain Mirabell.JPG](https://commons.wikimedia.org/wiki/File:Fountain_Mirabell.JPG), unknown author (Public domain)
+- `salzburg-3.jpg`: [File:Gardens at the Palace of Mirabell.JPG](https://commons.wikimedia.org/wiki/File:Gardens_at_the_Palace_of_Mirabell.JPG), Skyguy414 at English Wikipedia (Public domain)
+- `salzburg-4.jpg`: [File:Mozart (5).JPG](https://commons.wikimedia.org/wiki/File:Mozart_(5).JPG), Jonathan White (Public domain)
+- `salzburg-5.jpg`: [File:Salzburg (16).JPG](https://commons.wikimedia.org/wiki/File:Salzburg_(16).JPG), Jonathanawhite at English Wikipedia (Public domain)
+- `salzburg-6.jpg`: [File:Salzburg vom Mönchsberg aus.jpg](https://commons.wikimedia.org/wiki/File:Salzburg_vom_M%C3%B6nchsberg_aus.jpg), AnonymousUnknown author (Public domain)
+- `zurich-1.jpg`: [File:Bahnhofstrasse Grieder.jpg](https://commons.wikimedia.org/wiki/File:Bahnhofstrasse_Grieder.jpg), sidonius 20:44, 7 June 2006 (UTC) (Public domain)
+- `zurich-3.jpg`: [File:Panoramic view from Waidberg of the city of Zurich and Lake Zurich, 2010.jpg](https://commons.wikimedia.org/wiki/File:Panoramic_view_from_Waidberg_of_the_city_of_Zurich_and_Lake_Zurich,_2010.jpg), Myself (Public domain)
+- `zurich-5.jpg`: [File:"Turicum" ZSG-Schiff auf der Limmat vor dem Grossmünster (2013).jpg](https://commons.wikimedia.org/wiki/File:%22Turicum%22_ZSG-Schiff_auf_der_Limmat_vor_dem_Grossm%C3%BCnster_(2013).jpg), JoachimKohler-HB (CC BY-SA 4.0)
+- `colombo-1.jpg`: [File:A view of Colombo's dramatic skyline at dusk.jpg](https://commons.wikimedia.org/wiki/File:A_view_of_Colombo%27s_dramatic_skyline_at_dusk.jpg), Thilina Alagiyawanna (CC0)
+- `colombo-2.jpg`: [File:A view of Colombo's skyline from the Lotus Tower.jpg](https://commons.wikimedia.org/wiki/File:A_view_of_Colombo%27s_skyline_from_the_Lotus_Tower.jpg), Thilina Alagiyawanna (CC0)
+168 / 7, Inner Flower Road,
+Colombo 7, Sri Lanka.
+ (Public domain)
+- `colombo-4.jpg`: [File:Park and Skyscrapers around Beira Lake in Colombo in Sri Lanka at Night.jpg](https://commons.wikimedia.org/wiki/File:Park_and_Skyscrapers_around_Beira_Lake_in_Colombo_in_Sri_Lanka_at_Night.jpg), Thilina Alagiyawanna (CC0)
+- `colombo-5.jpg`: [File:Royal College Colombo main building.jpg](https://commons.wikimedia.org/wiki/File:Royal_College_Colombo_main_building.jpg), Nitraven at English Wikipedia (Public domain)

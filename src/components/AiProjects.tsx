@@ -46,16 +46,16 @@ const PROJECTS: Project[] = [
     cta: "View project",
   },
   {
-    title: "Design onboarding",
+    title: "Design onboarding guide",
     tag: "Microsite · Upstox",
-    body: "A microsite that walks a new designer through the team, how we work and their first weeks.",
+    body: "Upstox design had grown past 30 designers and new people kept joining. In their first few days, nobody had the time to walk each of them through who we are, our culture and how we work. So I built this guide to do it.",
     stack: ["Claude Design", "HTML"],
     video: "/work/ai/onboarding.mp4",
     poster: "/work/ai/onboarding-poster.jpg",
     kind: "scene",
     ground: "#35b4ea",
     href: "/ai/upstox-design-onboarding.html",
-    cta: "Open microsite",
+    cta: "Open design guide",
   },
 ];
 
@@ -132,7 +132,7 @@ const SCENES: Record<string, SceneSpec> = {
     mask: "/work/ai/chapters-mock-mask.png",
     crop: [41, 41, 458, 990, 540, 1080],
   },
-  "Design onboarding": {
+  "Design onboarding guide": {
     src: "/work/ai/onboarding-mock.webp",
     w: 1800,
     h: 1348,
@@ -302,13 +302,13 @@ export function AiProjects() {
     <section id="ai" className="px-4 pb-32 pt-28 sm:px-10 md:pt-40">
       <div className="mb-16 flex items-end justify-between gap-6 md:mb-24">
         <div>
-          <p data-label className="label mb-6">[ 03 — Built with AI ]</p>
+          <p data-label className="label mb-6">[ 04 — Built with AI ]</p>
           <h2 data-split="lines" className="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-[6vw]">
-            From idea to working app
+            Apps nobody asked for
           </h2>
         </div>
         <p data-fade className="hidden max-w-xs pb-3 text-muted md:block">
-          Side projects I designed and built end to end with Claude.
+          Side projects I designed and built end to end, because I wanted them to exist.
         </p>
       </div>
       <div className="flex flex-col gap-24 md:gap-40">
