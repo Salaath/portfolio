@@ -260,3 +260,8 @@ body, body :where(*:not(.font-mono, .font-mono *, .label, .label *, code, pre, c
     font-size: 12px;
   }
 }
+
+/* The car on the About page's circuit map: a dash that travels once round the track's path. */
+.circuit-car { animation: circuit-lap 14s linear infinite; }
+@keyframes circuit-lap { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .circuit-car { animation: none; stroke-dashoffset: 640; } }

@@ -5,6 +5,7 @@ import { Choreo } from "@/components/Choreo";
 import { Magnetic } from "@/components/Magnetic";
 import { RollButton } from "@/components/RollButton";
 import { CityCube } from "@/components/about/CityCube";
+import { CircuitDial } from "@/components/about/CircuitDial";
 import { SpinBook } from "@/components/about/SpinBook";
 
 // The copy comes from src/content/cv.json, which is generated from the CV
@@ -163,7 +164,7 @@ export default function About() {
       </Block>
 
       {/* 05 — Outside work: one dark breakout, in the order Sal wrote it.
-          Reading beside a book that turns and fans open, F1 as the loud line
+          Reading beside a book that turns and fans open, F1 with a small circuit map
           in the middle, then the cities beside the cube of their pictures. */}
       <section className="relative overflow-hidden bg-ink px-4 pb-24 pt-24 text-bg sm:px-10 md:pb-36 md:pt-28">
         <p data-label className="label !text-bg/60">[ 05 — Outside work ]</p>
@@ -172,7 +173,7 @@ export default function About() {
         </h2>
 
         {/* reading: the words light up as you read them, the book turns beside them */}
-        <div className="mt-14 grid items-center gap-y-6 md:mt-10 md:grid-cols-6">
+        <div className="relative z-[1] mt-14 grid items-center gap-y-6 md:mt-10 md:grid-cols-6">
           <div className="md:col-span-3 md:pr-[4vw]">
             <p data-label className="label mb-6 !text-bg/50">Reading</p>
             <p data-scrub-words className="text-[7.4vw] font-medium leading-[1.08] tracking-[-0.035em] sm:text-4xl md:text-[3.3vw] md:leading-[1.06]">
@@ -184,16 +185,39 @@ export default function About() {
           </div>
         </div>
 
-        {/* F1: one line, as wide as the section */}
-        <div className="mt-20 md:mt-[9vw]">
-          <p data-label className="label mb-5 !text-bg/50 md:text-center">Weekends</p>
-          <p data-split="lines" className="text-[15vw] font-medium leading-[0.88] tracking-[-0.055em] md:whitespace-nowrap md:text-center md:text-[9.6vw]">
-            {OUTSIDE[1]}
-          </p>
+        {/* F1, set like a race poster: the line stacked large on the left with "F1." biggest, the
+            circuit in a circle over a grid in the middle, and the three days of a race weekend as a
+            small table on the right. Hairlines and dash marks hold it together. */}
+        <div className="relative my-16 md:my-[7vw]">
+          <div aria-hidden className="flex items-center justify-between gap-6 border-t border-bg/25 pt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-bg/55">
+            <span>Weekends</span>
+            <span className="hidden h-px flex-1 bg-[repeating-linear-gradient(90deg,rgba(244,242,236,0.5)_0_18px,transparent_18px_42px)] sm:block" />
+            <span>Fri — Sun</span>
+          </div>
+          <div className="mt-6 grid items-stretch gap-y-10 md:mt-8 md:grid-cols-12 md:gap-x-6">
+            <p className="font-medium leading-[0.84] tracking-[-0.06em] md:col-span-5">
+              <span className="block text-[16vw] md:text-[7.4vw]">Weekends</span>
+              <span className="block text-[16vw] md:text-[7.4vw]">are for</span>
+              <span className="block text-[38vw] leading-[0.8] md:text-[16.5vw]">F1.</span>
+            </p>
+            <CircuitDial className="mx-auto w-[min(86vw,24rem)] self-center md:col-span-4 md:w-full" />
+            <dl className="flex flex-col justify-between border-t border-bg/25 md:col-span-3">
+              {[["Fri", "Practice"], ["Sat", "Qualifying"], ["Sun", "Race"]].map(([day, what]) => (
+                <div key={day} className="flex items-baseline justify-between gap-4 border-b border-bg/25 py-4 md:py-[1.6vw]">
+                  <dt className="text-5xl tracking-[-0.05em] md:text-[4vw]">{day}</dt>
+                  <dd className="font-mono text-[11px] uppercase tracking-[0.14em] text-bg/60">{what}</dd>
+                </div>
+              ))}
+              <div aria-hidden className="flex items-center gap-2 pt-4">
+                {[0, 1, 2].map((d) => <i key={d} className="size-3 rounded-full bg-bg md:size-[1vw]" />)}
+                <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.16em] text-bg/55">Lights out</span>
+              </div>
+            </dl>
+          </div>
         </div>
 
         {/* cities: the cube of their pictures, then the words */}
-        <div className="mt-20 grid items-center gap-y-10 md:mt-[9vw] md:grid-cols-6">
+        <div className="relative z-[1] grid items-center gap-y-10 md:grid-cols-6">
           <div data-fade className="mx-auto w-[min(84vw,420px)] md:col-span-3 md:w-[min(38vw,74svh)]">
             <CityCube />
             <p className="label mt-6 text-center !text-bg/60">Drag the cube to look around</p>
