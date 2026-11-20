@@ -303,14 +303,12 @@ function Words({ p, index }: { p: Project; index: string }) {
 export function AiProjects() {
   return (
     <section id="ai" className="px-4 pb-32 pt-28 sm:px-10 md:pt-40">
-      <div className="mb-16 flex items-end justify-between gap-6 md:mb-24">
-        <div>
-          <p data-label className="label mb-6">[ 04 — Built with AI ]</p>
-          <h2 data-split="lines" className="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-[6vw]">
-            Apps nobody asked for
-          </h2>
-        </div>
-        <p data-fade className="hidden max-w-xs pb-3 text-muted md:block">
+      <div className="mb-16 md:mb-24">
+        <p data-label className="label mb-6">[ 04 — Built with AI ]</p>
+        <h2 data-split="lines" className="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-[6vw]">
+          Apps nobody asked for
+        </h2>
+        <p data-fade className="mt-6 max-w-xl text-lg text-muted md:mt-8 md:text-xl">
           Side projects I designed and built end to end, because I wanted them to exist.
         </p>
       </div>

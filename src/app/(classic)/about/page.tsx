@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 // Sal's own words for the top of the page (the rest comes from the CV).
 const ABOUT = [
   "I\u2019m a Product Design Lead at Upstox, crafting investing experiences for millions of Indians \u2014 from their first trade to more complex trading tools. I lead and mentor a team of six product designers, staying closely involved in the work and building alongside them.",
-  "I care about software that feels cared for i.e the motion, the details and the decisions nobody explicitly asked for but everybody feels. Trained as an architect, I tend to think in systems rather than screens, bringing a broader perspective to the products I build.",
-  "I\u2019m particularly interested in how AI can raise the ceiling of what we create, not just the floor. As execution becomes increasingly accessible, I believe the real design work lies in having conviction: knowing what is worth building, making deliberate choices and editing relentlessly until done actually means good.",
+  "I care about software that feels considered. The motion, the details, and those small decisions that might go unnoticed but make an experience feel right. Trained as an architect, I tend to think in systems rather than screens, bringing that perspective into the products I build.",
+  "AI has made me even more interested in the craft of building. As making things becomes easier, I think the harder question is what\u2019s worth making in the first place. Good design, to me, is still about having a point of view, making deliberate choices and knowing when something is good enough \u2014 and when it isn\u2019t.",
 ];
 
 // Sal's own words. Do not rewrite.
