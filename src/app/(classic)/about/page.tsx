@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 // Sal's own words for the top of the page (the rest comes from the CV).
 const ABOUT = [
   "I\u2019m a Product Design Lead at Upstox, crafting investing experiences for millions of Indians \u2014 from their first trade to more complex trading tools. I lead and mentor a team of six product designers, staying closely involved in the work and building alongside them.",
-  "I care about software that feels considered. The motion, the details, and those small decisions that might go unnoticed but make an experience feel right. Trained as an architect, I tend to think in systems rather than screens, bringing that perspective into the products I build.",
-  "AI has made me even more interested in the craft of building. As making things becomes easier, I think the harder question is what\u2019s worth making in the first place. Good design, to me, is still about having a point of view, making deliberate choices and knowing when something is good enough \u2014 and when it isn\u2019t.",
+  "I care about software that feels considered. The motion, the details and those small decisions that might go unnoticed but make an experience feel right. Trained as an architect, I tend to think in systems rather than screens, bringing that perspective into the products I build.",
+  "AI has made me even more interested in the craft of building. As making things becomes easier, I think the harder question is what\u2019s worth making in the first place. Good design, to me, is still about having a point of view, making deliberate choices and knowing when something is good enough and when it isn\u2019t.",
 ];
 
 // Sal's own words. Do not rewrite.
@@ -66,38 +66,53 @@ function Rows({ rows }: { rows: Row[] }) {
 export default function About() {
   return (
     <Choreo>
+      {/* An editorial opening: the portrait runs down the left with its caption, and the words sit
+          in a narrower column on the right, under hairlines. On phones it reads words, portrait, words. */}
       <header className="px-4 pb-24 pt-36 sm:px-10 md:pb-32 md:pt-44">
-        <p data-label className="label mb-8">[ About — {cv.role} ]</p>
-        <h1
-          data-split="lines"
-          data-load
-          data-delay="0.1"
-          className="max-w-6xl text-3xl font-medium leading-[1.1] tracking-[-0.03em] sm:text-4xl md:text-[3.1vw]"
-        >
-          {ABOUT[0]}
-        </h1>
-        <div data-fade data-load data-delay="0.45" className="mt-12 grid gap-8 md:mt-16 md:grid-cols-6 md:gap-0">
-          {ABOUT.slice(1).map((para, i) => (
-            <p key={i} className={`text-lg leading-relaxed text-muted md:text-xl md:leading-[1.5] ${i ? "md:col-span-2 md:pl-3" : "md:col-span-2 md:col-start-3 md:pl-3 md:pr-8"}`}>
-              {para}
-            </p>
-          ))}
-        </div>
-        <div data-fade data-load data-delay="0.6" className="mt-14 grid gap-8 md:mt-20 md:grid-cols-6 md:items-center">
-          <div className="md:col-span-2">
-            <Magnetic strength={0.2}>
-              <RollButton href={RESUME_PDF} newTab label="Download résumé" icon="↓" />
-            </Magnetic>
+        <div className="grid gap-y-12 md:grid-cols-12 md:gap-x-6">
+          <div className="md:col-span-7 md:col-start-6 md:row-start-1">
+            <p data-label className="label mb-8">[ About — {cv.role} ]</p>
+            <h1
+              data-split="lines"
+              data-load
+              data-delay="0.1"
+              className="text-3xl font-medium leading-[1.12] tracking-[-0.03em] sm:text-4xl md:text-[2.75vw]"
+            >
+              {ABOUT[0]}
+            </h1>
           </div>
-          <div className="label flex flex-col gap-1 md:col-span-2 md:pl-3">
-            <span>{cv.location}</span>
-            <span>{cv.jobs[0].title} — {cv.jobs[0].company}</span>
-          </div>
-          <div className="label flex flex-col gap-1 md:col-span-2 md:items-end md:pl-3">
-            <a href={MAILTO} className="normal-case tracking-normal hover:text-ink">{EMAIL}</a>
-            <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="hover:text-ink">
-              LinkedIn <span aria-hidden>↗</span>
-            </a>
+
+          <figure data-fade data-load data-delay="0.3" className="m-0 md:col-span-4 md:col-start-1 md:row-span-2 md:row-start-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/about/sal.webp" alt="Salaath sitting on a low wall in front of the Colosseum in Rome" width={1200} height={1600} className="block aspect-[4/5] w-full rounded-[2px] object-cover object-[50%_45%]" />
+            <figcaption className="label mt-4 flex justify-between border-t border-line pt-3">
+              <span>Fig. 01</span>
+              <span>Rome</span>
+            </figcaption>
+          </figure>
+
+          <div data-fade data-load data-delay="0.45" className="md:col-span-7 md:col-start-6 md:row-start-2">
+            <div className="grid gap-8 border-t border-ink pt-8 md:grid-cols-2 md:gap-x-10">
+              {ABOUT.slice(1).map((para, i) => (
+                <p key={i} className="text-lg leading-relaxed text-muted md:text-[1.05rem] md:leading-[1.6]">
+                  {para}
+                </p>
+              ))}
+            </div>
+            <div className="mt-12 flex flex-col gap-8 border-t border-line pt-8 md:mt-16 md:flex-row md:flex-wrap md:items-center md:gap-x-10 md:gap-y-6">
+              <Magnetic strength={0.2}>
+                <RollButton href={RESUME_PDF} newTab label="Download résumé" icon="↓" />
+              </Magnetic>
+              <div className="label flex flex-col gap-1">
+                <span>{cv.location}</span>
+              </div>
+              <div className="label flex min-w-0 flex-col gap-1 md:ml-auto md:items-end">
+                <a href={MAILTO} className="normal-case tracking-normal hover:text-ink">{EMAIL}</a>
+                <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="hover:text-ink">
+                  LinkedIn <span aria-hidden>↗</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </header>

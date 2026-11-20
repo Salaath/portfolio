@@ -22,26 +22,41 @@ export default function Home() {
 
       {/* 01 — Approach: words fill in as you read, tiles float past */}
       <section id="about" className="relative px-4 py-40 sm:px-10 md:py-56">
+        {/* Sal at work on a painted piece, in black and white like the rest of the page */}
         <div
           data-parallax="0.35"
-          aria-hidden
-          className="absolute left-4 top-56 hidden aspect-[3/4] w-[13vw] rounded-xl bg-gradient-to-br from-[#e9e7e1] to-[#cfc9bc] md:block sm:left-10"
-        />
+          className="absolute left-4 top-56 hidden aspect-[3/4] w-[12.5vw] overflow-hidden rounded-xl bg-[#e9e7e1] md:block sm:left-10"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/about/sal-making.webp" alt="Salaath painting a green zigzag pattern on a black surface" width={720} height={960} className="block h-full w-full object-cover" />
+        </div>
+        {/* the opening of Chapters: Sal's own screen recording, cropped to the turning fan of book covers */}
         <div
           data-parallax="-0.25"
-          aria-hidden
-          className="absolute bottom-16 right-4 hidden aspect-[4/5] w-[14vw] rounded-xl bg-gradient-to-br from-[#2a2a28] to-[#0e0e0e] md:block sm:right-10"
-        />
+          className="absolute bottom-16 right-4 hidden aspect-[4/5] w-[12.5vw] overflow-hidden rounded-xl bg-[#efeee9] md:block sm:right-10"
+        >
+          <video
+            src="/work/ai/chapters-open-home.mp4"
+            poster="/work/ai/chapters-open-home.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label="The Chapters app opening: a fan of book covers turning"
+            className="block h-full w-full object-cover object-[50%_46%]"
+          />
+        </div>
         <p data-label className="label relative mb-10 text-center">[ 01 — Approach ]</p>
         <p
           data-scrub-words
-          className="relative mx-auto max-w-5xl text-center md:max-w-[80vw] text-[2rem] font-medium leading-[1.05] tracking-[-0.035em] sm:text-[3.4rem] md:text-[3.96vw]"
+          className="relative mx-auto max-w-5xl text-center md:max-w-[calc(75vw-128px)] text-[1.8rem] font-medium leading-[1.16] tracking-[-0.035em] sm:text-[3rem] md:text-[3.4vw]"
         >
-          Building with AI has made me more protective of craft, not less. When
-          everyone can ship, what matters is what you choose to build, and how
-          thoughtfully you build it. I lead design for investing at Upstox, making
-          everything from first trades to risk and diversification feel a little
-          less intimidating.
+          Building with AI has made me care about craft even more. It&rsquo;s easier
+          than ever to build something, but making something genuinely useful
+          still takes thought, judgement and care. I lead design for investing at
+          Upstox, making everything from first trades to risk and diversification
+          feel a little less intimidating.
         </p>
         <div data-fade className="relative mt-16 flex justify-center gap-10 label">
           <span>8 years in design</span>
