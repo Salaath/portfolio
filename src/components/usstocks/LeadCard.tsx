@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { HandScene } from "./HandScene";
+import { HeldScene } from "@/components/ratings/HeldScene";
+import { LoopVideo } from "@/components/ratings/LoopVideo";
 
 // The home page entry for /leadership. It follows the "Built with AI" section:
 // a headline, then the projects as mock-up tiles (US Stocks plays on the
@@ -17,7 +19,8 @@ type Project = {
   line?: string;
   metrics?: [value: string, label: string][];
   ground: string;
-  media?: { video: string; poster: string; label: string };
+  /** "hand" maps the recording onto the phone in the hand photo; "film" is a recording that carries its own phone. */
+  media?: { kind: "hand" | "film"; video: string; poster: string; label: string } | { kind: "held"; label: string };
 };
 
 const PROJECTS: Project[] = [
@@ -31,25 +34,29 @@ const PROJECTS: Project[] = [
       ["~$122", "Average buy order"],
     ],
     ground: "#ededed",
-    media: { video: "/work/us-stocks/flow.mp4", poster: "/work/us-stocks/flow-poster.jpg", label: "The opening of the US Stocks journey in Upstox Pro, playing on a phone held in a hand" },
+    media: { kind: "hand", video: "/work/us-stocks/flow.mp4", poster: "/work/us-stocks/flow-poster.jpg", label: "The opening of the US Stocks journey in Upstox Pro, playing on a phone held in a hand" },
   },
   {
-    id: "upstox-cloud",
-    tag: "Upstox",
-    title: "Upstox Cloud",
-    ground: "#eeede9",
+    id: "in-app-ratings",
+    tag: "Shipped on Upstox",
+    title: "Right-time ratings",
+    line: "A “Rate Upstox” sheet was popping up uninvited, badly timed and badly designed. It wasn’t on the roadmap, so I raised it, scoped it and got it shipped properly.",
+    metrics: [
+      ["28%", "Higher engagement with the sheet"],
+      ["6", "Contextual nudges"],
+    ],
+    ground: "#c4c4c4",
+    media: { kind: "held", label: "The new rating sheet appearing after an order is placed, on a phone held up in one hand" },
   },
 ];
 
 export function LeadProjects({ label = "[ Leading the team ]", className = "" }: { label?: string; className?: string }) {
   return (
     <section id="leading" className={className}>
-      <div className="mb-14 flex items-end justify-between gap-6 md:mb-20">
-        <div>
-          <p data-label className="label mb-6">{label}</p>
-          <h2 data-split="lines" className="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-[6vw]">Projects I led this year</h2>
-        </div>
-        <p data-fade className="hidden max-w-xs pb-3 text-muted md:block">Two projects where I pushed back on the plan, got product and engineering aligned and shipped one seamless experience.</p>
+      <div className="mb-14 md:mb-20">
+        <p data-label className="label mb-6">{label}</p>
+        <h2 data-split="lines" className="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-[6vw]">Initiatives I drove end to end</h2>
+        <p data-fade className="mt-6 max-w-xl text-lg text-muted md:mt-8 md:text-xl">Two projects where I got product and engineering aligned and shipped a better experience.</p>
       </div>
 
       <div className="grid gap-x-6 gap-y-20 md:grid-cols-2">
@@ -59,13 +66,23 @@ export function LeadProjects({ label = "[ Leading the team ]", className = "" }:
               <div data-wipe-inner className="absolute inset-0 grid place-items-center">
                 {p.media ? (
                   <div className={`absolute inset-0 transition-transform duration-[1.4s] ${EASE} group-hover:scale-[1.04]`}>
-                    <HandScene video={p.media.video} poster={p.media.poster} label={p.media.label} />
+                    {p.media.kind === "held" ? (
+                      <HeldScene label={p.media.label} />
+                    ) : p.media.kind === "hand" ? (
+                      <HandScene video={p.media.video} poster={p.media.poster} label={p.media.label} />
+                    ) : (
+                      <LoopVideo src={p.media.video} poster={p.media.poster} label={p.media.label} className="absolute left-1/2 top-1/2 block aspect-[840/1720] h-[90%] w-auto max-w-none -translate-x-1/2 -translate-y-1/2" />
+                    )}
                   </div>
                 ) : (
                   <span className="rounded-md border border-dashed border-black/30 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-black/50">Mock-up to add</span>
                 )}
               </div>
-              <span className="absolute left-4 top-4 rounded-full bg-black/75 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-white backdrop-blur-md md:left-6 md:top-6">{p.tag}</span>
+              {/* status, set as plain type on the ground */}
+              <span className="absolute left-5 top-5 flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-black/60 md:left-7 md:top-7">
+                <i className="size-[6px] rounded-full bg-[#1f9d55]" />
+                {p.tag}
+              </span>
             </div>
 
             <div className="mt-8 grid gap-x-6 gap-y-6 md:mt-10 md:grid-cols-[1fr_auto] md:items-start">

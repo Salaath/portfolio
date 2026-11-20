@@ -118,7 +118,7 @@ export function SwitchDemo() {
           })}
         </ol>
       </div>
-      <p className="mt-6 text-sm text-muted">Three taps and a reload to reach Invest, then another reload to come back. Recorded on my own account, with balances blurred.</p>
+      <p className="mt-6 text-sm text-muted">Three taps and a reload to reach Invest, then another reload to come back. Recorded on my own account.</p>
     </figure>
   );
 }

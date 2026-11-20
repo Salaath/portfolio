@@ -16,6 +16,8 @@ export type CaseStudy = {
   coverX?: string;
   /** On wide, short windows, stop the cover zooming past the mock-up: the photo keeps its full height and its sides melt into a blurred copy. */
   coverFit?: boolean;
+  /** Home card: desktop title size and width, for a long title beside art that sits mid-card. */
+  titleFit?: string;
   tags: string[];
   /** Two-stop gradient behind the cover image (and the fallback without one) */
   cover: [string, string];
@@ -72,8 +74,9 @@ export const cases: CaseStudy[] = [
     image: "/work/nps-home.jpg?v=4",
     coverX: "54%",
     coverFit: true,
-    title: "Making NPS feel simple",
-    tagline: "Turning a government portal, eight-step wizards and a captcha into a few guided taps inside Upstox.",
+    title: "From government portal to guided retirement investing",
+    titleFit: "md:text-[4.3vw] md:max-w-[41vw]",
+    tagline: "Turning a maze of portals, eight-step wizards and captchas into a few guided taps inside Upstox.",
     year: "2025",
     role: "Lead product designer",
     team: "Gitika (detail pages, withdrawal), Kritima (UI review)",

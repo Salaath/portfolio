@@ -98,7 +98,7 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
                 <span>{c.year}</span>
               </div>
               <div>
-                <h3 className={`max-w-5xl overflow-hidden text-balance font-semibold leading-[0.95] tracking-[-0.045em] md:max-w-[48vw] ${dark ? "text-[9vw] md:text-[4.6vw]" : "text-[9vw] md:text-[6vw]"}`}>
+                <h3 className={`-mb-[0.12em] max-w-5xl overflow-hidden pb-[0.12em] text-balance font-semibold leading-[0.95] tracking-[-0.045em] ${c.titleFit ? `text-[9vw] ${c.titleFit}` : `md:max-w-[48vw] ${dark ? "text-[9vw] md:text-[4.6vw]" : "text-[9vw] md:text-[6vw]"}`}`}>
                   <span data-lift className="block">{c.title}</span>
                 </h3>
                 <dl className="mt-6 grid max-w-md grid-cols-3 gap-4 md:mt-8 md:flex md:max-w-none md:gap-[3.4vw]">

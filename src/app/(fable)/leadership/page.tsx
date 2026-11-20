@@ -4,23 +4,25 @@ import { Choreo } from "@/components/Choreo";
 import { ReadBar } from "@/components/fable/Bits";
 import { FlowStage } from "@/components/usstocks/FlowStage";
 import { Storyline } from "@/components/usstocks/Storyline";
-import { MediaSlot, ProjectFacts, ProjectHead, ToAdd, type Fact } from "@/components/usstocks/Lead";
+import { ProjectFacts, ProjectHead, type Fact } from "@/components/usstocks/Lead";
+import { RatingStage, RatingStory } from "@/components/ratings/RatingStory";
 
-// Projects I led this year. Leadership evidence, set apart from the case
+// Initiatives I drove end to end. Leadership evidence, set apart from the case
 // studies: each project is told as a decision, not a process.
 //   01 US Stocks on Pro: the full one-pager (flow recording, four sections,
 //      result). Copy and figures are Sal's, from the brief of 19 Nov 2026.
-//   02 Upstox Cloud: structure only. Every slot marked "To add" is waiting on
-//      Sal; nothing about the project is written here yet.
+//   02 In-app ratings ("right-time ratings"): one recording and the live prototype of the new sheet,
+//      four sections and the result. Copy and figures are Sal's, from the
+//      brief of 20 Nov 2026. It replaced the Upstox Cloud placeholder.
 // A null fact renders as a "To add" marker and keeps its place in the row.
 
-const DESCRIPTION = "Two projects at Upstox in 2026 where I pushed back on the plan, aligned product and engineering and shipped one seamless experience.";
+const DESCRIPTION = "Two projects at Upstox in 2026 where I took the initiative, aligned product and engineering and shipped a better experience.";
 
 export const metadata: Metadata = {
-  title: "Projects I led this year — Salaath Shaikh",
+  title: "Initiatives I drove end to end — Salaath Shaikh",
   description: DESCRIPTION,
-  openGraph: { title: "Projects I led this year", description: DESCRIPTION, type: "article" },
-  twitter: { card: "summary_large_image", title: "Projects I led this year", description: DESCRIPTION },
+  openGraph: { title: "Initiatives I drove end to end", description: DESCRIPTION, type: "article" },
+  twitter: { card: "summary_large_image", title: "Initiatives I drove end to end", description: DESCRIPTION },
 };
 
 const PROTO = "/proto/us-stocks/index.html";
@@ -28,15 +30,17 @@ const PROTO = "/proto/us-stocks/index.html";
 const US_FACTS: Fact[] = [
   ["Role", "Product design manager"],
   ["Team", "Nandini Singh"],
-  ["Product manager", "Siddhant"],
-  ["Timeline", "First week of June to first week of July 2026"],
+  ["Product manager", "Siddhant Tripathi"],
+  ["Timeline", "30 days (first week of June to July 2026)"],
 ];
 
-const CLOUD_FACTS: Fact[] = [
+const RATING_PROTO = "/proto/in-app-rating/index.html";
+
+const RATING_FACTS: Fact[] = [
   ["Role", "Product design manager"],
-  ["Team", null],
-  ["Product manager", null],
-  ["Timeline", null],
+  ["Team", "Shrimi Verma"],
+  ["Product manager", "Tanuj Kukreti"],
+  ["Timeline", "1 week (second week of September)"],
 ];
 
 const RESULTS = [
@@ -44,9 +48,14 @@ const RESULTS = [
   { value: "~$122", label: "Average buy order", note: "Sept 19 – Oct 19, 2026" },
 ];
 
+const RATING_RESULTS = [
+  { value: "28%", label: "Higher engagement from people who interact with the sheet", note: "Compared with the old sheet" },
+  { value: "6", label: "Contextual nudges", note: "Orders · Funds · IPO · US Stocks" },
+];
+
 const INDEX = [
   { n: "01", id: "us-stocks", title: "US Stocks on Pro", meta: "Live · Sept 19, 2026" },
-  { n: "02", id: "upstox-cloud", title: "Upstox Cloud", meta: "" },
+  { n: "02", id: "in-app-ratings", title: "Right-time ratings", meta: "Shipped on Upstox" },
 ];
 
 // What "leading" covers on this page. The four steps are Sal's own account of
@@ -57,8 +66,6 @@ const LEADING = [
   ["Brought engineering in", "Worked the approach through with the engineering team leads."],
   ["Planned the delivery", "Laid out the deliverables so the team had a proper plan to ship against."],
 ];
-
-const CLOUD_SECTIONS = ["The problem", "What I led", "The decision", "The outcome"];
 
 export default function Leadership() {
   return (
@@ -71,9 +78,9 @@ export default function Leadership() {
         <div className="lead-sky relative flex min-h-svh flex-col items-center px-4 pb-16 pt-36 text-center sm:px-10 md:pb-20 md:pt-44">
           <span aria-hidden className="lead-clouds" />
           <p data-label className="label !text-white/70">[ Leading the team — 2026 ]</p>
-          <h1 data-split="lines" className="mt-8 max-w-[10ch] text-[15vw] leading-[0.92] tracking-[-0.045em] text-[#f6f1ff] md:text-[min(9.6vw,10rem)]">Projects I led this year</h1>
+          <h1 data-split="lines" className="mt-8 max-w-[11ch] [text-wrap:balance] text-[15vw] leading-[0.92] tracking-[-0.045em] text-[#f6f1ff] md:text-[min(9.6vw,10rem)]">Initiatives I drove end to end</h1>
           <p data-fade className="mt-auto max-w-3xl pt-24 text-xl leading-[1.3] tracking-[-0.015em] text-ink/85 md:text-[1.7rem]">
-            To me, leading is taking the initiative when the plan on the table would hurt the experience. On both projects I thought as a systems designer, proposed a different approach and saw it through.
+            To me, leading is taking the initiative when the experience is at stake, whether that means pushing back on the plan or picking up a problem nobody owns. On both projects I thought as a systems designer, made the case and saw it through.
           </p>
         </div>
 
@@ -91,7 +98,7 @@ export default function Leadership() {
               ))}
             </ol>
             <p data-fade className="mt-6 max-w-3xl border-t border-line pt-6 text-xl leading-snug tracking-[-0.01em] md:text-2xl">
-              <span className="text-[var(--accent)]">The result.</span> What I suggested shipped. Users get one seamless experience where they would have got a feature built half and half.
+              <span className="text-[var(--accent)]">The result.</span> Both shipped. US stocks is one seamless journey where it would have been built half and half. The rating sheet now appears only when there is something real to rate.
             </p>
           </div>
 
@@ -117,7 +124,7 @@ export default function Leadership() {
           <section className="mx-auto max-w-7xl px-4 pb-20 pt-24 sm:px-10 md:pb-28 md:pt-36">
             <ProjectHead
               n="01"
-              title="Leading the team: US Stocks on Pro"
+              title="US Stocks on Pro"
               status={
                 <span className="flex items-center gap-3">
                   <i className="size-[7px] rounded-full bg-[#1f9d55]" /> Live on Upstox Pro
@@ -157,31 +164,53 @@ export default function Leadership() {
         </section>
       </div>
 
-      {/* ───────── 02 Upstox Cloud: structure only, waiting on the story ───────── */}
-      <div id="upstox-cloud" className="paper">
-        <section className="mx-auto max-w-7xl px-4 pb-20 pt-24 sm:px-10 md:pb-28 md:pt-36">
-          <ProjectHead n="02" title="Upstox Cloud">
-            <ToAdd>One-line summary to add</ToAdd>
-          </ProjectHead>
-          <ProjectFacts facts={CLOUD_FACTS} className="mt-16 md:mt-24" />
-        </section>
+      {/* ───────── 02 In-app ratings ───────── */}
+      <div id="in-app-ratings" className="scroll-mt-0">
+        <div className="paper">
+          <section className="mx-auto max-w-7xl px-4 pb-20 pt-24 sm:px-10 md:pb-28 md:pt-36">
+            <ProjectHead
+              n="02"
+              title="Right-time ratings"
+              status={
+                <span className="flex items-center gap-3">
+                  <i className="size-[7px] rounded-full bg-[#1f9d55]" /> Shipped on Upstox
+                </span>
+              }
+            >
+              A “Rate Upstox” sheet was popping up uninvited, badly timed and badly designed. It wasn’t on the roadmap, so I raised it, scoped it and got it shipped properly.
+            </ProjectHead>
+            <ProjectFacts facts={RATING_FACTS} className="mt-16 md:mt-24" />
+          </section>
 
-        <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-10 md:pb-40">
-          <div data-fade>
-            <MediaSlot label="Video or prototype to add" className="aspect-[4/3] md:aspect-[21/9]" />
-          </div>
-          <div className="mt-16 grid gap-x-16 md:mt-24 md:grid-cols-2 lg:gap-x-24">
-            {CLOUD_SECTIONS.map((label, i) => (
-              <article key={label} data-fade className="border-t border-ink pb-14 pt-8">
-                <p className="label flex gap-4 !text-ink">
-                  <span className="text-muted">{String(i + 1).padStart(2, "0")}</span>
-                  {label}
-                </p>
-                <div className="mt-8">
-                  <ToAdd />
+          <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-10 md:pb-12">
+            <RatingStory />
+          </section>
+
+          {/* the six nudges, one recording and the live prototype, right after the outcome and before the figures */}
+          <section className="mx-auto max-w-7xl px-4 pb-20 pt-12 sm:px-10 md:pb-28 md:pt-16">
+            <RatingStage />
+          </section>
+        </div>
+
+        {/* the result */}
+        <section className="night relative overflow-hidden px-4 py-24 sm:px-10 md:py-36">
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_60%_at_50%_0%,rgba(124,92,255,0.24),transparent_70%)]" />
+          <div className="relative mx-auto max-w-7xl">
+            <p data-label className="label">[ Shipped with six contextual nudges ]</p>
+            <dl className="mt-12 grid gap-y-14 md:grid-cols-2 md:gap-x-14">
+              {RATING_RESULTS.map((r, i) => (
+                <div key={r.label} className={i ? "md:border-l md:border-line md:pl-14" : ""}>
+                  <dd data-count className="whitespace-nowrap text-[22vw] leading-[0.9] tabular-nums tracking-[-0.05em] md:text-[min(11vw,11rem)]">{r.value}</dd>
+                  <dt data-fade className="mt-6 max-w-sm text-lg">{r.label}</dt>
+                  <dd data-fade className="mt-1 font-mono text-xs uppercase tracking-[0.12em] text-muted">{r.note}</dd>
                 </div>
-              </article>
-            ))}
+              ))}
+            </dl>
+            <div className="mt-20 border-t border-line pt-6 md:mt-28">
+              <a href={RATING_PROTO} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 underline-offset-4 hover:underline">
+                Open the prototype full screen <span className="transition-transform duration-300 group-hover:translate-x-1">↗</span>
+              </a>
+            </div>
           </div>
         </section>
       </div>

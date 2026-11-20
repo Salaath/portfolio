@@ -98,9 +98,10 @@ const TEAM: [string, string][] = [
 ];
 
 const SNAPSHOT: [string, string | [string, string][]][] = [
+  ["Role", "Lead product designer"],
+  ["Status", "Three live, a fourth in build"],
   ["Team", TEAM],
   ["Releases", [["Release 1", "June 2026"], ["Release 2", "August 2026"], ["Release 3", "October 2026"]]],
-  ["Status", "Three live, a fourth in build"],
 ];
 
 const INPUTS = [
@@ -259,7 +260,7 @@ export default function WatchlistRevised() {
             </p>
             <dl data-fade className="grid grid-cols-2 content-start gap-x-6 gap-y-5 md:col-span-5">
               {SNAPSHOT.map(([k, v]) => (
-                <div key={k} className={`border-t border-line pt-3 ${typeof v === "string" ? "col-span-2" : ""}`}>
+                <div key={k} className="border-t border-line pt-3">
                   <dt className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">{k}</dt>
                   <dd className="mt-1.5 text-[15px] font-medium leading-snug">
                     {typeof v === "string" ? v : (

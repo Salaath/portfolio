@@ -1,4 +1,4 @@
-// Shared pieces of the "Projects I led this year" page: the facts row under
+// Shared pieces of the "Initiatives I drove end to end" page: the facts row under
 // each project title and the empty slots that hold a place for content that
 // hasn't been written yet. Nothing here invents a name or a number.
 

@@ -105,9 +105,9 @@ export function NpsHero({ wait }: { /** Hold the entrance until this resolves, e
       >
         <span
           data-pill
-          className="rounded-full border border-white/15 bg-white/5 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-white/70 backdrop-blur"
+          className="label !text-white/60"
         >
-          Upstox · 0-to-1 product launch · 2025
+          [ Upstox — 0-to-1 product launch — 2025 ]
         </span>
         <h1
           data-h1

@@ -50,12 +50,13 @@ const PROJECTS: Project[] = [
     tag: "Microsite · Upstox",
     body: "Upstox design had grown past 30 designers and new people kept joining. In their first few days, nobody had the time to walk each of them through who we are, our culture and how we work. So I built this guide to do it.",
     stack: ["Claude Design", "HTML"],
-    video: "/work/ai/onboarding.mp4",
-    poster: "/work/ai/onboarding-poster.jpg",
+    // a six-second look at the guide's opening screen; the full walkthrough plays on the detail page
+    video: "/work/ai/onboarding-hero.mp4",
+    poster: "/work/ai/onboarding-hero-poster.jpg",
     kind: "scene",
     ground: "#35b4ea",
-    href: "/ai/upstox-design-onboarding.html",
-    cta: "Open design guide",
+    href: "/work/onboarding-guide",
+    cta: "View project",
   },
 ];
 
@@ -140,6 +141,8 @@ const SCENES: Record<string, SceneSpec> = {
     screen: [[587.1, 114.2], [1315, 188.7], [1278, 664.4], [573.5, 590.6]],
     film: [640, 400],
     round: "rounded-t-[7px]",
+    // the recording is a little wider than the laptop's screen, so its sides are trimmed
+    crop: [35, 0, 890, 556, 960, 556],
   },
 };
 
