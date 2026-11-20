@@ -27,27 +27,27 @@
         ],
         [
           {
-            "t": "Led the Watchlist redesign: orders from Watchlist rows up ",
+            "t": "Led Account Opening 3.0, cutting happy-path completion from 12 minutes to ",
             "b": false
           },
           {
-            "t": "420.8% (5.2×)",
+            "t": "2–3 minutes",
             "b": true
           },
           {
-            "t": ", new lists up ",
+            "t": " with ",
             "b": false
           },
           {
-            "t": "2,038%",
+            "t": "~38% fewer steps",
             "b": true
           },
           {
-            "t": ", tab opens up ",
+            "t": "; the journey reached ",
             "b": false
           },
           {
-            "t": "138%",
+            "t": "~65% conversion",
             "b": true
           },
           {
@@ -57,41 +57,41 @@
         ],
         [
           {
-            "t": "Led Account Opening 3.0: demat account opening cut from 12 minutes to ",
+            "t": "Led Watchlist redesign, driving ",
             "b": false
           },
           {
-            "t": "2–3",
+            "t": "5.2× more orders",
             "b": true
           },
           {
-            "t": ", ",
+            "t": " from watchlist rows, ",
             "b": false
           },
           {
-            "t": "~38% fewer steps",
+            "t": "20× growth",
             "b": true
           },
           {
-            "t": ", ",
+            "t": " in list creation and ",
             "b": false
           },
           {
-            "t": "~65%",
+            "t": "138% more",
             "b": true
           },
           {
-            "t": " conversion.",
+            "t": " tab opens.",
             "b": false
           }
         ],
         [
           {
-            "t": "Led US Stocks launch on Upstox Pro with a unified journey. ",
+            "t": "Led the 0-to-1 launch of US Stocks on Upstox Pro driving ",
             "b": false
           },
           {
-            "t": "$1.76M in orders",
+            "t": "over a million dollars in orders",
             "b": true
           },
           {
@@ -108,23 +108,15 @@
       "bullets": [
         [
           {
-            "t": "Launched NPS and corporate NPS from 0 to 1: ",
+            "t": "Launched National Pension System (NPS) and corporate NPS journeys from 0 to 1, scaling to ",
             "b": false
           },
           {
-            "t": "96.4K accounts",
+            "t": "96K+ accounts",
             "b": true
           },
           {
-            "t": ", ",
-            "b": false
-          },
-          {
-            "t": "₹34.6 Cr AUM",
-            "b": true
-          },
-          {
-            "t": ", first contribution in ",
+            "t": " with a first contribution in ",
             "b": false
           },
           {
@@ -133,6 +125,28 @@
           },
           {
             "t": ".",
+            "b": false
+          }
+        ],
+        [
+          {
+            "t": "Launched NCDs and bonds from 0 to 1, capturing ",
+            "b": false
+          },
+          {
+            "t": "0.7%",
+            "b": true
+          },
+          {
+            "t": " of the NCD market with a roadmap to ",
+            "b": false
+          },
+          {
+            "t": "5%",
+            "b": true
+          },
+          {
+            "t": " market share.",
             "b": false
           }
         ],
@@ -160,21 +174,7 @@
         ],
         [
           {
-            "t": "Launched NCDs and bonds from 0 to 1: ",
-            "b": false
-          },
-          {
-            "t": "0.7%",
-            "b": true
-          },
-          {
-            "t": " NCD market share, scalable to 5% (₹50 L revenue a month).",
-            "b": false
-          }
-        ],
-        [
-          {
-            "t": "Launched intraday screeners (",
+            "t": "Launched intraday screeners, driving ",
             "b": false
           },
           {
@@ -182,37 +182,29 @@
             "b": true
           },
           {
-            "t": " of all equity orders) and an MTF calculator (",
+            "t": " of equity orders, alongside an MTF calculator with ",
             "b": false
           },
           {
-            "t": "14.5k",
+            "t": "14.5K",
             "b": true
           },
           {
-            "t": " daily active users).",
+            "t": " daily active users.",
             "b": false
           }
         ],
         [
           {
-            "t": "Redesigned the fund wallet and autopay: ",
+            "t": "Redesigned fund wallet and Autopay, driving ",
             "b": false
           },
           {
-            "t": "3.78M users",
+            "t": "over a million fund additions",
             "b": true
           },
           {
-            "t": " and ",
-            "b": false
-          },
-          {
-            "t": "15.33 L",
-            "b": true
-          },
-          {
-            "t": " fund additions in the first 2 months.",
+            "t": " within the first two months.",
             "b": false
           }
         ]
@@ -225,21 +217,21 @@
       "bullets": [
         [
           {
-            "t": "Launched goal-based investing: ",
+            "t": "Launched goal-based investing, with ",
             "b": false
           },
           {
-            "t": "2.89 L users",
+            "t": "2.89L users",
             "b": true
           },
           {
-            "t": " set a goal in the first 3 months.",
+            "t": " setting an investment goal in the first 3 months.",
             "b": false
           }
         ],
         [
           {
-            "t": "Launched MTF on Invest: ",
+            "t": "Launched MTF on Invest, contributing a new revenue stream and driving ",
             "b": false
           },
           {
@@ -247,25 +239,17 @@
             "b": true
           },
           {
-            "t": " of all orders and ",
-            "b": false
-          },
-          {
-            "t": "₹22.5 L",
-            "b": true
-          },
-          {
-            "t": " in interest earned a month.",
+            "t": " of total orders.",
             "b": false
           }
         ],
         [
           {
-            "t": "Designed mutual fund portfolio tracking, which improved retention and draws ",
+            "t": "Designed mutual fund portfolio tracking, improving retention and driving ",
             "b": false
           },
           {
-            "t": "11.5k",
+            "t": "11.5K",
             "b": true
           },
           {
@@ -275,7 +259,7 @@
         ],
         [
           {
-            "t": "Launched the commodities page: ",
+            "t": "Launched the Commodities page, driving ",
             "b": false
           },
           {
@@ -283,7 +267,7 @@
             "b": true
           },
           {
-            "t": " placed.",
+            "t": ".",
             "b": false
           }
         ]

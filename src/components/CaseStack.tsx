@@ -92,7 +92,7 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
             {dark ? null : (
               <div className="absolute inset-0 hidden md:block md:bg-[linear-gradient(to_top,rgba(0,0,0,0.5),transparent_30%),linear-gradient(to_right,rgba(0,0,0,0.42),transparent_52%)]" />
             )}
-            <div className={`relative flex flex-col justify-between gap-6 px-4 pb-14 pt-5 text-bg sm:px-10 md:h-full md:gap-0 md:p-10 ${dark ? "md:text-ink" : "md:text-white"}`}>
+            <div className={`relative flex flex-col justify-between gap-6 px-4 pb-14 pt-5 text-bg sm:px-10 md:h-full md:gap-0 md:p-10 md:pb-[4.75rem] ${dark ? "md:text-ink" : "md:text-white"}`}>
               <div className={`label flex justify-between max-md:!text-bg/60 ${dark ? "md:!text-ink/60" : "md:!text-white/70"}`}>
                 <span>({pad(i + 1)}) — {pad(cases.length)}</span>
                 <span>{c.year}</span>
