@@ -5,7 +5,7 @@ import { Choreo } from "@/components/Choreo";
 import { Magnetic } from "@/components/Magnetic";
 import { RollButton } from "@/components/RollButton";
 import { CityCube } from "@/components/about/CityCube";
-import { CircuitDial } from "@/components/about/CircuitDial";
+import { TrackSpin } from "@/components/about/TrackSpin";
 import { SpinBook } from "@/components/about/SpinBook";
 
 // The copy comes from src/content/cv.json, which is generated from the CV
@@ -200,7 +200,7 @@ export default function About() {
               <span className="block text-[16vw] md:text-[7.4vw]">are for</span>
               <span className="block text-[38vw] leading-[0.8] md:text-[16.5vw]">F1.</span>
             </p>
-            <CircuitDial className="mx-auto w-[min(86vw,24rem)] self-center md:col-span-4 md:w-full" />
+            <TrackSpin className="mx-auto aspect-square w-[min(92vw,26rem)] self-center md:col-span-4 md:w-full" />
             <dl className="flex flex-col justify-between border-t border-bg/25 md:col-span-3">
               {[["Fri", "Practice"], ["Sat", "Qualifying"], ["Sun", "Race"]].map(([day, what]) => (
                 <div key={day} className="flex items-baseline justify-between gap-4 border-b border-bg/25 py-4 md:py-[1.6vw]">

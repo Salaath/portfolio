@@ -103,7 +103,7 @@ export default function Leadership() {
     <Choreo>
       <ReadBar />
       {/* jump between the three projects from anywhere on the page */}
-      <ChapterDock always labels tone="dark" name="Projects" />
+      <ChapterDock always labels name="Projects" />
 
       {/* the page: what this is and the three projects on it */}
       <header className="night relative overflow-hidden">

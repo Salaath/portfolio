@@ -21,8 +21,13 @@ function JarvisStage() {
       {/* breaks out of the page's column to both edges of the window */}
       <div data-band className="mx-[calc(50%-50vw)] overflow-hidden" style={{ background: WALL }}>
        <div className="relative mx-auto max-w-[1800px]">
-        {/* says plainly that the screen can be used; hidden on a phone, where it is a still */}
-        <p className="pointer-events-none absolute left-[52.5%] top-[5%] z-10 hidden -translate-x-1/2 whitespace-nowrap font-mono text-xs uppercase tracking-[0.12em] text-muted sm:block">Clickable prototype — click the screen to try it</p>
+        {/* says plainly that the screen can be used, with a way to open it full screen in a new tab */}
+        <div className="absolute inset-x-0 top-0 z-10 hidden items-center justify-center gap-6 pt-[2.2%] sm:flex">
+          <p className="pointer-events-none m-0 font-mono text-xs uppercase tracking-[0.12em] text-muted">Clickable prototype — click the screen to try it</p>
+          <a href={PROTO} target="_blank" rel="noopener" data-cursor="Open" className="inline-flex items-center gap-2 rounded-full border border-ink/20 bg-bg/70 py-1.5 pl-3.5 pr-3 font-mono text-xs uppercase tracking-[0.12em] text-ink backdrop-blur transition-colors duration-300 hover:bg-ink hover:text-bg">
+            Open full screen <span aria-hidden>↗</span>
+          </a>
+        </div>
         <DisplayProto
           src={PROTO}
           image={`${IMG}/console-display.webp`}
