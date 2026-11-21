@@ -20,7 +20,7 @@ export function ProjectFacts({ facts, className = "" }: { facts: Fact[]; classNa
       {facts.map(([label, value]) => (
         <div key={label}>
           <dt className="label">{label}</dt>
-          <dd className="mt-3 text-lg leading-snug tracking-[-0.01em]">{value ?? <ToAdd />}</dd>
+          <dd className="mt-3 whitespace-pre-line text-lg leading-snug tracking-[-0.01em]">{value ?? <ToAdd />}</dd>
         </div>
       ))}
     </dl>

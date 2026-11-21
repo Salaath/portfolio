@@ -19,8 +19,12 @@ type Project = {
   line?: string;
   metrics?: [value: string, label: string][];
   ground: string;
+  /** The dot beside the status. Green unless the work has not shipped. */
+  dot?: string;
+  /** A desktop screen: the tile runs the full width of the section. */
+  wide?: boolean;
   /** "hand" maps the recording onto the phone in the hand photo; "film" is a recording that carries its own phone. */
-  media?: { kind: "hand" | "film"; video: string; poster: string; label: string } | { kind: "held"; label: string };
+  media?: { kind: "hand" | "film"; video: string; poster: string; label: string } | { kind: "held"; label: string } | { kind: "screen"; image: string; label: string };
 };
 
 const PROJECTS: Project[] = [
@@ -30,8 +34,7 @@ const PROJECTS: Project[] = [
     title: "US Stocks on Pro",
     line: "It was about to launch half in Pro and half in Invest. I made the case for one journey and we shipped it end to end in Pro.",
     metrics: [
-      ["$1,763,732", "Orders placed in month one"],
-      ["~$122", "Average buy order"],
+      ["14.45K", "Orders placed in a month"],
     ],
     ground: "#ededed",
     media: { kind: "hand", video: "/work/us-stocks/flow.mp4", poster: "/work/us-stocks/flow-poster.jpg", label: "The opening of the US Stocks journey in Upstox Pro, playing on a phone held in a hand" },
@@ -48,6 +51,20 @@ const PROJECTS: Project[] = [
     ground: "#c4c4c4",
     media: { kind: "held", label: "The new rating sheet appearing after an order is placed, on a phone held up in one hand" },
   },
+  {
+    id: "in-app-messages",
+    tag: "In internal testing",
+    dot: "#c98a00",
+    title: "Fewer, better campaigns",
+    line: "Every team sends its own banners, sheets and pop-ups, so customers are interrupted before they can act. I proposed one console to plan, approve and measure every in-app message.",
+    metrics: [
+      ["3", "Reviewers in one round"],
+      ["5", "Roles, each with its own view"],
+    ],
+    ground: "linear-gradient(to bottom, #dfe8f1, #edf1f4)",
+    wide: true,
+    media: { kind: "screen", image: "/work/jarvis/console-home.webp", label: "The console’s home for a product manager: their requests, who each one is waiting on and recent activity" },
+  },
 ];
 
 export function LeadProjects({ label = "[ Leading the team ]", className = "" }: { label?: string; className?: string }) {
@@ -56,17 +73,20 @@ export function LeadProjects({ label = "[ Leading the team ]", className = "" }:
       <div className="mb-14 md:mb-20">
         <p data-label className="label mb-6">{label}</p>
         <h2 data-split="lines" className="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-[6vw]">Initiatives I drove end to end</h2>
-        <p data-fade className="mt-6 max-w-xl text-lg text-muted md:mt-8 md:text-xl">Two projects where I got product and engineering aligned and shipped a better experience.</p>
+        <p data-fade className="mt-6 max-w-xl text-lg text-muted md:mt-8 md:text-xl">Three initiatives where I made the case and got product and engineering aligned behind a better experience.</p>
       </div>
 
       <div className="grid gap-x-6 gap-y-20 md:grid-cols-2">
         {PROJECTS.map((p, i) => (
-          <Link key={p.id} href={`/leadership#${p.id}`} data-cursor="Open" className="group block">
-            <div data-wipe className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] sm:aspect-square md:rounded-[2.25rem]" style={{ background: p.ground }}>
+          <Link key={p.id} href={`/leadership#${p.id}`} data-cursor="Open" className={`group block ${p.wide ? "md:col-span-2" : ""}`}>
+            <div data-wipe className={`relative overflow-hidden rounded-[1.75rem] md:rounded-[2.25rem] ${p.wide ? "aspect-[4/3] md:aspect-[2/1]" : "aspect-[4/5] sm:aspect-square"}`} style={{ background: p.ground }}>
               <div data-wipe-inner className="absolute inset-0 grid place-items-center">
                 {p.media ? (
                   <div className={`absolute inset-0 transition-transform duration-[1.4s] ${EASE} group-hover:scale-[1.04]`}>
-                    {p.media.kind === "held" ? (
+                    {p.media.kind === "screen" ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={p.media.image} alt={p.media.label} width={2040} height={1275} loading="lazy" className="absolute left-1/2 top-[54%] block h-auto max-h-[80%] w-auto max-w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-[0.5rem] shadow-[0_0_0_1px_rgba(15,30,60,0.08),0_40px_80px_-40px_rgba(15,40,90,0.45)] md:rounded-[1rem]" />
+                    ) : p.media.kind === "held" ? (
                       <HeldScene label={p.media.label} />
                     ) : p.media.kind === "hand" ? (
                       <HandScene video={p.media.video} poster={p.media.poster} label={p.media.label} />
@@ -80,7 +100,7 @@ export function LeadProjects({ label = "[ Leading the team ]", className = "" }:
               </div>
               {/* status, set as plain type on the ground */}
               <span className="absolute left-5 top-5 flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-black/60 md:left-7 md:top-7">
-                <i className="size-[6px] rounded-full bg-[#1f9d55]" />
+                <i className="size-[6px] rounded-full" style={{ background: p.dot ?? "#1f9d55" }} />
                 {p.tag}
               </span>
             </div>

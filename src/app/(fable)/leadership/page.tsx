@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Choreo } from "@/components/Choreo";
 import { ReadBar } from "@/components/fable/Bits";
+import { ChapterDock } from "@/components/fable/Case";
 import { FlowStage } from "@/components/usstocks/FlowStage";
 import { Storyline } from "@/components/usstocks/Storyline";
 import { ProjectFacts, ProjectHead, type Fact } from "@/components/usstocks/Lead";
 import { RatingStage, RatingStory } from "@/components/ratings/RatingStory";
+import { JarvisStory } from "@/components/jarvis/JarvisStory";
 
 // Initiatives I drove end to end. Leadership evidence, set apart from the case
 // studies: each project is told as a decision, not a process.
@@ -14,9 +16,14 @@ import { RatingStage, RatingStory } from "@/components/ratings/RatingStory";
 //   02 In-app ratings ("right-time ratings"): one recording and the live prototype of the new sheet,
 //      four sections and the result. Copy and figures are Sal's, from the
 //      brief of 20 Nov 2026. It replaced the Upstox Cloud placeholder.
+//   03 Fewer, better campaigns: a company-wide proposal for one console (Jarvis)
+//      to plan, approve and measure every in-app message. Five sections (the
+//      live prototype sits inside the proposal, after the problem) and the
+//      shape of the proposal. Copy is from Sal's deck of
+//      November 2026. It is in internal testing (Sal, 21 Nov 2026), not shipped, and the page says so.
 // A null fact renders as a "To add" marker and keeps its place in the row.
 
-const DESCRIPTION = "Two projects at Upstox in 2026 where I took the initiative, aligned product and engineering and shipped a better experience.";
+const DESCRIPTION = "Three initiatives I drove at Upstox in 2026: two shipped a better experience and one is in testing within internal teams.";
 
 export const metadata: Metadata = {
   title: "Initiatives I drove end to end — Salaath Shaikh",
@@ -44,8 +51,7 @@ const RATING_FACTS: Fact[] = [
 ];
 
 const RESULTS = [
-  { value: "$1,763,732", label: "Total value of orders placed", note: "Sept 19 – Oct 19, 2026" },
-  { value: "~$122", label: "Average buy order", note: "Sept 19 – Oct 19, 2026" },
+  { value: "14.45K", label: "Orders placed in a month", note: "Sept 19 – Oct 19, 2026" },
 ];
 
 const RATING_RESULTS = [
@@ -53,9 +59,33 @@ const RATING_RESULTS = [
   { value: "6", label: "Contextual nudges", note: "Orders · Funds · IPO · US Stocks" },
 ];
 
+const MSG_PROTO = "/proto/jarvis/index.html";
+
+/** The wall in the banner photo, evened out to this one colour (public/work/jarvis/console-banner.webp). */
+const MSG_WALL = "#e4e4e4";
+
+/** The photo fades out along its left and top edges, where the wall is not quite the flat colour. */
+const FADE = "linear-gradient(to right, transparent 0, #000 16%), linear-gradient(to bottom, transparent 0, #000 16%)";
+const BANNER_FADE = { maskImage: FADE, WebkitMaskImage: FADE, maskComposite: "intersect", WebkitMaskComposite: "source-in" } as const;
+
+const MSG_FACTS: Fact[] = [
+  ["Role", "Product design manager"],
+  ["Scope", "Company wide: Product, Marketing, Revenue and CRM"],
+  ["Stage", "Proposed to senior leadership across four teams. Currently in testing."],
+  ["Team", "Orpheus (VP of Product)\nSalaath (UX & Design)"],
+];
+
+// The shape of the proposal, from the deck. Not outcomes: nothing has shipped.
+const MSG_SHAPE = [
+  { value: "4", label: "Questions on one page to raise a request", note: "What for · Who · Where · When" },
+  { value: "3", label: "Reviewers approving in one round", note: "Head · Design · CRM" },
+  { value: "5", label: "Roles, each seeing only their part", note: "PM · Head · CRM · Design · Admin" },
+];
+
 const INDEX = [
   { n: "01", id: "us-stocks", title: "US Stocks on Pro", meta: "Live · Sept 19, 2026" },
   { n: "02", id: "in-app-ratings", title: "Right-time ratings", meta: "Shipped on Upstox" },
+  { n: "03", id: "in-app-messages", title: "Fewer, better campaigns", meta: "In internal testing" },
 ];
 
 // What "leading" covers on this page. The four steps are Sal's own account of
@@ -71,8 +101,10 @@ export default function Leadership() {
   return (
     <Choreo>
       <ReadBar />
+      {/* jump between the three projects from anywhere on the page */}
+      <ChapterDock always labels tone="dark" name="Projects" />
 
-      {/* the page: what this is and the two projects on it */}
+      {/* the page: what this is and the three projects on it */}
       <header className="night relative overflow-hidden">
         {/* the sky: title in the violet, statement where it has fallen to night */}
         <div className="lead-sky relative flex min-h-svh flex-col items-center px-4 pb-16 pt-36 text-center sm:px-10 md:pb-20 md:pt-44">
@@ -80,7 +112,7 @@ export default function Leadership() {
           <p data-label className="label !text-white/70">[ Leading the team — 2026 ]</p>
           <h1 data-split="lines" className="mt-8 max-w-[11ch] [text-wrap:balance] text-[15vw] leading-[0.92] tracking-[-0.045em] text-[#f6f1ff] md:text-[min(9.6vw,10rem)]">Initiatives I drove end to end</h1>
           <p data-fade className="mt-auto max-w-3xl pt-24 text-xl leading-[1.3] tracking-[-0.015em] text-ink/85 md:text-[1.7rem]">
-            To me, leading is taking the initiative when the experience is at stake, whether that means pushing back on the plan or picking up a problem nobody owns. On both projects I thought as a systems designer, made the case and saw it through.
+            To me, leading is taking the initiative when the experience is at stake, whether that means pushing back on the plan or picking up a problem nobody owns. On all three I thought as a systems designer and made the case for a better way.
           </p>
         </div>
 
@@ -98,7 +130,7 @@ export default function Leadership() {
               ))}
             </ol>
             <p data-fade className="mt-6 max-w-3xl border-t border-line pt-6 text-xl leading-snug tracking-[-0.01em] md:text-2xl">
-              <span className="text-[var(--accent)]">The result.</span> Both shipped. US stocks is one seamless journey where it would have been built half and half. The rating sheet now appears only when there is something real to rate.
+              <span className="text-[var(--accent)]">The result.</span> Two shipped. US stocks is one seamless journey where it would have been built half and half. The rating sheet now appears only when there is something real to rate. The third is one console to plan, approve and measure every in-app message, now in testing within internal teams.
             </p>
           </div>
 
@@ -116,7 +148,7 @@ export default function Leadership() {
       </header>
 
       {/* ───────── 01 US Stocks on Pro ───────── */}
-      <div id="us-stocks" className="scroll-mt-0">
+      <div id="us-stocks" data-chapter="01" data-chapter-label="US Stocks on Pro" className="scroll-mt-0">
         {/* the end-to-end flow, before any words */}
         <FlowStage video="/work/us-stocks/flow.mp4" poster="/work/us-stocks/flow-poster.jpg" proto={`${PROTO}?embed`} />
 
@@ -165,7 +197,7 @@ export default function Leadership() {
       </div>
 
       {/* ───────── 02 In-app ratings ───────── */}
-      <div id="in-app-ratings" className="scroll-mt-0">
+      <div id="in-app-ratings" data-chapter="02" data-chapter-label="Right-time ratings" className="scroll-mt-0">
         <div className="paper">
           <section className="mx-auto max-w-7xl px-4 pb-20 pt-24 sm:px-10 md:pb-28 md:pt-36">
             <ProjectHead
@@ -208,6 +240,80 @@ export default function Leadership() {
             </dl>
             <div className="mt-20 border-t border-line pt-6 md:mt-28">
               <a href={RATING_PROTO} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 underline-offset-4 hover:underline">
+                Open the prototype full screen <span className="transition-transform duration-300 group-hover:translate-x-1">↗</span>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* ───────── 03 Fewer, better campaigns ───────── */}
+      <div id="in-app-messages" data-chapter="03" data-chapter-label="Fewer, better campaigns" className="scroll-mt-0 overflow-x-clip">
+        <div className="paper white">
+          {/* the banner: words on the left, the console on a display to the right. The photo's wall is the
+              section's own colour and its left edge fades out, so there is no frame around it. */}
+          <section className="relative overflow-hidden" style={{ background: MSG_WALL }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/work/jarvis/console-banner.webp"
+              alt="The Jarvis console’s home screen on a desktop display"
+              width={1800}
+              height={1348}
+              loading="lazy"
+              className="pointer-events-none absolute bottom-0 hidden h-auto w-[77vw] max-w-none lg:block"
+              style={{ left: "37.5vw", ...BANNER_FADE }}
+            />
+            <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-24 sm:px-10 md:pt-36 lg:pb-32">
+              <div className="lg:max-w-[50%]">
+                <ProjectHead
+                  n="03"
+                  title="Fewer, better campaigns"
+                  status={
+                    <span className="flex items-center gap-3">
+                      <i className="size-[7px] rounded-full bg-[#c98a00]" /> In internal testing
+                    </span>
+                  }
+                >
+                  Every team sends its own banners, sheets and pop-ups, so customers are interrupted before they can do what they came for. I proposed one console to plan, approve and measure every in-app message.
+                </ProjectHead>
+                <ProjectFacts facts={MSG_FACTS} className="mt-14 md:mt-20 md:!grid-cols-2" />
+              </div>
+            </div>
+            {/* on a phone the display sits under the words, edge to edge */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/work/jarvis/console-banner.webp"
+              alt=""
+              aria-hidden
+              width={1800}
+              height={1348}
+              loading="lazy"
+              className="block w-full lg:hidden"
+              style={{ maskImage: "linear-gradient(to bottom, transparent 0, #000 22%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0, #000 22%)" }}
+            />
+          </section>
+
+          <section className="mx-auto max-w-7xl px-4 pb-8 pt-20 sm:px-10 md:pb-12 md:pt-28">
+            <JarvisStory />
+          </section>
+        </div>
+
+        {/* the shape of the proposal */}
+        <section className="night relative overflow-hidden px-4 py-24 sm:px-10 md:py-36">
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_60%_at_50%_0%,rgba(124,92,255,0.24),transparent_70%)]" />
+          <div className="relative mx-auto max-w-7xl">
+            <p data-label className="label">[ The console in three numbers ]</p>
+            <dl className="mt-12 grid gap-y-14 md:grid-cols-3 md:gap-x-10">
+              {MSG_SHAPE.map((r, i) => (
+                <div key={r.label} className={i ? "md:border-l md:border-line md:pl-10" : ""}>
+                  <dd data-count className="whitespace-nowrap text-[22vw] leading-[0.9] tabular-nums tracking-[-0.05em] md:text-[min(11vw,11rem)]">{r.value}</dd>
+                  <dt data-fade className="mt-6 max-w-[16rem] text-lg">{r.label}</dt>
+                  <dd data-fade className="mt-1 font-mono text-xs uppercase tracking-[0.12em] text-muted">{r.note}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-20 border-t border-line pt-6 md:mt-28">
+              <a href={MSG_PROTO} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-2 underline-offset-4 hover:underline">
                 Open the prototype full screen <span className="transition-transform duration-300 group-hover:translate-x-1">↗</span>
               </a>
             </div>

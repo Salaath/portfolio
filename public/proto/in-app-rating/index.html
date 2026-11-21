@@ -303,33 +303,37 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible { outline: 2p
 .toast.on { opacity: 1; transform: translate(-50%, 0); }
 
 /* ---------- control rail ---------- */
-.rail { width: 280px; max-width: 100%; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.rail { width: 260px; max-width: 100%; display: flex; flex-direction: column; gap: 28px; min-width: 0; }
 .rail h1 { margin: 0; font-size: 20px; line-height: 26px; font-weight: 600; letter-spacing: -.01em; text-wrap: balance; }
-.rail .sub { margin: 6px 0 0; font-size: 13px; line-height: 19px; color: var(--stage-muted); }
-.eyebrow { font-size: 11px; line-height: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--stage-muted); margin: 0 0 8px; }
-.flows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border-top: 1px solid var(--stage-line); }
-.flows li { padding: 10px 0; border-bottom: 1px solid var(--stage-line); font-size: 13px; line-height: 19px; }
-.flows b { font-weight: 600; display: block; }
-.flows span { color: var(--stage-muted); }
-.state { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-.state code { font: 500 12px/1 ui-monospace, "SF Mono", Menlo, monospace; background: var(--stage-card); border: 1px solid var(--stage-line); padding: 5px 8px; border-radius: 6px; }
-.trigs { display: flex; flex-direction: column; gap: 6px; }
+.rail .sub { margin: 8px 0 0; font-size: 14px; line-height: 21px; color: var(--stage-muted); }
+.eyebrow { font-size: 11px; line-height: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--stage-muted); margin: 0 0 10px; }
+.state[hidden] { display: none; }
+.trigs { display: flex; flex-direction: column; border-top: 1px solid var(--stage-line); }
 .trig {
-  display: flex; flex-direction: column; gap: 2px; text-align: left; width: 100%;
-  padding: 9px 12px; border-radius: 10px; border: 1px solid var(--stage-line); background: var(--stage-card);
+  display: grid; grid-template-columns: 16px 1fr; align-items: center; column-gap: 12px; text-align: left; width: 100%;
+  padding: 12px 0; border: 0; border-bottom: 1px solid var(--stage-line); background: none; color: var(--stage-muted);
+  transition: color .2s;
 }
-.trig b { font-size: 13px; line-height: 18px; font-weight: 600; }
-.trig span { font-size: 12px; line-height: 16px; color: var(--stage-muted); }
-.trig[aria-checked="true"] { border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand) inset; }
-.seg { display: flex; padding: 3px; gap: 3px; border-radius: 10px; background: var(--stage-card); border: 1px solid var(--stage-line); }
-.seg button { flex: 1; height: 32px; border-radius: 7px; font-size: 12px; font-weight: 600; color: var(--stage-muted); white-space: nowrap; }
-.seg button[aria-checked="true"] { background: var(--brand); color: #fff; }
+.trig::before {
+  content: ""; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--stage-line); box-sizing: border-box;
+  transition: border-color .2s, border-width .2s;
+}
+.trig b { font-size: 14px; line-height: 20px; font-weight: 500; }
+.trig span { display: none; grid-column: 2; font-size: 12.5px; line-height: 18px; color: var(--stage-muted); }
+.trig:hover { color: var(--stage-ink); }
+.trig[aria-checked="true"] { color: var(--stage-ink); }
+.trig[aria-checked="true"]::before { border-color: var(--brand); border-width: 4.5px; }
+.trig[aria-checked="true"] b { font-weight: 600; }
+.trig[aria-checked="true"] span { display: block; }
+.seg { display: inline-flex; padding: 3px; gap: 3px; border-radius: 10px; background: var(--stage-card); border: 1px solid var(--stage-line); }
+.seg button { height: 30px; padding: 0 16px; border-radius: 7px; font-size: 13px; font-weight: 500; color: var(--stage-muted); white-space: nowrap; }
+.seg button[aria-checked="true"] { background: var(--stage-ink); color: var(--stage); }
+.tip { margin: 0; font-size: 13px; line-height: 19px; color: var(--stage-muted); }
 .restart {
-  align-self: flex-start; height: 36px; padding: 0 14px; border-radius: 8px;
-  border: 1px solid var(--stage-line); background: var(--stage-card); color: var(--stage-ink);
-  font-size: 13px; font-weight: 600;
+  align-self: flex-start; padding: 0; border: 0; background: none; color: var(--stage-ink);
+  font-size: 13px; font-weight: 500; text-decoration: underline; text-underline-offset: 4px;
 }
-.restart:hover { border-color: var(--stage-muted); }
+.restart:hover { color: var(--brand); }
 
 /* embed mode (#embed or #embed-<trigger>): the phone alone, filling the frame it is placed in */
 .emb .rail { display: none; }
@@ -378,30 +382,22 @@ button:focus-visible, textarea:focus-visible, canvas:focus-visible { outline: 2p
   <aside class="rail">
     <div>
       <h1>In-app rating</h1>
-      <p class="sub">Clickable prototype of the new in-app rating sheet. The stars run the Rive file, and taps go straight to its state machine.</p>
+      <p class="sub">Tap a star to rate. Choose a moment below to see the sheet where it appears.</p>
     </div>
     <div>
-      <p class="eyebrow" id="trigLabel">Trigger point</p>
+      <p class="eyebrow" id="trigLabel">Shown after</p>
       <div class="trigs" role="radiogroup" aria-labelledby="trigLabel" id="trigs"></div>
-    </div>
-    <div>
-      <p class="eyebrow">Flows to try</p>
-      <ul class="flows">
-        <li><b>1–3 stars</b><span>"What went wrong?" chips, then a thank-you with a green check.</span></li>
-        <li><b>4–5 stars</b><span>As a first rating: no chips, the store prompt opens once the star animation plays. After a 1–3 rating: you stay on the sheet with "What went well?" chips, and Submit opens the store prompt.</span></li>
-        <li><b>Other chip</b><span>Opens the feedback field already focused, with the keyboard up.</span></li>
-        <li><b>Dismiss</b><span>Cancel, Maybe later, tap the dimmed area, or drag the handle down.</span></li>
-      </ul>
     </div>
     <div>
       <p class="eyebrow" id="platLabel">Platform</p>
       <div class="seg" role="radiogroup" aria-labelledby="platLabel">
-        <button type="button" role="radio" aria-checked="true" data-plat="android">Android · Play Store</button>
-        <button type="button" role="radio" aria-checked="false" data-plat="ios">iOS · App Store</button>
+        <button type="button" role="radio" aria-checked="true" data-plat="android">Android</button>
+        <button type="button" role="radio" aria-checked="false" data-plat="ios">iOS</button>
       </div>
     </div>
-    <div class="state">Screen <code id="stateLabel">default</code></div>
-    <button class="restart" id="restart" type="button">Restart prototype</button>
+    <p class="tip">1 to 3 stars asks what went wrong. 4 or 5 stars opens the store prompt.</p>
+    <div class="state" hidden>Screen <code id="stateLabel">default</code></div>
+    <button class="restart" id="restart" type="button">Restart</button>
   </aside>
 </div>
 

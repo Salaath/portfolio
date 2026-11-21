@@ -138,7 +138,12 @@ type Ch = { id: string; n: string; label: string };
  * hairline along its base fills as the page is read. It sits on a thin pane of clear glass,
  * so it stays readable over any section. It reads the chapters from the page ([data-chapter]).
  */
-export function ChapterDock() {
+/* `always` keeps it on screen from the top of the page, `labels` spells every
+ * chapter out (for a short list) and `tone="dark"` is a dark bar that reads
+ * over both light and dark sections. */
+export function ChapterDock({ always = false, labels = false, tone = "light", name = "Chapters" }: { always?: boolean; labels?: boolean; tone?: "light" | "dark"; name?: string } = {}) {
+  const shown = (active: number) => always || active >= 0;
+  const dark = tone === "dark";
   const [chapters, setChapters] = useState<Ch[]>([]);
   const [active, setActive] = useState(-1);
   const bar = useRef<HTMLSpanElement>(null);
@@ -166,10 +171,10 @@ export function ChapterDock() {
 
   return (
     <nav
-      aria-label="Chapters"
-      className={`pointer-events-none fixed inset-x-0 bottom-5 z-40 flex justify-center px-4 text-[#0e0e0e] transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${active >= 0 ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+      aria-label={name}
+      className={`pointer-events-none fixed inset-x-0 bottom-5 z-40 flex justify-center px-4 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${dark ? "text-[#f2f1ed]" : "text-[#0e0e0e]"} ${shown(active) ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
     >
-      <div className={`relative overflow-hidden rounded-[10px] bg-white/35 px-1.5 py-0.5 shadow-[0_8px_24px_-14px_rgba(0,0,0,0.3),inset_0_0_0_1px_rgba(255,255,255,0.55),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-2xl backdrop-saturate-[1.8] sm:px-2 ${active >= 0 ? "pointer-events-auto" : ""}`}>
+      <div className={`relative overflow-hidden rounded-[10px] px-1.5 py-0.5 backdrop-blur-2xl backdrop-saturate-[1.8] sm:px-2 ${dark ? "bg-[#131316]/75 shadow-[0_14px_34px_-16px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(255,255,255,0.12),inset_0_1px_0_rgba(255,255,255,0.14)]" : "bg-white/35 shadow-[0_8px_24px_-14px_rgba(0,0,0,0.3),inset_0_0_0_1px_rgba(255,255,255,0.55),inset_0_1px_0_rgba(255,255,255,0.8)]"} ${shown(active) ? "pointer-events-auto" : ""}`}>
         <ol className="flex items-baseline">
           {chapters.map((c, i) => {
             const on = i === active;
@@ -180,17 +185,17 @@ export function ChapterDock() {
                   aria-current={on ? "step" : undefined}
                   onClick={() => scrollToId(c.id)}
                   title={c.label}
-                  className={`flex items-baseline px-1.5 py-1.5 transition-opacity duration-500 sm:px-2 ${on ? "opacity-100" : "opacity-40 hover:opacity-100"}`}
+                  className={`flex items-baseline px-1.5 py-1.5 transition-opacity duration-500 sm:px-2 ${on ? "opacity-100" : labels ? "opacity-50 hover:opacity-100" : "opacity-40 hover:opacity-100"}`}
                 >
                   <span className="font-mono text-[11px] tabular-nums">{c.n}</span>
-                  <span className={`hidden overflow-hidden whitespace-nowrap text-[13px] transition-[max-width,margin,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:block ${on ? "ml-2.5 mr-1 max-w-[16rem] opacity-100" : "max-w-0 opacity-0"}`}>{c.label}</span>
+                  <span className={`hidden overflow-hidden whitespace-nowrap text-[13px] transition-[max-width,margin,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:block ${on || labels ? "ml-2.5 mr-1 max-w-[16rem] opacity-100" : "max-w-0 opacity-0"}`}>{c.label}</span>
                 </button>
               </li>
             );
           })}
         </ol>
-        <span aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-black/[0.06]">
-          <span ref={bar} className="absolute inset-0 origin-left scale-x-0 bg-[#0e0e0e]" />
+        <span aria-hidden className={`absolute inset-x-0 bottom-0 h-px ${dark ? "bg-white/10" : "bg-black/[0.06]"}`}>
+          <span ref={bar} className={`absolute inset-0 origin-left scale-x-0 ${dark ? "bg-[#a78bfa]" : "bg-[#0e0e0e]"}`} />
         </span>
       </div>
     </nav>
