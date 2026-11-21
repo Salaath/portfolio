@@ -41,7 +41,7 @@ const CHAPTERS: Project = {
     note: "Series recaps in the app are written by Claude as a memory aid.",
     clip: { src: `${V}/chapters-web.mp4`, label: "The Spring Court map switching to the Web tab and then the Characters tab" },
   },
-  next: { title: "Muse", href: "/work/muse" },
+  next: { title: "Design onboarding guide", href: "/work/onboarding-guide" },
 };
 
 export default function ChaptersPage() {

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { HandScene } from "./HandScene";
 import { HeldScene } from "@/components/ratings/HeldScene";
 import { LoopVideo } from "@/components/ratings/LoopVideo";
+import { LeadRail } from "./LeadRail";
+import { DisplayScene } from "./DisplayScene";
 
 // The home page entry for /leadership. It follows the "Built with AI" section:
 // a headline, then the projects as mock-up tiles (US Stocks plays on the
@@ -61,31 +63,35 @@ const PROJECTS: Project[] = [
       ["3", "Reviewers in one round"],
       ["5", "Roles, each with its own view"],
     ],
-    ground: "linear-gradient(to bottom, #dfe8f1, #edf1f4)",
+    ground: "#e4e4e4",
     wide: true,
-    media: { kind: "screen", image: "/work/jarvis/console-home.webp", label: "The console’s home for a product manager: their requests, who each one is waiting on and recent activity" },
+    media: { kind: "screen", image: "/work/jarvis/console-home.webp", label: "The console’s home for a product manager, on a desktop display: their requests, who each one is waiting on and recent activity" },
   },
 ];
 
 export function LeadProjects({ label = "[ Leading the team ]", className = "" }: { label?: string; className?: string }) {
   return (
     <section id="leading" className={className}>
-      <div className="mb-14 md:mb-20">
-        <p data-label className="label mb-6">{label}</p>
-        <h2 data-split="lines" className="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-[6vw]">Initiatives I drove end to end</h2>
-        <p data-fade className="mt-6 max-w-xl text-lg text-muted md:mt-8 md:text-xl">Three initiatives where I made the case and got product and engineering aligned behind a better experience.</p>
-      </div>
-
-      <div className="grid gap-x-6 gap-y-20 md:grid-cols-2">
-        {PROJECTS.map((p, i) => (
-          <Link key={p.id} href={`/leadership#${p.id}`} data-cursor="Open" className={`group block ${p.wide ? "md:col-span-2" : ""}`}>
-            <div data-wipe className={`relative overflow-hidden rounded-[1.75rem] md:rounded-[2.25rem] ${p.wide ? "aspect-[4/3] md:aspect-[2/1]" : "aspect-[4/5] sm:aspect-square"}`} style={{ background: p.ground }}>
+      <LeadRail
+        count={PROJECTS.length}
+        header={
+          <>
+            <p data-label className="label mb-6">{label}</p>
+            <h2 data-split="lines" className="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-[6vw]">Initiatives I drove end to end</h2>
+            <p data-fade className="mt-6 max-w-xl text-lg text-muted md:mt-8 md:text-xl">Three initiatives where I made the case and got product and engineering aligned behind a better experience.</p>
+          </>
+        }
+      >
+        {PROJECTS.map((p) => (
+          <Link key={p.id} href={`/leadership#${p.id}`} data-cursor="Open" className="group block w-[82vw] shrink-0 snap-start sm:w-[58vw] md:row-span-4 md:grid md:w-auto md:grid-rows-subgrid md:[transform-style:preserve-3d]">
+            {/* the rail tilts this wrapper as the card moves across the window, so the row reads as a curved wall of screens */}
+            <div data-curve className="md:[transform-origin:50%_50%] md:will-change-transform">
+            <div data-wipe className={`relative overflow-hidden rounded-2xl md:rounded-[1.1rem] aspect-[4/5] sm:aspect-square md:aspect-auto md:h-[max(18rem,min(34vw,calc(100svh-23rem)))]`} style={{ background: p.ground }}>
               <div data-wipe-inner className="absolute inset-0 grid place-items-center">
                 {p.media ? (
                   <div className={`absolute inset-0 transition-transform duration-[1.4s] ${EASE} group-hover:scale-[1.04]`}>
                     {p.media.kind === "screen" ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={p.media.image} alt={p.media.label} width={2040} height={1275} loading="lazy" className="absolute left-1/2 top-[54%] block h-auto max-h-[80%] w-auto max-w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-[0.5rem] shadow-[0_0_0_1px_rgba(15,30,60,0.08),0_40px_80px_-40px_rgba(15,40,90,0.45)] md:rounded-[1rem]" />
+                      <DisplayScene image={p.media.image} label={p.media.label} />
                     ) : p.media.kind === "held" ? (
                       <HeldScene label={p.media.label} />
                     ) : p.media.kind === "hand" ? (
@@ -103,31 +109,26 @@ export function LeadProjects({ label = "[ Leading the team ]", className = "" }:
                 <i className="size-[6px] rounded-full" style={{ background: p.dot ?? "#1f9d55" }} />
                 {p.tag}
               </span>
-            </div>
-
-            <div className="mt-8 grid gap-x-6 gap-y-6 md:mt-10 md:grid-cols-[1fr_auto] md:items-start">
-              <div>
-                <span data-fade className="label block">({String(i + 1).padStart(2, "0")}) — {String(PROJECTS.length).padStart(2, "0")}</span>
-                <h3 data-split="lines" className="mt-5 text-4xl leading-[0.98] tracking-[-0.04em] md:text-[3.4vw]">{p.title}</h3>
-                {p.line ? <p data-fade data-delay="0.1" className="mt-5 max-w-md text-lg leading-snug text-muted">{p.line}</p> : null}
-                {p.metrics ? (
-                  <dl data-fade data-delay="0.16" className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-line pt-5">
-                    {p.metrics.map(([v, l]) => (
-                      <div key={l}>
-                        <dd className="whitespace-nowrap text-2xl tracking-[-0.03em] md:text-[2vw] md:leading-none">{v}</dd>
-                        <dt className="mt-2 text-sm text-muted">{l}</dt>
-                      </div>
-                    ))}
-                  </dl>
-                ) : null}
-              </div>
-              <span data-fade data-delay="0.22" className="inline-flex items-center gap-3 justify-self-start rounded-full border border-ink/25 py-2.5 pl-5 pr-4 text-sm transition-colors duration-500 group-hover:bg-ink group-hover:text-bg md:mt-9">
+              <span className="absolute bottom-4 right-4 inline-flex items-center gap-2.5 rounded-full bg-bg py-2 pl-4 pr-3 text-sm text-ink transition-colors duration-500 group-hover:bg-ink group-hover:text-bg md:bottom-5 md:right-5">
                 View project <span aria-hidden className="transition-transform duration-500 group-hover:rotate-[-45deg]">→</span>
               </span>
             </div>
+            </div>
+
+            {/* title, line and numbers each sit in a row shared by all three cards, so they line up across the row */}
+            <h3 data-split="lines" className="mt-6 text-4xl leading-[0.98] tracking-[-0.04em] md:text-[min(2.6vw,2.5rem)]">{p.title}</h3>
+            <p data-fade data-delay="0.1" className="mt-4 text-lg leading-snug text-muted">{p.line}</p>
+            <dl data-fade data-delay="0.16" className="mt-5 flex flex-wrap gap-x-10 gap-y-4 self-start border-t border-line pt-4 md:w-full">
+              {(p.metrics ?? []).map(([v, l]) => (
+                <div key={l}>
+                  <dd className="whitespace-nowrap text-2xl tracking-[-0.03em] md:text-[min(2vw,2rem)] md:leading-none">{v}</dd>
+                  <dt className="mt-2 text-sm text-muted">{l}</dt>
+                </div>
+              ))}
+            </dl>
           </Link>
         ))}
-      </div>
+      </LeadRail>
     </section>
   );
 }

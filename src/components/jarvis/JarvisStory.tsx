@@ -11,9 +11,6 @@ import { FlowVideo } from "./FlowVideo";
 const IMG = "/work/jarvis";
 const PROTO = "/proto/jarvis/index.html";
 
-/** The prototype's own field colour, so the window sits on its backdrop. */
-const GROUND = "linear-gradient(to bottom, #dfe8f1, #edf1f4)";
-
 /** The wall in the display photo: the band behind it is this colour from one edge of the page to the other. */
 const WALL = "#e6e6e6";
 
@@ -23,13 +20,17 @@ function JarvisStage() {
     <figure className="m-0">
       {/* breaks out of the page's column to both edges of the window */}
       <div data-band className="mx-[calc(50%-50vw)] overflow-hidden" style={{ background: WALL }}>
+       <div className="relative mx-auto max-w-[1800px]">
+        {/* says plainly that the screen can be used; hidden on a phone, where it is a still */}
+        <p className="pointer-events-none absolute left-[52.5%] top-[5%] z-10 hidden -translate-x-1/2 whitespace-nowrap font-mono text-xs uppercase tracking-[0.12em] text-muted sm:block">Clickable prototype — click the screen to try it</p>
         <DisplayProto
           src={PROTO}
           image={`${IMG}/console-display.webp`}
           alt="A desktop display on a shelf, showing the Jarvis console’s home for a product manager"
           title="Jarvis console interactive prototype"
-          className="mx-auto max-w-[1800px]"
+          className=""
         />
+       </div>
       </div>
       <figcaption className="mt-5 flex items-baseline gap-4 pt-4">
         <span className="font-mono text-xs text-muted">Prototype</span>
@@ -103,8 +104,8 @@ const HOW: [string, string, string][] = [
 ];
 
 const SCREENS = [
-  ["console-new.webp", "Raising a request takes one page", "Paste a brief and Jarvis fills the form. It warns when the audience is already busy. The preview shows exactly what customers will see.", "The New request page: a pasted brief has filled in the initiative and goal, with a phone preview of the bottom sheet on the right"],
-  ["console-detail.webp", "Three reviewers approve in one round", "The head, Design and CRM see it at the same time and every step is on record.", "A request in review: three reviewer cards side by side, two approved and one not opened yet, above the request’s details"],
+  ["laptop-new.webp", "Raising a request takes one page", "Paste a brief and Jarvis fills the form. It warns when the audience is already busy. The preview shows exactly what customers will see.", "The New request page: a pasted brief has filled in the initiative and goal, with a phone preview of the bottom sheet on the right"],
+  ["laptop-detail.webp", "Three reviewers approve in one round", "The head, Design and CRM see it at the same time and every step is on record.", "A request in review: three reviewer cards side by side, two approved and one not opened yet, above the request’s details"],
 ];
 
 /** Plan, approve and protect, then the two screens that carry them. */
@@ -126,10 +127,9 @@ function How() {
       <div className="mt-14 grid gap-x-6 gap-y-12 md:mt-20 md:grid-cols-2">
         {SCREENS.map(([src, h, p, alt]) => (
           <figure key={src} className="m-0">
-            <div className="rounded-[1.5rem] p-4 sm:p-6 md:rounded-[2rem] md:p-8" style={{ background: GROUND }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`${IMG}/${src}`} alt={alt} width={2040} height={1275} loading="lazy" className="block w-full rounded-[0.6rem] shadow-[0_0_0_1px_rgba(15,30,60,0.08),0_24px_50px_-30px_rgba(15,40,90,0.45)] md:rounded-[0.9rem]" />
-            </div>
+            {/* the screen on a white laptop, cut out of its backdrop so it sits straight on the page; the fine shadow gives the white lid an edge */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`${IMG}/${src}`} alt={alt} width={2800} height={1640} loading="lazy" className="block h-auto w-full [filter:drop-shadow(0_0_1px_rgba(15,30,60,0.28))_drop-shadow(0_28px_36px_rgba(15,30,60,0.12))]" />
             <figcaption className="mt-5 border-t border-line pt-4">
               <span className="block text-lg tracking-[-0.01em]">{h}</span>
               <span className="mt-1 block max-w-md text-muted">{p}</span>

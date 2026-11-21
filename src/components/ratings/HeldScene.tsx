@@ -10,7 +10,7 @@ import { warp } from "@/components/AiProjects";
 
 const PHOTO = { src: "/work/ratings/held-mock.webp", w: 1800, h: 1348 };
 /** The point of the photo kept in the middle of the tile. */
-const FOCUS: [number, number] = [900, 674];
+const FOCUS: [number, number] = [900, 520];
 /** The display's corners in the photo, where its straight edges would meet: top-left, top-right, bottom-right, bottom-left. */
 const SCREEN: [number, number][] = [[720, 128], [1080, 128], [1080, 897], [720, 897]];
 /** The prototype's own screen; it is laid out flat, then warped onto the display. */

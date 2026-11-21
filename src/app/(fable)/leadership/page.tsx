@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BannerDisplay } from "@/components/jarvis/BannerDisplay";
 import Link from "next/link";
 import { Choreo } from "@/components/Choreo";
 import { ReadBar } from "@/components/fable/Bits";
@@ -253,14 +254,9 @@ export default function Leadership() {
           {/* the banner: words on the left, the console on a display to the right. The photo's wall is the
               section's own colour and its left edge fades out, so there is no frame around it. */}
           <section className="relative overflow-hidden" style={{ background: MSG_WALL }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/work/jarvis/console-banner.webp"
+            <BannerDisplay
               alt="The Jarvis console’s home screen on a desktop display"
-              width={1800}
-              height={1348}
-              loading="lazy"
-              className="pointer-events-none absolute bottom-0 hidden h-auto w-[77vw] max-w-none lg:block"
+              className="pointer-events-none !absolute bottom-0 hidden w-[77vw] lg:block"
               style={{ left: "37.5vw", ...BANNER_FADE }}
             />
             <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-24 sm:px-10 md:pt-36 lg:pb-32">
@@ -280,15 +276,9 @@ export default function Leadership() {
               </div>
             </div>
             {/* on a phone the display sits under the words, edge to edge */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/work/jarvis/console-banner.webp"
+            <BannerDisplay
               alt=""
-              aria-hidden
-              width={1800}
-              height={1348}
-              loading="lazy"
-              className="block w-full lg:hidden"
+              className="relative w-full lg:hidden"
               style={{ maskImage: "linear-gradient(to bottom, transparent 0, #000 22%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0, #000 22%)" }}
             />
           </section>

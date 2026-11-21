@@ -7,8 +7,8 @@ import { RatingProto } from "./RatingProto";
 
 const IMG = "/work/ratings";
 
-/** The recordings sit on the prototype recorder's own backdrop, so the tile matches it. */
-const GROUND = "linear-gradient(to bottom, #efecf0, #eae8ec)";
+/** The two phones sit straight on the page, with no tile behind them. */
+const GROUND = "transparent";
 
 /** Every moment the sheet can appear, from the Touchpoints section of the Figma file. */
 const NUDGES = [

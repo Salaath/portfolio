@@ -346,7 +346,7 @@ export default function AccountOpening() {
       </section>
 
       {/* ---------- 02 the investigation ---------- */}
-      <Chapter id="investigation" n="02" label="The investigation" title="The biggest drop wasn’t at the end. It was at PAN verification.">
+      <Chapter id="investigation" n="02" label="The investigation" title="The biggest drop was at step 2 which was PAN verification">
         <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
           <Stat value="~28%" label="of people complete the full Version 2.0 flow" />
           <Stat value="10–12" label="minutes on average to complete" delay={0.06} />

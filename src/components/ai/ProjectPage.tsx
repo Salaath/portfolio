@@ -164,7 +164,8 @@ export function ProjectPage({ p }: { p: Project }) {
         {/* next */}
         <Link href={p.next.href} data-cursor="Open" className="group mx-auto mt-24 flex max-w-[1400px] items-end justify-between gap-6 px-5 md:mt-32 md:px-10">
           <span className="label pb-3">Next project</span>
-          <span className="flex items-center gap-4 text-6xl tracking-[-0.05em] md:text-[9vw]">
+          {/* a long name is set smaller so it stays on one line */}
+          <span className={`flex items-center gap-4 text-right tracking-[-0.05em] ${p.next.title.length > 12 ? "text-4xl md:text-[5.2vw]" : "text-6xl md:text-[9vw]"}`}>
             {p.next.title} <span aria-hidden className="text-[0.5em] transition-transform duration-500 group-hover:translate-x-3">→</span>
           </span>
         </Link>

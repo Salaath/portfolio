@@ -108,10 +108,10 @@ export default function OnboardingGuidePage() {
         </section>
 
         {/* next */}
-        <Link href="/work/chapters" data-cursor="Open" className="group mx-auto mt-24 flex max-w-[1400px] items-end justify-between gap-6 px-5 md:mt-32 md:px-10">
+        <Link href="/work/muse" data-cursor="Open" className="group mx-auto mt-24 flex max-w-[1400px] items-end justify-between gap-6 px-5 md:mt-32 md:px-10">
           <span className="label pb-3">Next project</span>
           <span className="flex items-center gap-4 text-6xl tracking-[-0.05em] md:text-[9vw]">
-            Chapters <span aria-hidden className="text-[0.5em] transition-transform duration-500 group-hover:translate-x-3">→</span>
+            Muse <span aria-hidden className="text-[0.5em] transition-transform duration-500 group-hover:translate-x-3">→</span>
           </span>
         </Link>
       </main>
