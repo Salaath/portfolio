@@ -200,11 +200,19 @@
             "b": false
           },
           {
-            "t": "over a million fund additions",
+            "t": "2.3× more fund additions",
             "b": true
           },
           {
-            "t": " within the first two months.",
+            "t": " and reducing fund-related CX tickets by ",
+            "b": false
+          },
+          {
+            "t": "65%",
+            "b": true
+          },
+          {
+            "t": ".",
             "b": false
           }
         ]
@@ -306,7 +314,7 @@
             "b": false
           },
           {
-            "t": "4.8",
+            "t": "4.8 rating",
             "b": true
           },
           {
@@ -428,14 +436,30 @@
           }
         ]
       ]
-    }
-  ],
-  "earlier": [
+    },
     {
       "title": "Founding Designer",
       "company": "Retale Gateway",
-      "when": "Mar 2020 – Jun 2020"
-    },
+      "when": "Mar 2020 – Jun 2020",
+      "bullets": [
+        [
+          {
+            "t": "Built the product MVP, marketing website and social presence from scratch, helping founders pitch to investors. Launched the MVP, generating ",
+            "b": false
+          },
+          {
+            "t": "32.4K orders",
+            "b": true
+          },
+          {
+            "t": " in the first 15 days.",
+            "b": false
+          }
+        ]
+      ]
+    }
+  ],
+  "earlier": [
     {
       "title": "Architect & Visual Designer",
       "company": "Studio PM and DIG Architects",

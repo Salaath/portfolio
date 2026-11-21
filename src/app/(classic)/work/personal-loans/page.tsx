@@ -207,7 +207,7 @@ export default function LoansCase() {
           </dl>
           <p data-fade data-load data-delay="1.1" className="mt-6 flex flex-wrap items-center gap-3 text-sm text-white/60">
             <span className="rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-[#170833]" style={{ background: GOLD }}>Live</span>
-            20k downloads, 8,037 leads and ₹6.4 lakh disbursed since launch.
+            20k downloads and 8,037 leads since launch.
           </p>
         </div>
       </header>
@@ -558,17 +558,16 @@ export default function LoansCase() {
           <div data-fade className="relative overflow-hidden rounded-[2rem] p-8 text-white md:row-span-2" style={{ background: NIGHT }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={`${LOANS_IMG}/bg-anim.webp`} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-40" />
-            <span className="label relative !text-white/60">Disbursed so far</span>
-            <b data-count className="relative mt-16 block text-[5.5rem] font-semibold leading-none tracking-[-0.06em]">₹6.4 L</b>
-            <p className="relative mt-3 text-white/70">lent to Upstox users, straight to their bank accounts</p>
+            <span className="label relative !text-white/60">Since launch</span>
+            <b data-count className="relative mt-16 block text-[5.5rem] font-semibold leading-none tracking-[-0.06em]">20k</b>
+            <p className="relative mt-3 text-white/70">app downloads on Android and iOS</p>
           </div>
           {[
-            ["20k", "app downloads"],
             ["8,037", "leads"],
             ["1 → 3", "lending partners: one live, two in progress"],
             ["< 2 hrs", "to disbursal, usually"],
           ].map(([v, l], i) => (
-            <div key={l} data-fade data-delay={((i % 2) * 0.08).toFixed(2)} className="rounded-[2rem] bg-white p-8">
+            <div key={l} data-fade data-delay={((i % 2) * 0.08).toFixed(2)} className={`rounded-[2rem] bg-white p-8 ${i === 2 ? "md:col-span-2" : ""}`}>
               <b data-count className="block text-5xl font-semibold tracking-[-0.05em]">{v}</b>
               <p className="mt-2 text-muted">{l}</p>
             </div>

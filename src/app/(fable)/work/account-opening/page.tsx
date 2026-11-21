@@ -592,10 +592,10 @@ export default function AccountOpening() {
           <div key={b.title} className="flex flex-wrap items-center justify-center gap-x-12 gap-y-10 border-t border-line py-16 first:border-t-0 md:gap-x-16 md:py-24">
             <div className="@container min-w-0 flex-1 basis-[18rem]">
               <div className="grid gap-8 @3xl:grid-cols-12 @3xl:gap-6">
-                <div className="flex items-baseline justify-between gap-6 @3xl:col-span-3 @3xl:flex-col @3xl:justify-start">
+                <div className="flex flex-col items-start gap-6 @3xl:col-span-3 @3xl:gap-10">
                   <span data-fade className="font-mono text-sm uppercase tracking-[0.12em] text-muted">Change {String(i + 1).padStart(2, "0")} / {String(CHANGES.length).padStart(2, "0")}</span>
                   {b.result ? (
-                    <p data-fade data-delay="0.1" className="text-right @3xl:mt-10 @3xl:text-left">
+                    <p data-fade data-delay="0.1" className="text-left">
                       <b data-count className="block text-5xl font-semibold tabular-nums tracking-[-0.05em] @3xl:text-[5.3cqi] @3xl:leading-[0.9]">{b.result[0]}</b>
                       <span className="mt-2 block text-sm text-muted">{b.result[1]}</span>
                     </p>
@@ -684,21 +684,40 @@ export default function AccountOpening() {
             <p data-fade className="mt-6 text-bg/65">Version 3.0, released October 2026.</p>
           </div>
         </div>
-        <div data-fade className="mt-16 rounded-3xl border border-bg/15 p-6 md:p-10">
-          <p className="label !text-bg/60">Time to open an account, on a 12-minute scale</p>
-          {([["Version 2.0", "10–12 min", 83.3, 100, "rgba(244,243,239,0.4)"], ["Version 3.0", "2–3 min", 16.7, 25, "#a78bfa"]] as const).map(([name, t, lo, hi, c]) => (
-            <div key={name} className="mt-6 grid grid-cols-[6.5rem_1fr] items-center gap-4 md:grid-cols-[9rem_1fr_8rem]">
-              <span className="text-bg/80">{name}<b className="block font-normal text-bg/50 md:hidden">{t}</b></span>
-              <span className="relative block h-10 overflow-hidden rounded-full bg-bg/[0.07] md:h-12">
-                <span data-grow className="absolute inset-y-0 left-0 rounded-full opacity-40" style={{ width: `${hi}%`, background: c }} />
-                <span data-grow data-delay="0.2" className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${lo}%`, background: c }} />
+        {/* Time to open an account, drawn as fine lines on a 12-minute axis: each version is a thin
+            line out to its slowest time, with a short bold stretch from its fastest time to its slowest. */}
+        <div data-fade className="mt-16 border-t border-bg/20 pt-8 md:pt-10">
+          <p className="label !text-bg/60">Time to open an account</p>
+          <div className="mt-10 md:mt-14">
+            {([["Version 2.0", "10–12 min", 83.33, 100, "rgba(244,243,239,0.75)"], ["Version 3.0", "2–3 min", 16.67, 25, "#a78bfa"]] as const).map(([name, t, lo, hi, c]) => (
+              <div key={name} className="grid grid-cols-[5.5rem_1fr] items-center gap-x-5 py-5 md:grid-cols-[8rem_1fr_12rem] md:gap-x-8 md:py-7">
+                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-bg/60">{name}<b className="mt-1 block font-sans text-base font-normal normal-case tracking-normal text-bg md:hidden">{t}</b></span>
+                <span className="relative block h-5">
+                  <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-bg/12" />
+                  <span data-grow className="absolute left-0 top-1/2 h-px -translate-y-1/2" style={{ width: `${hi}%`, background: c, opacity: 0.55 }} />
+                  <span data-grow data-delay="0.25" className="absolute top-1/2 h-[3px] -translate-y-1/2 rounded-full" style={{ left: `${lo}%`, width: `${hi - lo}%`, background: c }} />
+                  <i className="absolute top-1/2 size-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ left: `${lo}%`, background: c }} />
+                  <i className="absolute top-1/2 size-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full border bg-ink" style={{ left: `${hi}%`, borderColor: c }} />
+                </span>
+                <b className="hidden text-right text-3xl font-normal tabular-nums tracking-[-0.04em] md:block md:text-[2.4vw]" style={{ color: c === "#a78bfa" ? c : undefined }}>{t}</b>
+              </div>
+            ))}
+            {/* the axis, in minutes */}
+            <div aria-hidden className="grid grid-cols-[5.5rem_1fr] gap-x-5 md:grid-cols-[8rem_1fr_12rem] md:gap-x-8">
+              <span />
+              <span className="relative block h-8 border-t border-bg/20">
+                {[0, 3, 6, 9, 12].map((m) => (
+                  <span key={m} className="absolute top-0 flex -translate-x-1/2 flex-col items-center font-mono text-[10px] tracking-[0.1em] text-bg/45" style={{ left: `${(m / 12) * 100}%` }}>
+                    <i className="h-1.5 w-px bg-bg/30" />
+                    <span className="mt-1.5 whitespace-nowrap">{m === 12 ? "12 MIN" : m}</span>
+                  </span>
+                ))}
               </span>
-              <b className="hidden text-right text-2xl tabular-nums tracking-[-0.03em] md:block">{t}</b>
             </div>
-          ))}
-          <p className="mt-6 text-sm text-bg/50">The solid bar is the fastest time, the lighter bar is the slowest.</p>
+          </div>
+          <p className="mt-8 text-sm text-bg/50">The filled dot is the fastest time, the open dot is the slowest.</p>
         </div>
-        <div className="mt-4 grid gap-px overflow-hidden rounded-3xl bg-bg/15 md:grid-cols-3">
+        <div className="mt-14 grid gap-px overflow-hidden rounded-3xl bg-bg/15 md:mt-20 md:grid-cols-3">
           {[
             ["~38%", "fewer onboarding steps", "A leaner flow, with less friction at every stage of sign-up."],
             ["~2–3 min", "to complete the happy path", "Down from 10–12 minutes."],

@@ -83,9 +83,9 @@ export const cases: CaseStudy[] = [
     tags: ["Retirement", "0 → 1", "Tax saving"],
     cover: ["#ff6b2c", "#ffb36b"],
     metrics: [
-      { value: "₹34.6 Cr", label: "Assets under management" },
       { value: "96.4K", label: "NPS accounts created" },
       { value: "9.7L+", label: "Orders completed" },
+      { value: "76%", label: "Contributed year on year" },
     ],
     sections: [],
   },
@@ -103,7 +103,6 @@ export const cases: CaseStudy[] = [
     metrics: [
       { value: "20k", label: "App downloads" },
       { value: "8,037", label: "Leads" },
-      { value: "₹6.4 L", label: "Disbursed" },
     ],
     sections: [],
   },

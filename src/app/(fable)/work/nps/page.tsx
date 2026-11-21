@@ -37,10 +37,8 @@ const ORANGE = "#FF6B2C";
 function Eyebrow({ children }: { children: string; dark?: boolean }) {
   const [n, label] = children.split(" · ");
   return (
-    <div>
-      <span data-fade aria-hidden className="block text-[20vw] leading-[0.8] tracking-[-0.06em] opacity-[0.13] md:text-[7.5rem]">{n}</span>
-      <p data-label className="mt-5 font-mono text-xs uppercase tracking-[0.12em] opacity-60">[ {label} ]</p>
-    </div>
+    // the chapter number sits inside the small label: set large, it read as a result figure
+    <p data-label className="font-mono text-xs uppercase tracking-[0.12em] opacity-60">[ {n} — {label} ]</p>
   );
 }
 
@@ -712,15 +710,14 @@ export default function NpsCase() {
             It launched in March 2025, before the end of tax season and reached 100% of users, with organic discovery and no marketing push. The numbers so far.
           </p>
         </div>
-        {/* one even 3×2 grid that fades in as a block, so no card lags behind the others */}
-        <div data-fade className="mx-auto mt-14 grid max-w-7xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* one even 2×2 grid that fades in as a block, so no card lags behind the others.
+            No money figures: Sal can't publish company results in rupees (21 Nov 2026). */}
+        <div data-fade className="mx-auto mt-14 grid max-w-7xl gap-4 sm:grid-cols-2">
           {[
-            ["₹34.6 Cr", "assets under management"],
             ["96.4K", "NPS accounts created"],
             ["9.7L+", "orders completed"],
+            ["76%", "of users contributed year on year"],
             ["Under 3 min", "from first tap to first contribution, 9× faster than Protean and other apps"],
-            ["₹4.82 Cr", "total order amount"],
-            ["₹16.66L", "account-opening fees collected"],
           ].map(([v, l], i) => (
             <Spot key={l} className={`relative flex min-h-56 flex-col justify-end overflow-hidden rounded-[2rem] p-8 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5 ${i === 0 ? "bg-[#121110] text-white" : "bg-white"}`}>
               {i === 0 && <div aria-hidden className="absolute -left-20 -top-20 size-72 rounded-full opacity-50 blur-3xl" style={{ background: ORANGE }} />}
@@ -815,7 +812,7 @@ export default function NpsCase() {
               caption="From a banner on Explore: enter the PRAN, confirm the transfer and the existing holdings land in Portfolio."
             />
           </div>
-          {/* figures supplied by Sal, 2026-11-17 */}
+          {/* figures supplied by Sal, 2026-11-17; the orders figure became a count, not rupees, on 2026-11-21 */}
           <div className="mt-12 grid gap-8 border-t border-line pt-8 md:grid-cols-[1fr_auto_auto] md:items-end md:gap-16">
             <div>
               <span className="label">Launch result · Corporate NPS</span>
@@ -826,8 +823,8 @@ export default function NpsCase() {
               <span className="mt-3 block text-sm text-muted">Corporate accounts opened</span>
             </div>
             <div>
-              <b data-count className="block text-6xl font-semibold leading-none tabular-nums tracking-[-0.05em] md:text-7xl">₹26 L</b>
-              <span className="mt-3 block text-sm text-muted">Worth of orders every month</span>
+              <b data-count className="block text-6xl font-semibold leading-none tabular-nums tracking-[-0.05em] md:text-7xl">28.9K</b>
+              <span className="mt-3 block text-sm text-muted">Corporate orders every month</span>
             </div>
           </div>
         </div>

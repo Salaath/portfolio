@@ -9,8 +9,8 @@ export function ChapterHead({ n, label, title, children, className = "" }: { n: 
   return (
     <div className={`grid gap-6 md:grid-cols-12 md:gap-8 ${className}`}>
       <div className="md:col-span-3">
-        <span data-fade aria-hidden className="block text-[20vw] leading-[0.8] tracking-[-0.06em] opacity-[0.13] md:text-[7.5rem]">{n}</span>
-        <p data-label className="mt-5 font-mono text-xs uppercase tracking-[0.12em] opacity-60">[ {label} ]</p>
+        {/* the chapter number sits inside the small label: set large, it read as a result figure */}
+        <p data-label className="font-mono text-xs uppercase tracking-[0.12em] opacity-60 [text-wrap:balance] md:pt-3">[ {n} — {label}&nbsp;]</p>
       </div>
       <div className="min-w-0 md:col-span-9">
         <h2 data-split="lines" className="max-w-4xl text-4xl leading-[1.02] tracking-[-0.04em] md:text-[3.4rem]">{title}</h2>

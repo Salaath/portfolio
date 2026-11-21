@@ -31,14 +31,14 @@ const NOTES: Note[] = [
     id: "nps",
     q: "What was the NPS project?",
     keys: ["nps", "pension", "retire", "tax", "0 to 1", "zero", "government", "captcha", "new product", "launch"],
-    a: "A 0 → 1 product. Opening an NPS account meant a government portal, eight-step wizards and a captcha. We turned that into a few guided taps inside Upstox. Month one brought 124 accounts and ₹19.7 L in AUM, with no marketing spend.",
+    a: "A 0 → 1 product. Opening an NPS account meant a government portal, eight-step wizards and a captcha. We turned that into a few guided taps inside Upstox. Month one brought 124 accounts, with no marketing spend.",
     links: [["NPS case study", "/work/nps"]],
   },
   {
     id: "us-stocks",
     q: "How did you lead US Stocks on Pro?",
     keys: ["us stocks", "us stock", "american", "wallet", "invest mode", "pro mode", "pushback", "leadership", "leading", "disagree", "stakeholder", "decision"],
-    a: "US stocks was about to launch half in Pro and half in Invest. I didn’t think a trader should have to switch modes halfway through, so I made the case for one journey to the product team and then to leadership. They backed it and we designed the full journey in Pro in about a month. It launched on Sept 19, 2026; in the first month the total value of orders placed was $1,763,732 and the average buy order was about $122.",
+    a: "US stocks was about to launch half in Pro and half in Invest. I didn’t think a trader should have to switch modes halfway through, so I made the case for one journey to the product team and then to leadership. They backed it and we designed the full journey in Pro in about a month. It launched on Sept 19, 2026; in the first month 14.45K orders were placed.",
     links: [["US Stocks on Pro", "/leadership#us-stocks"]],
   },
   {

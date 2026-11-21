@@ -718,14 +718,12 @@ export default function NpsCase() {
           </p>
         </div>
         {/* one even 3×2 grid that fades in as a block, so no card lags behind the others */}
-        <div data-fade className="mx-auto mt-14 grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div data-fade className="mx-auto mt-14 grid max-w-6xl gap-4 sm:grid-cols-2">
           {[
-            ["₹34.6 Cr", "assets under management"],
             ["96.4K", "NPS accounts created"],
             ["9.7L+", "orders completed"],
             ["Under 3 min", "from first tap to first contribution, 9× faster than Protean and other apps"],
-            ["₹4.82 Cr", "total order amount"],
-            ["₹16.66L", "account-opening fees collected"],
+            ["76%", "of users contributed year on year"],
           ].map(([v, l], i) => (
             <div key={l} className={`relative flex min-h-56 flex-col justify-end overflow-hidden rounded-[2rem] p-8 ${i === 0 ? "bg-[#121110] text-white" : "bg-white"}`}>
               {i === 0 && <div aria-hidden className="absolute -left-20 -top-20 size-72 rounded-full opacity-50 blur-3xl" style={{ background: ORANGE }} />}
