@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { introDone } from "@/lib/intro";
 import { Magnetic } from "./Magnetic";
@@ -17,6 +17,10 @@ const links = [
 export function Nav() {
   const ref = useRef<HTMLElement>(null);
   const pathname = usePathname();
+  // Set when the page moves by itself (a new page, a jump to a section), so
+  // that move doesn't count as the reader scrolling down and hide the bar.
+  const holdUntil = useRef(0);
+  const showBar = useRef<() => void>(() => {});
 
   useGSAP(
     () => {
@@ -28,9 +32,18 @@ export function Nav() {
       // ScrollTrigger) so it can exist before the smoother is created.
       let last = window.scrollY;
       let hidden = false;
+      showBar.current = () => {
+        last = window.scrollY;
+        if (!hidden) return;
+        hidden = false;
+        gsap.to(ref.current, { yPercent: 0, duration: 0.7, ease: "expo.out", overwrite: true });
+      };
       const onScroll = () => {
         const y = window.scrollY;
-        const hide = y > last && y > 120;
+        // a jump of more than a screen in one step is the page moving itself, not the reader
+        const jumped = Math.abs(y - last) > window.innerHeight * 0.8;
+        const held = performance.now() < holdUntil.current;
+        const hide = !jumped && !held && y > last && y > 120;
         last = y;
         if (hide === hidden) return;
         hidden = hide;
@@ -41,6 +54,17 @@ export function Nav() {
     },
     { scope: ref },
   );
+
+  // Every new page, and every jump to a section, starts with the bar in view.
+  useEffect(() => {
+    const show = () => {
+      holdUntil.current = performance.now() + 2500;
+      showBar.current();
+    };
+    show();
+    window.addEventListener("hashchange", show);
+    return () => window.removeEventListener("hashchange", show);
+  }, [pathname]);
 
   return (
     <header
@@ -57,6 +81,7 @@ export function Nav() {
               href={id === "about" ? "/about" : `/#${id}`}
               className="block px-3 py-2"
               onClick={(e) => {
+                holdUntil.current = performance.now() + 2500;
                 // About is its own page; the others are sections of the home page.
                 if (id !== "about" && pathname === "/" && scrollToId(id)) e.preventDefault();
               }}

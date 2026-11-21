@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { Magnetic } from "@/components/Magnetic";
 import { Spark, ask } from "./Ask";
@@ -19,6 +19,10 @@ const LINKS = [
 export function FNav() {
   const ref = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  // Set when the page moves by itself (a new page, a jump to a section), so
+  // that move doesn't count as the reader scrolling down and hide the bar.
+  const holdUntil = useRef(0);
+  const showBar = useRef<() => void>(() => {});
   // The template serves the case studies under the main site, whose home is "/". The Fable
   // home at /fable is a concept page with its own sections, so links follow whichever is in use.
   const base = pathname.startsWith("/fable") ? "/fable" : "/";
@@ -32,9 +36,18 @@ export function FNav() {
 
       let last = window.scrollY;
       let hidden = false;
+      showBar.current = () => {
+        last = window.scrollY;
+        if (!hidden) return;
+        hidden = false;
+        gsap.to(bar, { y: 0, duration: 0.7, ease: "expo.out", overwrite: true });
+      };
       const onScroll = () => {
         const y = window.scrollY;
-        const hide = y > last && y > 160;
+        // a jump of more than a screen in one step is the page moving itself, not the reader
+        const jumped = Math.abs(y - last) > window.innerHeight * 0.8;
+        const held = performance.now() < holdUntil.current;
+        const hide = !jumped && !held && y > last && y > 160;
         last = y;
         if (hide === hidden) return;
         hidden = hide;
@@ -45,6 +58,17 @@ export function FNav() {
     },
     { scope: ref },
   );
+
+  // Every new page, and every jump to a section, starts with the bar in view.
+  useEffect(() => {
+    const show = () => {
+      holdUntil.current = performance.now() + 2500;
+      showBar.current();
+    };
+    show();
+    window.addEventListener("hashchange", show);
+    return () => window.removeEventListener("hashchange", show);
+  }, [pathname]);
 
   // Case studies: the plain bar from the earlier site. Name and three links, no pill, no Ask.
   if (base === "/")
