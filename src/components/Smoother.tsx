@@ -64,7 +64,27 @@ export function scrollToId(id: string) {
   const el = document.getElementById(id);
   if (!el) return false;
   const smoother = ScrollSmoother.get();
-  if (smoother) smoother.scrollTo(el, true, "top top");
-  else el.scrollIntoView({ behavior: "smooth" });
+  if (!smoother) {
+    el.scrollIntoView({ behavior: "smooth" });
+    return true;
+  }
+  // On a fresh load images and pins may still be settling, so the first
+  // measure can be stale: measure again now, and once the glide ends, finish
+  // the trip if the section has moved in the meantime.
+  ScrollTrigger.refresh();
+  smoother.scrollTo(el, true, "top top");
+  let tries = 0;
+  let last = -1;
+  const settle = () => {
+    const target = smoother.offset(el, "top top");
+    const still = Math.abs(window.scrollY - last) < 2;
+    last = window.scrollY;
+    if (!still) return gsap.delayedCall(0.25, settle);
+    if (Math.abs(window.scrollY - target) > 4 && tries++ < 3) {
+      smoother.scrollTo(el, true, "top top");
+      gsap.delayedCall(0.25, settle);
+    }
+  };
+  gsap.delayedCall(0.6, settle);
   return true;
 }

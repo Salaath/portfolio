@@ -83,7 +83,7 @@ export function LeadProjects({ label = "[ Leading the team ]", className = "" }:
         }
       >
         {PROJECTS.map((p) => (
-          <Link key={p.id} href={`/leadership#${p.id}`} data-cursor="Open" className="group block w-[82vw] shrink-0 snap-start sm:w-[58vw] md:row-span-4 md:grid md:w-auto md:grid-rows-subgrid md:[transform-style:preserve-3d]">
+          <Link key={p.id} href={`/leadership#${p.id}`} data-cursor="Open" className="group block md:row-span-4 md:grid md:w-auto md:grid-rows-subgrid md:[transform-style:preserve-3d]">
             {/* the rail tilts this wrapper as the card moves across the window, so the row reads as a curved wall of screens */}
             <div data-curve className="md:[transform-origin:50%_50%] md:will-change-transform">
             <div data-wipe className={`relative overflow-hidden rounded-2xl md:rounded-[1.1rem] aspect-[4/5] sm:aspect-square md:aspect-auto md:h-[max(18rem,min(34vw,calc(100svh-23rem)))]`} style={{ background: p.ground }}>

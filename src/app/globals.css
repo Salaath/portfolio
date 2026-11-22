@@ -265,3 +265,13 @@ body, body :where(*:not(.font-mono, .font-mono *, .label, .label *, code, pre, c
 .circuit-car { animation: circuit-lap 14s linear infinite; }
 @keyframes circuit-lap { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .circuit-car { animation: none; stroke-dashoffset: 640; } }
+
+/* Over the pinned case-study covers the nav drops its difference blend (which
+   turns blue or grey over bright photos) and takes the cover's own ink. */
+header[data-cover] {
+  mix-blend-mode: normal;
+  transition: color 0.3s ease;
+}
+header[data-cover="dark"] {
+  color: var(--color-ink);
+}

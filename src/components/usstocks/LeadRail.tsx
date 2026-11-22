@@ -1,15 +1,13 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { DESKTOP, MOTION_OK, ScrollTrigger, gsap, useGSAP } from "@/lib/gsap";
-
-const pad = (n: number) => String(n).padStart(2, "0");
 
 // The leadership projects on the home page as one horizontal row. On desktop
 // the row holds still in the window while the page scroll slides it sideways,
 // until the last project is in view; then the page carries on down. On a
-// phone the row is swiped sideways.
-export function LeadRail({ header, children, count }: { header: ReactNode; children: ReactNode; count: number }) {
+// phone the projects stack one below the other.
+export function LeadRail({ header, children }: { header: ReactNode; children: ReactNode; count?: number }) {
   const root = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -17,7 +15,6 @@ export function LeadRail({ header, children, count }: { header: ReactNode; child
       const q = gsap.utils.selector(root);
       const stage = q("[data-stage]")[0] as HTMLElement;
       const track = q("[data-track]")[0] as HTMLElement;
-      const counter = q("[data-counter]")[0] as HTMLElement;
       const mm = gsap.matchMedia();
       mm.add({ motion: MOTION_OK, desktop: DESKTOP }, (ctx) => {
         const { motion, desktop } = ctx.conditions as { motion: boolean; desktop: boolean };
@@ -54,9 +51,6 @@ export function LeadRail({ header, children, count }: { header: ReactNode; child
             scrub: 1,
             invalidateOnRefresh: true,
             onRefresh: bend,
-            onUpdate(self) {
-              counter.textContent = pad(Math.min(count, Math.floor(self.progress * count) + 1));
-            },
           },
         });
         rail.to(track, { x: () => -distance(), onUpdate: bend }, 0);
@@ -88,20 +82,6 @@ export function LeadRail({ header, children, count }: { header: ReactNode; child
     { scope: root },
   );
 
-  // phones: the counter follows the swipe
-  useEffect(() => {
-    const el = root.current?.querySelector<HTMLElement>("[data-track]");
-    const counter = root.current?.querySelector<HTMLElement>("[data-counter]");
-    if (!el || !counter) return;
-    const read = () => {
-      const max = el.scrollWidth - el.clientWidth;
-      if (max <= 0 || getComputedStyle(el).overflowX === "visible") return;
-      counter.textContent = pad(Math.round((el.scrollLeft / max) * (count - 1)) + 1);
-    };
-    el.addEventListener("scroll", read, { passive: true });
-    return () => el.removeEventListener("scroll", read);
-  }, [count]);
-
   return (
     <div ref={root}>
       <div className="mb-12 md:mb-0">{header}</div>
@@ -109,12 +89,9 @@ export function LeadRail({ header, children, count }: { header: ReactNode; child
       <div data-stage className="-mx-4 sm:-mx-10 md:relative md:flex md:h-svh md:flex-col md:justify-center md:overflow-x-clip md:overflow-y-visible md:pt-12">
         <div
           data-track
-          className="flex snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain scroll-px-4 px-4 pb-2 [scrollbar-width:none] sm:scroll-px-10 sm:px-10 md:grid md:w-max md:snap-none md:auto-cols-[38vw] md:grid-flow-col md:grid-rows-[repeat(4,auto)] md:gap-x-6 md:gap-y-0 md:overflow-visible md:pb-0 [&::-webkit-scrollbar]:hidden"
+          className="flex flex-col gap-16 px-4 sm:px-10 md:grid md:w-max md:auto-cols-[38vw] md:grid-flow-col md:grid-rows-[repeat(4,auto)] md:gap-x-6 md:gap-y-0"
         >
           {children}
-        </div>
-        <div className="mt-8 flex items-center gap-5 px-4 sm:px-10 md:hidden">
-          <span className="label tabular-nums"><span data-counter>01</span> / {pad(count)}</span>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 import type { CaseStudy } from "@/content/cases";
-import { DESKTOP, MOTION_OK, gsap, useGSAP } from "@/lib/gsap";
+import { DESKTOP, MOTION_OK, ScrollTrigger, gsap, useGSAP } from "@/lib/gsap";
 
 /**
  * Selected work as a deck of full-screen covers. On desktop the section pins
@@ -36,6 +36,17 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
           return;
         }
 
+        const nav = document.querySelector("header");
+        const markNav = (on: boolean, progress: number) => {
+          if (!nav) return;
+          if (!on) return void nav.removeAttribute("data-cover");
+          const at = progress * (panels.length - 1) + 0.03;
+          const i = Math.min(panels.length - 1, Math.floor(at));
+          // late in a wipe the last cover has shrunk back off the black behind it;
+          // the plain blend reads best over that until the next cover arrives
+          if (i < panels.length - 1 && at - i > 0.5) return void nav.removeAttribute("data-cover");
+          nav.dataset.cover = cases[i].coverInk === "dark" ? "dark" : "light";
+        };
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
@@ -55,6 +66,20 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
             .from(p.querySelectorAll("[data-lift]"), { yPercent: 120, stagger: 0.04, ease: "power3.out", duration: 0.6 }, i + 0.35)
             .fromTo(prev, { scale: 1, filter: "brightness(1)" }, { scale: 0.9, filter: "brightness(0.45)", ease: "power2.inOut", immediateRender: false }, i);
         });
+        // The nav takes the ink of whichever cover is under it, from the moment the
+        // stack reaches the top until the last cover has scrolled out from under
+        // it. A cover wipes up from below, so it reaches the nav only at the end
+        // of its wipe.
+        const pinST = tl.scrollTrigger!;
+        const update = (on: boolean) => markNav(on, pinST.progress);
+        ScrollTrigger.create({
+          trigger: ref.current!.parentElement!,
+          start: "top top",
+          end: () => `bottom ${nav?.offsetHeight ?? 70}px`,
+          onToggle: (self) => update(self.isActive),
+          onUpdate: (self) => update(self.isActive),
+        });
+        return () => nav?.removeAttribute("data-cover");
       });
     },
     { scope: ref },
@@ -89,10 +114,14 @@ export function CaseStack({ cases }: { cases: CaseStudy[] }) {
               ) : null}
             </div>
             </div>
-            {dark ? null : (
-              <div className="absolute inset-0 hidden md:block md:bg-[linear-gradient(to_top,rgba(0,0,0,0.5),transparent_30%),linear-gradient(to_right,rgba(0,0,0,0.42),transparent_52%)]" />
+            {/* a soft band along the top keeps the fixed nav readable over any photo */}
+            {dark ? (
+              <div className="absolute inset-0 hidden md:block md:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.7),transparent_9rem)]" />
+            ) : (
+              <div className="absolute inset-0 hidden md:block md:bg-[linear-gradient(to_bottom,rgba(0,0,0,0.55),transparent_9rem),linear-gradient(to_top,rgba(0,0,0,0.5),transparent_30%),linear-gradient(to_right,rgba(0,0,0,0.42),transparent_52%)]" />
             )}
-            <div className={`relative flex flex-col justify-between gap-6 px-4 pb-14 pt-5 text-bg sm:px-10 md:h-full md:gap-0 md:p-10 md:pb-[4.75rem] ${dark ? "md:text-ink" : "md:text-white"}`}>
+            {/* desktop: the label row starts below the fixed nav rather than under it */}
+            <div className={`relative flex flex-col justify-between gap-6 px-4 pb-14 pt-5 text-bg sm:px-10 md:h-full md:gap-0 md:p-10 md:pb-[4.75rem] md:pt-24 ${dark ? "md:text-ink" : "md:text-white"}`}>
               <div className={`label flex justify-between max-md:!text-bg/60 ${dark ? "md:!text-ink/60" : "md:!text-white/70"}`}>
                 <span>({pad(i + 1)}) — {pad(cases.length)}</span>
                 <span>{c.year}</span>
