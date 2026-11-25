@@ -333,6 +333,8 @@ function bindOtp(el, {code='149136', n=6, onDone, autoMs=1300, metaEl}){
   render('');
   later(()=>{ fi.focus(); render(''); }, 380);
   later(()=>{ if(fi.value.length<n){ KB.setSuggestion({otp:code}); } }, autoMs);
+  // the OTP fills itself a beat after it arrives, as if read from Messages; a tap on the suggestion still works
+  later(()=>{ if(fi.value.length<n && boxes[0].isConnected){ fi.setValue(code, true); KB.setSuggestion(null); } }, autoMs + 900);
   return fi;
 }
 SCREENS.otp = (el)=>{

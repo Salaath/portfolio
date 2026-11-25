@@ -539,6 +539,56 @@ body::after{background:
 .newicon:hover{background:#000;transform:translateY(-1px)}
 .newicon:active{transform:scale(.96)}
 @media (max-width:900px){.rail .rail-top{margin:0}.rail .rail-top .search{display:none}}
+
+/* ===== notifications ===== */
+.chi{display:grid;place-items:center}
+.ficon.chi svg{width:22px;height:22px}
+.chi.sm{width:30px;height:30px;border-radius:10px;flex:none}
+.chi.sm svg{width:16px;height:16px}
+.chi-push{background:#e8f0fb;color:#1f74d8}
+.chi-email{background:#fbf1e6;color:#a8641c}
+.chi-whatsapp{background:#e6f6ee;color:#23875a}
+.chi-sms{background:#efeaf8;color:#6a4bc4}
+.chi-inapp{background:#eef1f5;color:#4a4d5a}
+.chico{display:inline-grid;width:16px;height:16px;margin-right:6px;vertical-align:-3px}
+.chico svg{width:16px;height:16px}
+.chip.on .chico{color:#fff}
+.dayline{display:flex;flex-direction:column}
+.dl{display:grid;grid-template-columns:52px 30px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 4px;border-top:1px solid var(--hair)}
+.dl:first-child{border-top:0}
+.dl .dt{font-variant-numeric:tabular-nums;color:var(--ink-3);font-size:13px}
+.dl .dn{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dl .dm{font-size:12.5px;color:var(--ink-3)}
+.dl.held{opacity:.6}
+.dl.held .dn{text-decoration:line-through}
+/* notification previews */
+.ch-screen{padding:0}
+.ch-push{background:linear-gradient(170deg,#0a2466,#1f74d8 60%,#63c4ee)}
+.lock{padding:46px 10px 10px;display:flex;flex-direction:column;gap:7px;color:#fff}
+.lock-time{text-align:center;font-family:var(--display);font-weight:300;font-size:44px;line-height:1}
+.lock-date{text-align:center;font-size:10px;opacity:.85;margin-bottom:10px}
+.ncard{background:rgba(255,255,255,.82);color:#15161c;border-radius:14px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
+.ncard.dim{opacity:.7;transform:scale(.97)}
+.nhead{display:flex;gap:6px;align-items:center;font-size:9px;color:#4a4d5a}
+.nnow{margin-left:auto}
+.napp{width:16px;height:16px;border-radius:5px;background:#5a2d9e;color:#fff;font-size:8px;font-weight:700;display:grid;place-items:center}
+.ntitle{font-weight:600;font-size:11px;line-height:1.25}
+.nbody{font-size:10px;line-height:1.3;color:#4a4d5a}
+.msgs,.mail,.wa{padding:34px 10px 10px;display:flex;flex-direction:column;gap:8px;height:100%}
+.mhead{text-align:center;font-size:11px;font-weight:600;padding-bottom:6px;border-bottom:1px solid #e5e6ee}
+.bubble{background:#e9e9ef;border-radius:14px 14px 14px 4px;padding:9px 10px;font-size:10.5px;line-height:1.35;max-width:88%}
+.mfoot{margin-top:auto;font-size:9px;color:#87849a;text-align:center}
+.mbar{font-weight:600;font-size:12px}
+.mrow{display:flex;flex-direction:column;font-size:10px;padding:6px 0;border-bottom:1px solid #e5e6ee}
+.mfrom{font-weight:600}.msub{color:#4a4d5a}
+.mopen{background:#fff;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:5px}
+.mlogo{width:22px;height:22px;border-radius:6px;background:#5a2d9e;color:#fff;font-size:9px;font-weight:700;display:grid;place-items:center}
+.mt{font-weight:600;font-size:12px;line-height:1.25}.mb{font-size:10px;line-height:1.35;color:#4a4d5a}
+.wa{background:#efeae2}
+.wahead{display:flex;gap:6px;align-items:center;font-size:11px;font-weight:600;padding-bottom:6px}
+.tick{color:#1f74d8;font-size:10px}
+.wab{background:#fff;border-radius:4px 12px 12px 12px;padding:9px 10px;font-size:10.5px;line-height:1.35;max-width:90%}
+.wacta{margin-top:7px;padding-top:7px;border-top:1px solid #e5e6ee;text-align:center;color:#1f74d8;font-weight:600}
 </style>
 
 <div class="shell" id="shell">
@@ -601,7 +651,21 @@ const FORMATS = {
   pip:{name:'PIP video', where:'Floating player', lvl:2},
   inpage:{name:'In-page banner', where:'A spot on a page', lvl:1},
   post:{name:'Post-action sheet', where:'After an action', lvl:2},
-  tooltip:{name:'Tooltip', where:'Points at a button', lvl:1}
+  tooltip:{name:'Tooltip', where:'Points at a button', lvl:1},
+  push:{name:'Push notification', where:'Lock screen and notification tray', lvl:2, ch:true},
+  sms:{name:'SMS', where:'Messages app', lvl:3, ch:true},
+  email:{name:'Email', where:'Inbox', lvl:1, ch:true},
+  whatsapp:{name:'WhatsApp', where:'WhatsApp chat', lvl:3, ch:true}
+};
+const CHANNELS = [['inapp','In-app'],['push','Push'],['email','Email'],['whatsapp','WhatsApp'],['sms','SMS']];
+const CH_LIMITS = {push:{title:50, body:120, cta:0}, sms:{title:0, body:160, cta:0}, email:{title:60, body:200, cta:24}, whatsapp:{title:0, body:200, cta:20}};
+const isCh = f => !!(FORMATS[f] && FORMATS[f].ch);
+const CH_ICON = {
+  push:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>',
+  sms:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v11H9l-5 4z"/></svg>',
+  email:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4 7 8 6 8-6"/></svg>',
+  whatsapp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 19.5 6.2 16A8 8 0 1 1 9 18.6z"/><path d="M9.5 9.5c.3 2 1.8 3.6 4 4.3l1-1.1 1.8.8"/></svg>',
+  inapp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M9 15h6"/></svg>'
 };
 const LVL = ['','Low','Medium','High'];
 // Screens in the app, which formats each allows, and named spots for in-page banners
@@ -628,7 +692,7 @@ function addEvent(r, who, what, note, k){ (r.events=r.events||[]).push({who, wha
 const initials = n => n.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase();
 const NEVER_SCREENS = ['Order pad','Payments','Login & PIN'];
 const spotOf = d => (SCREENS[d.screen]||{spots:[]}).spots.find(s=>s.id===d.spot);
-const whereText = r => { const sc=SCREENS[r.screen||'home']; const sp=sc.spots.find(s=>s.id===r.spot); return sc.name + (sp?' · '+sp.name:''); };
+const whereText = r => { if(isCh(r.format)) return FORMATS[r.format].name; const sc=SCREENS[r.screen||'home']; const sp=sc.spots.find(s=>s.id===r.spot); return sc.name + (sp?' · '+sp.name:''); };
 const GOALS = ['Launch','Activation','Cross-sell','Monetisation','Habit','Feedback'];
 const METRIC = {Launch:'Used the new feature within 7 days', Activation:'First trade within 7 days', 'Cross-sell':'Tried the product within 14 days', Monetisation:'Subscribed within 14 days', Habit:'Weekly active use', Feedback:'Survey completed'};
 const BANNED = ['guaranteed','risk-free','risk free','assured profit','double your money','no loss'];
@@ -675,6 +739,12 @@ S.others = [
   O('e10','Step up your SIP by 10%','Product Management','Anirudh','card','Habit','Active SIP investors','31 L','2026-10-01','2026-10-31','ended',{ctr:'2.9',lift:57.7,reach:'28.6 L',dismiss:'1.8%',metric:'Increased SIP within 30 days'}),
   O('e11','Muhurat trading on 8 Nov','Product Marketing','Jinal','banner','Launch','All active users','1.2 Cr','2026-11-01','2026-11-08','ended',{ctr:'2.1',lift:3.3,reach:'89 L',dismiss:'2.4%',metric:'Traded in the Muhurat session'}),
   O('e12','US stocks: zero brokerage week','Product Management','Anirudh','banner','Cross-sell','Funded, no trade in 30 days','6.4 L','2026-11-24','2026-11-30','review',{approvals:{head:'pending',design:'approved',crm:'pending'}, incentive:true, tnc:'https://upstox.com/terms/us-zero', body:'Trade US stocks with zero brokerage from 24 to 30 Nov.', cta:'Explore US stocks', product:'us', excludeOwners:true, comments:[{who:'Anirudh',when:'20 Nov, 10:20',text:'Timing this with the US earnings week. Happy to move by a day if CRM sees a clash.'}], sent:'Sent 20 Nov', times:{sent:'20 Nov, 10:15', design:'20 Nov, 16:40'}}),
+  O('n1','IPO alert: 4 IPOs open this week','Growth Marketing','Poorva','push','Cross-sell','All active users','1.2 Cr','2026-11-17','2026-11-24','live',{body:'Apply in 2 taps before they close on Friday.', ctr:'3.1',lift:8.2,reach:'96 L',dismiss:'—',metric:'Applied for an IPO within 7 days'}),
+  O('n2','Plus Pack: 7 days free','Product Marketing','Pratiksha','push','Monetisation','F&O active traders (30 days)','9.2 L','2026-11-19','2026-12-03','live',{body:'Option chain, scalper and more. Free for 7 days.', incentive:true, ctr:'2.4',lift:4.1,reach:'8.7 L',dismiss:'—',metric:'Subscribed within 14 days'}),
+  O('n3','Weekly market wrap','Product Marketing','Jinal','email','Habit','All active users','1.2 Cr','2026-11-01','2026-12-31','live',{title:'Your week in markets', body:'Nifty, sectors and the week ahead in 3 minutes.', cta:'Read the wrap', ctr:'11.2',lift:1.9,reach:'1.1 Cr',dismiss:'—',metric:'Opened the app within 2 days'}),
+  O('n4','Finish your KYC in 2 minutes','Growth Marketing','Poorva','whatsapp','Activation','Activated in 7 days, not funded','1.1 L','2026-11-15','2026-12-15','live',{body:'You are one step away from investing. Finish KYC now.', cta:'Finish KYC', ctr:'18.4',lift:9.6,reach:'46,000',dismiss:'—',metric:'Funded within 7 days'}),
+  O('n5','MTF at 0% interest: push','Revenue','Saurabh','push','Monetisation','MTF eligible, never used','14.8 L','2026-11-24','2026-12-05','review',{approvals:{head:'approved',design:'approved',crm:'pending'}, body:'Buy now, pay in 30 days at 0% interest.', sent:'Sent 21 Nov', times:{sent:'21 Nov, 12:10'}}),
+  O('n6','Margin shortfall: add funds','CRM','Shivani','sms','Account action','Order rejected for margin (24 h)','38,000','2026-01-01','2026-12-31','live',{body:'Your account has a margin shortfall. Add funds to avoid square-off.', ctr:'—',reach:'31,000'}),
   O('e13','Option strategy builder is here','Product Management','Samit','card','Launch','F&O active traders (30 days)','9.2 L','2026-11-25','2026-12-06','review',{approvals:{head:'looking',design:'pending',crm:'pending'}, body:'Build and compare multi-leg strategies before you place them.', cta:'Try the builder', sent:'Sent 21 Nov', times:{sent:'21 Nov, 09:30', headOpen:'21 Nov, 11:02'}})
 ];
 const PERSONAS = {
@@ -691,7 +761,7 @@ const isMine = r => r.owner==='Sydney';
 const audText = r => { const c=cohortOf(r.cohort); return c ? `${c.name} · ${c.size}` : (r.audName ? `${r.audName} · ${r.audSize}` : '—'); };
 const datesText = r => r.permanent ? 'Always on' : `${fmtDate(r.start)} – ${fmtDate(r.end)}`;
 const nowTime = () => new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-function blankDraft(){return {initiative:'', goal:null, goalTouched:false, cohort:null, screen:'home', spot:null, format:'sheet', title:'', body:'', cta:'', link:'upstox://', start:'2026-11-21', end:'2026-11-30', freq:'3', time:'all', trigger:'home', control:'5', ab:false, incentive:false, tnc:'', showAll:false, editing:null, versionOf:null, version:1, product:'none', excludeOwners:true, stopOn:'goal'};}
+function blankDraft(){return {initiative:'', goal:null, goalTouched:false, cohort:null, screen:'home', spot:null, format:'sheet', title:'', body:'', cta:'', link:'upstox://', start:'2026-11-21', end:'2026-11-30', freq:'3', time:'all', trigger:'home', control:'5', ab:false, incentive:false, tnc:'', showAll:false, channel:'inapp', editing:null, versionOf:null, version:1, product:'none', excludeOwners:true, stopOn:'goal'};}
 
 /* ---------- helpers ---------- */
 const cohortOf = id => COHORTS.find(c=>c.id===id);
@@ -745,11 +815,13 @@ function fIcon(f){
     banner:'top:5px;left:2px;right:2px;height:22%', card:'top:42%;left:2px;right:2px;height:20%', inpage:'top:40%;left:2px;right:2px;height:14%',
     toast:'bottom:5px;left:3px;right:3px;height:12%;border-radius:3px', nudge:'bottom:6px;right:2px;width:42%;height:22%;border-radius:3px',
     tooltip:'top:30%;left:28%;width:58%;height:14%;border-radius:3px', pip:'top:6px;right:2px;width:52%;height:26%', modal:'top:28%;left:3px;right:3px;height:40%;border-radius:3px'};
+  if(isCh(f)) return `<div class="ficon chi chi-${f}" aria-hidden="true" title="${FORMATS[f].name}">${CH_ICON[f]}</div>`;
   return `<div class="ficon" aria-hidden="true" title="${FORMATS[f]?FORMATS[f].name:''}"><span class="fphone"><i style="${pos[f]||pos.card}"></i></span></div>`;
 }
 
 /* ---------- phone preview ---------- */
 function phone(d){
+  if(isCh(d.format)) return phoneChannel(d);
   const screen = d.screen || 'home', scName = (SCREENS[screen]||SCREENS.home).name;
   if(screen!=='home' || d.format==='inpage') return phoneList(d, screen, scName);
   d = {...d, format:({pip:'nudge',inpage:'banner',post:'sheet',tooltip:'toast'})[d.format]||d.format};
@@ -799,6 +871,21 @@ function phoneList(d, screen, scName){
   </div></div></div>`;
 }
 
+// notification previews: lock screen, SMS, email, WhatsApp
+function phoneChannel(d){
+  const f=d.format, t=esc(d.title||'Your title goes here'), b=esc(d.body||'A short line that tells people why this matters to them.'), c=esc(d.cta||'Open');
+  const disc = isFno(d) ? `<div class="p-disc" style="color:inherit;opacity:.75">9 out of 10 individual traders in equity F&amp;O incurred net losses.</div>` : '';
+  let inner='';
+  if(f==='push') inner = `<div class="lock"><div class="lock-time">9:41</div><div class="lock-date">Monday, 23 November</div>
+      <div class="ncard"><div class="nhead"><span class="napp">up</span><span>Upstox</span><span class="nnow">now</span></div><div class="ntitle">${t}</div><div class="nbody">${b}</div>${disc}</div>
+      <div class="ncard dim"><div class="nhead"><span class="napp">up</span><span>Upstox</span><span class="nnow">12m ago</span></div><div class="ntitle">IPO alert: 4 IPOs open this week</div></div>
+      <div class="ncard dim"><div class="nhead"><span class="napp">up</span><span>Upstox</span><span class="nnow">1h ago</span></div><div class="ntitle">Plus Pack: 7 days free</div></div></div>`;
+  if(f==='sms') inner = `<div class="msgs"><div class="mhead">VM-UPSTOX</div><div class="bubble">${b}${disc}</div><div class="mfoot">Promotional · via DLT template</div></div>`;
+  if(f==='email') inner = `<div class="mail"><div class="mbar">Inbox</div><div class="mrow"><span class="mfrom">Upstox</span><span class="msub">${t}</span></div><div class="mopen"><div class="mlogo">up</div><div class="mt">${t}</div><div class="mb">${b}</div><div class="p-cta" style="background:var(--forest);color:#fff">${c}</div>${disc}<div class="p-disc">Unsubscribe</div></div></div>`;
+  if(f==='whatsapp') inner = `<div class="wa"><div class="wahead"><span class="napp">up</span>Upstox <span class="tick">✓</span></div><div class="wab">${b}${disc}<div class="wacta">${c}</div></div><div class="mfoot">Only to people who opted in</div></div>`;
+  return `<div class="phone-wrap"><div class="phone"><div class="screen ch-screen ch-${f}"><div class="island"></div>${inner}</div></div></div>`;
+}
+
 /* ---------- nav ---------- */
 function setNav(){
   const counts = {home: S.reqs.filter(r=>r.status==='changes').length};
@@ -830,11 +917,12 @@ const RI = {
   shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"/></svg>',
   people:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.5-3.5 3-5.5 6-5.5s5.5 2 6 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.7.7 2.8 2.5 3 5.2"/></svg>',
   clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+  bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>',
   pulse:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg>'
 };
 function railHTML(){
   const q=queueFor().length + (S.persona==='crm'?stopReqs().length:0), admin=S.persona==='admin', maker=S.persona==='maker';
-  const items = maker ? [{sec:'Work'},{v:'home',l:'Home',i:'home',b:S.reqs.filter(r=>r.status==='changes').length},{v:'calendar',l:'Calendar',i:'cal'}] : [{sec:'Work'},{v:'home',l:'Overview',i:'home'},{v:'review',l:'To review',i:'inbox',b:q},{v:'campaigns',l:'All campaigns',i:'list'},{v:'calendar',l:'Calendar',i:'cal'},{v:'results',l:'Results',i:'chart'}]
+  const items = maker ? [{sec:'Work'},{v:'home',l:'Home',i:'home',b:S.reqs.filter(r=>r.status==='changes').length},{v:'calendar',l:'Calendar',i:'cal'},{v:'notif',l:'Notification center',i:'bell'}] : [{sec:'Work'},{v:'home',l:'Overview',i:'home'},{v:'review',l:'To review',i:'inbox',b:q},{v:'campaigns',l:'All campaigns',i:'list'},{v:'calendar',l:'Calendar',i:'cal'},{v:'notif',l:'Notification center',i:'bell'},{v:'results',l:'Results',i:'chart'}]
     .concat(admin ? [{sec:'Control'},{v:'rules',l:'Rules',i:'shield'},{v:'people',l:'People & roles',i:'people'},{v:'log',l:'Activity log',i:'clock'},{v:'health',l:'System health',i:'pulse'}]
                   : [{sec:'Reference'},{v:'rules',l:'Rules',i:'shield'},{v:'log',l:'Activity log',i:'clock'}]);
   const cur = S.view==='detail' ? (S.prev||'home') : S.view;
@@ -870,7 +958,7 @@ function render(){
   const v=$('#view');
   const settingsTab = t => vv => { S.setTab=t; renderSettings(vv); };
   ({home:renderHome, new:renderNew, detail:renderDetail, calendar:renderCalendar, settings:renderSettings,
-    review:renderReview, campaigns:renderSolo, results:renderSolo,
+    review:renderReview, notif:renderNotif, campaigns:renderSolo, results:renderSolo,
     rules:settingsTab('rules'), people:settingsTab('people'), log:settingsTab('log'), health:settingsTab('health')})[S.view](v);
 }
 
@@ -1169,15 +1257,18 @@ function renderNew(v){
       </section>
 
       <section class="glass q">
-        <div class="qh"><span class="qn">03</span><h2 class="qt">Where does it show, and what does it say?</h2></div>
+        <div class="qh"><span class="qn">03</span><h2 class="qt">Where does it reach them, and what does it say?</h2></div>
         <div class="qbody">
+          <div class="field"><label>Channel</label><div class="chips" id="channels"></div><p class="hint" id="chHint"></p></div>
+          <div id="inappFields" style="display:flex;flex-direction:column;gap:12px">
           <div class="field"><label>Screen</label><div class="chips" id="screens"></div><p class="hint" id="neverHint"></p></div>
           <div class="field"><label>Format <em id="fmtCount"></em></label><div class="formats" id="formats"></div></div>
           <button class="link" style="align-self:flex-start" id="allFmt"></button>
           <div class="field" id="spotWrap" hidden><label id="spotLabel">Spot</label><div class="spots" id="spots"></div><p class="hint">Each spot holds a set number of banners for the same person. If it's busy, yours still shows to everyone who has room.</p></div>
-          <div class="field"><label for="title">Headline <em id="cTitle"></em></label><input class="inp" id="title" maxlength="60" placeholder="Charts just got faster" value="${esc(d.title)}"></div>
+          </div>
+          <div class="field" id="titleWrap"><label for="title"><span id="titleLbl">Headline</span> <em id="cTitle"></em></label><input class="inp" id="title" maxlength="60" placeholder="Charts just got faster" value="${esc(d.title)}"></div>
           <div class="field"><label for="body">Message <em id="cBody"></em></label><textarea class="inp" id="body" maxlength="160" placeholder="One or two lines on why this matters to them.">${esc(d.body)}</textarea></div>
-          <div class="two">
+          <div class="two" id="ctaWrap">
             <div class="field"><label for="cta">Button text <em id="cCta"></em></label><input class="inp" id="cta" maxlength="24" placeholder="Try new charts" value="${esc(d.cta)}"></div>
             <div class="field"><label for="link">Button opens</label><input class="inp" id="link" value="${esc(d.link)}"></div>
           </div>
@@ -1280,6 +1371,17 @@ function live(){
   else if(c.big) ov.innerHTML = `<div class="note info"><span>This is everyone active. Reviewers will look more closely at broad audiences.</span></div>`;
   else ov.innerHTML = `<div class="note ok"><span>No clashes. These users have room for your message on these dates.</span></div>`;
   const uc=$('#useClear'); if(uc) uc.onclick=()=>{ d.start=c.clear; $('#start').value=d.start; live(); toast('Start date moved to '+fmtDate(c.clear)); };
+  // channel
+  if(!d.channel) d.channel = isCh(d.format) ? d.format : 'inapp';
+  $('#channels').innerHTML = CHANNELS.map(([k,n])=>`<button class="chip ${d.channel===k?'on':''}" data-ch="${k}"><span class="chico">${CH_ICON[k]}</span>${n}</button>`).join('');
+  $('#channels').querySelectorAll('[data-ch]').forEach(b=>b.onclick=()=>{ d.channel=b.dataset.ch; if(d.channel==='inapp'){ if(isCh(d.format)) d.format=(SCREENS[d.screen]||SCREENS.home).formats[0]; } else d.format=d.channel; live(); });
+  const CH_HINT = {inapp:'Banners, sheets and pop-ups inside the app.', push:'Never sent between 10 PM and 8 AM. At most 3 promotional pushes a person a day, across all teams.', email:'One promotional email a person a day. An unsubscribe link is added for you.', whatsapp:'Only reaches people who opted in to WhatsApp. At most 2 promotional messages a week.', sms:'Promotions need a DLT-registered template. CRM checks it.'};
+  $('#chHint').textContent = CH_HINT[d.channel];
+  $('#inappFields').hidden = d.channel!=='inapp';
+  const chLim = CH_LIMITS[d.channel] || {title:40, body:110, cta:18};
+  $('#titleWrap').hidden = chLim.title===0;
+  $('#ctaWrap').hidden = chLim.cta===0;
+  $('#titleLbl').textContent = d.channel==='email' ? 'Subject' : d.channel==='push' ? 'Title' : 'Headline';
   // formats
   // screen
   const sc = SCREENS[d.screen] || SCREENS.home;
@@ -1304,8 +1406,8 @@ function live(){
   $('#formats').querySelectorAll('[data-fmt]').forEach(b=>b.onclick=()=>{ const k=b.dataset.fmt; if(FORMATS[k].locked){ toast(FORMATS[k].locked); return; } d.format=k; live(); });
   $('#allFmt').textContent = d.showAll ? 'Show fewer formats' : 'Show all formats';
   // counters
-  const lim={title:40, body:110, cta:18};
-  [['title','cTitle'],['body','cBody'],['cta','cCta']].forEach(([k,id])=>{ const n=(d[k]||'').length, el=$('#'+id); el.textContent=`${n}/${lim[k]}`; el.classList.toggle('over', n>lim[k]); });
+  const lim=chLim;
+  [['title','cTitle'],['body','cBody'],['cta','cCta']].forEach(([k,id])=>{ const n=(d[k]||'').length, el=$('#'+id); el.textContent=lim[k]?`${n}/${lim[k]}`:''; el.classList.toggle('over', lim[k]>0 && n>lim[k]); });
   // chips groups
   document.querySelectorAll('[data-group]').forEach(g=>g.querySelectorAll('.chip').forEach(ch=>ch.classList.toggle('on', ch.dataset.v===d[g.dataset.group])));
   // date note
@@ -1322,6 +1424,7 @@ function live(){
   // preview
   $('#phone').innerHTML = phone(d);
   $('#fmtPill').textContent = FORMATS[d.format].name;
+  $('#moreSummary').textContent = isCh(d.format) ? `Sent at the best time in your window · ${d.control}% held back · ${metric}` : $('#moreSummary').textContent;
   // checks
   const ch=[]; const banned=bannedIn(d);
   ch.push(d.initiative && d.goal ? {s:'ok',t:'Initiative and goal set'} : {s:'todo',t:'Add an initiative'});
@@ -1339,13 +1442,22 @@ function live(){
   if(d.product!=='none' && !d.excludeOwners) ch.push({s:'warn',t:`Includes people who already use ${prodName(d.product)}`});
   if(d.format==='inpage' && !spotOf(d)) ch.push({s:'todo',t:`Pick a spot on ${(SCREENS[d.screen]||SCREENS.home).name}`});
   else if(spotOf(d) && spotOf(d).busy) ch.push({s:'warn',t:`${spotOf(d).name} is busy`,sm:`${spotOf(d).busy}. Yours shows wherever there's room`});
+  else if(isCh(d.format)) {
+    ch.push({s:'ok',t:`Sends by ${FORMATS[d.format].name}`});
+    const cc=cohortOf(d.cohort);
+    if(d.format==='push' && cc && (cc.fno||cc.big)) ch.push({s:'warn',t:'These users already get 3 pushes on most days',sm:'Yours is held for anyone who has hit the daily limit'});
+    if(d.format==='whatsapp') ch.push({s:'info',t:'Reaches about 41% of this audience',sm:'Only people who opted in to WhatsApp'});
+    if(d.format==='sms') ch.push({s:'info',t:'CRM checks the DLT template'});
+    if(d.format==='email') ch.push({s:'ok',t:'Unsubscribe link added for you'});
+  }
   else ch.push({s:'ok',t:`Shows on ${whereText(d)}`});
   if(!c) ch.push({s:'todo',t:'Choose who sees it'});
   else if(c.overlap && d.start<c.clear) ch.push({s:'warn',t:'Busy dates for this audience',sm:`Moving to ${fmtDate(c.clear)} is suggested`});
   else ch.push({s:'ok',t:'Audience has room on these dates'});
-  if(!d.title || !d.body || !d.cta) ch.push({s:'todo',t:'Write the headline, message and button'});
+  const needT = chLim.title>0, needC = chLim.cta>0;
+  if((needT && !d.title) || !d.body || (needC && !d.cta)) ch.push({s:'todo',t: isCh(d.format)?'Write the message':'Write the headline, message and button'});
   else if(banned.length) ch.push({s:'bad',t:`Remove "${banned[0]}"`,sm:'This phrase is not allowed in any Upstox communication'});
-  else if((d.title.length>40)||(d.body.length>110)||(d.cta.length>18)) ch.push({s:'bad',t:'Copy is too long for this format'});
+  else if((lim.title && d.title.length>lim.title)||(d.body.length>lim.body)||(lim.cta && d.cta.length>lim.cta)) ch.push({s:'bad',t:'Copy is too long for this channel'});
   else ch.push({s:'ok',t:'Copy looks good'});
   if(isFno(d)) ch.push({s:'info',t:'F&O risk disclaimer added for you'});
   if(d.incentive) ch.push(d.tnc?{s:'ok',t:'T&C link added'}:{s:'bad',t:'Add the T&C link for your offer'});
@@ -1562,7 +1674,7 @@ function logOf(r){
   return L.reverse();
 }
 function editReq(r, asVersion){
-  S.draft = Object.assign(blankDraft(), {initiative:r.title, goal:r.goal, goalTouched:true, cohort:r.cohort, screen:r.screen||'home', spot:r.spot||null, format:r.format, title:r.title, body:r.body, cta:r.cta, start:r.start, end:r.end, incentive:!!r.incentive, tnc:r.tnc||'', product:r.product||'none', excludeOwners:r.excludeOwners!==false, stopOn:r.stopOn||'goal'},
+  S.draft = Object.assign(blankDraft(), {initiative:r.title, goal:r.goal, goalTouched:true, cohort:r.cohort, screen:r.screen||'home', spot:r.spot||null, format:r.format, channel:isCh(r.format)?r.format:'inapp', title:r.title, body:r.body, cta:r.cta, start:r.start, end:r.end, incentive:!!r.incentive, tnc:r.tnc||'', product:r.product||'none', excludeOwners:r.excludeOwners!==false, stopOn:r.stopOn||'goal'},
     asVersion ? {versionOf:r.id, version:(r.version||1)+1, start:'2026-11-22'} : {editing:r.id});
   go('new',{keep:true});
 }
@@ -1643,6 +1755,17 @@ function rulesHTML(admin){
       <div class="rule-list">${PRIORITY.map(([k,p])=>`<div><span>${k}</span><span class="tag ${p==='P0'?'dark':''}">${p}</span></div>`).join('')}</div>
     </div>
     <div class="glass tile">
+      <div class="tile-head"><h2 class="h-tile">Limits across channels</h2>${edit('Change channel limits')}</div>
+      <div class="rule-list">
+        <div><span>All promotional messages, every channel</span><b style="font-weight:500">8 a person a day</b></div>
+        <div><span>Push</span><b style="font-weight:500">3 promotional a day · none 10 PM–8 AM</b></div>
+        <div><span>Email</span><b style="font-weight:500">1 promotional a day</b></div>
+        <div><span>WhatsApp</span><b style="font-weight:500">Opted-in only · 2 a week</b></div>
+        <div><span>SMS</span><b style="font-weight:500">Service first · DLT template for promotions</b></div>
+        <div><span>Service and regulatory messages</span><b style="font-weight:500">Never limited</b></div>
+      </div>
+    </div>
+    <div class="glass tile">
       <h2 class="h-tile">Never shown here</h2>
       <div class="tagrow"><span class="tag">Order pad and confirmation</span><span class="tag">Payments and add funds</span><span class="tag">Login, 2FA and PIN</span><span class="tag">F&amp;O traders at 9:15–9:20 and 15:20–15:30</span></div>
       <h2 class="h-tile" style="margin-top:8px">Quiet days</h2>
@@ -1697,6 +1820,62 @@ function healthHTML(){
   </div>`;
 }
 
+/* ---------- NOTIFICATION CENTER ---------- */
+const DAY = {
+  fno30:[['08:05','push','Market opens in 1 hour: GIFT Nifty up 0.4%','CRM','Service'],['09:10','inapp','Plus Pack 7-day trial · bottom sheet','Product Marketing','Promotional'],['09:12','inapp','MTF at 0% interest · Home banner','Revenue','Promotional'],['10:30','push','IPO alert: 4 IPOs open this week','Growth Marketing','Promotional'],['12:45','whatsapp','Try the option strategy builder','Product Management','Promotional'],['13:00','push','Plus Pack: 7 days free','Product Marketing','Promotional'],['15:35','sms','Margin shortfall: add funds','CRM','Service'],['18:00','email','Your week in markets','Product Marketing','Promotional'],['19:30','push','MTF at 0% interest','Revenue','Promotional','held']],
+  funded:[['09:00','inapp','Your first SIP in 2 minutes · Home banner','Product Management','Promotional'],['10:30','push','IPO alert: 4 IPOs open this week','Growth Marketing','Promotional'],['14:00','push','US stocks: zero brokerage week','Product Management','Promotional'],['18:00','email','Your week in markets','Product Marketing','Promotional']],
+  act7:[['09:20','whatsapp','Finish your KYC in 2 minutes','Growth Marketing','Promotional'],['10:30','push','IPO alert: 4 IPOs open this week','Growth Marketing','Promotional'],['11:00','sms','Your OTP for KYC','CRM','Service'],['17:30','push','Add funds to place your first trade','Growth Marketing','Promotional'],['18:00','email','Your week in markets','Product Marketing','Promotional']]
+};
+S.notifCohort='fno30';
+function renderNotif(v){
+  const day = DAY[S.notifCohort], promo = day.filter(x=>x[4]==='Promotional').length, teams = new Set(day.map(x=>x[3])).size;
+  const pushPromo = day.filter(x=>x[1]==='push' && x[4]==='Promotional').length;
+  const chCount = k => day.filter(x=>x[1]===k).length;
+  const chRows = [['push','Push','12.4 Cr','4.1% tapped','42,000 turned off','3 promotional a day'],['inapp','In-app','22 Cr','3.2% tapped','—','10 attention points a day'],['email','Email','8.6 Cr','11.2% opened','18,000 unsubscribed','1 promotional a day'],['whatsapp','WhatsApp','1.9 Cr','38% read','9,500 blocked','Opted-in · 2 a week'],['sms','SMS','3.1 Cr','—','1,200 added DND','Service first']];
+  const senders = [['Growth Marketing',38],['Product Marketing',27],['Revenue',19],['CRM (service)',9],['Product Management',7]];
+  v.innerHTML = `<div class="fade" style="display:flex;flex-direction:column;gap:14px">
+  <section class="hero slim"><div class="flute-shine"></div>
+    <div class="row"><div style="display:flex;flex-direction:column;gap:8px"><h1 class="h-page">Notification center</h1><p class="sub">Every message a customer gets, in the app and as push, email, WhatsApp and SMS, in one place.</p></div>
+    <div class="chips"><span class="chipdark">This week · sample data</span></div></div>
+  </section>
+  <section class="g4">
+    ${statTile('Messages a person a day', '6.4', 'all channels', CH_ICON.inapp)}
+    ${statTile('Push sent this week', '12.4 Cr', 'across teams', CH_ICON.push)}
+    ${statTile('People over the daily limit', '7%', 'held back', ICON.clock)}
+    ${statTile('Turned off push this week', '42,000', '+18% vs last week', ICON.edit)}
+  </section>
+  <section class="home-grid">
+    <div class="glass tile">
+      <div class="tile-head" style="flex-wrap:wrap"><h2 class="h-tile">A day for one customer</h2>
+        <select class="inp" id="nfC" aria-label="Audience" style="max-width:280px">${[['fno30','F&O active traders (30 days)'],['funded','Funded, no trade in 30 days'],['act7','Activated in 7 days, not funded']].map(([k,n])=>`<option value="${k}" ${S.notifCohort===k?'selected':''}>${n}</option>`).join('')}</select></div>
+      <div class="note ${promo>=6?'warn':'info'}"><span><b style="font-weight:600">${day.length} messages from ${teams} teams</b> in one day, ${promo} of them promotional. ${pushPromo>3?`Push number ${pushPromo} would be held: the daily limit is 3.`:''}</span></div>
+      <div class="dayline">${day.map(x=>`<div class="dl ${x[5]==='held'?'held':''}"><span class="dt">${x[0]}</span><span class="chi chi-${x[1]} sm">${CH_ICON[x[1]]}</span><div style="min-width:0"><div class="dn">${esc(x[2])}</div><div class="dm">${esc(x[3])} · ${x[1]==='inapp'?'In-app':FORMATS[x[1]].name}</div></div><span class="pill ${x[5]==='held'?'p-bad':x[4]==='Service'?'p-info':'p-mute'}">${x[5]==='held'?'Held · over limit':x[4]}</span></div>`).join('')}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="glass tile">
+        <h2 class="h-tile">That day, by channel</h2>
+        <div style="display:flex;flex-direction:column;gap:10px">${[['inapp','In-app'],['push','Push'],['email','Email'],['whatsapp','WhatsApp'],['sms','SMS']].map(([k,n])=>`<div class="hbar"><span style="display:flex;gap:8px;align-items:center"><span class="chi chi-${k} sm">${CH_ICON[k]}</span>${n}</span><div class="track"><div class="fill" style="width:${chCount(k)/5*100}%"></div></div><span class="v">${chCount(k)}</span></div>`).join('')}</div>
+      </div>
+      <div class="glass tile">
+        <h2 class="h-tile">Who sends the most push</h2>
+        <div style="display:flex;flex-direction:column;gap:10px">${senders.map(([n,p])=>`<div class="hbar"><span>${n}</span><div class="track"><div class="fill" style="width:${p/38*100}%"></div></div><span class="v">${p}%</span></div>`).join('')}</div>
+      </div>
+    </div>
+  </section>
+  <div class="glass tile">
+    <div class="tile-head"><h2 class="h-tile">Channels this week</h2><span class="lbl">Limits apply to promotional messages only</span></div>
+    <div class="tbl-wrap"><table class="tbl" style="min-width:640px"><thead><tr><th>Channel</th><th class="num">Sent</th><th class="num">Engagement</th><th class="num">Pushback</th><th>Limit a person</th></tr></thead>
+    <tbody>${chRows.map(r=>`<tr><td><span style="display:flex;gap:10px;align-items:center"><span class="chi chi-${r[0]} sm">${CH_ICON[r[0]]}</span><span class="nm">${r[1]}</span></span></td><td class="num">${r[2]}</td><td class="num">${r[3]}</td><td class="num">${r[4]}</td><td>${r[5]}</td></tr>`).join('')}</tbody></table></div>
+  </div>
+  <div class="glass tile">
+    <div class="tile-head"><h2 class="h-tile">Notification campaigns</h2><button class="btn sm" id="nfNew">+ New notification</button></div>
+    <div class="rlist">${allReqs().filter(r=>isCh(r.format)).map(r=>rowHTML(r,true)).join('')}</div>
+  </div></div>`;
+  $('#nfC').onchange=e=>{ S.notifCohort=e.target.value; renderNotif(v); };
+  const nb=$('#nfNew'); if(P().reviewOnly) nb.hidden=true; else nb.onclick=()=>{ go('new'); S.draft.channel='push'; S.draft.format='push'; live(); };
+  bindOpen(v);
+}
+
 /* ---------- CALENDAR ---------- */
 const CAMPAIGNS = [
   {fmt:'sheet', name:'MTF pledge release', team:'Revenue', s:19, e:21, c:['fno30','mtf'], k:'b1'},
@@ -1705,7 +1884,12 @@ const CAMPAIGNS = [
   {fmt:'banner', name:'US stocks: zero fees week', team:'Product Marketing', s:23, e:30, c:['mtf','fno30'], k:'b1'},
   {fmt:'card', name:'3 IPOs open this week', team:'Growth', s:20, e:24, c:['all'], k:'b2'},
   {fmt:'nudge', name:'Refer a friend', team:'You', s:24, e:30, c:['all'], k:'b3'},
-  {fmt:'toast', name:'Price alert tips', team:'CRM', s:22, e:27, c:['funded'], k:'b2'}
+  {fmt:'toast', name:'Price alert tips', team:'CRM', s:22, e:27, c:['funded'], k:'b2'},
+  {fmt:'push', name:'IPO alert: 4 IPOs open', team:'Growth', s:17, e:24, c:['all'], k:'b1'},
+  {fmt:'push', name:'Plus Pack: 7 days free', team:'Product Marketing', s:19, e:30, c:['fno30'], k:'b2'},
+  {fmt:'push', name:'MTF at 0% interest', team:'Revenue', s:24, e:30, c:['mtf','fno30'], k:'b1'},
+  {fmt:'email', name:'Weekly market wrap', team:'Product Marketing', s:17, e:30, c:['all'], k:'b3'},
+  {fmt:'whatsapp', name:'Finish your KYC', team:'Growth', s:17, e:30, c:['act7'], k:'b2'}
 ];
 S.calCohort='fno30';
 function renderCalendar(v){
@@ -1713,17 +1897,17 @@ function renderCalendar(v){
   const dow=['Tue','Wed','Thu','Fri','Sat','Sun','Mon'];
   const mine=S.reqs.filter(r=>(r.status==='scheduled'||r.status==='review') && r.start.startsWith('2026-11')).map(r=>({fmt:r.format,name:r.title,team:'You',s:+r.start.slice(8),e:Math.min(30,r.end.startsWith('2026-11')?+r.end.slice(8):30),c:[r.cohort],k:'mine'}));
   const list=CAMPAIGNS.concat(mine).filter(x=>S.calCohort==='everyone' || x.c.includes(S.calCohort) || x.c.includes('all'));
-  const order=['sheet','banner','card','nudge','toast'];
+  const order=['sheet','banner','card','nudge','toast','push','email','whatsapp','sms'];
   let rows='';
   order.forEach(f=>{
     const items=list.filter(x=>x.fmt===f); if(!items.length) return;
-    rows+=`<div class="grp">${FORMATS[f].name} · ${LVL[FORMATS[f].lvl]} interruption</div>`;
+    rows+=`<div class="grp">${FORMATS[f].name} · ${isCh(f)?'notification':LVL[FORMATS[f].lvl]+' interruption'}</div>`;
     items.forEach(it=>{ const s=Math.max(17,it.s), e=Math.min(30,it.e);
       rows+=`<div class="rl" style="grid-column:1">${esc(it.team)}</div><div class="bar ${it.k}" style="grid-column:${s-17+2} / ${e-17+3}" title="${esc(it.name)} · ${it.s}–${it.e} Nov">${esc(it.name)}</div>`; });
   });
   v.innerHTML = `<div class="fade" style="display:flex;flex-direction:column;gap:14px">
   <section class="hero slim"><div class="flute-shine"></div>
-    <div class="row"><div style="display:flex;flex-direction:column;gap:8px"><h1 class="h-page">What your users will see</h1><p class="sub">Pick an audience to see every message planned for them. Use it to find a quiet week before you plan yours.</p></div>
+    <div class="row"><div style="display:flex;flex-direction:column;gap:8px"><h1 class="h-page">What your users will see</h1><p class="sub">Pick an audience to see every message planned for them, in the app and as notifications. Use it to find a quiet week before you plan yours.</p></div>
     <select class="inp" id="calC" aria-label="Audience" style="max-width:280px;background-color:rgba(255,255,255,.92);color:var(--ink)">${COHORTS.filter(c=>!c.big).map(c=>`<option value="${c.id}" ${S.calCohort===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}<option value="everyone" ${S.calCohort==='everyone'?'selected':''}>Everyone</option></select></div>
   </section>
   <div class="glass tile">

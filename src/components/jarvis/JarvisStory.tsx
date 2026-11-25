@@ -1,7 +1,7 @@
 import { DisplayProto } from "./DisplayProto";
 import { FlowVideo } from "./FlowVideo";
 
-// Project 03 on the leadership page: one console for every in-app message.
+// Project 03 on the leadership page: one console for every message, in the app or as a notification.
 // Copy is Sal's, from the proposal deck of November 2026 ("Fewer, better
 // messages in the app"): the problem, why it happens, the proposal and the
 // roles. The console screens are captures of the coded prototype
@@ -105,15 +105,16 @@ const Rows = ({ label, items }: { label: string; items: [string, string][] }) =>
 const HOW: [string, string, string][] = [
   ["Plan", "One page, four questions", "What it’s for, who sees it, where it shows and when. It flags audiences already getting other messages before anything is built."],
   ["Approve", "Three reviewers, one round", "The head, Design and CRM review at the same time. CRM’s approval schedules it. Every decision and comment is on record."],
-  ["Protect", "Fewer repeat messages", "A message stops once the customer acts on it and skips people who already use the product. Results are measured against a held-back group."],
+  ["Protect", "Fewer repeat messages", "A message stops once the customer acts on it and skips people who already use the product. Messages that aren’t urgent wait until after market hours. Results are measured against a held-back group."],
 ];
 
 const SCREENS = [
-  ["laptop-new.webp", "Raising a request takes one page", "Paste a brief and Jarvis fills the form. It warns when the audience is already busy. The preview shows exactly what customers will see.", "The New request page: a pasted brief has filled in the initiative and goal, with a phone preview of the bottom sheet on the right"],
+  ["laptop-new.webp", "Raising a request takes one page", "Paste a brief and Jarvis fills the form. It warns when the audience is already busy. The preview shows exactly what customers will see.", "The New request page: a pasted brief has filled in the initiative and goal, with a phone preview on the right showing the message as a push notification on the lock screen"],
   ["laptop-detail.webp", "Three reviewers approve in one round", "The head, Design and CRM see it at the same time and every step is on record.", "A request in review: three reviewer cards side by side, two approved and one not opened yet, above the request’s details"],
+  ["laptop-nc.webp", "Every message a customer gets, in one place", "Pick an audience to see every message planned for them, in the app and as push, email, WhatsApp or SMS. Use it to find a quiet week before you plan yours.", "The Notification center: a day of messages for F&O traders from five teams, with a count by channel and the teams that send the most push"],
 ];
 
-/** Plan, approve and protect, then the two screens that carry them. */
+/** Plan, approve and protect, then the three screens that carry them. */
 function How() {
   return (
     <div>
@@ -129,7 +130,7 @@ function How() {
       <div className="mt-10 md:mt-14">
         <JarvisStage />
       </div>
-      <div className="mt-14 grid gap-x-6 gap-y-12 md:mt-20 md:grid-cols-2">
+      <div className="mt-14 grid gap-x-6 gap-y-12 md:mt-20 md:grid-cols-2 xl:grid-cols-3">
         {SCREENS.map(([src, h, p, alt]) => (
           <figure key={src} className="m-0">
             {/* the screen on a white laptop, cut out of its backdrop so it sits straight on the page; the fine shadow gives the white lid an edge */}
@@ -175,7 +176,7 @@ const SECTIONS: { id: string; label: string; body: string[]; extra?: React.React
     id: "messages-problem",
     label: "The problem",
     body: [
-      "Customers open the app to do something and we interrupt them several times first.",
+      "Customers open the app to do something and we interrupt them several times first. Today one customer can get more than 10 messages from Upstox in a day.",
       "A new user sees several pop-ups and bottom sheets before they can act. On Home, banners, widgets and trending stocks compete for the same screen, much of it not relevant to that user.",
     ],
     extra: <Today />,
@@ -200,7 +201,7 @@ const SECTIONS: { id: string; label: string; body: string[]; extra?: React.React
   {
     id: "messages-proposal",
     label: "The proposal",
-    body: ["One console where every in-app message is planned, approved and measured. It is designed to feel lighter than today’s offline approval, not heavier."],
+    body: ["One console where every message, in the app or as a notification, is planned, approved and measured. It is designed to feel lighter than today’s offline approval, not heavier."],
     extra: <How />,
     wide: true,
   },

@@ -58,10 +58,10 @@ const PROJECTS: Project[] = [
     tag: "In internal testing",
     dot: "#c98a00",
     title: "Fewer, better campaigns",
-    line: "Every team sends its own banners, sheets and pop-ups, so customers are interrupted before they can act. I proposed one console to plan, approve and measure every in-app message.",
+    line: "Every team sends its own banners, sheets, pop-ups and notifications, so customers are interrupted before they can act. I proposed one console to plan, approve and measure every message, in the app or as a notification.",
     metrics: [
-      ["3", "Reviewers in one round"],
-      ["5", "Roles, each with its own view"],
+      ["60%", "Fewer messages interrupting customers expected"],
+      ["+7%", "Net Promoter Score expected"],
     ],
     ground: "#e4e4e4",
     wide: true,

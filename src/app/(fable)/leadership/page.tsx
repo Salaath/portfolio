@@ -18,7 +18,7 @@ import { JarvisStory } from "@/components/jarvis/JarvisStory";
 //      four sections and the result. Copy and figures are Sal's, from the
 //      brief of 20 Nov 2026. It replaced the Upstox Cloud placeholder.
 //   03 Fewer, better campaigns: a company-wide proposal for one console (Jarvis)
-//      to plan, approve and measure every in-app message. Five sections (the
+//      to plan, approve and measure every message, in the app or as a notification. Five sections (the
 //      live prototype sits inside the proposal, after the problem) and the
 //      shape of the proposal. Copy is from Sal's deck of
 //      November 2026. It is in internal testing (Sal, 21 Nov 2026), not shipped, and the page says so.
@@ -76,11 +76,11 @@ const MSG_FACTS: Fact[] = [
   ["Team", "Orpheus (VP of Product)\nSalaath (UX & Design)"],
 ];
 
-// The shape of the proposal, from the deck. Not outcomes: nothing has shipped.
+// What should change for customers, Sal's figures from 25 Nov 2026. Expected, not measured: nothing has shipped.
 const MSG_SHAPE = [
-  { value: "4", label: "Questions on one page to raise a request", note: "What for · Who · Where · When" },
-  { value: "3", label: "Reviewers approving in one round", note: "Head · Design · CRM" },
-  { value: "5", label: "Roles, each seeing only their part", note: "PM · Head · CRM · Design · Admin" },
+  { value: "60%", label: "Fewer messages interrupting customers", note: "Expected · From 10+ a day to 3 or 4" },
+  { value: "+7%", label: "Higher Net Promoter Score", note: "Expected" },
+  { value: "3:30", label: "Messages that aren’t urgent wait until the market closes", note: "Market hours · 9:15 AM to 3:30 PM" },
 ];
 
 const INDEX = [
@@ -131,7 +131,7 @@ export default function Leadership() {
               ))}
             </ol>
             <p data-fade className="mt-6 max-w-3xl border-t border-line pt-6 text-xl leading-snug tracking-[-0.01em] md:text-2xl">
-              <span className="text-[var(--accent)]">The result.</span> Two shipped. US stocks is one seamless journey where it would have been built half and half. The rating sheet now appears only when there is something real to rate. The third is one console to plan, approve and measure every in-app message, now in testing within internal teams.
+              <span className="text-[var(--accent)]">The result.</span> Two shipped. US stocks is one seamless journey where it would have been built half and half. The rating sheet now appears only when there is something real to rate. The third is one console to plan, approve and measure every message, in the app or as a notification. It is now in testing within internal teams.
             </p>
           </div>
 
@@ -270,7 +270,7 @@ export default function Leadership() {
                     </span>
                   }
                 >
-                  Every team sends its own banners, sheets and pop-ups, so customers are interrupted before they can do what they came for. I proposed one console to plan, approve and measure every in-app message.
+                  Every team sends its own banners, sheets, pop-ups and notifications, so customers are interrupted before they can do what they came for. I proposed one console to plan, approve and measure every message, in the app or as a notification.
                 </ProjectHead>
                 <ProjectFacts facts={MSG_FACTS} className="mt-14 md:mt-20 md:!grid-cols-2" />
               </div>
@@ -292,7 +292,7 @@ export default function Leadership() {
         <section className="night relative overflow-hidden px-4 py-24 sm:px-10 md:py-36">
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_60%_at_50%_0%,rgba(124,92,255,0.24),transparent_70%)]" />
           <div className="relative mx-auto max-w-7xl">
-            <p data-label className="label">[ The console in three numbers ]</p>
+            <p data-label className="label">[ What it should change ]</p>
             <dl className="mt-12 grid gap-y-14 md:grid-cols-3 md:gap-x-10">
               {MSG_SHAPE.map((r, i) => (
                 <div key={r.label} className={i ? "md:border-l md:border-line md:pl-10" : ""}>
