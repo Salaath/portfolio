@@ -3,6 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import "../globals.css";
 import "../fable.css";
 import { Cursor } from "@/components/Cursor";
+import { Analytics } from "@vercel/analytics/next";
 import { Shell } from "@/components/fable/Shell";
 import { FNav } from "@/components/fable/FNav";
 import { Ask } from "@/components/fable/Ask";
@@ -37,6 +38,7 @@ export default function FableLayout({ children }: Readonly<{ children: React.Rea
         {children}
         <Ask />
         <Curtain />
+        <Analytics />
         <div aria-hidden className="f-grain" />
       </body>
     </html>

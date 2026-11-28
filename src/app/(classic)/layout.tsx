@@ -3,6 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { Smoother } from "@/components/Smoother";
 import { Cursor } from "@/components/Cursor";
+import { Analytics } from "@vercel/analytics/next";
 import { Nav } from "@/components/Nav";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { GridLines } from "@/components/GridLines";
@@ -38,6 +39,7 @@ export default function RootLayout({
         <Smoother>{children}</Smoother>
         <StickyCta />
         <ScrollProgress />
+        <Analytics />
         <Preloader />
       </body>
     </html>
